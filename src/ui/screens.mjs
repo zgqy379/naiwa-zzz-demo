@@ -99,12 +99,19 @@ export class ScreenManager {
     if (!list) return;
     list.innerHTML = "";
 
-    // 先建卡片（占位色块）
+    // 修：先查缓存，已生成过则直接显示（避免首屏色块）
+    const hasCache = this.__portraitCache && this.__portraitCache.size >= SQUAD.length;
+
+    // 先建卡片（占位色块 + 编号；有缓存则直接用图）
     SQUAD.forEach((m, i) => {
       const card = document.createElement("div");
       card.className = "char-card" + (i === this.selectedIndex ? " active" : "");
+      const cached = this.__portraitCache?.get(m.id);
       card.innerHTML = `
-        <div class="cc-img" style="background:linear-gradient(135deg,#${m.color.toString(16).padStart(6, "0")},#${shade(m.color)})"></div>
+        <span class="cc-no">${String(i + 1).padStart(2, "0")}</span>
+        <div class="cc-img" ${cached ? "" : `style="background:linear-gradient(135deg,#${m.color.toString(16).padStart(6, "0")},#${shade(m.color)})"`}>
+          ${cached ? `<img src="${cached}" alt="" />` : '<div class="cc-loading"></div>'}
+        </div>
         <div class="cc-name">${m.name}</div>
         <div class="cc-role">${m.role}</div>
       `;
@@ -117,13 +124,16 @@ export class ScreenManager {
     });
     this._updateShowcase(SQUAD[this.selectedIndex]);
 
-    // 渐进生成缩略图（每生成一张立刻更新卡片，不阻塞）
+    // 渐进生成缩略图（每生成一张立刻更新卡片，不阻塞；带缓存）
+    if (hasCache) return;
     window.__portraitStage = "start";
     (async () => {
+      this.__portraitCache = this.__portraitCache || new Map();
       let done = 0;
       for (const m of SQUAD) {
         try {
           const url = await makePortrait(m, { size: 256 });
+          this.__portraitCache.set(m.id, url);
           done++;
           window.__portraitStage = `${done}/16`;
           // 立刻更新对应卡片
@@ -134,9 +144,11 @@ export class ScreenManager {
             imgEl.style.background = "none";
             imgEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
           }
-          // 如果是当前选中角色，同步展示台
+          // 如果是当前选中角色，同步档案卡大图与头像
           if (idx === this.selectedIndex) {
             document.getElementById("showcase-img").innerHTML = `<img src="${url}" alt="${m.name}" />`;
+            const av = document.getElementById("archive-avatar");
+            if (av) av.innerHTML = `<img src="${url}" alt="${m.name}" />`;
           }
         } catch (e) {
           console.warn(`[screens] 缺缩略图: ${m.id}`, e?.message);
@@ -154,6 +166,7 @@ export class ScreenManager {
     if (roleEl) roleEl.textContent = m.role;
     // 展示台大图
     const imgEl = document.getElementById("showcase-img");
+    const avatarEl = document.getElementById("archive-avatar");
     if (imgEl && portraits) {
       const url = portraits.get(m.id);
       if (url) imgEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
@@ -161,6 +174,7 @@ export class ScreenManager {
       // 异步生成单张
       makePortrait(m, { size: 512 }).then((url) => {
         imgEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
+        if (avatarEl) avatarEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
       }).catch(() => {});
     }
     if (statsEl) {
@@ -185,24 +199,30 @@ export class ScreenManager {
   /** 显示某个界面 */
   show(name) {
     this.current = name;
+    // 修：显式控制每个界面（避免 toggle 逻辑漏洞导致的叠加）
     for (const [key, el] of Object.entries(this.screens)) {
-      if (el) el.classList.toggle("hidden", key !== name);
+      if (!el) continue;
+      if (key === name) {
+        el.classList.remove("hidden");
+      } else {
+        el.classList.add("hidden");
+      }
     }
     // 战斗时隐藏所有界面层，显示 HUD
     if (name === "battle") {
       for (const el of Object.values(this.screens)) el?.classList.add("hidden");
     }
-    // HUD 只在战斗时显示（其余界面强制隐藏，避免叠加）
+    // HUD 只在战斗时显示
     if (this.hudRoot) {
       this.hudRoot.style.display = name === "battle" ? "block" : "none";
     }
-    // 非战斗界面：隐藏 3D 角色（避免漂浮在 UI 上）
+    // 非战斗界面：隐藏 3D 角色
     if (this.o.setCharactersVisible) {
       this.o.setCharactersVisible(name === "battle");
     }
   }
 
-  /** 显示结算 */
+  /** 显示结算（含动态数字滚动 + 奖励卡片弹出） */
   showResult({ win, grade, stats, rewards }) {
     const title = document.getElementById("result-title");
     const gradeEl = document.getElementById("result-grade");
@@ -213,19 +233,60 @@ export class ScreenManager {
       title.textContent = win ? "作战完成" : "作战失败";
       title.className = "result-title " + (win ? "win" : "lose");
     }
-    if (gradeEl) gradeEl.textContent = grade;
+    if (gradeEl) {
+      gradeEl.textContent = grade;
+      gradeEl.classList.remove("grade-pop");
+      // 强制重排触发动画
+      void gradeEl.offsetWidth;
+      gradeEl.classList.add("grade-pop");
+    }
     if (statsEl) {
-      statsEl.innerHTML = Object.entries(stats).map(([k, v]) => `
-        <div class="result-stat">
+      // 先渲染 0，再滚动到目标值
+      statsEl.innerHTML = Object.entries(stats).map(([k, v], i) => `
+        <div class="result-stat" style="opacity:0; transform:translateY(10px); transition: all .3s ${i * 0.1}s">
           <div class="rs-label">${k}</div>
-          <div class="rs-value">${v}</div>
+          <div class="rs-value" data-target="${v}">0</div>
         </div>
       `).join("");
     }
     if (rewardsEl) {
-      rewardsEl.innerHTML = rewards.map((r) => `<div class="reward-chip">${r}</div>`).join("");
+      rewardsEl.innerHTML = rewards.map((r, i) => `
+        <div class="reward-chip" style="opacity:0; transform:scale(.8); transition: all .3s ${0.3 + i * 0.15}s">${r}</div>
+      `).join("");
     }
     this.show("result");
+
+    // 触发动画
+    requestAnimationFrame(() => {
+      // 统计项淡入
+      statsEl?.querySelectorAll(".result-stat").forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      });
+      // 数字滚动
+      statsEl?.querySelectorAll(".rs-value").forEach((el) => {
+        const target = parseFloat(el.dataset.target ?? "0");
+        this._animateNumber(el, target, 600);
+      });
+      // 奖励弹出
+      rewardsEl?.querySelectorAll(".reward-chip").forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "scale(1)";
+      });
+    });
+  }
+
+  /** 数字滚动动画 */
+  _animateNumber(el, target, duration = 600) {
+    const start = performance.now();
+    const from = 0;
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(from + (target - from) * eased));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 
   toast(msg) {
