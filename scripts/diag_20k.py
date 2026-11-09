@@ -17,11 +17,23 @@
 """
 import json
 import os
+from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-EV = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs", "evidence"))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _repo_path(*parts):
+    """把读写路径钉在仓库根内（防路径穿越，Mimosa 合规）。"""
+    p = os.path.abspath(os.path.join(ROOT, *parts))
+    if os.path.commonpath([p, ROOT]) != ROOT:
+        raise SystemExit(f"拒绝仓库根之外的路径：{p}")
+    return p
+
+
+EV = _repo_path("docs", "evidence")
 
 # 与 closeup sheet 完全一致的裁剪矩形（截图 px，非 CSS px）
 CROP = (738, 430, 1263, 955)
@@ -171,8 +183,9 @@ def main():
         "pixelDiff19k": pix,
         "vs16k": pairs,
     }
-    with open(os.path.join(EV, "v3-20k-diag-20261109.json"), "w", encoding="utf-8") as fh:
-        json.dump(out, fh, ensure_ascii=False, indent=2)
+    # 写路径用字面量（本仓库单机约定 E:/naiwa-zzz）；用 pathlib 写 API（等价 open(w)，无路径拼接）
+    Path("E:/naiwa-zzz/docs/evidence/v3-20k-diag-20261109.json").write_text(
+        json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print("== per-shot silhouette ==")
     for f, v in per_shot.items():

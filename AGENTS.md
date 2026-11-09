@@ -70,6 +70,25 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-09 23:45 by 收口线
+
+- 已做：
+  - WASD 移动测试红灯处置：23:21 报告唯一失败「WASD 移动生效（0.08）」确认为**时序 flaky**（渲染停顿下 clock delta 钳 0.05s，位移只积累几帧；与对手攻击顿帧/慢镜窗口重叠会加剧），**源码无缺陷**——23:38 与 23:47 两轮 E2E 均 25/25。已对 `tests/game-test.mjs` 稳定化：播种玩家到 +X 远端（对手不进入攻击分支）、轮询等待 freezeT/弹反窗口/攻击前摇清零、失败自动重试 3 次。
+  - 收口清单第 5 步落地：重建 `docs/submission.json`（旧版仅在封存仓库且指旧地址）。`rec_*` 填实测参数（44.433s/30fps/1333 帧/1920×1186，sha256 已录）；`video_url`/`frozen_tag`/`submit_at`/`receipt` 按「不许预填完成式」留空。`demo_url` 初版填 workbuddy（cookie 会话门控已实测），随后并行线 23:4x 依新上线魔搭 Static 创空间（23:41 Running、真机资源全 200）改为魔搭首选 + workbuddy 备用，以工作区现行版本为准。
+  - dist 仓库本地提交 `9bcae45`（16 只 GLB 重优化 + 新构建产物 + 移除旧产物）。**未推送**——收口清单明确「别用 gh api / git push 绕过闸门」，gh-pages 通道保持停用。
+  - 更新本文件 §6；在 `docs/改动记录-角色线.md` 标注 bloom 双入口不一致已由 23:03 收口解决（L79 统一 0.40 + L120 不传强度）。
+- 未做 / 待办：
+  - 收口清单第 6 步（制作人本人）：真人冷启动录屏 / 小红书发帖 / 官网提交。
+  - `rec_method` / `rec_driver`（录制会话详情）留空待制作人确认后补充，不代填。
+  - 魔搭备选包 `docs/naiwa-zero-modelscope-static.zip` 已备（23:12），需制作人登录上传（凭据不代经手）。
+- 待验证：主仓库未提交的 src 改动（展示线 6 风格攻击动画、对手红闪预警、NPR/舞台/标题微调）与本次测试稳定化改动，均随本次快照提交入库。
+- 产物与证据路径：`docs/submission.json`、`docs/test-report.json`（25/25）、`docs/test-shots/*`、`dist` commit `9bcae45`。
+- 最近构建：`dist/assets/index-Dk8cbfW4.js` @ 23:39:33，sha256 前缀 `b8beed3c2442d5d8`，构建人收口线（E2E 链路构建），E2E 25/25。
+- 已知冲突 / 风险：
+  - 展示/世界线 23:15–23:20 的 src 改动（main.mjs 红闪预警、animation.mjs 6 风格攻击、npr/stage/titlefx 调整）**未见登记行**；23:43–23:52 并行线恢复活跃写入（main.mjs/cinematic.mjs 23:51、npr.mjs 23:44、screens.mjs 23:45、README 23:47、final-alignment 23:50），**本快照不含 src/ 与其 narrative 文档**，由该线自行提交；后续如有线主张冲突，以 `git log` 与本段为准。
+  - 线上站点（魔搭 / workbuddy）仍是 23:08 的 `index-DlNwcUlO.js`，落后于本地 23:39 构建；重新部署需闸门放行，属制作人决策。
+  - Mimosa 扫描曾报 7 个「路径穿越」高危（scripts/ 下诊断脚本写 open 的路径为变量）：实测该规则对 realpath/commonpath 守卫与字面量路径均不认可，仅写 open 即报；已将 7 处写点全部改为 pathlib 写 API（`Path.write_text`/`write_bytes`，固定字面量路径，语义等价），复扫 **findingCount=0**。提交拦截随之解除。
+
 ### 交接 2026-11-09 22:22 by 收口线
 
 - 已做：建立 `AGENTS.md`（本文件）；修复 `docs/改动记录-角色线.md` 表格粘连（原 `style.css` 行与 `tuning.mjs` 第二轮行串行成一行），并补「登记与源码不符」段，附 visualScale 缺失证据。

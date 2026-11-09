@@ -1,2 +1,448 @@
 {
-  "at": "2026-11-09
+  "at": "2026-11-09T15:48:59.827Z",
+  "summary": {
+    "total": 25,
+    "passed": 25,
+    "failed": 0,
+    "passRate": 100
+  },
+  "groups": {
+    "界面": {
+      "total": 6,
+      "pass": 6,
+      "fail": 0,
+      "items": [
+        {
+          "group": "界面",
+          "name": "主界面显示",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/01-title.png",
+          "duration": 9207
+        },
+        {
+          "group": "界面",
+          "name": "选人界面显示",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/02-select.png",
+          "duration": 7471
+        },
+        {
+          "group": "界面",
+          "name": "切换角色更新展示台",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/03-select-switch.png",
+          "duration": 5212
+        },
+        {
+          "group": "界面",
+          "name": "战斗界面显示",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/04-battle.png",
+          "duration": 4959
+        },
+        {
+          "group": "界面",
+          "name": "结算界面显示",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/05-result.png",
+          "duration": 2941
+        },
+        {
+          "group": "界面",
+          "name": "返回主界面",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/06-back-title.png",
+          "duration": 4855
+        }
+      ]
+    },
+    "角色": {
+      "total": 3,
+      "pass": 3,
+      "fail": 0,
+      "items": [
+        {
+          "group": "角色",
+          "name": "16 只角色全部加载",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 32
+        },
+        {
+          "group": "角色",
+          "name": "角色切换生效",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/07-swap.png",
+          "duration": 4366
+        },
+        {
+          "group": "角色",
+          "name": "角色属性正确",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 81
+        }
+      ]
+    },
+    "动画": {
+      "total": 4,
+      "pass": 4,
+      "fail": 0,
+      "items": [
+        {
+          "group": "动画",
+          "name": "idle 动画推进",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 1395
+        },
+        {
+          "group": "动画",
+          "name": "移动动画触发",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/08-move.png",
+          "duration": 4103
+        },
+        {
+          "group": "动画",
+          "name": "攻击动画触发",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/09-attack.png",
+          "duration": 4142
+        },
+        {
+          "group": "动画",
+          "name": "受击动画触发",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 18
+        }
+      ]
+    },
+    "画面": {
+      "total": 5,
+      "pass": 5,
+      "fail": 0,
+      "items": [
+        {
+          "group": "画面",
+          "name": "NPR 材质生效",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 5
+        },
+        {
+          "group": "画面",
+          "name": "贴图尺寸正常",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 5
+        },
+        {
+          "group": "画面",
+          "name": "Bloom 后处理启用",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 4
+        },
+        {
+          "group": "画面",
+          "name": "渲染统计正常",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 6
+        },
+        {
+          "group": "画面",
+          "name": "相机位置合理",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 11
+        }
+      ]
+    },
+    "交互": {
+      "total": 7,
+      "pass": 7,
+      "fail": 0,
+      "items": [
+        {
+          "group": "交互",
+          "name": "WASD 移动生效",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/13-move-a.png",
+          "duration": 13149
+        },
+        {
+          "group": "交互",
+          "name": "空格攻击生效",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/10-attack.png",
+          "duration": 5694
+        },
+        {
+          "group": "交互",
+          "name": "连段系统推进",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/11-combo.png",
+          "duration": 9637
+        },
+        {
+          "group": "交互",
+          "name": "闪避生效",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 884
+        },
+        {
+          "group": "交互",
+          "name": "换人生效",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 447
+        },
+        {
+          "group": "交互",
+          "name": "NPR/PBR 切换",
+          "status": "pass",
+          "error": null,
+          "shot": "E:/naiwa-zzz/docs/test-shots/12-mode-switch.png",
+          "duration": 3500
+        },
+        {
+          "group": "交互",
+          "name": "无 console 错误",
+          "status": "pass",
+          "error": null,
+          "shot": null,
+          "duration": 0
+        }
+      ]
+    }
+  },
+  "results": [
+    {
+      "group": "界面",
+      "name": "主界面显示",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/01-title.png",
+      "duration": 9207
+    },
+    {
+      "group": "界面",
+      "name": "选人界面显示",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/02-select.png",
+      "duration": 7471
+    },
+    {
+      "group": "界面",
+      "name": "切换角色更新展示台",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/03-select-switch.png",
+      "duration": 5212
+    },
+    {
+      "group": "界面",
+      "name": "战斗界面显示",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/04-battle.png",
+      "duration": 4959
+    },
+    {
+      "group": "界面",
+      "name": "结算界面显示",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/05-result.png",
+      "duration": 2941
+    },
+    {
+      "group": "界面",
+      "name": "返回主界面",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/06-back-title.png",
+      "duration": 4855
+    },
+    {
+      "group": "角色",
+      "name": "16 只角色全部加载",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 32
+    },
+    {
+      "group": "角色",
+      "name": "角色切换生效",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/07-swap.png",
+      "duration": 4366
+    },
+    {
+      "group": "角色",
+      "name": "角色属性正确",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 81
+    },
+    {
+      "group": "动画",
+      "name": "idle 动画推进",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 1395
+    },
+    {
+      "group": "动画",
+      "name": "移动动画触发",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/08-move.png",
+      "duration": 4103
+    },
+    {
+      "group": "动画",
+      "name": "攻击动画触发",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/09-attack.png",
+      "duration": 4142
+    },
+    {
+      "group": "动画",
+      "name": "受击动画触发",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 18
+    },
+    {
+      "group": "画面",
+      "name": "NPR 材质生效",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 5
+    },
+    {
+      "group": "画面",
+      "name": "贴图尺寸正常",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 5
+    },
+    {
+      "group": "画面",
+      "name": "Bloom 后处理启用",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 4
+    },
+    {
+      "group": "画面",
+      "name": "渲染统计正常",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 6
+    },
+    {
+      "group": "画面",
+      "name": "相机位置合理",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 11
+    },
+    {
+      "group": "交互",
+      "name": "WASD 移动生效",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/13-move-a.png",
+      "duration": 13149
+    },
+    {
+      "group": "交互",
+      "name": "空格攻击生效",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/10-attack.png",
+      "duration": 5694
+    },
+    {
+      "group": "交互",
+      "name": "连段系统推进",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/11-combo.png",
+      "duration": 9637
+    },
+    {
+      "group": "交互",
+      "name": "闪避生效",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 884
+    },
+    {
+      "group": "交互",
+      "name": "换人生效",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 447
+    },
+    {
+      "group": "交互",
+      "name": "NPR/PBR 切换",
+      "status": "pass",
+      "error": null,
+      "shot": "E:/naiwa-zzz/docs/test-shots/12-mode-switch.png",
+      "duration": 3500
+    },
+    {
+      "group": "交互",
+      "name": "无 console 错误",
+      "status": "pass",
+      "error": null,
+      "shot": null,
+      "duration": 0
+    }
+  ]
+}

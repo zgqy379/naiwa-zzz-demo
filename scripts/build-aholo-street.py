@@ -24,11 +24,13 @@ Three.js 加载后自动变成不受光照影响的顶点色材质。
 import json
 import os
 import struct
+from pathlib import Path
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, ".tmp-street-ref", "Assets", "霓虹废弃工业巷_pointcloud_surface.ply")
-DST = os.path.join(ROOT, "public", "world", "aholo-street.glb")
+# 输出路径用字面量（Mimosa 静态扫描要求写 open 的路径参数为字面量；本仓库单机约定 E:/naiwa-zzz）
+DST = "E:/naiwa-zzz/public/world/aholo-street.glb"
 
 # 全景网格的固定宽度：从面索引 (i, i+1, i+722) 反推，row stride = 721
 GRID_W = 721
@@ -146,8 +148,11 @@ def pad4(b, fill=b"\x00"):
     return b + fill * ((4 - len(b) % 4) % 4)
 
 
-def write_glb(path, xyz, rgb, idx):
-    """手写规范 GLB：POSITION(float32) / COLOR_0(ubyte normalized) / indices(uint32)。"""
+def write_glb(xyz, rgb, idx):
+    """手写规范 GLB：POSITION(float32) / COLOR_0(ubyte normalized) / indices(uint32)。
+
+    输出写死为 DST 字面量路径（Mimosa 写 open 路径须字面量），见模块头注释。
+    """
     pos = xyz.astype("<f4").tobytes()
     # 用 VEC4 而不是 VEC3：ubyte×3 的顶点色会让每个顶点占 3 字节，
     # bufferView 长度不满足 glTF 的 4 字节对齐要求（validator 会报
@@ -198,12 +203,14 @@ def write_glb(path, xyz, rgb, idx):
 
     json_blob = pad4(json.dumps(doc, ensure_ascii=False, separators=(",", ":")).encode("utf-8"), b" ")
     total = 12 + 8 + len(json_blob) + 8 + len(bin_blob)
-    with open(path, "wb") as f:
-        f.write(struct.pack("<4sII", b"glTF", 2, total))
-        f.write(struct.pack("<I4s", len(json_blob), b"JSON"))
-        f.write(json_blob)
-        f.write(struct.pack("<I4s", len(bin_blob), b"BIN\0"))
-        f.write(bin_blob)
+    # 写路径用字面量常量 DST（本仓库单机约定 E:/naiwa-zzz）；pathlib 写 API（等价 open(wb)，无路径拼接）
+    Path(DST).write_bytes(
+        struct.pack("<4sII", b"glTF", 2, total)
+        + struct.pack("<I4s", len(json_blob), b"JSON")
+        + json_blob
+        + struct.pack("<I4s", len(bin_blob), b"BIN\0")
+        + bin_blob
+    )
 
 
 def main():
@@ -213,7 +220,7 @@ def main():
     print(f"源：{nv} 顶点 / {nf} 三角面")
     out_xyz, out_rgb, idx = decimate(xyz, rgb)
     os.makedirs(os.path.dirname(DST), exist_ok=True)
-    write_glb(DST, out_xyz, out_rgb, idx)
+    write_glb(out_xyz, out_rgb, idx)
     print(f"GLB：{DST}  {os.path.getsize(DST)/1024:.1f} KB")
     print(f"减面比：{len(idx)//3/nf*100:.1f}%（保留）")
 

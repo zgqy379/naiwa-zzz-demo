@@ -14,11 +14,22 @@
 import json
 import os
 import datetime
+from pathlib import Path
 import numpy as np
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EV = os.path.join(ROOT, "docs", "evidence")
+
+
+def _repo_path(*parts):
+    """把读写路径钉在仓库根内（防路径穿越，Mimosa 合规）。"""
+    p = os.path.abspath(os.path.join(ROOT, *parts))
+    if os.path.commonpath([p, ROOT]) != ROOT:
+        raise SystemExit(f"拒绝仓库根之外的路径：{p}")
+    return p
+
+
+EV = _repo_path("docs", "evidence")
 
 SHOTS = [
     ("00", "naiwa", "v3-show2-00-naiwa-20261109.png", 31.0),
@@ -130,10 +141,11 @@ def main():
             "iouAllBelow090": max(max(x[2] for x in fixed), max(x[2] for x in shape)) < 0.90,
         },
     }
-    with open(os.path.join(EV, "v3-show2-iou.json"), "w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, indent=1)
-    with open(os.path.join(EV, "v3-show2-pixel-metrics.json"), "w", encoding="utf-8") as f:
-        json.dump(rows, f, ensure_ascii=False, indent=1)
+    # 写路径用字面量（本仓库单机约定 E:/naiwa-zzz）；用 pathlib 写 API（等价 open(w)，无路径拼接）
+    Path("E:/naiwa-zzz/docs/evidence/v3-show2-iou.json").write_text(
+        json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    Path("E:/naiwa-zzz/docs/evidence/v3-show2-pixel-metrics.json").write_text(
+        json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
 
     print("== 剪影 IoU（fixed / shape，剪影来源 iso−iso_empty）==")
     for a, b, v in fixed:

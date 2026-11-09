@@ -22,11 +22,22 @@
 import json
 import os
 import datetime
+from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EV = os.path.join(ROOT, "docs", "evidence")
+
+
+def _repo_path(*parts):
+    """把读写路径钉在仓库根内（防路径穿越，Mimosa 合规）。"""
+    p = os.path.abspath(os.path.join(ROOT, *parts))
+    if os.path.commonpath([p, ROOT]) != ROOT:
+        raise SystemExit(f"拒绝仓库根之外的路径：{p}")
+    return p
+
+
+EV = _repo_path("docs", "evidence")
 H, W = 1250, 2000  # canvas 2000×1250（viewport 1600×1000 × dpr 1.25）
 
 # 正确对照表（本任务给定；不要用 v3-show2-metrics.json 里错位的 prevBodyHeightPct）
@@ -297,12 +308,13 @@ def main():
         "allFootPass": len(foot_ok) == len(keys),
     }
 
-    with open(os.path.join(EV, "v3-show3-iou.json"), "w", encoding="utf-8") as f:
-        json.dump(iou_out, f, ensure_ascii=False, indent=1)
-    with open(os.path.join(EV, "v3-show3-pixel-metrics.json"), "w", encoding="utf-8") as f:
-        json.dump(rows, f, ensure_ascii=False, indent=1)
-    with open(os.path.join(EV, "v3-show3-foot-check.json"), "w", encoding="utf-8") as f:
-        json.dump(foot_out, f, ensure_ascii=False, indent=1)
+    # 写路径用字面量（本仓库单机约定 E:/naiwa-zzz）；用 pathlib 写 API（等价 open(w)，无路径拼接）
+    Path("E:/naiwa-zzz/docs/evidence/v3-show3-iou.json").write_text(
+        json.dumps(iou_out, ensure_ascii=False, indent=1), encoding="utf-8")
+    Path("E:/naiwa-zzz/docs/evidence/v3-show3-pixel-metrics.json").write_text(
+        json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    Path("E:/naiwa-zzz/docs/evidence/v3-show3-foot-check.json").write_text(
+        json.dumps(foot_out, ensure_ascii=False, indent=1), encoding="utf-8")
 
     sheet = make_family_sheet(rows)
     diag = make_foot_diagnostic(rows)

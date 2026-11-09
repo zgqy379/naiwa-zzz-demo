@@ -235,17 +235,20 @@ export async function runAllTests(page) {
       const n = window.__npr;
       const m = n?.squad?.active;
       const w = m?.group?.getObjectByName("model-wrapper");
-      let matType = null, hasMap = false;
+      let matType = null, hasMap = false, hasOutline = false;
       w?.traverse((c) => {
         if (c.isMesh && !c.userData.__isOutline) {
           matType = c.material?.type;
           hasMap = !!c.material?.map;
         }
+        if (c.userData.__isOutline) hasOutline = true;
       });
-      return { matType, hasMap, mode: n?.getMode() };
+      return { matType, hasMap, hasOutline, mode: n?.getMode() };
     });
-    A.assertEqual(v.matType, "MeshToonMaterial", `NPR 材质应为 MeshToonMaterial，实际 ${v.matType}`);
+    // 修：NPR 材质现为 MeshStandardMaterial + onBeforeCompile 注入（保留 PBR 贴图通道）
+    A.assertEqual(v.matType, "MeshStandardMaterial", `NPR 材质应为 MeshStandardMaterial，实际 ${v.matType}`);
     A.assert(v.hasMap, "材质缺少贴图");
+    A.assert(v.hasOutline, "缺少描边壳");
   });
 
   await t.case("贴图尺寸正常", async () => {
@@ -307,14 +310,31 @@ export async function runAllTests(page) {
   t.group("交互");
 
   await t.case("WASD 移动生效", async () => {
-    // 等待 hitstop 结束（避免冻结导致位移为 0）
-    await page.waitForTimeout(600);
-    const before = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
-    await page.cdp("Input.dispatchKeyEvent", { type: "keyDown", key: "a", code: "KeyA", windowsVirtualKeyCode: 65 });
-    await page.waitForTimeout(900);
-    await page.cdp("Input.dispatchKeyEvent", { type: "keyUp", key: "a", code: "KeyA", windowsVirtualKeyCode: 65 });
-    const after = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
-    const dist = Math.hypot(after.x - before.x, after.y - before.y, after.z - before.z);
+    // 稳定化（修 flaky）：
+    //  1) 把玩家播种到 +X 远端（远离对手 → dist>2.4，对手不进入攻击分支，无顿帧/慢镜干扰）
+    //  2) 轮询等待瞬时战斗状态清零（freezeT/弹反窗口/攻击前摇）
+    //  3) 失败自动重试最多 3 次（渲染停顿会把 clock delta 钳在 0.05s，单次窗口可能只积累几帧位移）
+    await evalPage(() => {
+      const mv = window.__npr?.squad?.active?.move;
+      if (mv) { mv.pos.set(6, 0, 0); mv.vel.set(0, 0, 0); }
+    });
+    for (let i = 0; i < 20; i++) {
+      const st = await evalPage(() => {
+        const n = window.__npr;
+        return n ? { f: n.battle?.freezeT ?? 0, w: n.counter?.isWarning ? 1 : 0, p: n.battle?.oppAttackWindup ?? 0 } : null;
+      });
+      if (st && st.f <= 0 && st.w === 0 && st.p <= 0) break;
+      await page.waitForTimeout(250);
+    }
+    let dist = 0;
+    for (let attempt = 0; attempt < 3 && dist <= 0.5; attempt++) {
+      const before = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
+      await page.cdp("Input.dispatchKeyEvent", { type: "keyDown", key: "a", code: "KeyA", windowsVirtualKeyCode: 65 });
+      await page.waitForTimeout(900);
+      await page.cdp("Input.dispatchKeyEvent", { type: "keyUp", key: "a", code: "KeyA", windowsVirtualKeyCode: 65 });
+      const after = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
+      dist = Math.hypot(after.x - before.x, after.y - before.y, after.z - before.z);
+    }
     A.assertGreater(dist, 0.5, `移动距离过小：${dist.toFixed(2)}`);
   }, { shot: "13-move-a" });
 

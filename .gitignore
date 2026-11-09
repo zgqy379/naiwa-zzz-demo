@@ -18,3 +18,14 @@ dist/
 
 # 抽帧清理版与 docs/demo-frames-hd 同名重复（61 个 f-00xx.png），保留已入库的 demo-frames-hd 一份即可
 docs/demo-frames-hd-clean/
+
+# Agent 工具会话状态（扫描缓存 / 可视化桥），非项目内容
+.mimosa/
+.v2c/
+
+# Python 缓存
+__pycache__/
+*.pyc
+# 部署分发包（可由 dist 重建，不入库）
+docs/*.zip
+
