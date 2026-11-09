@@ -1,0 +1,12 @@
+{
+  "info": {
+    "cardCount": 16,
+    "imgCount": 0,
+    "firstImgSrc": null,
+    "showcaseImg": ""
+  },
+  "test": {
+    "err": "Failed to fetch dynamically imported module: http://127.0.0.1:5274/src/ui/portrait.mjs",
+    "stack": "TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5274/src/ui/portrait.mjs"
+  }
+}

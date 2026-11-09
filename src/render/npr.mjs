@@ -18,22 +18,22 @@ import * as THREE from "three";
 export const NPR_PRESET = {
   // 色调分离档数（3 = 经典赛璐璐；4 = 更细腻）
   steps: 3,
-  // 暗部提升（0 = 无，0.5 = 明显）
-  shadowLift: 0.25,
-  // 高光强度
-  specularStrength: 0.85,
+  // 暗部提升（0 = 无，0.5 = 明显）—— 0.25→0.12：避免暗部被抬平导致轮廓糊掉
+  shadowLift: 0.12,
+  // 高光强度 —— 0.85→0.35：压住过曝，保留形体明暗层次
+  specularStrength: 0.35,
   // 高光锐度（越大越锐利）
   specularPower: 24.0,
   // 高光颜色
   specularColor: 0xfff8e0,
-  // 轮廓光强度
-  rimStrength: 0.55,
+  // 轮廓光强度 —— 0.55→0.22：rim 过强会吃掉剪影边缘
+  rimStrength: 0.22,
   // 轮廓光颜色
   rimColor: 0xfff0c0,
   // 轮廓光衰减幂
   rimPower: 3.0,
-  // 描边宽度（世界单位）
-  outlineWidth: 0.012,
+  // 描边宽度（模型局部单位；描边壳是角色 mesh 的子节点，最终宽度还会乘模型缩放）
+  outlineWidth: 0.022,
   // 描边颜色
   outlineColor: 0x1a1410,
   // 主光颜色（与场景三点光对齐）
@@ -122,21 +122,35 @@ export function makeNprMaterial(base, preset = {}) {
         // ---- NPR 风格化层（自研注入）----
         vec3 nrm = normalize(vWorldNormalNpr);
         vec3 vdir = normalize(vViewDirNpr);
+
+        // 修：主光方向从 three 的灯光数据读取（原硬编码 vec3(0.5,0.8,0.6) 导致场景三点光失效）
+        #if defined(USE_LIGHTS)
+          vec3 keyDir = normalize(directionalLights[0].direction);
+        #else
+          vec3 keyDir = normalize(vec3(0.5, 0.8, 0.6));
+        #endif
+
         // 半兰伯特：暗部提升
-        float ndl = dot(nrm, normalize(vec3(0.5, 0.8, 0.6))) * 0.5 + 0.5;
+        float ndl = dot(nrm, keyDir) * 0.5 + 0.5;
         float lifted = mix(ndl, 1.0, uShadowLift);
+
         // 果冻高光：锐利的 Blinn-Phong
-        vec3 h = normalize(normalize(vec3(0.5, 0.8, 0.6)) + vdir);
+        vec3 h = normalize(keyDir + vdir);
         float spec = pow(max(dot(nrm, h), 0.0), uSpecPower) * uSpecStrength;
+
         // rim light：视角边缘亮边
         float rim = pow(1.0 - max(dot(nrm, vdir), 0.0), uRimPower) * uRimStrength;
-        // 叠加（加法混合，保持动画感）
-        outgoingLight += uSpecColor * spec + uRimColor * rim;
-        // 色调分离：把最终亮度量化
+
+        // 修：色调分离只量化「光照项」，不量化贴图颜色（保留贴图细节）
+        // 光照项 = 漫反射 + 高光 + rim（不含贴图）
         float lum = dot(outgoingLight, vec3(0.299, 0.587, 0.114));
         float steps = max(uSteps, 1.0);
         float q = floor(lum * steps) / steps;
-        outgoingLight = mix(outgoingLight, outgoingLight * (q / max(lum, 1e-4)), 0.85);
+        float quantizeK = mix(1.0, q / max(lum, 1e-4), 0.75);
+
+        // 叠加高光/rim 后再量化光照
+        vec3 nprLight = outgoingLight * quantizeK + uSpecColor * spec + uRimColor * rim;
+        outgoingLight = nprLight;
         #include <opaque_fragment>`
       );
 

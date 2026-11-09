@@ -1,0 +1,488 @@
+[
+ {
+  "tag": "00",
+  "key": "naiwa",
+  "label": "奶蛙",
+  "file": "v3-show3-00-naiwa-20261109.png",
+  "expectIndex": 0,
+  "prevRound1BodyHeightPct": 27.6,
+  "prevRound2BodyHeightPct": 36.24,
+  "bodyHeightPct": 35.12,
+  "silHeightPct": 35.12,
+  "sceneDiffHeightPct": 21.84,
+  "sceneBodyHeightPct": 21.84,
+  "shadowHeightPct": 0.0,
+  "bodyBBox": {
+   "x0": 835,
+   "x1": 1146,
+   "y0": 663,
+   "y1": 1101,
+   "w": 312,
+   "h": 439
+  },
+  "silBBox": {
+   "x0": 835,
+   "x1": 1146,
+   "y0": 663,
+   "y1": 1101,
+   "w": 312,
+   "h": 439
+  },
+  "sceneDiffBBox": {
+   "x0": 832,
+   "x1": 1138,
+   "y0": 663,
+   "y1": 935,
+   "w": 307,
+   "h": 273
+  },
+  "bodyMaskPixels": 94891,
+  "silMaskPixels": 94891,
+  "sceneMaskPixels": 56874,
+  "shadowMaskPixels": 0,
+  "hudKeysSelector": "#ui .hud-keys",
+  "hudKeysRect": {
+   "top": 942,
+   "bottom": 978,
+   "left": 578.02,
+   "right": 1021.98,
+   "width": 443.95,
+   "height": 36,
+   "cssViewport": [
+    1600,
+    1000
+   ],
+   "canvasSize": [
+    2000,
+    1250
+   ],
+   "pxPerCssPx": 1.25,
+   "topCanvas": 1177.5,
+   "bottomCanvas": 1222.5,
+   "heightCanvas": 45
+  },
+  "hudTopCanvas": 1177.5,
+  "hudBottomCanvas": 1222.5,
+  "hudHeightCanvas": 45,
+  "footY": 1101,
+  "topY": 663,
+  "footMarginPx": 76.5,
+  "topMarginPx": 663,
+  "footPass": true,
+  "isoFile": "v3-show3-iso-00.png",
+  "hudMatch": true,
+  "hudShot": "奶蛙",
+  "activeIndex": 0,
+  "bloomAtMain": {
+   "enabled": true,
+   "strength": 0.22,
+   "radius": 0.35,
+   "threshold": 0.88
+  }
+ },
+ {
+  "tag": "01",
+  "key": "naifen",
+  "label": "奶粉",
+  "file": "v3-show3-01-naifen-20261109.png",
+  "expectIndex": 6,
+  "prevRound1BodyHeightPct": 26.2,
+  "prevRound2BodyHeightPct": 35.44,
+  "bodyHeightPct": 34.64,
+  "silHeightPct": 34.64,
+  "sceneDiffHeightPct": 21.36,
+  "sceneBodyHeightPct": 21.36,
+  "shadowHeightPct": 0.0,
+  "bodyBBox": {
+   "x0": 829,
+   "x1": 1163,
+   "y0": 673,
+   "y1": 1105,
+   "w": 335,
+   "h": 433
+  },
+  "silBBox": {
+   "x0": 829,
+   "x1": 1163,
+   "y0": 673,
+   "y1": 1105,
+   "w": 335,
+   "h": 433
+  },
+  "sceneDiffBBox": {
+   "x0": 825,
+   "x1": 1163,
+   "y0": 673,
+   "y1": 939,
+   "w": 339,
+   "h": 267
+  },
+  "bodyMaskPixels": 85638,
+  "silMaskPixels": 85638,
+  "sceneMaskPixels": 71970,
+  "shadowMaskPixels": 0,
+  "hudKeysSelector": "#ui .hud-keys",
+  "hudKeysRect": {
+   "top": 942,
+   "bottom": 978,
+   "left": 578.02,
+   "right": 1021.98,
+   "width": 443.95,
+   "height": 36,
+   "cssViewport": [
+    1600,
+    1000
+   ],
+   "canvasSize": [
+    2000,
+    1250
+   ],
+   "pxPerCssPx": 1.25,
+   "topCanvas": 1177.5,
+   "bottomCanvas": 1222.5,
+   "heightCanvas": 45
+  },
+  "hudTopCanvas": 1177.5,
+  "hudBottomCanvas": 1222.5,
+  "hudHeightCanvas": 45,
+  "footY": 1105,
+  "topY": 673,
+  "footMarginPx": 72.5,
+  "topMarginPx": 673,
+  "footPass": true,
+  "isoFile": "v3-show3-iso-01.png",
+  "hudMatch": true,
+  "hudShot": "奶粉",
+  "activeIndex": 6,
+  "bloomAtMain": {
+   "enabled": true,
+   "strength": 0.22,
+   "radius": 0.35,
+   "threshold": 0.88
+  }
+ },
+ {
+  "tag": "02",
+  "key": "naimao",
+  "label": "奶猫",
+  "file": "v3-show3-02-naimao-20261109.png",
+  "expectIndex": 8,
+  "prevRound1BodyHeightPct": 31.0,
+  "prevRound2BodyHeightPct": 38.4,
+  "bodyHeightPct": 37.76,
+  "silHeightPct": 37.76,
+  "sceneDiffHeightPct": 21.2,
+  "sceneBodyHeightPct": 21.2,
+  "shadowHeightPct": 0.0,
+  "bodyBBox": {
+   "x0": 801,
+   "x1": 1216,
+   "y0": 685,
+   "y1": 1156,
+   "w": 416,
+   "h": 472
+  },
+  "silBBox": {
+   "x0": 801,
+   "x1": 1216,
+   "y0": 685,
+   "y1": 1156,
+   "w": 416,
+   "h": 472
+  },
+  "sceneDiffBBox": {
+   "x0": 814,
+   "x1": 1147,
+   "y0": 685,
+   "y1": 949,
+   "w": 334,
+   "h": 265
+  },
+  "bodyMaskPixels": 119816,
+  "silMaskPixels": 119816,
+  "sceneMaskPixels": 55155,
+  "shadowMaskPixels": 0,
+  "hudKeysSelector": "#ui .hud-keys",
+  "hudKeysRect": {
+   "top": 942,
+   "bottom": 978,
+   "left": 578.02,
+   "right": 1021.98,
+   "width": 443.95,
+   "height": 36,
+   "cssViewport": [
+    1600,
+    1000
+   ],
+   "canvasSize": [
+    2000,
+    1250
+   ],
+   "pxPerCssPx": 1.25,
+   "topCanvas": 1177.5,
+   "bottomCanvas": 1222.5,
+   "heightCanvas": 45
+  },
+  "hudTopCanvas": 1177.5,
+  "hudBottomCanvas": 1222.5,
+  "hudHeightCanvas": 45,
+  "footY": 1156,
+  "topY": 685,
+  "footMarginPx": 21.5,
+  "topMarginPx": 685,
+  "footPass": true,
+  "isoFile": "v3-show3-iso-02.png",
+  "hudMatch": true,
+  "hudShot": "奶猫",
+  "activeIndex": 8,
+  "bloomAtMain": {
+   "enabled": true,
+   "strength": 0.22,
+   "radius": 0.35,
+   "threshold": 0.88
+  }
+ },
+ {
+  "tag": "03",
+  "key": "naishi",
+  "label": "奶屎",
+  "file": "v3-show3-03-naishi-20261109.png",
+  "expectIndex": 9,
+  "prevRound1BodyHeightPct": 28.9,
+  "prevRound2BodyHeightPct": 36.64,
+  "bodyHeightPct": 35.2,
+  "silHeightPct": 35.2,
+  "sceneDiffHeightPct": 18.4,
+  "sceneBodyHeightPct": 18.4,
+  "shadowHeightPct": 0.0,
+  "bodyBBox": {
+   "x0": 816,
+   "x1": 1182,
+   "y0": 693,
+   "y1": 1132,
+   "w": 367,
+   "h": 440
+  },
+  "silBBox": {
+   "x0": 816,
+   "x1": 1182,
+   "y0": 693,
+   "y1": 1132,
+   "w": 367,
+   "h": 440
+  },
+  "sceneDiffBBox": {
+   "x0": 852,
+   "x1": 1133,
+   "y0": 693,
+   "y1": 922,
+   "w": 282,
+   "h": 230
+  },
+  "bodyMaskPixels": 109296,
+  "silMaskPixels": 109296,
+  "sceneMaskPixels": 40669,
+  "shadowMaskPixels": 0,
+  "hudKeysSelector": "#ui .hud-keys",
+  "hudKeysRect": {
+   "top": 942,
+   "bottom": 978,
+   "left": 578.02,
+   "right": 1021.98,
+   "width": 443.95,
+   "height": 36,
+   "cssViewport": [
+    1600,
+    1000
+   ],
+   "canvasSize": [
+    2000,
+    1250
+   ],
+   "pxPerCssPx": 1.25,
+   "topCanvas": 1177.5,
+   "bottomCanvas": 1222.5,
+   "heightCanvas": 45
+  },
+  "hudTopCanvas": 1177.5,
+  "hudBottomCanvas": 1222.5,
+  "hudHeightCanvas": 45,
+  "footY": 1132,
+  "topY": 693,
+  "footMarginPx": 45.5,
+  "topMarginPx": 693,
+  "footPass": true,
+  "isoFile": "v3-show3-iso-03.png",
+  "hudMatch": true,
+  "hudShot": "奶屎",
+  "activeIndex": 9,
+  "bloomAtMain": {
+   "enabled": true,
+   "strength": 0.22,
+   "radius": 0.35,
+   "threshold": 0.88
+  }
+ },
+ {
+  "tag": "04",
+  "key": "naiyu",
+  "label": "奶鱼",
+  "file": "v3-show3-04-naiyu-20261109.png",
+  "expectIndex": 12,
+  "prevRound1BodyHeightPct": 17.5,
+  "prevRound2BodyHeightPct": 29.44,
+  "bodyHeightPct": 29.28,
+  "silHeightPct": 29.28,
+  "sceneDiffHeightPct": 21.12,
+  "sceneBodyHeightPct": 21.12,
+  "shadowHeightPct": 0.0,
+  "bodyBBox": {
+   "x0": 906,
+   "x1": 1152,
+   "y0": 696,
+   "y1": 1061,
+   "w": 247,
+   "h": 366
+  },
+  "silBBox": {
+   "x0": 906,
+   "x1": 1152,
+   "y0": 696,
+   "y1": 1061,
+   "w": 247,
+   "h": 366
+  },
+  "sceneDiffBBox": {
+   "x0": 921,
+   "x1": 1155,
+   "y0": 696,
+   "y1": 959,
+   "w": 235,
+   "h": 264
+  },
+  "bodyMaskPixels": 48325,
+  "silMaskPixels": 48325,
+  "sceneMaskPixels": 40414,
+  "shadowMaskPixels": 0,
+  "hudKeysSelector": "#ui .hud-keys",
+  "hudKeysRect": {
+   "top": 942,
+   "bottom": 978,
+   "left": 578.02,
+   "right": 1021.98,
+   "width": 443.95,
+   "height": 36,
+   "cssViewport": [
+    1600,
+    1000
+   ],
+   "canvasSize": [
+    2000,
+    1250
+   ],
+   "pxPerCssPx": 1.25,
+   "topCanvas": 1177.5,
+   "bottomCanvas": 1222.5,
+   "heightCanvas": 45
+  },
+  "hudTopCanvas": 1177.5,
+  "hudBottomCanvas": 1222.5,
+  "hudHeightCanvas": 45,
+  "footY": 1061,
+  "topY": 696,
+  "footMarginPx": 116.5,
+  "topMarginPx": 696,
+  "footPass": true,
+  "isoFile": "v3-show3-iso-04.png",
+  "hudMatch": true,
+  "hudShot": "奶鱼",
+  "activeIndex": 12,
+  "bloomAtMain": {
+   "enabled": true,
+   "strength": 0.22,
+   "radius": 0.35,
+   "threshold": 0.88
+  }
+ },
+ {
+  "tag": "05",
+  "key": "xigema",
+  "label": "西格玛",
+  "file": "v3-show3-05-xigema-20261109.png",
+  "expectIndex": 15,
+  "prevRound1BodyHeightPct": 25.8,
+  "prevRound2BodyHeightPct": 33.76,
+  "bodyHeightPct": 32.56,
+  "silHeightPct": 32.56,
+  "sceneDiffHeightPct": 17.84,
+  "sceneBodyHeightPct": 17.84,
+  "shadowHeightPct": 0.0,
+  "bodyBBox": {
+   "x0": 915,
+   "x1": 1092,
+   "y0": 694,
+   "y1": 1100,
+   "w": 178,
+   "h": 407
+  },
+  "silBBox": {
+   "x0": 915,
+   "x1": 1092,
+   "y0": 694,
+   "y1": 1100,
+   "w": 178,
+   "h": 407
+  },
+  "sceneDiffBBox": {
+   "x0": 928,
+   "x1": 1095,
+   "y0": 694,
+   "y1": 916,
+   "w": 168,
+   "h": 223
+  },
+  "bodyMaskPixels": 27015,
+  "silMaskPixels": 27015,
+  "sceneMaskPixels": 23979,
+  "shadowMaskPixels": 0,
+  "hudKeysSelector": "#ui .hud-keys",
+  "hudKeysRect": {
+   "top": 942,
+   "bottom": 978,
+   "left": 578.02,
+   "right": 1021.98,
+   "width": 443.95,
+   "height": 36,
+   "cssViewport": [
+    1600,
+    1000
+   ],
+   "canvasSize": [
+    2000,
+    1250
+   ],
+   "pxPerCssPx": 1.25,
+   "topCanvas": 1177.5,
+   "bottomCanvas": 1222.5,
+   "heightCanvas": 45
+  },
+  "hudTopCanvas": 1177.5,
+  "hudBottomCanvas": 1222.5,
+  "hudHeightCanvas": 45,
+  "footY": 1100,
+  "topY": 694,
+  "footMarginPx": 77.5,
+  "topMarginPx": 694,
+  "footPass": true,
+  "isoFile": "v3-show3-iso-05.png",
+  "hudMatch": true,
+  "hudShot": "西格玛奶蛙",
+  "activeIndex": 15,
+  "bloomAtMain": {
+   "enabled": true,
+   "strength": 0.22,
+   "radius": 0.35,
+   "threshold": 0.88
+  }
+ }
+]

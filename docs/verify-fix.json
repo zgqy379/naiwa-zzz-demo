@@ -1,0 +1,22 @@
+{
+  "steps": [
+    {
+      "state": {
+        "hasNpr": true,
+        "oppVisible": true,
+        "oppHp": 200,
+        "playerPos": {
+          "x": 2.4,
+          "y": 0,
+          "z": 0
+        },
+        "comboStage": -1,
+        "counterState": "idle",
+        "hudTimer": "00:00",
+        "hudShell": "1/16",
+        "hpNum": "100",
+        "errors": []
+      }
+    }
+  ]
+}

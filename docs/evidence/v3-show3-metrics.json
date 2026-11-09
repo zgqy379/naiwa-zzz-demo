@@ -1,0 +1,2199 @@
+{
+  "shots": [
+    {
+      "file": "v3-show3-00-naiwa-20261109.png",
+      "cleanFile": "v3-show3-clean-00.png",
+      "bgFile": "v3-show3-bg-00.png",
+      "isoFile": "v3-show3-iso-00.png",
+      "isoEmptyFile": "v3-show3-iso-empty-00.png",
+      "expect": "奶蛙",
+      "expectIndex": 0,
+      "hudBefore": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "hudShell": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeGlb": "/asset/naiwa_laugh_g1_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶蛙"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "hudShell": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeGlb": "/asset/naiwa_laugh_g1_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶蛙"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "pngBytes": 1021480,
+      "cleanBytes": 802848,
+      "bgBytes": 726840,
+      "isoBytes": 186064,
+      "isoEmptyBytes": 72744,
+      "domHidden": 6,
+      "camSnap": [
+        6.199999999999999,
+        1.6,
+        2.2,
+        2.4
+      ],
+      "bgHide": {
+        "prev": true
+      },
+      "bgRestore": true,
+      "isoHide": {
+        "hidden": 13,
+        "dom": 6
+      },
+      "isoEmptyHide": true,
+      "isoRestore": 13,
+      "bloomPrev": {
+        "enabled": true,
+        "strength": 0.22
+      },
+      "bloomRestore": {
+        "enabled": true,
+        "strength": 0.22,
+        "prev": {
+          "enabled": true,
+          "strength": 0.22
+        }
+      },
+      "stateAtMain": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          -0.0031893180051526366,
+          -0.4293446070790323,
+          0.006708610216993209,
+          0.9031101987973393
+        ],
+        "groupScale": [
+          1,
+          1.0101155953444052,
+          1
+        ],
+        "wrapperScale": [
+          2.56693090030189,
+          2.5831840112133095,
+          2.56693090030189
+        ],
+        "wrapperPos": [
+          0,
+          0.00844230537955298,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          2.56693090030189,
+          2.5831840112133095,
+          2.56693090030189
+        ],
+        "animAction": "idle"
+      },
+      "stateBeforeIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          -0.0031893180051526366,
+          -0.4293446070790323,
+          0.006708610216993209,
+          0.9031101987973393
+        ],
+        "groupScale": [
+          1,
+          1.0101155953444052,
+          1
+        ],
+        "wrapperScale": [
+          2.56693090030189,
+          2.5831840112133095,
+          2.56693090030189
+        ],
+        "wrapperPos": [
+          0,
+          0.00844230537955298,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          2.56693090030189,
+          2.5831840112133095,
+          2.56693090030189
+        ],
+        "animAction": "idle"
+      },
+      "stateAfterIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          -0.0031893180051526366,
+          -0.4293446070790323,
+          0.006708610216993209,
+          0.9031101987973393
+        ],
+        "groupScale": [
+          1,
+          1.0101155953444052,
+          1
+        ],
+        "wrapperScale": [
+          2.56693090030189,
+          2.5831840112133095,
+          2.56693090030189
+        ],
+        "wrapperPos": [
+          0,
+          0.00844230537955298,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          2.56693090030189,
+          2.5831840112133095,
+          2.56693090030189
+        ],
+        "animAction": "idle"
+      },
+      "shotAt": "2026-11-09T14:52:19.112Z",
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show3-01-naifen-20261109.png",
+      "cleanFile": "v3-show3-clean-01.png",
+      "bgFile": "v3-show3-bg-01.png",
+      "isoFile": "v3-show3-iso-01.png",
+      "isoEmptyFile": "v3-show3-iso-empty-01.png",
+      "expect": "奶粉",
+      "expectIndex": 6,
+      "hudBefore": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "hudShell": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "activeGlb": "/asset/naiwa_naifen_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶粉"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "hudShell": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "activeGlb": "/asset/naiwa_naifen_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶粉"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "pngBytes": 1064604,
+      "cleanBytes": 863460,
+      "bgBytes": 727044,
+      "isoBytes": 245072,
+      "isoEmptyBytes": 72744,
+      "domHidden": 6,
+      "camSnap": [
+        6.199999999999999,
+        1.6,
+        2.2,
+        2.4
+      ],
+      "bgHide": {
+        "prev": true
+      },
+      "bgRestore": true,
+      "isoHide": {
+        "hidden": 13,
+        "dom": 6
+      },
+      "isoEmptyHide": true,
+      "isoRestore": 13,
+      "bloomPrev": {
+        "enabled": true,
+        "strength": 0.22
+      },
+      "bloomRestore": {
+        "enabled": true,
+        "strength": 0.22,
+        "prev": {
+          "enabled": true,
+          "strength": 0.22
+        }
+      },
+      "stateAtMain": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          8.078304920746653,
+          8.000564317643779,
+          8.078304920746653
+        ],
+        "wrapperPos": [
+          0,
+          -0.01283117417421282,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          8.078304920746653,
+          8.000564317643779,
+          8.078304920746653
+        ],
+        "animAction": "idle"
+      },
+      "stateBeforeIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          8.078304920746653,
+          8.000564317643779,
+          8.078304920746653
+        ],
+        "wrapperPos": [
+          0,
+          -0.01283117417421282,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          8.078304920746653,
+          8.000564317643779,
+          8.078304920746653
+        ],
+        "animAction": "idle"
+      },
+      "stateAfterIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          8.078304920746653,
+          8.000564317643779,
+          8.078304920746653
+        ],
+        "wrapperPos": [
+          0,
+          -0.01283117417421282,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          8.078304920746653,
+          8.000564317643779,
+          8.078304920746653
+        ],
+        "animAction": "idle"
+      },
+      "shotAt": "2026-11-09T14:52:25.346Z",
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show3-02-naimao-20261109.png",
+      "cleanFile": "v3-show3-clean-02.png",
+      "bgFile": "v3-show3-bg-02.png",
+      "isoFile": "v3-show3-iso-02.png",
+      "isoEmptyFile": "v3-show3-iso-empty-02.png",
+      "expect": "奶猫",
+      "expectIndex": 8,
+      "hudBefore": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "hudShell": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "activeGlb": "/asset/naiwa_naimao_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶猫"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "hudShell": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "activeGlb": "/asset/naiwa_naimao_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶猫"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "pngBytes": 1022720,
+      "cleanBytes": 817032,
+      "bgBytes": 725572,
+      "isoBytes": 220956,
+      "isoEmptyBytes": 72744,
+      "domHidden": 6,
+      "camSnap": [
+        6.199999999999999,
+        1.6,
+        2.2,
+        2.4
+      ],
+      "bgHide": {
+        "prev": true
+      },
+      "bgRestore": true,
+      "isoHide": {
+        "hidden": 13,
+        "dom": 6
+      },
+      "isoEmptyHide": true,
+      "isoRestore": 13,
+      "bloomPrev": {
+        "enabled": true,
+        "strength": 0.22
+      },
+      "bloomRestore": {
+        "enabled": true,
+        "strength": 0.22,
+        "prev": {
+          "enabled": true,
+          "strength": 0.22
+        }
+      },
+      "stateAtMain": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.200559671778097,
+          5.175884671314134,
+          5.200559671778097
+        ],
+        "wrapperPos": [
+          0,
+          -0.006326242307564883,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.200559671778097,
+          5.175884671314134,
+          5.200559671778097
+        ],
+        "animAction": "idle"
+      },
+      "stateBeforeIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.200559671778097,
+          5.175884671314134,
+          5.200559671778097
+        ],
+        "wrapperPos": [
+          0,
+          -0.006326242307564883,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.200559671778097,
+          5.175884671314134,
+          5.200559671778097
+        ],
+        "animAction": "idle"
+      },
+      "stateAfterIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.200559671778097,
+          5.175884671314134,
+          5.200559671778097
+        ],
+        "wrapperPos": [
+          0,
+          -0.006326242307564883,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.200559671778097,
+          5.175884671314134,
+          5.200559671778097
+        ],
+        "animAction": "idle"
+      },
+      "shotAt": "2026-11-09T14:52:31.441Z",
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show3-03-naishi-20261109.png",
+      "cleanFile": "v3-show3-clean-03.png",
+      "bgFile": "v3-show3-bg-03.png",
+      "isoFile": "v3-show3-iso-03.png",
+      "isoEmptyFile": "v3-show3-iso-empty-03.png",
+      "expect": "奶屎",
+      "expectIndex": 9,
+      "hudBefore": {
+        "hudName": "奶屎",
+        "hudIdx": "10/16",
+        "hudShell": "10/16",
+        "activeIndex": 9,
+        "activeName": "奶屎",
+        "activeId": "shell_naishi",
+        "activeGlb": "/asset/naiwa_naishi_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶屎"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶屎",
+        "hudIdx": "10/16",
+        "hudShell": "10/16",
+        "activeIndex": 9,
+        "activeName": "奶屎",
+        "activeId": "shell_naishi",
+        "activeGlb": "/asset/naiwa_naishi_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "奶屎"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "pngBytes": 998364,
+      "cleanBytes": 788008,
+      "bgBytes": 726880,
+      "isoBytes": 223400,
+      "isoEmptyBytes": 72744,
+      "domHidden": 6,
+      "camSnap": [
+        6.199999999999999,
+        1.6,
+        2.2,
+        2.4
+      ],
+      "bgHide": {
+        "prev": true
+      },
+      "bgRestore": true,
+      "isoHide": {
+        "hidden": 13,
+        "dom": 6
+      },
+      "isoEmptyHide": true,
+      "isoRestore": 13,
+      "bloomPrev": {
+        "enabled": true,
+        "strength": 0.22
+      },
+      "bloomRestore": {
+        "enabled": true,
+        "strength": 0.22,
+        "prev": {
+          "enabled": true,
+          "strength": 0.22
+        }
+      },
+      "stateAtMain": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          8.081676509323696,
+          7.968551069304521,
+          8.081676509323696
+        ],
+        "wrapperPos": [
+          0,
+          -0.018663691852990084,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          8.081676509323696,
+          7.968551069304521,
+          8.081676509323696
+        ],
+        "animAction": "idle"
+      },
+      "stateBeforeIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          8.081676509323696,
+          7.968551069304521,
+          8.081676509323696
+        ],
+        "wrapperPos": [
+          0,
+          -0.018663691852990084,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          8.081676509323696,
+          7.968551069304521,
+          8.081676509323696
+        ],
+        "animAction": "idle"
+      },
+      "stateAfterIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          8.081676509323696,
+          7.968551069304521,
+          8.081676509323696
+        ],
+        "wrapperPos": [
+          0,
+          -0.018663691852990084,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          8.081676509323696,
+          7.968551069304521,
+          8.081676509323696
+        ],
+        "animAction": "idle"
+      },
+      "shotAt": "2026-11-09T14:52:37.704Z",
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show3-04-naiyu-20261109.png",
+      "cleanFile": "v3-show3-clean-04.png",
+      "bgFile": "v3-show3-bg-04.png",
+      "isoFile": "v3-show3-iso-04.png",
+      "isoEmptyFile": "v3-show3-iso-empty-04.png",
+      "expect": "奶鱼",
+      "expectIndex": 12,
+      "hudBefore": {
+        "hudName": "奶鱼",
+        "hudIdx": "13/16",
+        "hudShell": "13/16",
+        "activeIndex": 12,
+        "activeName": "奶鱼",
+        "activeId": "shell_naiyu",
+        "activeGlb": "/asset/naiwa_naiyu_runtime.glb",
+        "visualScale": 1.2,
+        "scale": 0.95,
+        "visibleGroups": [
+          "奶鱼"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶鱼",
+        "hudIdx": "13/16",
+        "hudShell": "13/16",
+        "activeIndex": 12,
+        "activeName": "奶鱼",
+        "activeId": "shell_naiyu",
+        "activeGlb": "/asset/naiwa_naiyu_runtime.glb",
+        "visualScale": 1.2,
+        "scale": 0.95,
+        "visibleGroups": [
+          "奶鱼"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "pngBytes": 1014820,
+      "cleanBytes": 792372,
+      "bgBytes": 726484,
+      "isoBytes": 150532,
+      "isoEmptyBytes": 72744,
+      "domHidden": 6,
+      "camSnap": [
+        6.199999999999999,
+        1.6,
+        2.2,
+        2.4
+      ],
+      "bgHide": {
+        "prev": true
+      },
+      "bgRestore": true,
+      "isoHide": {
+        "hidden": 13,
+        "dom": 6
+      },
+      "isoEmptyHide": true,
+      "isoRestore": 13,
+      "bloomPrev": {
+        "enabled": true,
+        "strength": 0.22
+      },
+      "bloomRestore": {
+        "enabled": true,
+        "strength": 0.22,
+        "prev": {
+          "enabled": true,
+          "strength": 0.22
+        }
+      },
+      "stateAtMain": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.4722281234472705,
+          5.415740966902872,
+          5.4722281234472705
+        ],
+        "wrapperPos": [
+          0,
+          -0.013763353249684898,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.4722281234472705,
+          5.415740966902872,
+          5.4722281234472705
+        ],
+        "animAction": "idle"
+      },
+      "stateBeforeIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.4722281234472705,
+          5.415740966902872,
+          5.4722281234472705
+        ],
+        "wrapperPos": [
+          0,
+          -0.013763353249684898,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.4722281234472705,
+          5.415740966902872,
+          5.4722281234472705
+        ],
+        "animAction": "idle"
+      },
+      "stateAfterIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.4722281234472705,
+          5.415740966902872,
+          5.4722281234472705
+        ],
+        "wrapperPos": [
+          0,
+          -0.013763353249684898,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.4722281234472705,
+          5.415740966902872,
+          5.4722281234472705
+        ],
+        "animAction": "idle"
+      },
+      "shotAt": "2026-11-09T14:52:44.905Z",
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show3-05-xigema-20261109.png",
+      "cleanFile": "v3-show3-clean-05.png",
+      "bgFile": "v3-show3-bg-05.png",
+      "isoFile": "v3-show3-iso-05.png",
+      "isoEmptyFile": "v3-show3-iso-empty-05.png",
+      "expect": "西格玛奶蛙",
+      "expectIndex": 15,
+      "hudBefore": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "hudShell": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "activeGlb": "/asset/naiwa_xigema_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "hudAfter": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "hudShell": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "activeGlb": "/asset/naiwa_xigema_runtime.glb",
+        "visualScale": 1,
+        "scale": 1.05,
+        "visibleGroups": [
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "inner": [
+          1600,
+          1000
+        ],
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 40,
+        "exposute": 0.85,
+        "shadowType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.22,
+          "radius": 0.35,
+          "threshold": 0.88
+        },
+        "hudKeysSelector": "#ui .hud-keys",
+        "hudKeysRect": {
+          "top": 942,
+          "bottom": 978,
+          "left": 578.02,
+          "right": 1021.98,
+          "width": 443.95,
+          "height": 36,
+          "cssViewport": [
+            1600,
+            1000
+          ],
+          "canvasSize": [
+            2000,
+            1250
+          ],
+          "pxPerCssPx": 1.25,
+          "topCanvas": 1177.5,
+          "bottomCanvas": 1222.5,
+          "heightCanvas": 45
+        }
+      },
+      "pngBytes": 979672,
+      "cleanBytes": 777624,
+      "bgBytes": 726740,
+      "isoBytes": 158276,
+      "isoEmptyBytes": 72744,
+      "domHidden": 6,
+      "camSnap": [
+        6.199999999999999,
+        1.6,
+        2.2,
+        2.4
+      ],
+      "bgHide": {
+        "prev": true
+      },
+      "bgRestore": true,
+      "isoHide": {
+        "hidden": 13,
+        "dom": 6
+      },
+      "isoEmptyHide": true,
+      "isoRestore": 13,
+      "bloomPrev": {
+        "enabled": true,
+        "strength": 0.22
+      },
+      "bloomRestore": {
+        "enabled": true,
+        "strength": 0.22,
+        "prev": {
+          "enabled": true,
+          "strength": 0.22
+        }
+      },
+      "stateAtMain": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.25074830884972,
+          5.200957627538336,
+          5.25074830884972
+        ],
+        "wrapperPos": [
+          0,
+          -0.012643450262118666,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.25074830884972,
+          5.200957627538336,
+          5.25074830884972
+        ],
+        "animAction": "idle"
+      },
+      "stateBeforeIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.25074830884972,
+          5.200957627538336,
+          5.25074830884972
+        ],
+        "wrapperPos": [
+          0,
+          -0.012643450262118666,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.25074830884972,
+          5.200957627538336,
+          5.25074830884972
+        ],
+        "animAction": "idle"
+      },
+      "stateAfterIso": {
+        "camPos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "camQuat": [
+          -0.08742301127288926,
+          0.4969318922757344,
+          0.05040395984846329,
+          0.8619021709978648
+        ],
+        "fov": 40,
+        "aspect": 1.6,
+        "near": 0.1,
+        "far": 100,
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupQuat": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "groupScale": [
+          1,
+          1,
+          1
+        ],
+        "wrapperScale": [
+          5.25074830884972,
+          5.200957627538336,
+          5.25074830884972
+        ],
+        "wrapperPos": [
+          0,
+          -0.012643450262118666,
+          0
+        ],
+        "wrapperVisible": true,
+        "innerScale": [
+          5.25074830884972,
+          5.200957627538336,
+          5.25074830884972
+        ],
+        "animAction": "idle"
+      },
+      "shotAt": "2026-11-09T14:52:51.805Z",
+      "hudMatch": true
+    }
+  ],
+  "errors": [],
+  "meta": {
+    "base": {
+      "exposure": 0.85,
+      "shadowMapType": 1,
+      "camera": {
+        "pos": [
+          6.199999999999999,
+          1.6,
+          2.2
+        ],
+        "fov": 40,
+        "aspect": 1.6
+      },
+      "bloom": {
+        "strength": 0.22,
+        "enabled": true,
+        "threshold": 0.88,
+        "radius": 0.35
+      },
+      "playerPos": [
+        2.4,
+        0,
+        0
+      ],
+      "squadVisualScale": [
+        {
+          "id": "shell_naiwa",
+          "name": "奶蛙",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naidou",
+          "name": "奶豆",
+          "scale": 1.15,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_xiaonaiwa",
+          "name": "小奶蛙",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naidan",
+          "name": "奶蛋",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_nashu",
+          "name": "奶鼠",
+          "scale": 0.95,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naigou",
+          "name": "奶狗",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naifen",
+          "name": "奶粉",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naiji",
+          "name": "奶鸡",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naimao",
+          "name": "奶猫",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naishi",
+          "name": "奶屎",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_dounai",
+          "name": "豆奶",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naitu",
+          "name": "奶兔",
+          "scale": 0.95,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naiyu",
+          "name": "奶鱼",
+          "scale": 0.95,
+          "visualScale": 1.2
+        },
+        {
+          "id": "shell_naicha",
+          "name": "奶茶",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_naiping",
+          "name": "奶瓶",
+          "scale": 1.05,
+          "visualScale": 1
+        },
+        {
+          "id": "shell_xigema",
+          "name": "西格玛奶蛙",
+          "scale": 1.05,
+          "visualScale": 1
+        }
+      ]
+    },
+    "renderer": {
+      "calls": 676,
+      "triangles": 376788,
+      "lines": 0,
+      "points": 0,
+      "geometries": 297,
+      "textures": 294,
+      "programs": 20,
+      "frameAccumulated": true
+    },
+    "readyMs": 5499,
+    "cdpPort": 9665,
+    "viewport": {
+      "width": 1600,
+      "height": 1000,
+      "dpr": 1.25
+    },
+    "server": {
+      "requestedPort": 5284,
+      "actualPort": 5284,
+      "bind": "0.0.0.0",
+      "hostUsed": "172.17.96.1"
+    },
+    "build": {
+      "dist": ".tmp-dist-show3",
+      "vite": "8.3.6",
+      "minify": false,
+      "outDirMtime": "2026-11-09T14:46:53.358Z",
+      "assetsMtime": "2026-11-09T14:46:53.357Z",
+      "camera": {
+        "distance": 3.8,
+        "fovVertical": 40,
+        "height": 1.6,
+        "sideOffset": 2.2,
+        "lookAtHeight": 0.7
+      }
+    },
+    "srcMtimes": {
+      "src/main.mjs": "2026-11-09T14:43:51.775Z",
+      "src/game/tuning.mjs": "2026-11-09T14:44:33.736Z",
+      "src/game/squad.mjs": "2026-11-09T14:23:05.752Z",
+      "src/render/npr.mjs": "2026-11-09T13:08:36.145Z",
+      "src/ui/style.css": "2026-11-09T12:48:30.265Z",
+      "src/render/postfx.mjs": "2026-11-09T11:49:36.293Z"
+    },
+    "finishedAt": "2026-11-09T14:52:55.546Z"
+  },
+  "ok": true,
+  "consoleErrors": []
+}

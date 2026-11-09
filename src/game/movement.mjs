@@ -139,29 +139,37 @@ export class Movement {
     this.attackLungeT = duration;
   }
 
-  /** 把输入的屏幕方向转成世界方向（相对相机） */
+  /** 把输入的屏幕方向转成世界方向 */
   _inputDir(move) {
     if (!move || move.lengthSq() < 0.001) return new THREE.Vector3();
-    // 相机朝向（只取 Y 旋转）
-    const camYaw = Math.atan2(
-      this.camera.getWorldDirection(new THREE.Vector3()).x,
-      this.camera.getWorldDirection(new THREE.Vector3()).z
-    );
-    const cos = Math.cos(camYaw);
-    const sin = Math.sin(camYaw);
-    // 屏幕 (x=右, y=前) → 世界
-    const wx = move.x * cos + move.y * sin;
-    const wz = -move.x * sin + move.y * cos;
-    return new THREE.Vector3(wx, 0, wz);
+
+    // 本项目相机沿 X 轴看街道（从 +X 看向 -X）
+    // 固定映射（保证直觉操作）：
+    //   A = -X（左）  D = +X（右）
+    //   W = -Z（远）  S = +Z（近）
+    // 注：相机在 +X 处看向 -X，屏幕"右"对应世界 -Z，
+    //     但为操作直觉，这里让 A/D 直接控制 X（沿街道方向）
+    return new THREE.Vector3(move.x, 0, move.y);
   }
 
-  /** 面向目标 */
-  faceToward(targetPos) {
+  /** 面向目标（带相机偏好：3/4 侧身，不完全背对相机） */
+  faceToward(targetPos, cameraPos = null) {
     const dx = targetPos.x - this.pos.x;
     const dz = targetPos.z - this.pos.z;
-    if (Math.hypot(dx, dz) > 0.01) {
-      this.facing = Math.atan2(dx, dz);
+    if (Math.hypot(dx, dz) < 0.01) return;
+
+    let targetFacing = Math.atan2(dx, dz);
+
+    // 如果有相机位置，偏向相机 45°（3/4 侧面，既有对峙感又不背对）
+    if (cameraPos) {
+      const cdx = cameraPos.x - this.pos.x;
+      const cdz = cameraPos.z - this.pos.z;
+      const camFacing = Math.atan2(cdx, cdz);
+      // 在「面向对手」和「面向相机」之间插值 35%
+      targetFacing = lerpAngle(targetFacing, camFacing, 0.35);
     }
+
+    this.facing = targetFacing;
   }
 
   get isDodging() { return this.dodgeT > 0; }

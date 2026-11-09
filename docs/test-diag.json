@@ -1,0 +1,40 @@
+{
+  "diag1": {
+    "hasOa": true,
+    "oaKeys": [
+      "modelRoot",
+      "movement",
+      "inner",
+      "action",
+      "actionT",
+      "actionDur",
+      "idlePhase",
+      "movePhase",
+      "hitShake",
+      "baseScale"
+    ],
+    "oppKeys": [
+      "hp",
+      "maxHp"
+    ],
+    "oppAnim": null
+  },
+  "diag2": {
+    "calls": 1,
+    "triangles": 1,
+    "points": 0,
+    "lines": 0,
+    "infoKeys": [
+      "memory",
+      "render",
+      "programs",
+      "autoReset",
+      "reset",
+      "update"
+    ],
+    "postfxRenderer": {
+      "calls": 1,
+      "triangles": 1
+    }
+  }
+}

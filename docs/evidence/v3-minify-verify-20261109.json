@@ -1,0 +1,132 @@
+{
+  "dist": ".tmp-dist-minify",
+  "exceptions": [],
+  "consoleErrors": [],
+  "logErrors": [],
+  "loadingFailed": [],
+  "httpErrors": [
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5286/favicon.ico",
+      "type": "Other"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5286/favicon.ico",
+      "type": "Other"
+    }
+  ],
+  "clicks": [
+    {
+      "step": "start",
+      "ok": true,
+      "rect": {
+        "x": 800,
+        "y": 485,
+        "w": 440,
+        "h": 58
+      },
+      "vis": "visible",
+      "screen": "screen-title",
+      "screenDisplay": "flex"
+    },
+    {
+      "step": "after-start-screen",
+      "screen": "select"
+    },
+    {
+      "step": "confirm",
+      "ok": true,
+      "rect": {
+        "x": 1267.5,
+        "y": 874.5,
+        "w": 165,
+        "h": 51
+      },
+      "vis": "visible",
+      "screen": "screen-select",
+      "screenDisplay": "flex"
+    },
+    {
+      "step": "after-confirm-screen",
+      "screen": "battle"
+    }
+  ],
+  "qualityToggle": [
+    {
+      "q": "low",
+      "enabled": false,
+      "strength": 0.4
+    },
+    {
+      "q": "high",
+      "enabled": true,
+      "strength": 0.4
+    }
+  ],
+  "state": {
+    "ok": true,
+    "activeName": "奶蛙",
+    "activeId": "shell_naiwa",
+    "activeIndex": 0,
+    "visibleGroups": [
+      "奶蛙"
+    ],
+    "triangles": 188350,
+    "calls": 323,
+    "geometries": 288,
+    "textures": 280,
+    "canvas": [
+      2000,
+      1250
+    ],
+    "inner": [
+      1600,
+      1000
+    ],
+    "pixelRatio": 1.25,
+    "bloom": {
+      "enabled": true,
+      "strength": 0.4,
+      "radius": 0.5,
+      "threshold": 0.68
+    },
+    "exposure": 0.85,
+    "screen": "battle",
+    "audioCtx": "running",
+    "currentBgm": "battle"
+  },
+  "shot": {
+    "file": "docs/evidence/v3-minify-verify-20261109.png",
+    "bytes": 961233
+  },
+  "meta": {
+    "url": "http://127.0.0.1:5286/",
+    "port": 5286,
+    "bootOk": true,
+    "bootMs": 3204,
+    "favicon404Ignored": true,
+    "finishedAt": "2026-11-09T15:14:15.866Z",
+    "portClosed": 5286
+  },
+  "ab": [
+    {
+      "tag": "0.40-0.68",
+      "applied": {
+        "strength": 0.4,
+        "threshold": 0.68
+      },
+      "file": "docs/evidence/v3-minify-bloom-ab-0.40-0.68-20261109.png",
+      "bytes": 961662
+    },
+    {
+      "tag": "0.22-0.88",
+      "applied": {
+        "strength": 0.22,
+        "threshold": 0.88
+      },
+      "file": "docs/evidence/v3-minify-bloom-ab-0.22-0.88-20261109.png",
+      "bytes": 900877
+    }
+  ]
+}

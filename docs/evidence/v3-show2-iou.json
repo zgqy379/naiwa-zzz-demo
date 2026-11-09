@@ -1,0 +1,403 @@
+{
+ "generatedAt": "2026-11-09T22:26:27",
+ "primaryMetric": "body = (iso − iso_empty，diff>12) ∩ lum(iso)>55；隔离帧无地面投影阴影",
+ "iouMaskSource": "iso 帧 − iso-empty 帧（纯剪影）",
+ "fixed": [
+  [
+   "00-naiwa",
+   "01-naifen",
+   0.575
+  ],
+  [
+   "00-naiwa",
+   "02-naimao",
+   0.626
+  ],
+  [
+   "00-naiwa",
+   "03-naishi",
+   0.725
+  ],
+  [
+   "00-naiwa",
+   "04-naiyu",
+   0.359
+  ],
+  [
+   "00-naiwa",
+   "05-xigema",
+   0.274
+  ],
+  [
+   "01-naifen",
+   "02-naimao",
+   0.452
+  ],
+  [
+   "01-naifen",
+   "03-naishi",
+   0.486
+  ],
+  [
+   "01-naifen",
+   "04-naiyu",
+   0.336
+  ],
+  [
+   "01-naifen",
+   "05-xigema",
+   0.168
+  ],
+  [
+   "02-naimao",
+   "03-naishi",
+   0.768
+  ],
+  [
+   "02-naimao",
+   "04-naiyu",
+   0.249
+  ],
+  [
+   "02-naimao",
+   "05-xigema",
+   0.21
+  ],
+  [
+   "03-naishi",
+   "04-naiyu",
+   0.298
+  ],
+  [
+   "03-naishi",
+   "05-xigema",
+   0.244
+  ],
+  [
+   "04-naiyu",
+   "05-xigema",
+   0.267
+  ]
+ ],
+ "shape": [
+  [
+   "00-naiwa",
+   "01-naifen",
+   0.585
+  ],
+  [
+   "00-naiwa",
+   "02-naimao",
+   0.766
+  ],
+  [
+   "00-naiwa",
+   "03-naishi",
+   0.757
+  ],
+  [
+   "00-naiwa",
+   "04-naiyu",
+   0.498
+  ],
+  [
+   "00-naiwa",
+   "05-xigema",
+   0.444
+  ],
+  [
+   "01-naifen",
+   "02-naimao",
+   0.552
+  ],
+  [
+   "01-naifen",
+   "03-naishi",
+   0.535
+  ],
+  [
+   "01-naifen",
+   "04-naiyu",
+   0.459
+  ],
+  [
+   "01-naifen",
+   "05-xigema",
+   0.347
+  ],
+  [
+   "02-naimao",
+   "03-naishi",
+   0.761
+  ],
+  [
+   "02-naimao",
+   "04-naiyu",
+   0.473
+  ],
+  [
+   "02-naimao",
+   "05-xigema",
+   0.369
+  ],
+  [
+   "03-naishi",
+   "04-naiyu",
+   0.516
+  ],
+  [
+   "03-naishi",
+   "05-xigema",
+   0.397
+  ],
+  [
+   "04-naiyu",
+   "05-xigema",
+   0.334
+  ]
+ ],
+ "maxFixed": 0.768,
+ "maxShape": 0.766,
+ "rows": [
+  {
+   "key": "naiwa",
+   "file": "v3-show2-00-naiwa-20261109.png",
+   "prevBodyHeightPct": 31.0,
+   "bodyHeightPct": 36.24,
+   "silHeightPct": 36.24,
+   "sceneDiffHeightPct": 21.76,
+   "sceneBodyHeightPct": 21.76,
+   "shadowHeightPct": 0.0,
+   "bodyBBox": {
+    "x0": 838,
+    "x1": 1152,
+    "y0": 743,
+    "y1": 1195,
+    "w": 315,
+    "h": 453
+   },
+   "silBBox": {
+    "x0": 838,
+    "x1": 1152,
+    "y0": 743,
+    "y1": 1195,
+    "w": 315,
+    "h": 453
+   },
+   "sceneDiffBBox": {
+    "x0": 836,
+    "x1": 1141,
+    "y0": 743,
+    "y1": 1014,
+    "w": 306,
+    "h": 272
+   },
+   "bodyMaskPixels": 98121,
+   "silMaskPixels": 98121,
+   "sceneMaskPixels": 57084,
+   "shadowMaskPixels": 0
+  },
+  {
+   "key": "naifen",
+   "file": "v3-show2-01-naifen-20261109.png",
+   "prevBodyHeightPct": 28.9,
+   "bodyHeightPct": 35.44,
+   "silHeightPct": 35.44,
+   "sceneDiffHeightPct": 22.16,
+   "sceneBodyHeightPct": 22.16,
+   "shadowHeightPct": 0.0,
+   "bodyBBox": {
+    "x0": 829,
+    "x1": 1167,
+    "y0": 742,
+    "y1": 1184,
+    "w": 339,
+    "h": 443
+   },
+   "silBBox": {
+    "x0": 829,
+    "x1": 1167,
+    "y0": 742,
+    "y1": 1184,
+    "w": 339,
+    "h": 443
+   },
+   "sceneDiffBBox": {
+    "x0": 824,
+    "x1": 1167,
+    "y0": 742,
+    "y1": 1018,
+    "w": 344,
+    "h": 277
+   },
+   "bodyMaskPixels": 88625,
+   "silMaskPixels": 88625,
+   "sceneMaskPixels": 76018,
+   "shadowMaskPixels": 0
+  },
+  {
+   "key": "naimao",
+   "file": "v3-show2-02-naimao-20261109.png",
+   "prevBodyHeightPct": 27.6,
+   "bodyHeightPct": 38.4,
+   "silHeightPct": 38.4,
+   "sceneDiffHeightPct": 21.12,
+   "sceneBodyHeightPct": 21.12,
+   "shadowHeightPct": 0.0,
+   "bodyBBox": {
+    "x0": 798,
+    "x1": 1217,
+    "y0": 764,
+    "y1": 1243,
+    "w": 420,
+    "h": 480
+   },
+   "silBBox": {
+    "x0": 798,
+    "x1": 1217,
+    "y0": 764,
+    "y1": 1243,
+    "w": 420,
+    "h": 480
+   },
+   "sceneDiffBBox": {
+    "x0": 813,
+    "x1": 1145,
+    "y0": 764,
+    "y1": 1027,
+    "w": 333,
+    "h": 264
+   },
+   "bodyMaskPixels": 122297,
+   "silMaskPixels": 122297,
+   "sceneMaskPixels": 54630,
+   "shadowMaskPixels": 0
+  },
+  {
+   "key": "naishi",
+   "file": "v3-show2-03-naishi-20261109.png",
+   "prevBodyHeightPct": 26.2,
+   "bodyHeightPct": 36.64,
+   "silHeightPct": 36.64,
+   "sceneDiffHeightPct": 19.92,
+   "sceneBodyHeightPct": 19.92,
+   "shadowHeightPct": 0.0,
+   "bodyBBox": {
+    "x0": 813,
+    "x1": 1183,
+    "y0": 750,
+    "y1": 1207,
+    "w": 371,
+    "h": 458
+   },
+   "silBBox": {
+    "x0": 813,
+    "x1": 1183,
+    "y0": 750,
+    "y1": 1207,
+    "w": 371,
+    "h": 458
+   },
+   "sceneDiffBBox": {
+    "x0": 849,
+    "x1": 1134,
+    "y0": 750,
+    "y1": 998,
+    "w": 286,
+    "h": 249
+   },
+   "bodyMaskPixels": 114943,
+   "silMaskPixels": 114943,
+   "sceneMaskPixels": 45325,
+   "shadowMaskPixels": 0
+  },
+  {
+   "key": "naiyu",
+   "file": "v3-show2-04-naiyu-20261109.png",
+   "prevBodyHeightPct": 17.5,
+   "bodyHeightPct": 29.44,
+   "silHeightPct": 29.44,
+   "sceneDiffHeightPct": 21.92,
+   "sceneBodyHeightPct": 21.92,
+   "shadowHeightPct": 0.0,
+   "bodyBBox": {
+    "x0": 902,
+    "x1": 1156,
+    "y0": 765,
+    "y1": 1132,
+    "w": 255,
+    "h": 368
+   },
+   "silBBox": {
+    "x0": 902,
+    "x1": 1156,
+    "y0": 765,
+    "y1": 1132,
+    "w": 255,
+    "h": 368
+   },
+   "sceneDiffBBox": {
+    "x0": 918,
+    "x1": 1158,
+    "y0": 765,
+    "y1": 1038,
+    "w": 241,
+    "h": 274
+   },
+   "bodyMaskPixels": 49846,
+   "silMaskPixels": 49846,
+   "sceneMaskPixels": 42789,
+   "shadowMaskPixels": 0
+  },
+  {
+   "key": "xigema",
+   "file": "v3-show2-05-xigema-20261109.png",
+   "prevBodyHeightPct": 25.8,
+   "bodyHeightPct": 33.76,
+   "silHeightPct": 33.76,
+   "sceneDiffHeightPct": 18.96,
+   "sceneBodyHeightPct": 18.96,
+   "shadowHeightPct": 0.0,
+   "bodyBBox": {
+    "x0": 914,
+    "x1": 1093,
+    "y0": 759,
+    "y1": 1180,
+    "w": 180,
+    "h": 422
+   },
+   "silBBox": {
+    "x0": 914,
+    "x1": 1093,
+    "y0": 759,
+    "y1": 1180,
+    "w": 180,
+    "h": 422
+   },
+   "sceneDiffBBox": {
+    "x0": 926,
+    "x1": 1097,
+    "y0": 759,
+    "y1": 995,
+    "w": 172,
+    "h": 237
+   },
+   "bodyMaskPixels": 28091,
+   "silMaskPixels": 28091,
+   "sceneMaskPixels": 25081,
+   "shadowMaskPixels": 0
+  }
+ ],
+ "acceptance": {
+  "bodyHeightGe30Count": 5,
+  "bodyHeightGe30Keys": [
+   "naiwa",
+   "naifen",
+   "naimao",
+   "naishi",
+   "xigema"
+  ],
+  "bodyHeightTarget5of6": true,
+  "iouAllBelow090": true
+ }
+}

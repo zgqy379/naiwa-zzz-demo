@@ -14,6 +14,8 @@ import { makeStorefrontRow, makeBuilding, NEON_PALETTE, WALL_PALETTE, mulberry32
 import { makeStreet, makePowerLines, makeAtmosphereLights, makeNeonSigns } from "./streetdetail.mjs";
 import { scatterProps } from "./props.mjs";
 import { optimizeScene } from "./instanced.mjs";
+import { addLightShafts, makeWetReflection } from "./atmosphere.mjs";
+import { attachAholoStreet } from "./aholo-street.mjs";
 
 const FOG_COLOR = 0x0b0f14;
 const FOG_NEAR = 18;
@@ -29,6 +31,22 @@ export function buildStage(opts = {}) {
 
   // ---------- 氛围光照 ----------
   group.add(makeAtmosphereLights());
+
+  // ---------- 湿反射地面（极淡，只在中段一条）----------
+  group.add(makeWetReflection({ length: 10, width: 1.6, opacity: 0.05 }));
+
+  // ---------- 体积光柱（极淡，只 4 个）----------
+  for (const side of [-1, 1]) {
+    for (let i = 0; i < 2; i++) {
+      addLightShafts(group, [{
+        color: 0xffc880,
+        height: 3.0,
+        radius: 0.4,
+        opacity: 0.03,
+        position: [-8 + i * 14, 0, side * 3.6],
+      }]);
+    }
+  }
 
   // ---------- 街道地面 ----------
   group.add(makeStreet({ length: 44, width: 8, seed: 7 }));
@@ -114,6 +132,12 @@ export function buildStage(opts = {}) {
       steps: 4,
     }, { width: 0.008, addOutline: false });
   }
+
+  // ---------- Aholo World 真实街区表面：写实底 / 视差背景 ----------
+  // 必须放在 optimizeScene 与 applyNpr 之后：前者会把 mesh 拿去合批，
+  // 后者会把顶点色材质换成 NPR 材质，两层都会毁掉这个背景。
+  // lite（移动端）跳过，省掉 2.9 万面与一次 draw call。
+  if (!lite) attachAholoStreet(group);
 
   return { group, fog, lite };
 }

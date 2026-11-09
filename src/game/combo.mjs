@@ -101,8 +101,10 @@ export class ComboSystem {
 
   /** 玩家按下攻击键 */
   onAttack() {
+    // 修：缓冲窗口改为「当前段时长 × 0.6」（原 0.35s 比段时长还长，可按住无脑连段）
+    const curDur = this.stageIndex >= 0 ? this.stageDur : 0.3;
     this.bufferAttack = true;
-    this.bufferT = 0.35; // 输入缓冲窗口
+    this.bufferT = curDur * 0.6;
 
     // 未在连段 → 起手
     if (this.stageIndex < 0) {
@@ -118,9 +120,9 @@ export class ComboSystem {
     this.stageIndex = index;
     this.stageT = 0;
     const stage = STAGES[index];
-    // 段时长 = 动作时长（与 animation.mjs ACTION_DUR 同步）
-    this.stageDur = stage.action === ACTION.ATTACK_1 ? 0.26
-      : stage.action === ACTION.ATTACK_2 ? 0.30 : 0.36;
+    // 「换壳即换招」：段时长由角色专属连段节奏决定
+    const timing = this.currentMove?.comboTiming ?? [0.26, 0.30, 0.36];
+    this.stageDur = timing[index] ?? 0.3;
     this.hasHit = false;
   }
 

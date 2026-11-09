@@ -9,6 +9,19 @@
  * 全部程序化几何，零外部资产。授权合规。
  */
 import * as THREE from "three";
+import { makeWallTexture, makeNormalMap } from "./textures.mjs";
+
+// 共享纹理（只生成一次，所有店铺复用）
+let _wallTex = null;
+let _wallNormal = null;
+function getWallTex() {
+  if (!_wallTex) _wallTex = makeWallTexture({ size: 256, base: "#2a2f38", seed: 5 });
+  return _wallTex;
+}
+function getWallNormal() {
+  if (!_wallNormal) _wallNormal = makeNormalMap({ size: 128, strength: 1.2, seed: 6 });
+  return _wallNormal;
+}
 
 /** 霓虹配色（深色底 + 高饱和点缀） */
 export const NEON_PALETTE = [
@@ -49,8 +62,15 @@ export function makeStorefront(opts = {}) {
   const wallColor = WALL_PALETTE[Math.floor(rng() * WALL_PALETTE.length)];
   const neonColor = NEON_PALETTE[Math.floor(rng() * NEON_PALETTE.length)];
 
-  // 墙体
-  const wallMat = new THREE.MeshStandardMaterial({ color: wallColor, roughness: 0.9, metalness: 0 });
+  // 墙体（带程序化纹理 + 法线，PBR 质感）
+  const wallMat = new THREE.MeshStandardMaterial({
+    color: wallColor,
+    map: getWallTex(),
+    normalMap: getWallNormal(),
+    normalScale: new THREE.Vector2(0.4, 0.4),
+    roughness: 0.85,
+    metalness: 0.05,
+  });
   const wall = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), wallMat);
   wall.position.y = height / 2;
   wall.receiveShadow = true;
@@ -89,7 +109,7 @@ export function makeStorefront(opts = {}) {
     roughness: 0.5,
     metalness: 0,
     emissive: signColor,
-    emissiveIntensity: 0.9,
+    emissiveIntensity: 0.6,
   });
   const sign = new THREE.Mesh(new THREE.BoxGeometry(signW, signH, 0.12), signMat);
   sign.position.set(0, doorH + signH * 0.7, depth / 2 + 0.08);
@@ -121,7 +141,7 @@ export function makeStorefront(opts = {}) {
     const vSignH = 1.2 + rng() * 1.0;
     const vColor = NEON_PALETTE[Math.floor(rng() * NEON_PALETTE.length)];
     const vMat = new THREE.MeshStandardMaterial({
-      color: vColor, roughness: 0.5, emissive: vColor, emissiveIntensity: 0.85,
+      color: vColor, roughness: 0.5, emissive: vColor, emissiveIntensity: 0.55,
     });
     const vSign = new THREE.Mesh(new THREE.BoxGeometry(vSignW, vSignH, 0.1), vMat);
     vSign.position.set(width / 2 + 0.15, doorH + vSignH * 0.5, depth / 2 + 0.1);

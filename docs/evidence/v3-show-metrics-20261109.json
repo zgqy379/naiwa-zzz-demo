@@ -1,0 +1,624 @@
+{
+  "shots": [
+    {
+      "file": "v3-show-00-naiwa-20261109.png",
+      "expect": "奶蛙",
+      "expectIndex": 0,
+      "hudBefore": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "visibleGroups": [
+          "奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "hudAfter": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "visibleGroups": [
+          "奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "pngBytes": 836836,
+      "isoBytes": 165072,
+      "via": "__npr.startBattle(0) 诊断性调用",
+      "isoHide": {
+        "hidden": 11,
+        "dom": 6
+      },
+      "isoRestore": 11
+    },
+    {
+      "file": "v3-show-01-naifen-20261109.png",
+      "expect": "奶粉",
+      "expectIndex": 6,
+      "hudBefore": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "visibleGroups": [
+          "奶粉"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "hudAfter": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "visibleGroups": [
+          "奶粉"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "pngBytes": 869244,
+      "isoBytes": 205844,
+      "via": "__npr.startBattle(6) 诊断性调用",
+      "isoHide": {
+        "hidden": 11,
+        "dom": 6
+      },
+      "isoRestore": 11
+    },
+    {
+      "file": "v3-show-02-naimao-20261109.png",
+      "expect": "奶猫",
+      "expectIndex": 8,
+      "hudBefore": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "visibleGroups": [
+          "奶猫"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "hudAfter": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "visibleGroups": [
+          "奶猫"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "pngBytes": 836996,
+      "isoBytes": 185944,
+      "via": "__npr.startBattle(8) 诊断性调用",
+      "isoHide": {
+        "hidden": 11,
+        "dom": 6
+      },
+      "isoRestore": 11
+    },
+    {
+      "file": "v3-show-03-naishi-20261109.png",
+      "expect": "奶屎",
+      "expectIndex": 9,
+      "hudBefore": {
+        "hudName": "奶屎",
+        "hudIdx": "10/16",
+        "activeIndex": 9,
+        "activeName": "奶屎",
+        "activeId": "shell_naishi",
+        "visibleGroups": [
+          "奶屎"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "hudAfter": {
+        "hudName": "奶屎",
+        "hudIdx": "10/16",
+        "activeIndex": 9,
+        "activeName": "奶屎",
+        "activeId": "shell_naishi",
+        "visibleGroups": [
+          "奶屎"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "pngBytes": 816016,
+      "isoBytes": 189712,
+      "via": "__npr.startBattle(9) 诊断性调用",
+      "isoHide": {
+        "hidden": 11,
+        "dom": 6
+      },
+      "isoRestore": 11
+    },
+    {
+      "file": "v3-show-04-naiyu-20261109.png",
+      "expect": "奶鱼",
+      "expectIndex": 12,
+      "hudBefore": {
+        "hudName": "奶鱼",
+        "hudIdx": "13/16",
+        "activeIndex": 12,
+        "activeName": "奶鱼",
+        "activeId": "shell_naiyu",
+        "visibleGroups": [
+          "奶鱼"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "hudAfter": {
+        "hudName": "奶鱼",
+        "hudIdx": "13/16",
+        "activeIndex": 12,
+        "activeName": "奶鱼",
+        "activeId": "shell_naiyu",
+        "visibleGroups": [
+          "奶鱼"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "pngBytes": 813476,
+      "isoBytes": 119176,
+      "via": "__npr.startBattle(12) 诊断性调用",
+      "isoHide": {
+        "hidden": 11,
+        "dom": 6
+      },
+      "isoRestore": 11
+    },
+    {
+      "file": "v3-show-05-xigema-20261109.png",
+      "expect": "西格玛奶蛙",
+      "expectIndex": 15,
+      "hudBefore": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "visibleGroups": [
+          "西格玛奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "hudAfter": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "visibleGroups": [
+          "西格玛奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25,
+        "playerPos": [
+          2.4,
+          0,
+          0
+        ],
+        "groupPos": [
+          2.4,
+          0,
+          0
+        ],
+        "cameraPos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "cameraFov": 42,
+        "exposure": 0.85,
+        "bloom": {
+          "strength": 0.16,
+          "enabled": true
+        },
+        "shadowType": 1
+      },
+      "pngBytes": 802460,
+      "isoBytes": 137648,
+      "via": "__npr.startBattle(15) 诊断性调用",
+      "isoHide": {
+        "hidden": 11,
+        "dom": 6
+      },
+      "isoRestore": 11
+    }
+  ],
+  "errors": [
+    {
+      "kind": "log",
+      "source": "network",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5282/favicon.ico"
+    }
+  ],
+  "meta": {
+    "screenComputed": {
+      "opacity": "0",
+      "pointerEvents": "none",
+      "className": "screen hidden",
+      "display": "flex"
+    },
+    "cssScreenHidden": true,
+    "base": {
+      "exposure": 0.85,
+      "shadowMapType": 1,
+      "camera": {
+        "pos": [
+          6.9,
+          1.6,
+          2.2
+        ],
+        "fov": 42,
+        "aspect": 1.6
+      },
+      "bloom": {
+        "strength": 0.16,
+        "enabled": true,
+        "threshold": 0.82,
+        "radius": 0.4
+      },
+      "playerPos": [
+        2.4,
+        0,
+        0
+      ]
+    },
+    "renderer": {
+      "calls": 856,
+      "triangles": 321300,
+      "lines": 0,
+      "points": 0,
+      "geometries": 396,
+      "textures": 398,
+      "programs": 18,
+      "frameAccumulated": true
+    },
+    "readyMs": 4790,
+    "cdpPort": 9777,
+    "viewport": {
+      "width": 1600,
+      "height": 1000,
+      "dpr": 1.25
+    },
+    "build": {
+      "dist": ".tmp-dist-show",
+      "vite": "8.3.6",
+      "minify": false,
+      "note": "vite 8.3.6 默认 minify 会把 audio.mjs 的 this.currentBgm 压坏导致白屏，必须 --minify false",
+      "cssIncludesScreen": true
+    }
+  },
+  "ok": true,
+  "consoleErrors": [
+    {
+      "kind": "log",
+      "source": "network",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5282/favicon.ico"
+    }
+  ]
+}

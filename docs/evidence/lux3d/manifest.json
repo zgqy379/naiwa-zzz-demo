@@ -1,0 +1,1085 @@
+{
+  "version": 5,
+  "updated_at": "2026-11-09",
+  "assets": [
+    {
+      "asset_id_lux3d": 56423,
+      "asset_name": "黄色卡通人",
+      "created_at": "2026-11-07 03:23 (UTC+8, 官网资产详情)",
+      "pipeline": "抖音搜索封面 -> mask_subject.py 主体抠图 -> Aholo Lux3D 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\douyin\\clean\\DY-17_clean.png",
+        "sha256": "375041ad2ef2cdb719ef95e12e176bec14c8271f14f7b351069bc9ea4084b2b5",
+        "bytes": 357071
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_laugh_g1_100k.glb",
+        "sha256": "eef1c16c845fe31c1538ecbbd6edbd5247e4ae3ccb2d9048cdcbdec1c01e8db8",
+        "bytes": 8386948,
+        "magic": "glTF"
+      },
+      "generator": "tools/imgprep/mask_subject.py",
+      "screenshots": [
+        "docs/evidence/lux3d_first_render.png",
+        "docs/evidence/lux3d_first_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第1组.md",
+      "iteration_group": 1,
+      "note": "采集原图权属未核，仅内部用；只有 Lux3D 产物可随源码包分发",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_laugh_g1_runtime.glb",
+        "sha256": "3199536b251d7278fd4faceedff71bb3de7d2bd19d29bca1457636fc9a392162",
+        "bytes": 176612,
+        "tris": 7598,
+        "pipeline": "tools/optimize/build_runtime.mjs (M3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_laugh_g1_runtime.glb",
+        "sha256": "a9d8a7468a9688d2f1832816068ca5d70985de5af9a51d0164757ca9966861d2",
+        "bytes": 286028,
+        "tris": 18990,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7598,
+        "to_tris": 18990,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "皇冠奶蛙王（惊讶）",
+      "created_at": "2026-11-07 (UTC+8, Lux3D 工作台生成，限免 4->3 次)",
+      "pipeline": "抖音 2160x3056 高清轮播图 HD-01 -> mask_subject.py 抠图 -> Lux3D 一键补全四视图 -> 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\hd\\clean\\HD-01_clean.png",
+        "sha256": "d7b77a7bb4a9aef99ea23f2ed18b26753c1d55640cef3da11c73d26bd3263f59",
+        "source_ref": "assets/ref/douyin_hd/HD-01.webp (2160x3056, 权属未核)"
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_crown_g2_100k.glb",
+        "sha256": "7970396d2f69fc06635932bc44fd9732ae622d57b60d55594ba614b75e2f2114",
+        "bytes": 5119068,
+        "magic": "glTF",
+        "tris": 48230,
+        "verts": 29579
+      },
+      "retrieval": "网页导出被 ego lite 拦截；按 D0 办法从预览 iframe model-viewer 官方 CDN (qhsmodel.kujiale.com/lux3dPbrEmbedResult/.../textured.glb) 分块 base64 取回",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/lux3d_g2_fourviews.png",
+        "docs/evidence/lux3d_g2_params.png",
+        "docs/evidence/lux3d_g2_result_panel.png",
+        "docs/evidence/lux3d_g2_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第2组.md",
+      "iteration_group": 2,
+      "note": "换壳即换招：本壳对应招式「滚撞」；采集原图权属未核，仅内部用",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_crown_g2_runtime.glb",
+        "sha256": "08189fa6a591b748d38dc9bd19478c1b30eb9f5839ead3331e160cd7a9e2e896",
+        "bytes": 158684,
+        "tris": 7598,
+        "pipeline": "tools/optimize/build_runtime.mjs (M3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": null,
+      "not_shipped_reason": "未进入最终 16 人队；仅保留 Lux3D 原始 100K 导出作为过程留档，无 runtime 分发文件"
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "抹茶敬礼蛙",
+      "created_at": "2026-11-07 (UTC+8, Lux3D 工作台生成，限免 3->1 次)",
+      "pipeline": "DY-07 敬礼奶蛙 clean -> make_variant.py 换壳变体（色相+105° 抹茶 + 灰底清除）-> Lux3D 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\variants\\DY-07_mint.png",
+        "sha256": "66f5b25e5be503c48b30b092abb68fdb13623dd5171115825d1420dfeda12925",
+        "source_ref": "assets/work/douyin/clean/DY-07_clean.png (权属未核)"
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_mint_g3_100k.glb",
+        "sha256": "c1c7b44c4f5359d2b17a91c9d3d192f9f8e0a32b5001826d4a7717c1e8448b7e",
+        "bytes": 8239008,
+        "magic": "glTF",
+        "tris": 91322,
+        "verts": 55332
+      },
+      "retrieval": "同第 2 组：预览 iframe model-viewer 官方 CDN 分块 base64 取回",
+      "generator": "tools/imgprep/make_variant.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/lux3d_g3_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第3组.md",
+      "iteration_group": 3,
+      "note": "换壳即换招：本壳对应招式「分身包围」；采集原图权属未核，仅内部用",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_mint_g3_runtime.glb",
+        "sha256": "e341c24fe6c801321f22038e7cf040bd6856644a8594391ced41466a599eca4e",
+        "bytes": 154428,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (M3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": null,
+      "not_shipped_reason": "未进入最终 16 人队；仅保留 Lux3D 原始 100K 导出作为过程留档，无 runtime 分发文件"
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶蛋",
+      "created_at": "2026-11-07 17:12 (UTC+8, Lux3D 任务记录面板; 20 积分)",
+      "pipeline": "XHS 回源 webp (HTTP 200) -> mask_subject.py A 级 -> Lux3D 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\family\\clean\\egg2_source_clean.png",
+        "sha256": "a60c3a4538835b3db033fc230dda95705bdb7723da7a4a81a512dae037881fe8",
+        "source_ref": "docs/round2/_verify/role-egg2.png (截图留档); 回源 webp sha256 73564a9e44161895 (权属未核)"
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_naidan_100k.glb",
+        "sha256": "8e20be7e504dad1af7f6f00669233dfe1d47f3193c677dc03a18040f93afd2be",
+        "bytes": 4923312,
+        "magic": "glTF",
+        "tris": 89372,
+        "verts": 47240
+      },
+      "retrieval": "预览 iframe model-viewer CDN lux3dPbrEmbedResult/23e81235946744dd93c601a6a555d7bf/textured.glb, 0x40000 分块 btoa 取回 (19 块)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/naidan_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第4组.md",
+      "iteration_group": 4,
+      "note": "族谱批量 1/4 (asset_plan id=2, route=image); 底部带原图接触阴影薄底座 (同 g1 管线行为)",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_naidan_runtime.glb",
+        "sha256": "17ff44b09b7307eb15947cb6624c52a128f09b587ccfa42124f1f453ae464b63",
+        "bytes": 127332,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch1, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naidan_runtime.glb",
+        "sha256": "bd9894c4736ea2d6439d1b6498521389f991e8646e311b9611972109294be9bd",
+        "bytes": 154232,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶茶（奶茶壶）",
+      "created_at": "2026-11-07 17:17 (UTC+8, Lux3D 任务记录面板; 20 积分)",
+      "pipeline": "XHS 回源 webp (HTTP 200) -> mask_subject.py A 级 -> Lux3D 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\family\\clean\\tea_source_clean.png",
+        "sha256": "d13487e6faaa5256939253170c3003f31b5ba97de7cd51f0f2c654fa7a6e0006",
+        "source_ref": "docs/round2/_verify/role-tea.png (截图留档); 回源 webp sha256 5c92c9d259e42a39 (权属未核)"
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_naicha_100k.glb",
+        "sha256": "f4ed5cc476d0a9c06d01640d1213848ad42f9562fc23f498f51e91f1c0de0d6d",
+        "bytes": 6146364,
+        "magic": "glTF",
+        "tris": 89534,
+        "verts": 49290
+      },
+      "retrieval": "预览 iframe model-viewer CDN lux3dPbrEmbedResult/9ad4ae98e34c43bf9decd737478d9ca3/textured.glb, 0x40000 分块 btoa 取回 (24 块)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/naicha_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第4组.md",
+      "iteration_group": 4,
+      "note": "族谱批量 2/4 (asset_plan id=14, route=image); 壶嘴/提把细长部件 AI Mesh 下完整无破面",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_naicha_runtime.glb",
+        "sha256": "3e480a03efd03b306d4633fbafe87fb52353b186a90b4f322be58f5e71bea14c",
+        "bytes": 112164,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch1, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naicha_runtime.glb",
+        "sha256": "1188a27fc5c4e3c3bd6f6338e01947659430dcedfaa8462e6df854624e0c094f",
+        "bytes": 186880,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶鼠（十二变体·鼠）",
+      "created_at": "2026-11-07 17:22 (UTC+8, Lux3D 任务记录面板; 20 积分)",
+      "pipeline": "NETA 十二变体网格 PIL 裁格 r2c2 (360,372,720,705) -> mask_subject.py A 级 -> Lux3D 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\family\\clean\\nashu_cell_clean.png",
+        "sha256": "bb267839c6d2b3a460082f2333cb0b09e6697489ea742dfd6e26b9ff152d2e2d",
+        "source_ref": "docs/round3/_verify3/NETA-archive-variants.webp sha256 6618693a07e40f11 (B 级生肖化变体, 权属未核)"
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_nashu_100k.glb",
+        "sha256": "f2799eb763e02b060e5e7aabacab1004f3f1cafb218e8bfc7cca56e4dc68529e",
+        "bytes": 5972032,
+        "magic": "glTF",
+        "tris": 89756,
+        "verts": 50988
+      },
+      "retrieval": "预览 iframe model-viewer CDN lux3dPbrEmbedResult/313cab5fde5142f2b9187d22eab7edb7/textured.glb, 0x40000 分块 btoa 取回 (23 块)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/nashu_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第4组.md",
+      "iteration_group": 4,
+      "note": "族谱批量 3/4 (asset_plan id=4, route=gridcrop); 生肖化变体造型非同名官方档案图 (art_family §3.3 事实 3)",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_nashu_runtime.glb",
+        "sha256": "200a80a3079716fa72d2bc2c669211e3b4d1827afc8d02041c12df79485307b1",
+        "bytes": 116912,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch1, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_nashu_runtime.glb",
+        "sha256": "c6b3cbec90b316d27528006289f38a0de7aceab9640194e5412b1e63611b6fed",
+        "bytes": 199592,
+        "tris": 18998,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 18998,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶狗（十二变体·狗）",
+      "created_at": "2026-11-07 17:27 (UTC+8, Lux3D 任务记录面板; 20 积分)",
+      "pipeline": "NETA 十二变体网格 PIL 裁格 r3c2 (360,705,720,1058) -> mask_subject.py A 级 -> Lux3D 标准版/网格/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:\\naiwaling\\assets\\work\\family\\clean\\naigou_cell_clean.png",
+        "sha256": "7d69f282ac196b58bd431815bcf88461f697818808ce384cdc45c9f68bf6860b",
+        "source_ref": "docs/round3/_verify3/NETA-archive-variants.webp sha256 6618693a07e40f11 (B 级生肖化变体, 权属未核)"
+      },
+      "output_glb": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_naigou_100k.glb",
+        "sha256": "59e0b5bab543ffa7e112010925fa5c7b2edaf1eab9975e5225d7234461c45eba",
+        "bytes": 5759040,
+        "magic": "glTF",
+        "tris": 90670,
+        "verts": 50343
+      },
+      "retrieval": "首取 mesh/attempt-1/mesh.glb 为白模 (images=0), 切贴图视图后重取 lux3dPbrEmbedResult/2b70de806b1641cdb39c4b82b8baf33c/textured.glb 覆盖 (22 块), 复检 images=2 + PBR",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/naigou_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第4组.md",
+      "iteration_group": 4,
+      "note": "族谱批量 4/4 (asset_plan id=6, route=gridcrop); 生肖化变体造型非同名官方档案图; 白模取回事件已修复",
+      "runtime_glb_lux3d_original": {
+        "path": "E:\\naiwaling\\assets\\final\\naiwa_naigou_runtime.glb",
+        "sha256": "5f3207cc1c2f7cd9e1345f16b140d73c5badfa13ad665d04cd1a54a42439d3bc",
+        "bytes": 102124,
+        "tris": 7598,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch1, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naigou_runtime.glb",
+        "sha256": "45ae666389445141f87e315628d73b18479d21e5a0d538144d3a1d7a12687eea",
+        "bytes": 179416,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7598,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶鸡（十二变体·鸡）",
+      "created_at": "2026-11-07 17:47 (UTC+8, Lux3D; 20 积分)",
+      "pipeline": "NETA 十二变体网格 PIL 裁格 r1c3 (720,30,1078,372) -> mask_subject.py A 级 -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/assets/work/family/clean/naiji_cell_clean.png",
+        "sha256": "7a3c26d866201b54ebc02070a0ba52e25b759739ace22bb9322854beb0e86584",
+        "bytes": 196524,
+        "source_ref": "NETA-archive-variants.webp sha256 6618693a07e40f11 (B 级生肖化变体, 权属未核); 裁格 sha 7f551dc9b9b333e6"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naiji_100k.glb",
+        "sha256": "f2202203675e44563c45e7b4ebdb6171d795fa4c486e9edac2d575617de795fd",
+        "bytes": 7211484,
+        "magic": "glTF",
+        "tris": 90104,
+        "verts": 59000
+      },
+      "retrieval": "预览 iframe model-viewer CDN lux3dPbrEmbedResult/ebc44ad2024d4e97ba7a9e9b92a900e9/textured.glb, 0x40000 分块逐段 btoa 取回 (28 段)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/naiji_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第5组.md",
+      "iteration_group": 5,
+      "note": "族谱批量 2-1 (asset_plan id=8, route=gridcrop); 生肖化变体造型非同名官方档案图; 生成结果尾羽扇较参考弱化",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naiji_runtime.glb",
+        "sha256": "1d8913e773bfa7cb64d44380ed5d821b1a0a540712be3c16b29b73b630c1e188",
+        "bytes": 174840,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch2, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naiji_runtime.glb",
+        "sha256": "24d18b0d2f40953ebe3658d3f8f762b0479c42c6debf2ee192edbdd6c932d13a",
+        "bytes": 238136,
+        "tris": 18996,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 18996,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶兔（十二变体·兔）",
+      "created_at": "2026-11-07 17:57 (UTC+8, Lux3D; 20 积分)",
+      "pipeline": "NETA 十二变体网格 PIL 裁格 r3c1 (0,705,360,1058) -> mask_subject.py A 级 -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/assets/work/family/clean/naitu_cell_clean.png",
+        "sha256": "c6551c90f2c3e9e1b6d8df8dc51f6495f21f86939e110df59460b699b4a79851",
+        "bytes": 164420,
+        "source_ref": "NETA-archive-variants.webp sha256 6618693a07e40f11 (B 级生肖化变体, 权属未核); 裁格 sha baf79685a628ea81"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naitu_100k.glb",
+        "sha256": "3d3d71273f621c5a0d2660c151d2b63547ca999ab6f60a9c51d719c0d295345b",
+        "bytes": 5810648,
+        "magic": "glTF",
+        "tris": 91264,
+        "verts": 51688
+      },
+      "retrieval": "预览 iframe model-viewer CDN lux3dPbrEmbedResult/49d1c7a2da9944fea17bff0c22614bd5/textured.glb, 分块逐段 btoa 取回 (23 段)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/naitu_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第5组.md",
+      "iteration_group": 5,
+      "note": "族谱批量 2-2 (asset_plan id=12, route=gridcrop); 生肖化变体造型非同名官方档案图",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naitu_runtime.glb",
+        "sha256": "7dc4553bc14fca56a08f7b9b828bb3ceec8ef6a0f8351659bbc77f3ea16efea4",
+        "bytes": 143180,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch2, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naitu_runtime.glb",
+        "sha256": "66197b86362829151b2289b7175e6a93f27dd81482aaf8517db30dd24cba55eb",
+        "bytes": 185512,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "小奶蛙（原创重绘·奶嘴挂件）",
+      "created_at": "2026-11-07 18:17 (UTC+8, Lux3D; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "wiki-juvenile 幼态单格参考 -> aholo-lux3d 官方 AI 生图 3 张选 1 (幼态大头+奶嘴挂件立辨识度) -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/assets/work/family/src/xiaonaiwa_gen1.png",
+        "sha256": "52ea7a6a8a675d70ad92eb4eaf0fb12c72c3f9038cacabab85f158972b1f9491",
+        "bytes": 481713,
+        "source_ref": "wiki-juvenile.png sha256 5278960a477860e7 (B 级幼态三视图, 权属未核); 定稿图为官方 AI 生图产物"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_xiaonaiwa_100k.glb",
+        "sha256": "e32d7a3893bd1a798f915befada1ea963ca57f338e23000e538a7fd63c699eec",
+        "bytes": 9625360,
+        "magic": "glTF",
+        "tris": 88844,
+        "verts": 59893
+      },
+      "retrieval": "首取 mesh/attempt-1/mesh.glb 白模 (同奶狗事件), 切贴图视图后重取 lux3dPbrEmbedResult/f3539cb1899143b1a64e511fff808761/textured.glb (28 段)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/xiaonaiwa_ref_prompt.png",
+        "docs/evidence/redraw/xiaonaiwa_gen1.png",
+        "docs/evidence/redraw/xiaonaiwa_gen2.png",
+        "docs/evidence/redraw/xiaonaiwa_gen3.png",
+        "docs/evidence/redraw/xiaonaiwa_selected.png",
+        "docs/evidence/xiaonaiwa_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第5组.md",
+      "iteration_group": 5,
+      "note": "族谱批量 2-3 (asset_plan id=3, route=redraw); 用户已授权原创重绘; 参考图权属未核仅内部证据, 定稿图与 GLB 为官方链路自生成",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_xiaonaiwa_runtime.glb",
+        "sha256": "53e1c1e0ddfc8d1f4efbc6c3978a743aa60700f014c37811d8a44c2652d71beb",
+        "bytes": 361120,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch2, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_xiaonaiwa_runtime.glb",
+        "sha256": "b071eb20b01337b56d5a76cb22c455c5b7609c764db6086ae6cd5b09fc94b88f",
+        "bytes": 329200,
+        "tris": 18992,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 18992,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶豆（原创重绘·豆形）",
+      "created_at": "2026-11-07 18:31 (UTC+8, Lux3D; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-1 奶豆条目单格参考 -> aholo-lux3d 官方 AI 生图 3 张选 3 -> mask_subject.py A 级 -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/assets/work/family/clean/naidou_gen3_clean.png",
+        "sha256": "76753a39e1e70ee8c25372da765f0cf88cc30e9ed499e3dde77e4832d93bc2ee",
+        "bytes": 761952,
+        "source_ref": "XHS-sigma-1.webp sha256 ed2881819e821e16 (C 级族谱, 权属未核); 生图原图 naidou_gen3.png sha 77d8972e6221a55e"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naidou_100k.glb",
+        "sha256": "32f2d12f228f30512473685498a60a0123fdc5f2b1fb958b6536f25aa234128b",
+        "bytes": 8042048,
+        "magic": "glTF",
+        "tris": 89886,
+        "verts": 51588
+      },
+      "retrieval": "预览 iframe model-viewer CDN lux3dPbrEmbedResult/724bf542bc574e6e980b270effe38681/textured.glb, 分块逐段 btoa 取回 (31 段)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/naidou_ref_prompt.png",
+        "docs/evidence/redraw/naidou_gen3.png",
+        "docs/evidence/naidou_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第5组.md",
+      "iteration_group": 5,
+      "note": "族谱批量 2-4 (asset_plan id=5, route=redraw); 用户已授权原创重绘; 生图 gen1/gen2 循环覆盖未逐张存档 (如实)",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naidou_runtime.glb",
+        "sha256": "7678b19fb5aa50247d0f5e9b877293a5afb14e37f291886f96c8b10cd8d1e105",
+        "bytes": 251540,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch2, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naidou_runtime.glb",
+        "sha256": "52986e143c9f5295955ca96fe58617a15394383a3eddab86435c696fced58e3c",
+        "bytes": 238244,
+        "tris": 18998,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 18998,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶粉（原创重绘·奶粉罐）",
+      "created_at": "2026-11-07 18:58 (UTC+8, Lux3D; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-1 奶粉条目单格参考 -> aholo-lux3d 官方 AI 生图 3 张选 1 -> mask A 但金属罐盖被抠折返喂 raw -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/docs/evidence/redraw/naifen_gen1.png",
+        "sha256": "8574107059d97216bd6852d985bf7fde9584ecc98b167ae2813a8ca842b5b614",
+        "bytes": 424058,
+        "source_ref": "XHS-sigma-1.webp sha256 ed2881819e821e16 (C 级族谱条目, 权属未核); 参考裁格 naifen_ref.png (114,306,196,400)"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naifen_100k.glb",
+        "sha256": "cffc18ac96ab35649572769c9ce850523b2f75544dcb463c17a4effc13f6acbb",
+        "bytes": 8342512,
+        "magic": "glTF",
+        "tris": 87492,
+        "verts": 59457
+      },
+      "retrieval": "白模首取第三次复现 (white.glb), 切贴图视图后重取 lux3dPbrEmbedResult/c4612e155b3b48d2a3975698179a0aa2/textured.glb; page fetch CORS 拦截改 Node 侧 fetch (8,342,512B)",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/naifen_ref_prompt.png",
+        "docs/evidence/redraw/naifen_gen1.png",
+        "docs/evidence/redraw/naifen_gen2.png",
+        "docs/evidence/redraw/naifen_gen3.png",
+        "docs/evidence/naifen_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第6组.md",
+      "iteration_group": 6,
+      "note": "族谱批量 3-1 (asset_plan id=7, route=redraw); 用户已授权原创重绘; 辨识度=奶粉罐+罐盖+侧挂勺+绿眼圈; 参考图权属未核仅内部证据, 定稿图与 GLB 为官方链路自生成",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naifen_runtime.glb",
+        "sha256": "ae4fa808279f71bed46ab94bae911f774450cb5db9bc7adf48d31546842a2ad1",
+        "bytes": 195896,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naifen_runtime.glb",
+        "sha256": "46f004de5f7f6c4b213688a29047721483ab91eeac4f1c63186ec1b5722b95d9",
+        "bytes": 303776,
+        "tris": 18998,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 18998,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶猫（原创重绘·猫耳胡须）",
+      "created_at": "2026-11-07 19:09 (UTC+8, Lux3D; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-1 奶猫条目单格参考 -> aholo-lux3d 官方 AI 生图 3 张选 1 -> mask A 复核过用 clean -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/assets/work/family/clean/naimao_gen1_clean.png",
+        "sha256": "0af8658882b2c8f48c5925389f66e8e5cc515621a429923a1cf6e1b379c08148",
+        "bytes": 507304,
+        "source_ref": "官方生图原图 naimao_gen1.png sha256 ea27637ba94b627c (docs/evidence/redraw/) 派生; XHS-sigma-1.webp 奶猫条目裁格 naimao_ref.png (382,310,465,400)"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naimao_100k.glb",
+        "sha256": "2fb17e565a15a607d9c47a63764aeabb9c90971d16d605927c284594d2bfc556",
+        "bytes": 6953480,
+        "magic": "glTF",
+        "tris": 92178,
+        "verts": 57714
+      },
+      "retrieval": "白模首取第四次复现 (mesh/attempt-1/mesh.glb), 切贴图视图后重取 lux3dPbrEmbedResult/fde705d88bc1410592856addc23a020f/textured.glb; Node 侧 fetch 6,953,480B",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/naimao_ref_prompt.png",
+        "docs/evidence/redraw/naimao_gen1.png",
+        "docs/evidence/redraw/naimao_gen2.png",
+        "docs/evidence/redraw/naimao_gen3.png",
+        "docs/evidence/naimao_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第6组.md",
+      "iteration_group": 6,
+      "note": "族谱批量 3-2 (asset_plan id=9, route=redraw); 用户已授权原创重绘; 辨识度=三角猫耳+白色胡须+奶黄圆身+绿眼圈; mask clean 本轮人眼复核通过采用",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naimao_runtime.glb",
+        "sha256": "093ed11c35926e1702491bb4ddf5c6685bc2222d590bfcd09e54a7ccc1f848fa",
+        "bytes": 201152,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naimao_runtime.glb",
+        "sha256": "2305e48d3921404f43d138b518bedde3f2da055fbd4102bc504bc1c078d96fb1",
+        "bytes": 236608,
+        "tris": 18998,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 18998,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶鱼（原创重绘·鱼形尾鳍）",
+      "created_at": "2026-11-07 19:19 (UTC+8, Lux3D; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-1 奶鱼条目单格参考 -> aholo-lux3d 官方 AI 生图 3 张选 1 -> mask A 但左眼绿圈被抠折返喂 raw -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/docs/evidence/redraw/naiyu_gen1.png",
+        "sha256": "0143ae1b63bce9713344fb09735fc1d0c12a3aa1b5f2ad158777fcb6363add77",
+        "bytes": 239740,
+        "source_ref": "XHS-sigma-1.webp 奶鱼条目裁格 naiyu_ref.png (466,388,548,478) (C 级族谱, 权属未核)"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naiyu_100k.glb",
+        "sha256": "39fe4b6fc000ae4f396d3e2eefac6bedba0bae81812ce6dccd5aa6b47063d916",
+        "bytes": 6422552,
+        "magic": "glTF",
+        "tris": 90040,
+        "verts": 49991
+      },
+      "retrieval": "首取即贴图 (贴图视图保持自奶猫轮) lux3dPbrEmbedResult/6e90affa60564d028c1baee6e80eebf6/textured.glb; Node 侧 fetch 6,422,552B",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/naiyu_ref_prompt.png",
+        "docs/evidence/redraw/naiyu_gen1.png",
+        "docs/evidence/redraw/naiyu_gen2.png",
+        "docs/evidence/redraw/naiyu_gen3.png",
+        "docs/evidence/naiyu_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第6组.md",
+      "iteration_group": 6,
+      "note": "族谱批量 3-3 (asset_plan id=13, route=redraw); 用户已授权原创重绘; 辨识度=宽大鱼尾鳍+小胸鳍+圆滚鱼形剪影+绿眼圈; runtime 7598tri 契约内",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naiyu_runtime.glb",
+        "sha256": "2cce656b75ca2f06ae2c6fb14921afcf27dba0b93147f49593e65d24dfc2fd39",
+        "bytes": 184704,
+        "tris": 7598,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naiyu_runtime.glb",
+        "sha256": "3302e9f14a66e82b98a88accb94fd76923839cd8739f25330392dd1130193e0e",
+        "bytes": 188480,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7598,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶瓶（原创重绘·奶嘴瓶身）",
+      "created_at": "2026-11-07 19:35 (UTC+8, Lux3D; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-1 奶瓶条目单格参考 -> aholo-lux3d 官方 AI 生图 3 张选 1 -> mask A 但透明奶嘴被抠折返喂 raw -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/docs/evidence/redraw/naiping_gen1.png",
+        "sha256": "d9f0296692e8ebcf46488b18f3709ff79ac1c78edfd41e769d3bfd5f4aba0a92",
+        "bytes": 242741,
+        "source_ref": "XHS-sigma-1.webp 奶瓶条目裁格 naiping_ref.png (360,476,440,539) (C 级族谱, 权属未核)"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naiping_100k.glb",
+        "sha256": "a3db1d4e6c23d47fb2d955b7dbe0d8da6005829f393205241e48357b1193a282",
+        "bytes": 7016204,
+        "magic": "glTF",
+        "tris": 89926,
+        "verts": 54246
+      },
+      "retrieval": "白模首取第五次复现 (mesh/attempt-1/mesh.glb), 切贴图视图后重取 lux3dPbrEmbedResult/3439099a03cd439c8b0f586527f470b8/textured.glb; Node 侧 fetch 7,016,204B",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/naiping_ref_prompt.png",
+        "docs/evidence/redraw/naiping_gen1.png",
+        "docs/evidence/redraw/naiping_gen2.png",
+        "docs/evidence/redraw/naiping_gen3.png",
+        "docs/evidence/naiping_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第6组.md",
+      "iteration_group": 6,
+      "note": "族谱批量 3-4 (asset_plan id=15, route=redraw); 用户已授权原创重绘; 辨识度=橡皮奶嘴+瓶口环+圆滚瓶身+绿眼圈; 3D 奶嘴呈不透明白色 (原参考半透明), 剪影正确",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naiping_runtime.glb",
+        "sha256": "3e63fc72e3b916de8a8c145681172c314187029d98d2d86eae9a83a1ef8a220f",
+        "bytes": 164256,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch3, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naiping_runtime.glb",
+        "sha256": "99748441b5b89ee60b8e68e92cde49d06d97fdeeb813a000977475a47526fb49",
+        "bytes": 258032,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "奶屎（原创重绘·螺旋堆叠）",
+      "created_at": "2026-11-07 19:59 (UTC+8, Lux3D 任务记录面板; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-2 手办四连实拍最左螺旋堆叠裁格参考 -> aholo-lux3d 官方 AI 生图 3 张选 2 -> mask A 复核过用 clean -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/assets/work/family/clean/naishi_gen2_clean.png",
+        "sha256": "dfc9898accfca093299dc6eeb1d603e3ff12598af466b66692bd6afa6a8dcdc0",
+        "source_ref": "官方生图原图 naishi_gen2.png sha256 257ad37811209d59 (docs/evidence/redraw/, qhmtl-cos 1024x1024); XHS-sigma-2.webp 手办四连裁格 naishi_ref.png (0,35,175,265) sha256 835b7480b6a10576 (C 级实拍, 权属未核)"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_naishi_100k.glb",
+        "sha256": "6aab374de3f45acc95abc26614878403578d1f975445f1f0426e74f067540dbc",
+        "bytes": 6323348,
+        "magic": "glTF",
+        "tris": 89538,
+        "verts": 52249
+      },
+      "retrieval": "切「贴图」视图后取 lux3dPbrEmbedResult/b7b5e1b41b464d1eb30286640f549888/textured.glb; Node 侧 fetch 6,323,348B",
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/naishi_ref_prompt.png",
+        "docs/evidence/redraw/naishi_gen1.png",
+        "docs/evidence/redraw/naishi_gen2.png",
+        "docs/evidence/redraw/naishi_gen3.png",
+        "docs/evidence/naishi_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第7组.md",
+      "iteration_group": 7,
+      "note": "族谱批量 4-1 (asset_plan id=10, route=redraw); 用户已授权原创重绘; 辨识度=螺旋堆叠软卷+顶端小脸+绿眼圈 (与梨形差异最大); 生成结果 4 层螺旋较手办参考 3 层多一层, 堆叠剪影辨识度保持; mask clean 人眼复核通过采用",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_naishi_runtime.glb",
+        "sha256": "4affba2cc92b2d8b735d1c4f34a2aadeddb330f477476cd57a684c814ca36800",
+        "bytes": 178420,
+        "tris": 7596,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch4, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_naishi_runtime.glb",
+        "sha256": "8b9190356232e61815a5fbc662207492e001d5001d26e11f3bc2ac6755648c83",
+        "bytes": 207728,
+        "tris": 18998,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7596,
+        "to_tris": 18998,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "西格玛奶蛙（原创重绘·肌肉硬汉黑背心）",
+      "created_at": "2026-11-07 20:12 (UTC+8, Lux3D 任务记录面板; 生图 3x12 + 3D 20 积分)",
+      "pipeline": "XHS-sigma-4 黑背心半身裁格参考 -> aholo-lux3d 官方 AI 生图 3 张选 1 -> mask 判 B 仅剩单臂复核不过折返喂 raw -> Lux3D 标准版/网格模型/100K/PBR -> GLB",
+      "input_image": {
+        "path": "E:/naiwaling/docs/evidence/redraw/xigema_gen1.png",
+        "sha256": "5fecbafcba66b6a62797722b8e100015ebaf724d725adf7111bf8e597d807d72",
+        "bytes": 444782,
+        "source_ref": "XHS-sigma-4.webp 黑背心半身裁格 xigema_ref.png (40,0,620,867) sha256 9e6c87330cda00d3 (C 级, 腰以下裁切 C2 缺, 权属未核); role-sigma.png 起源暗巷图仅语义参考不可喂"
+      },
+      "output_glb": {
+        "path": "E:/naiwaling/assets/final/naiwa_xigema_100k.glb",
+        "sha256": "c403a5ac196671d2b1fdc51ef31dce5e0ed4d549dfa653e4b9fb7fcd695b46a9",
+        "bytes": 9738740,
+        "magic": "glTF",
+        "tris": 89058,
+        "verts": 55739
+      },
+      "retrieval": "首取即贴图 (贴图视图保持) lux3dPbrEmbedResult/f2982b00150d4cf684409b798d0201d7/textured.glb; Node 侧 fetch 9,738,740B",
+      "generator": "tools/optimize/build_runtime.mjs",
+      "screenshots": [
+        "docs/evidence/redraw/xigema_ref_prompt.png",
+        "docs/evidence/redraw/xigema_gen1.png",
+        "docs/evidence/redraw/xigema_gen2.png",
+        "docs/evidence/redraw/xigema_gen3.png",
+        "docs/evidence/xigema_textured.png"
+      ],
+      "evidence_doc": "docs/round3/资产证据链_第7组.md",
+      "iteration_group": 7,
+      "note": "族谱批量 4-2 (asset_plan id=16, route=redraw); 用户已授权原创重绘; 辨识度=肌肉化宽肩倒三角+纯黑背心几何色块(本 ask 拍板: 遵守《视觉规格》§1.5 平坦哑光不铺复杂花纹, 不做复杂服装贴图)+黑色齐刘海+奶黄体色+绿眼圈; 黑背心/黑发不在奶黄 HSV 种子域故 mask 折返喂 raw (同奶粉金属件/奶瓶透明奶嘴先例); 3D 面部较族谱蛙脸偏人形系 #32 参考本为人形硬汉, 如实注记",
+      "runtime_glb_lux3d_original": {
+        "path": "E:/naiwaling/assets/final/naiwa_xigema_runtime.glb",
+        "sha256": "7be3c1271a225d29be8df5b632275305ba98df9d304d80233dff86a42a190118",
+        "bytes": 215864,
+        "tris": 7600,
+        "pipeline": "tools/optimize/build_runtime.mjs (batch4, 2026-11-07)",
+        "stage": "Lux3D 导出后经 build_runtime.mjs v1 降面（7596-7600 面），存档于旧仓库 naiwaling，不随本仓库分发"
+      },
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_xigema_runtime.glb",
+        "sha256": "9ad8eef177c12d8f7c89d6d9aec2df288be9adb3d490d105f6e21854d122834a",
+        "bytes": 315076,
+        "tris": 19000,
+        "stage": "提精度后最终分发版（约 19000 面），随本仓库 public/asset 分发",
+        "verified_at": "2026-11-09"
+      },
+      "precision_upgrade": {
+        "from_tris": 7600,
+        "to_tris": 19000,
+        "date": "2026-11-08",
+        "reason": "提升外壳细节以匹配 NPR 描边与果冻高光渲染",
+        "manifest_sync": "manifest v5 (2026-11-09) 补齐指纹"
+      }
+    },
+    {
+      "id": "naiwa_dounai_runtime",
+      "path": "assets/final/naiwa_dounai_runtime.glb",
+      "sha256": "c19503ee3dba156b6b39cc077faf53ede1c08939a98325e87b832b1d0204174f",
+      "bytes": 184972,
+      "tris": 7596,
+      "source": "Lux3D 标准版/网格模型/100K/PBR，2026-11-09 生成",
+      "evidence_doc": "docs/round3/资产证据链_第8组.md",
+      "family_id": 11,
+      "slug": "dounai",
+      "runtime_glb_lux3d_original": null,
+      "runtime_glb_shipped": null
+    },
+    {
+      "asset_id_lux3d": null,
+      "asset_name": "豆奶（原创重绘·豆浆）",
+      "created_at": "2026-11-09 (UTC+8, Lux3D 图生 3D 补全)",
+      "pipeline": "抖音素材 -> mask_subject.py 抠图 -> Aholo Lux3D -> 100K/PBR -> build_runtime 降面",
+      "input_image": {
+        "path": null,
+        "sha256": null,
+        "note": "原始输入图指纹记录见 docs/evidence/lux3d/资产证据链_第8组.md，本条目为 v5 补录，未重复登记"
+      },
+      "output_glb": {
+        "path": null,
+        "sha256": null,
+        "note": "100K 原版留档于旧仓 assets/final，本表只登记分发版"
+      },
+      "runtime_glb_lux3d_original": null,
+      "runtime_glb_shipped": {
+        "path": "public/asset/naiwa_dounai_runtime.glb",
+        "sha256": "2e5d2c371c369f6746ce7def482fcfce3667527bf7b31feda16d7e42a494a616",
+        "bytes": 279880,
+        "tris": 19000,
+        "stage": "最终分发版",
+        "verified_at": "2026-11-09"
+      },
+      "generator": "tools/imgprep/mask_subject.py + tools/optimize/build_runtime.mjs",
+      "screenshots": [],
+      "evidence_doc": "docs/evidence/lux3d/资产证据链_第8组.md",
+      "iteration_group": 8,
+      "note": "manifest v5 补录（v4 遗漏本条目）；采集原图权属未核，仅内部用"
+    }
+  ],
+  "family16": [
+    {
+      "id": 1,
+      "name": "奶蛙",
+      "slug": "naiwa",
+      "route": "done",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_laugh_g1_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第1组.md"
+    },
+    {
+      "id": 2,
+      "name": "奶蛋",
+      "slug": "naidan",
+      "route": "image",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naidan_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第4组.md"
+    },
+    {
+      "id": 3,
+      "name": "小奶蛙",
+      "slug": "xiaonaiwa",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_xiaonaiwa_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第5组.md"
+    },
+    {
+      "id": 4,
+      "name": "奶鼠",
+      "slug": "nashu",
+      "route": "gridcrop",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_nashu_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第4组.md"
+    },
+    {
+      "id": 5,
+      "name": "奶豆",
+      "slug": "naidou",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naidou_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第5组.md"
+    },
+    {
+      "id": 6,
+      "name": "奶狗",
+      "slug": "naigou",
+      "route": "gridcrop",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naigou_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第4组.md"
+    },
+    {
+      "id": 7,
+      "name": "奶粉",
+      "slug": "naifen",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naifen_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第6组.md"
+    },
+    {
+      "id": 8,
+      "name": "奶鸡",
+      "slug": "naiji",
+      "route": "gridcrop",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naiji_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第5组.md"
+    },
+    {
+      "id": 9,
+      "name": "奶猫",
+      "slug": "naimao",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naimao_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第6组.md"
+    },
+    {
+      "id": 10,
+      "name": "奶屎",
+      "slug": "naishi",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naishi_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第7组.md"
+    },
+    {
+      "id": 11,
+      "name": "豆奶",
+      "slug": "dounai",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_dounai_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第8组.md",
+      "note": "2026-11-09 Lux3D 标准版/网格/100K/PBR 生成（积分 2390→2370，20 分）；母版 naiwa_dounai_100k.glb 91,510 tri / 8,272,152 B；runtime 7,596 tri / 184,972 B；sha256 c19503ee3dba156b6b39cc077faf53ede1c08939a98325e87b832b1d0204174f；QC ok:true"
+    },
+    {
+      "id": 12,
+      "name": "奶兔",
+      "slug": "naitu",
+      "route": "gridcrop",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naitu_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第5组.md"
+    },
+    {
+      "id": 13,
+      "name": "奶鱼",
+      "slug": "naiyu",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naiyu_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第6组.md"
+    },
+    {
+      "id": 14,
+      "name": "奶茶",
+      "slug": "naicha",
+      "route": "image",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naicha_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第4组.md"
+    },
+    {
+      "id": 15,
+      "name": "奶瓶",
+      "slug": "naiping",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_naiping_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第6组.md"
+    },
+    {
+      "id": 16,
+      "name": "西格玛奶蛙",
+      "slug": "xigema",
+      "route": "redraw",
+      "status": "landed",
+      "runtime_glb": "assets/final/naiwa_xigema_runtime.glb",
+      "evidence_doc": "docs/round3/资产证据链_第7组.md"
+    }
+  ],
+  "family16_summary": {
+    "total": 16,
+    "landed": 16,
+    "not_done": 0,
+    "note": "16 只全部落地；豆奶 2026-11-09 经 Lux3D 图生 3D 补全（第8组证据链）"
+  },
+  "changelog": [
+    {
+      "version": 4,
+      "date": "2026-11-07",
+      "note": "登记 Lux3D 16 组资产与 7598 面 runtime"
+    },
+    {
+      "version": 5,
+      "date": "2026-11-09",
+      "note": "runtime 改为双轨登记：lux3d_original（7598-7600 面存档）与 shipped（19000 面分发版，指纹实测重算）；补录豆奶条目；标注 crown_g2/mint_g3 未进入最终队"
+    }
+  ],
+  "verification": {
+    "method": "sha256 实测比对 public/asset/*.glb",
+    "verified_at": "2026-11-09",
+    "shipped_count": 16,
+    "squad_reference_check": "src/game/squad.mjs 引用 16 个 glb 与 public/asset 完全一一对应"
+  }
+}

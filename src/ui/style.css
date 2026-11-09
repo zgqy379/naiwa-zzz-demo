@@ -96,6 +96,20 @@ html, body {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- 当前壳（16 只家族，换壳即换人） ---------- */
+.shell-chip {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: rgba(10,10,16,.72);
+  border-radius: 4px 4px 4px 1px;
+  border: 1px solid rgba(245,197,66,.35);
+  font-size: 12px;
+  color: #b8b8c8;
+}
+.shell-chip b { color: #f5c542; font-weight: 700; letter-spacing: 1px; }
+.shell-chip span { color: #9a9ab0; font-variant-numeric: tabular-nums; }
+
 /* ---------- 键位提示（绝区零式引导） ---------- */
 .hud-keys {
   position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);

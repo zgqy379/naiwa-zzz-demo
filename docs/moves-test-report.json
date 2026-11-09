@@ -1,0 +1,58 @@
+{
+  "results": [
+    {
+      "name": "16 只角色招式定义完整",
+      "pass": true,
+      "detail": "实际 16"
+    },
+    {
+      "name": "动作风格有差异（≥4 种）",
+      "pass": true,
+      "detail": "6 种: slash, thrust, spin, slam, peck, lash"
+    },
+    {
+      "name": "判定范围有差异（极差 > 0.8）",
+      "pass": true,
+      "detail": "极差 1.2 (2.2–3.4)"
+    },
+    {
+      "name": "判定宽度有差异（极差 > 1.5）",
+      "pass": true,
+      "detail": "极差 2.5 (0.5–3)"
+    },
+    {
+      "name": "冲击帧形状有差异（≥5 种）",
+      "pass": true,
+      "detail": "7 种: ring, line, multi, cloud, point, claw, arc"
+    },
+    {
+      "name": "冲击强度有差异（极差 > 0.8）",
+      "pass": true,
+      "detail": "极差 1.2"
+    },
+    {
+      "name": "连携慢镜有差异（极差 > 0.2）",
+      "pass": true,
+      "detail": "极差 0.35"
+    },
+    {
+      "name": "连携推近有差异（极差 > 0.3）",
+      "pass": true,
+      "detail": "极差 0.40"
+    },
+    {
+      "name": "连段节奏有差异（极差 > 0.1）",
+      "pass": true,
+      "detail": "极差 0.18s"
+    },
+    {
+      "name": "与主仓 SHELLS 16 条对齐",
+      "pass": true,
+      "detail": "全部对齐"
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "total": 10
+  }
+}

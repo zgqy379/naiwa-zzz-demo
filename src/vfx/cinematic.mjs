@@ -16,15 +16,18 @@ export class Cinematic {
     this.t = tuning;
 
     // 基础机位（沿 X 轴看街道：相机在 +X 侧，看向 -X）
+    // 侧后方机位：+X 后方 + Z 侧偏，使角色 Z 向形体差异（猫耳/鱼尾/宽肩）投影可见
     const axis = tuning.camera.axis ?? "z";
+    const sideOffset = tuning.camera.sideOffset ?? 0;
     if (axis === "x") {
-      this.basePos = new THREE.Vector3(tuning.camera.distance, tuning.camera.height, 0);
+      this.basePos = new THREE.Vector3(tuning.camera.distance, tuning.camera.height, sideOffset);
       this.baseLook = new THREE.Vector3(0, tuning.camera.lookAtHeight, 0);
     } else {
       this.basePos = new THREE.Vector3(0, tuning.camera.height, tuning.camera.distance);
       this.baseLook = new THREE.Vector3(0, tuning.camera.lookAtHeight, 0);
     }
     this.baseFov = tuning.camera.fovVertical;
+    this.lookAtHeight = tuning.camera.lookAtHeight;
     this.axis = axis;
 
     // 当前状态
@@ -112,17 +115,17 @@ export class Cinematic {
     // 跟随目标（玩家 vs 焦点 混合）
     const followPos = new THREE.Vector3().lerpVectors(playerPos, this.focusTarget, this.focusWeight);
 
-    // 基础机位 + 玩家偏移（始终跟随玩家，运镜在跟随基础上叠加）
-    const dist = this.basePos.distanceTo(this.baseLook);
+    // 基础机位 + 跟随偏移：
+    //   X = 角色后方 distance（sideOffset 提供侧偏，使角色 Z 向体量投影出来）
+    //   Z = 侧偏基线 + 角色 Z（只叠加一次；旧实现重复叠加导致侧移放大）
     const targetPos = new THREE.Vector3(
       this.basePos.x + followPos.x,
       this.basePos.y,
       this.basePos.z + followPos.z
     );
-    // 沿 X 轴模式：玩家 Z 偏移也跟随（否则会脱离画面）
-    if (this.axis === "x") {
-      targetPos.z += followPos.z;
-    }
+
+    // 环绕半径（基础机位到注视点的距离）
+    const dist = this.basePos.distanceTo(this.baseLook);
 
     // 环绕偏移
     if (Math.abs(this.orbitAngle) > 0.001) {
@@ -141,8 +144,11 @@ export class Cinematic {
     this.camera.position.lerp(targetPos, 0.14);
     this.camera.position.add(this.shakeOffset);
 
-    // 注视点
-    const lookTarget = new THREE.Vector3().lerpVectors(this.baseLook, followPos, 0.5 + this.focusWeight * 0.5);
+    // 注视点：侧后方机位直接对准角色（X/Z 跟随），Y 固定 lookAtHeight
+    // 连携/终结时 focusWeight>0，followPos 已插值到对手，注视点自动切到对手（保留原演出语义）
+    const lookTarget = this.axis === "x"
+      ? new THREE.Vector3(followPos.x, this.lookAtHeight, followPos.z)
+      : new THREE.Vector3().lerpVectors(this.baseLook, followPos, 0.5 + this.focusWeight * 0.5);
     this.camera.lookAt(lookTarget);
 
     // FOV：拉近时收窄

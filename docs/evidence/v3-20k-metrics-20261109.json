@@ -1,0 +1,339 @@
+{
+  "shots": [
+    {
+      "file": "v3-20k-00-naiwa-20261109.png",
+      "expect": "奶蛙",
+      "expectIndex": 0,
+      "hudBefore": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "visibleGroups": [
+          "奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "hudAfter": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "visibleGroups": [
+          "奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "pngBytes": 855156,
+      "swap": null
+    },
+    {
+      "file": "v3-20k-01-naishu-20261109.png",
+      "expect": "奶鼠",
+      "expectIndex": 4,
+      "hudBefore": {
+        "hudName": "奶鼠",
+        "hudIdx": "5/16",
+        "activeIndex": 4,
+        "activeName": "奶鼠",
+        "activeId": "shell_nashu",
+        "visibleGroups": [
+          "奶鼠"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "hudAfter": {
+        "hudName": "奶鼠",
+        "hudIdx": "5/16",
+        "activeIndex": 4,
+        "activeName": "奶鼠",
+        "activeId": "shell_nashu",
+        "visibleGroups": [
+          "奶鼠"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "pngBytes": 864528,
+      "swap": {
+        "attempts": 1,
+        "pollMs": 250
+      }
+    },
+    {
+      "file": "v3-20k-02-naifen-20261109.png",
+      "expect": "奶粉",
+      "expectIndex": 6,
+      "hudBefore": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "visibleGroups": [
+          "奶粉"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "hudAfter": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "visibleGroups": [
+          "奶粉"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "pngBytes": 864600,
+      "swap": {
+        "attempts": 2,
+        "pollMs": 250
+      }
+    },
+    {
+      "file": "v3-20k-03-naimao-20261109.png",
+      "expect": "奶猫",
+      "expectIndex": 8,
+      "hudBefore": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "visibleGroups": [
+          "奶猫"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "hudAfter": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "visibleGroups": [
+          "奶猫"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "pngBytes": 855888,
+      "swap": {
+        "attempts": 3,
+        "pollMs": 250
+      }
+    },
+    {
+      "file": "v3-20k-04-naishi-20261109.png",
+      "expect": "奶屎",
+      "expectIndex": 9,
+      "hudBefore": {
+        "hudName": "奶屎",
+        "hudIdx": "10/16",
+        "activeIndex": 9,
+        "activeName": "奶屎",
+        "activeId": "shell_naishi",
+        "visibleGroups": [
+          "奶屎"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "hudAfter": {
+        "hudName": "奶屎",
+        "hudIdx": "10/16",
+        "activeIndex": 9,
+        "activeName": "奶屎",
+        "activeId": "shell_naishi",
+        "visibleGroups": [
+          "奶屎"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "pngBytes": 862740,
+      "swap": {
+        "attempts": 2,
+        "pollMs": 250
+      }
+    },
+    {
+      "file": "v3-20k-05-xigema-20261109.png",
+      "expect": "西格玛奶蛙",
+      "expectIndex": 15,
+      "hudBefore": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "visibleGroups": [
+          "西格玛奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "hudAfter": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "visibleGroups": [
+          "西格玛奶蛙"
+        ],
+        "mode": "NPR",
+        "steps": 3,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "pixelRatio": 1.25
+      },
+      "pngBytes": 868260,
+      "via": "__npr.startBattle(15) 诊断性调用"
+    }
+  ],
+  "errors": [
+    {
+      "kind": "log",
+      "source": "network",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5281/favicon.ico"
+    },
+    {
+      "kind": "log",
+      "source": "network",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5281/favicon.ico"
+    }
+  ],
+  "meta": {
+    "rendererLastPass": {
+      "calls": 1,
+      "triangles": 1
+    },
+    "canvas": [
+      2000,
+      1250
+    ],
+    "cssSize": [
+      1600,
+      1000
+    ],
+    "pixelRatio": 1.25,
+    "glb": {
+      "count": 16,
+      "bytes": 3791620,
+      "totalMs": 82
+    },
+    "nav": {
+      "domContentLoaded": 2970,
+      "load": 2973
+    },
+    "memory": {
+      "usedJSHeapSize": 26069272
+    },
+    "renderer": {
+      "calls": 930,
+      "triangles": 322980,
+      "lines": 0,
+      "points": 0,
+      "geometries": 484,
+      "textures": 491,
+      "programs": 17,
+      "frameAccumulated": true
+    },
+    "readyMs": 4041,
+    "screensHiddenForBuildCssBug": 4,
+    "cdpPort": 9446,
+    "viewport": {
+      "width": 1600,
+      "height": 1000,
+      "dpr": 1.25
+    },
+    "build": {
+      "note": "vite 8.3.6 默认压缩产物存在 this.currentBgm 被错误压成裸标识符的构建缺陷，已在 --minify false 下取证"
+    }
+  },
+  "ok": true,
+  "consoleErrors": [
+    {
+      "kind": "log",
+      "source": "network",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5281/favicon.ico"
+    },
+    {
+      "kind": "log",
+      "source": "network",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:5281/favicon.ico"
+    }
+  ]
+}

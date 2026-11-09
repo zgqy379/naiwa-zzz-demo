@@ -18,9 +18,9 @@ export class Hud {
       mode: "PBR",
       steps: 3,
       // 战斗状态（demo 用，真实战斗由 battle 写入）
-      timer: 90.0,
-      round: 1,
-      rounds: 3,
+      elapsed: 0,
+      shellIndex: 0,
+      shellTotal: 16,
       grids: 0, // 失衡格
       combo: 0,
       hp: 100,
@@ -31,6 +31,11 @@ export class Hud {
       canDodge: true,
       canSwap: true,
       chainReady: false,
+      counterWarning: false,
+      // 当前壳（16 只家族；换壳时由 main.js 写入）
+      shellName: "奶蛙",
+      shellIndex: 0,
+      shellTotal: 16,
     };
     this.el = {};
     this._build();
@@ -44,21 +49,26 @@ export class Hud {
           <span class="brand-sub">VOL.0</span>
         </div>
         <div class="hud-timer">
-          <div class="timer-num" id="hud-timer">90.0</div>
-          <div class="timer-label">TIME</div>
+          <div class="timer-num" id="hud-elapsed">00:00</div>
+          <div class="timer-label">ELAPSED</div>
         </div>
         <div class="hud-round">
-          <span id="hud-round">R1/3</span>
+          <span id="hud-shell">1/16</span>
         </div>
       </div>
 
       <div class="hud-left">
-        <div class="bar-label">我方</div>
+        <div class="bar-label">我方 <span class="bar-num" id="hud-hp-num">100</span></div>
         <div class="bar hp-bar"><div class="bar-fill" id="hud-hp" style="width:100%"></div></div>
+        <div class="shell-chip">
+          <b id="hud-shell-name">奶蛙</b>
+          <span class="shell-sep">·</span>
+          <span id="hud-shell-idx">1/16</span>
+        </div>
       </div>
 
       <div class="hud-right">
-        <div class="bar-label">对手</div>
+        <div class="bar-label">对手 <span class="bar-num" id="hud-opp-num">200</span></div>
         <div class="bar opp-bar"><div class="bar-fill" id="hud-opp" style="width:100%"></div></div>
         <div class="grids" id="hud-grids">
           <div class="grid"></div><div class="grid"></div><div class="grid"></div>
@@ -66,10 +76,12 @@ export class Hud {
         <div class="chain-chip" id="hud-chain">连携 0/3</div>
       </div>
 
+      <div class="hud-counter" id="hud-counter">⚠ 弹反!</div>
+
       <div class="hud-keys">
         <div class="key" id="key-attack"><kbd>A/D</kbd><span>移动</span></div>
-        <div class="key glow" id="key-charge"><kbd>空格</kbd><span>笑(按住蓄力)</span></div>
-        <div class="key" id="key-dodge"><kbd>Shift</kbd><span>躲</span></div>
+        <div class="key glow" id="key-charge"><kbd>空格</kbd><span>攻击(连按连段)</span></div>
+        <div class="key" id="key-dodge"><kbd>Shift</kbd><span>躲/弹反</span></div>
         <div class="key" id="key-swap"><kbd>Tab</kbd><span>接力</span></div>
       </div>
 
@@ -79,12 +91,13 @@ export class Hud {
       </div>
 
       <div class="hud-help">
-        N 切换 PBR/NPR · 1/2/3 档数 · 拖动旋转
+        N 切换 PBR/NPR · [ ] 档数 · Tab/Q/E 或 1–9/0 换壳 · 拖动旋转
       </div>
     `;
 
     // 缓存元素引用
-    const ids = ["timer", "round", "hp", "opp", "grids", "chain", "mode", "steps",
+    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "grids", "chain", "counter", "mode", "steps",
+                 "shell-name", "shell-idx",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
     for (const id of ids) {
       this.el[id] = this.root.querySelector(`#hud-${id}`);
@@ -102,13 +115,34 @@ export class Hud {
 
   _apply() {
     const s = this.state;
-    if (this.el.timer) this.el.timer.textContent = s.timer.toFixed(1);
-    if (this.el.round) this.el.round.textContent = `R${s.round}/${s.rounds}`;
-    if (this.el.hp) this.el.hp.style.width = `${Math.max(0, s.hp)}%`;
+    // 已用时间（mm:ss）
+    if (this.el.elapsed) {
+      const t = Math.max(0, Math.floor(s.elapsed ?? 0));
+      const mm = String(Math.floor(t / 60)).padStart(2, "0");
+      const ss = String(t % 60).padStart(2, "0");
+      this.el.elapsed.textContent = `${mm}:${ss}`;
+    }
+    if (this.el.shell) this.el.shell.textContent = `${(s.shellIndex ?? 0) + 1}/${s.shellTotal ?? 16}`;
+    if (this.el.hp) {
+      const hpPct = Math.max(0, s.hp);
+      this.el.hp.style.width = `${hpPct}%`;
+      // 低血警告（<30% 变红）
+      this.el.hp.classList.toggle("low", hpPct < 30);
+    }
     if (this.el.opp) this.el.opp.style.width = `${Math.max(0, s.oppHp)}%`;
+    if (this.el["hp-num"]) this.el["hp-num"].textContent = Math.round(s.hp);
+    if (this.el["opp-num"]) this.el["opp-num"].textContent = Math.round(s.oppHp);
     if (this.el.chain) this.el.chain.textContent = `连携 ${s.combo}/3`;
     if (this.el.mode) this.el.mode.textContent = s.mode;
     if (this.el.steps) this.el.steps.textContent = s.steps;
+
+    // 当前壳：<name> · <i+1>/16（换壳即换人；i 为 0 基索引）
+    if (this.el["shell-name"]) this.el["shell-name"].textContent = s.shellName;
+    if (this.el["shell-idx"]) {
+      const total = s.shellTotal || 0;
+      const cur = total > 0 ? Math.min(Math.max(0, s.shellIndex) + 1, total) : 0;
+      this.el["shell-idx"].textContent = `${cur}/${total}`;
+    }
 
     // 失衡格
     if (this.el.gridCells) {
@@ -131,6 +165,10 @@ export class Hud {
     // 连携就绪时接力键强烈闪烁
     if (this.el["key-swap"]) {
       this.el["key-swap"].classList.toggle("urgent", !!s.chainReady);
+    }
+    // 弹反提示（对手攻击预警时显示）
+    if (this.el.counter) {
+      this.el.counter.classList.toggle("show", !!s.counterWarning);
     }
   }
 }

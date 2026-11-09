@@ -4,6 +4,13 @@
  */
 import * as THREE from "three";
 import { mulberry32, NEON_PALETTE } from "./storefront.mjs";
+import { makeGroundTexture } from "./textures.mjs";
+
+let _groundTex = null;
+function getGroundTex() {
+  if (!_groundTex) _groundTex = makeGroundTexture({ size: 256, seed: 8 });
+  return _groundTex;
+}
 
 /** 街道地面（柏油 + 标线 + 井盖） */
 export function makeStreet(opts = {}) {
@@ -11,8 +18,13 @@ export function makeStreet(opts = {}) {
   const g = new THREE.Group();
   g.name = "street";
 
-  // 柏油路面（提高 roughness，避免 NPR 把地面量化成亮白块）
-  const asphaltMat = new THREE.MeshStandardMaterial({ color: 0x16181e, roughness: 1.0, metalness: 0 });
+  // 柏油路面（程序化纹理 + 法线，PBR 质感）
+  const asphaltMat = new THREE.MeshStandardMaterial({
+    color: 0x16181e,
+    map: getGroundTex(),
+    roughness: 0.92,
+    metalness: 0.02,
+  });
   const road = new THREE.Mesh(new THREE.BoxGeometry(length, 0.1, width), asphaltMat);
   road.position.y = -0.05;
   road.receiveShadow = true;
@@ -136,13 +148,18 @@ export function makeAtmosphereLights(opts = {}) {
   fill.position.set(6, 8, -6);
   g.add(fill);
 
-  // 环境光（提亮店铺墙面，避免全黑）
-  const amb = new THREE.AmbientLight(0x3a4258, 1.8);
+  // 环境光（提亮店铺墙面 + 角色，避免全黑）
+  const amb = new THREE.AmbientLight(0x4a5470, 2.6);
   g.add(amb);
 
   // 顶部半球光（模拟天空反光）
-  const hemi = new THREE.HemisphereLight(0x5a6a90, 0x2a2018, 0.7);
+  const hemi = new THREE.HemisphereLight(0x6a7aa0, 0x3a3028, 1.0);
   g.add(hemi);
+
+  // 正面补光（让角色正面可见）
+  const front = new THREE.DirectionalLight(0xfff0e0, 0.9);
+  front.position.set(6, 4, 8);
+  g.add(front);
 
   // 街道两侧补光（模拟店铺内透光映到街上）
   for (const side of [-1, 1]) {
@@ -166,7 +183,7 @@ export function makeNeonSigns(opts = {}) {
     const w = 0.6 + rng() * 1.2;
     const h = 0.3 + rng() * 0.8;
     const mat = new THREE.MeshStandardMaterial({
-      color, roughness: 0.5, emissive: color, emissiveIntensity: 1.0,
+      color, roughness: 0.5, emissive: color, emissiveIntensity: 0.55,
     });
     const sign = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.1), mat);
     const side = rng() > 0.5 ? 1 : -1;

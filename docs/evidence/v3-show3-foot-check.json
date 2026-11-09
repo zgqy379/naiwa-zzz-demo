@@ -1,0 +1,214 @@
+{
+ "generatedAt": "2026-11-09T22:53:27",
+ "criterion": "footY < hudTopCanvas - 6 且 topY > 0（6 只全部满足）",
+ "hudSelector": "#ui .hud-keys",
+ "hudRectSource": "v3-show3-metrics.json → shots[].hudBefore.hudKeysRect（getBoundingClientRect）",
+ "rows": [
+  {
+   "tag": "00",
+   "key": "naiwa",
+   "label": "奶蛙",
+   "hudKeysSelector": "#ui .hud-keys",
+   "hudKeysRect": {
+    "top": 942,
+    "bottom": 978,
+    "left": 578.02,
+    "right": 1021.98,
+    "width": 443.95,
+    "height": 36,
+    "cssViewport": [
+     1600,
+     1000
+    ],
+    "canvasSize": [
+     2000,
+     1250
+    ],
+    "pxPerCssPx": 1.25,
+    "topCanvas": 1177.5,
+    "bottomCanvas": 1222.5,
+    "heightCanvas": 45
+   },
+   "hudTopCanvas": 1177.5,
+   "hudBottomCanvas": 1222.5,
+   "hudHeightCanvas": 45,
+   "footY": 1101,
+   "topY": 663,
+   "footMarginPx": 76.5,
+   "topMarginPx": 663,
+   "footPass": true
+  },
+  {
+   "tag": "01",
+   "key": "naifen",
+   "label": "奶粉",
+   "hudKeysSelector": "#ui .hud-keys",
+   "hudKeysRect": {
+    "top": 942,
+    "bottom": 978,
+    "left": 578.02,
+    "right": 1021.98,
+    "width": 443.95,
+    "height": 36,
+    "cssViewport": [
+     1600,
+     1000
+    ],
+    "canvasSize": [
+     2000,
+     1250
+    ],
+    "pxPerCssPx": 1.25,
+    "topCanvas": 1177.5,
+    "bottomCanvas": 1222.5,
+    "heightCanvas": 45
+   },
+   "hudTopCanvas": 1177.5,
+   "hudBottomCanvas": 1222.5,
+   "hudHeightCanvas": 45,
+   "footY": 1105,
+   "topY": 673,
+   "footMarginPx": 72.5,
+   "topMarginPx": 673,
+   "footPass": true
+  },
+  {
+   "tag": "02",
+   "key": "naimao",
+   "label": "奶猫",
+   "hudKeysSelector": "#ui .hud-keys",
+   "hudKeysRect": {
+    "top": 942,
+    "bottom": 978,
+    "left": 578.02,
+    "right": 1021.98,
+    "width": 443.95,
+    "height": 36,
+    "cssViewport": [
+     1600,
+     1000
+    ],
+    "canvasSize": [
+     2000,
+     1250
+    ],
+    "pxPerCssPx": 1.25,
+    "topCanvas": 1177.5,
+    "bottomCanvas": 1222.5,
+    "heightCanvas": 45
+   },
+   "hudTopCanvas": 1177.5,
+   "hudBottomCanvas": 1222.5,
+   "hudHeightCanvas": 45,
+   "footY": 1156,
+   "topY": 685,
+   "footMarginPx": 21.5,
+   "topMarginPx": 685,
+   "footPass": true
+  },
+  {
+   "tag": "03",
+   "key": "naishi",
+   "label": "奶屎",
+   "hudKeysSelector": "#ui .hud-keys",
+   "hudKeysRect": {
+    "top": 942,
+    "bottom": 978,
+    "left": 578.02,
+    "right": 1021.98,
+    "width": 443.95,
+    "height": 36,
+    "cssViewport": [
+     1600,
+     1000
+    ],
+    "canvasSize": [
+     2000,
+     1250
+    ],
+    "pxPerCssPx": 1.25,
+    "topCanvas": 1177.5,
+    "bottomCanvas": 1222.5,
+    "heightCanvas": 45
+   },
+   "hudTopCanvas": 1177.5,
+   "hudBottomCanvas": 1222.5,
+   "hudHeightCanvas": 45,
+   "footY": 1132,
+   "topY": 693,
+   "footMarginPx": 45.5,
+   "topMarginPx": 693,
+   "footPass": true
+  },
+  {
+   "tag": "04",
+   "key": "naiyu",
+   "label": "奶鱼",
+   "hudKeysSelector": "#ui .hud-keys",
+   "hudKeysRect": {
+    "top": 942,
+    "bottom": 978,
+    "left": 578.02,
+    "right": 1021.98,
+    "width": 443.95,
+    "height": 36,
+    "cssViewport": [
+     1600,
+     1000
+    ],
+    "canvasSize": [
+     2000,
+     1250
+    ],
+    "pxPerCssPx": 1.25,
+    "topCanvas": 1177.5,
+    "bottomCanvas": 1222.5,
+    "heightCanvas": 45
+   },
+   "hudTopCanvas": 1177.5,
+   "hudBottomCanvas": 1222.5,
+   "hudHeightCanvas": 45,
+   "footY": 1061,
+   "topY": 696,
+   "footMarginPx": 116.5,
+   "topMarginPx": 696,
+   "footPass": true
+  },
+  {
+   "tag": "05",
+   "key": "xigema",
+   "label": "西格玛",
+   "hudKeysSelector": "#ui .hud-keys",
+   "hudKeysRect": {
+    "top": 942,
+    "bottom": 978,
+    "left": 578.02,
+    "right": 1021.98,
+    "width": 443.95,
+    "height": 36,
+    "cssViewport": [
+     1600,
+     1000
+    ],
+    "canvasSize": [
+     2000,
+     1250
+    ],
+    "pxPerCssPx": 1.25,
+    "topCanvas": 1177.5,
+    "bottomCanvas": 1222.5,
+    "heightCanvas": 45
+   },
+   "hudTopCanvas": 1177.5,
+   "hudBottomCanvas": 1222.5,
+   "hudHeightCanvas": 45,
+   "footY": 1100,
+   "topY": 694,
+   "footMarginPx": 77.5,
+   "topMarginPx": 694,
+   "footPass": true
+  }
+ ],
+ "footPassCount": 6,
+ "allFootPass": true
+}

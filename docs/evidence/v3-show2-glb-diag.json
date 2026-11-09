@@ -1,0 +1,409 @@
+{
+  "generatedAt": "2026-11-09T13:55:24.212Z",
+  "rows": [
+    {
+      "file": "naiwa_laugh_g1_runtime.glb",
+      "bytes": 286028,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 19880,
+          "min": [
+            -27995,
+            -32767,
+            -25535
+          ],
+          "max": [
+            27995,
+            32767,
+            25535
+          ],
+          "height": 65534,
+          "widthX": 55990,
+          "depthZ": 51070
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.19998543709516525,
+            0.19998543709516525,
+            0.19998543709516525
+          ],
+          "translation": [
+            -0.000009685754776000977,
+            -0.000013180077075958252,
+            0.000009894371032714844
+          ],
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_naifen_runtime.glb",
+      "bytes": 303776,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 18543,
+          "min": [
+            -30151,
+            -32767,
+            -27915
+          ],
+          "max": [
+            30151,
+            32767,
+            27915
+          ],
+          "height": 65534,
+          "widthX": 60302,
+          "depthZ": 55830
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.0649888813495636,
+            0.0649888813495636,
+            0.0649888813495636
+          ],
+          "translation": [
+            0,
+            0.000011116266250610352,
+            0.00000901147723197937
+          ],
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_naimao_runtime.glb",
+      "bytes": 236608,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 17746,
+          "min": [
+            -29215,
+            -32767,
+            -31811
+          ],
+          "max": [
+            29215,
+            32767,
+            31811
+          ],
+          "height": 65534,
+          "widthX": 58430,
+          "depthZ": 63622
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.10095067322254181,
+            0.10095067322254181,
+            0.10095067322254181
+          ],
+          "translation": [
+            0,
+            -0.00003635138273239136,
+            0.000015325844287872314
+          ],
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_naishi_runtime.glb",
+      "bytes": 207728,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 15113,
+          "min": [
+            -30995,
+            -32767,
+            -31023
+          ],
+          "max": [
+            30995,
+            32767,
+            31023
+          ],
+          "height": 65534,
+          "widthX": 61990,
+          "depthZ": 62046
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.06496176868677139,
+            0.06496176868677139,
+            0.06496176868677139
+          ],
+          "translation": [
+            -0.000009818002581596375,
+            -0.00002796947956085205,
+            -5.010515451431274e-7
+          ],
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_naiyu_runtime.glb",
+      "bytes": 188480,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 13638,
+          "min": [
+            -28311,
+            -32767,
+            -19090
+          ],
+          "max": [
+            28311,
+            32767,
+            19090
+          ],
+          "height": 65534,
+          "widthX": 56622,
+          "depthZ": 38180
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.10416232421994209,
+            0.10416232421994209,
+            0.10416232421994209
+          ],
+          "translation": null,
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_xigema_runtime.glb",
+      "bytes": 315076,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 17046,
+          "min": [
+            -22294,
+            -32767,
+            -10137
+          ],
+          "max": [
+            22294,
+            32767,
+            10137
+          ],
+          "height": 65534,
+          "widthX": 44588,
+          "depthZ": 20274
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.0999857485294342,
+            0.0999857485294342,
+            0.0999857485294342
+          ],
+          "translation": [
+            -0.000005587935447692871,
+            -0.000014252960681915283,
+            0.0000030454248189926147
+          ],
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_nashu_runtime.glb",
+      "bytes": 199592,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 14664,
+          "min": [
+            -28687,
+            -32767,
+            -22670
+          ],
+          "max": [
+            28687,
+            32767,
+            22670
+          ],
+          "height": 65534,
+          "widthX": 57374,
+          "depthZ": 45340
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.04999883286654949,
+            0.04999883286654949,
+            0.04999883286654949
+          ],
+          "translation": null,
+          "rotation": null
+        }
+      ]
+    },
+    {
+      "file": "naiwa_naitu_runtime.glb",
+      "bytes": 185512,
+      "nodeCount": 1,
+      "meshCount": 1,
+      "skinCount": 0,
+      "animationCount": 0,
+      "totalBindHeight": 65534,
+      "prims": [
+        {
+          "mesh": "geometry_0",
+          "prim": 0,
+          "mat": "Designer_Logic_PBR",
+          "alphaMode": "OPAQUE",
+          "baseAlpha": 1,
+          "doubleSided": false,
+          "count": 14493,
+          "min": [
+            -19150,
+            -32767,
+            -19530
+          ],
+          "max": [
+            19150,
+            32767,
+            19530
+          ],
+          "height": 65534,
+          "widthX": 38300,
+          "depthZ": 39060
+        }
+      ],
+      "nodes": [
+        {
+          "i": 0,
+          "name": "geometry_0",
+          "mesh": 0,
+          "skin": null,
+          "scale": [
+            0.04500000178813934,
+            0.04500000178813934,
+            0.04500000178813934
+          ],
+          "translation": null,
+          "rotation": null
+        }
+      ]
+    }
+  ]
+}

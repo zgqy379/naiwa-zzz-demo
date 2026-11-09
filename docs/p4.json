@@ -1,0 +1,35 @@
+{
+  "glbTest": {
+    "ok": true,
+    "status": 200,
+    "size": 286028
+  },
+  "glTest": {
+    "ok": true,
+    "ver": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+  },
+  "fnTest": {
+    "hasNpr": true,
+    "nprKeys": [
+      "setMode",
+      "setSteps",
+      "getMode",
+      "getSteps",
+      "battle",
+      "combo",
+      "counter",
+      "squad",
+      "opponent",
+      "opponentAnim",
+      "scene",
+      "camera",
+      "renderer",
+      "stage",
+      "postfx",
+      "startBattle",
+      "endBattle",
+      "screens",
+      "audio"
+    ]
+  }
+}

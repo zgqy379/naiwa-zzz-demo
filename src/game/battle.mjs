@@ -171,13 +171,14 @@ export class Battle {
 
   _swap() {
     if (this.combo <= 0) return;
+    const prevCombo = this.combo;   // 先存住（修：原代码先清零再判断，导致终结技永不触发）
     // 换人 = 换壳（demo 里换模型）
     this.combo = 0;
     this.grids = 0;
     this.windowT = -1;
     this.chainReady = false;
     // 终结技：3 连携后
-    if (this.combo >= 3) {
+    if (prevCombo >= 3) {
       this._finisher();
     }
     this._syncHud();

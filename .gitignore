@@ -1,2 +1,20 @@
 node_modules/
 dist/
+
+# 一次性诊断脚本与结果（.ego-tmp-*.mjs / *.json），收工后可清，不提交
+.ego-tmp-*
+
+# 临时构建目录、日志、进度文件（.tmp-dist-* / .tmp-*.log / .tmp-*.json），收工后可清，不提交
+.tmp-*
+
+# 站点发布用的纯静态副本（由 dist 复制，不进版本库）
+.site-publish/
+
+# 以下为证据留档，禁止加入忽略：
+#   docs/evidence/         验证截图与 metrics
+#   docs/test-shots/       测试流程截图
+#   docs/demo-video-*.mp4  交付视频
+#   docs/demo-video-*.webm 视频中间源（保留，作为录制证据）
+
+# 抽帧清理版与 docs/demo-frames-hd 同名重复（61 个 f-00xx.png），保留已入库的 demo-frames-hd 一份即可
+docs/demo-frames-hd-clean/

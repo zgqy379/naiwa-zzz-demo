@@ -1,0 +1,265 @@
+{
+  "method": {
+    "bgRef": "v3-20k-bg-diagnostic.png（同机位，隐藏全部成员 group 后拍摄）",
+    "foregroundThreshold": 12,
+    "visibleDiffThreshold": 24,
+    "cropPx": [
+      738,
+      430,
+      1263,
+      955
+    ]
+  },
+  "perShot": {
+    "v3-20k-00-naiwa-20261109.png": {
+      "label": "奶蛙 1/16",
+      "maskPx": 48936,
+      "maskBBoxPx": [
+        762,
+        430,
+        1262,
+        954
+      ]
+    },
+    "v3-20k-01-naishu-20261109.png": {
+      "label": "奶鼠 5/16",
+      "maskPx": 13093,
+      "maskBBoxPx": [
+        762,
+        430,
+        1262,
+        954
+      ]
+    },
+    "v3-20k-02-naifen-20261109.png": {
+      "label": "奶粉 7/16",
+      "maskPx": 9206,
+      "maskBBoxPx": [
+        889,
+        544,
+        1107,
+        739
+      ]
+    },
+    "v3-20k-03-naimao-20261109.png": {
+      "label": "奶猫 9/16",
+      "maskPx": 710,
+      "maskBBoxPx": [
+        890,
+        553,
+        1106,
+        728
+      ]
+    },
+    "v3-20k-04-naishi-20261109.png": {
+      "label": "奶屎 10/16",
+      "maskPx": 892,
+      "maskBBoxPx": [
+        890,
+        553,
+        1106,
+        728
+      ]
+    },
+    "v3-20k-05-xigema-20261109.png": {
+      "label": "西格玛 16/16",
+      "maskPx": 11665,
+      "maskBBoxPx": [
+        888,
+        544,
+        1107,
+        742
+      ]
+    }
+  },
+  "iou19k": {
+    "奶蛙 1/16 vs 奶鼠 5/16": 0.154,
+    "奶蛙 1/16 vs 奶粉 7/16": 0.083,
+    "奶蛙 1/16 vs 奶猫 9/16": 0.01,
+    "奶蛙 1/16 vs 奶屎 10/16": 0.012,
+    "奶蛙 1/16 vs 西格玛 16/16": 0.129,
+    "奶鼠 5/16 vs 奶粉 7/16": 0.4,
+    "奶鼠 5/16 vs 奶猫 9/16": 0.038,
+    "奶鼠 5/16 vs 奶屎 10/16": 0.052,
+    "奶鼠 5/16 vs 西格玛 16/16": 0.768,
+    "奶粉 7/16 vs 奶猫 9/16": 0.05,
+    "奶粉 7/16 vs 奶屎 10/16": 0.065,
+    "奶粉 7/16 vs 西格玛 16/16": 0.445,
+    "奶猫 9/16 vs 奶屎 10/16": 0.574,
+    "奶猫 9/16 vs 西格玛 16/16": 0.045,
+    "奶屎 10/16 vs 西格玛 16/16": 0.058
+  },
+  "iou19kSorted": [
+    [
+      "奶鼠 5/16 vs 西格玛 16/16",
+      0.768
+    ],
+    [
+      "奶猫 9/16 vs 奶屎 10/16",
+      0.574
+    ],
+    [
+      "奶粉 7/16 vs 西格玛 16/16",
+      0.445
+    ],
+    [
+      "奶鼠 5/16 vs 奶粉 7/16",
+      0.4
+    ],
+    [
+      "奶蛙 1/16 vs 奶鼠 5/16",
+      0.154
+    ],
+    [
+      "奶蛙 1/16 vs 西格玛 16/16",
+      0.129
+    ],
+    [
+      "奶蛙 1/16 vs 奶粉 7/16",
+      0.083
+    ],
+    [
+      "奶粉 7/16 vs 奶屎 10/16",
+      0.065
+    ],
+    [
+      "奶屎 10/16 vs 西格玛 16/16",
+      0.058
+    ],
+    [
+      "奶鼠 5/16 vs 奶屎 10/16",
+      0.052
+    ],
+    [
+      "奶粉 7/16 vs 奶猫 9/16",
+      0.05
+    ],
+    [
+      "奶猫 9/16 vs 西格玛 16/16",
+      0.045
+    ],
+    [
+      "奶鼠 5/16 vs 奶猫 9/16",
+      0.038
+    ],
+    [
+      "奶蛙 1/16 vs 奶屎 10/16",
+      0.012
+    ],
+    [
+      "奶蛙 1/16 vs 奶猫 9/16",
+      0.01
+    ]
+  ],
+  "pixelDiff19k": {
+    "奶蛙 1/16 vs 奶鼠 5/16": {
+      "meanAbsDiff": 5.93,
+      "meanMaxChannelDiff": 9.36,
+      "visibleDiffPct": 13.06
+    },
+    "奶蛙 1/16 vs 奶粉 7/16": {
+      "meanAbsDiff": 6.71,
+      "meanMaxChannelDiff": 10.56,
+      "visibleDiffPct": 13.56
+    },
+    "奶蛙 1/16 vs 奶猫 9/16": {
+      "meanAbsDiff": 5.99,
+      "meanMaxChannelDiff": 9.3,
+      "visibleDiffPct": 12.64
+    },
+    "奶蛙 1/16 vs 奶屎 10/16": {
+      "meanAbsDiff": 5.97,
+      "meanMaxChannelDiff": 9.26,
+      "visibleDiffPct": 12.67
+    },
+    "奶蛙 1/16 vs 西格玛 16/16": {
+      "meanAbsDiff": 5.97,
+      "meanMaxChannelDiff": 9.41,
+      "visibleDiffPct": 13.04
+    },
+    "奶鼠 5/16 vs 奶粉 7/16": {
+      "meanAbsDiff": 1.45,
+      "meanMaxChannelDiff": 2.56,
+      "visibleDiffPct": 1.39
+    },
+    "奶鼠 5/16 vs 奶猫 9/16": {
+      "meanAbsDiff": 1.47,
+      "meanMaxChannelDiff": 2.59,
+      "visibleDiffPct": 1.98
+    },
+    "奶鼠 5/16 vs 奶屎 10/16": {
+      "meanAbsDiff": 1.45,
+      "meanMaxChannelDiff": 2.55,
+      "visibleDiffPct": 1.94
+    },
+    "奶鼠 5/16 vs 西格玛 16/16": {
+      "meanAbsDiff": 0.4,
+      "meanMaxChannelDiff": 0.76,
+      "visibleDiffPct": 0.38
+    },
+    "奶粉 7/16 vs 奶猫 9/16": {
+      "meanAbsDiff": 1.4,
+      "meanMaxChannelDiff": 2.48,
+      "visibleDiffPct": 1.69
+    },
+    "奶粉 7/16 vs 奶屎 10/16": {
+      "meanAbsDiff": 1.4,
+      "meanMaxChannelDiff": 2.49,
+      "visibleDiffPct": 1.67
+    },
+    "奶粉 7/16 vs 西格玛 16/16": {
+      "meanAbsDiff": 1.42,
+      "meanMaxChannelDiff": 2.53,
+      "visibleDiffPct": 1.24
+    },
+    "奶猫 9/16 vs 奶屎 10/16": {
+      "meanAbsDiff": 0.08,
+      "meanMaxChannelDiff": 0.18,
+      "visibleDiffPct": 0.04
+    },
+    "奶猫 9/16 vs 西格玛 16/16": {
+      "meanAbsDiff": 1.36,
+      "meanMaxChannelDiff": 2.44,
+      "visibleDiffPct": 1.85
+    },
+    "奶屎 10/16 vs 西格玛 16/16": {
+      "meanAbsDiff": 1.34,
+      "meanMaxChannelDiff": 2.41,
+      "visibleDiffPct": 1.82
+    }
+  },
+  "vs16k": [
+    {
+      "name": "奶蛙",
+      "a": "v3-16-00-naiwa-20261109.png",
+      "b": "v3-20k-00-naiwa-20261109.png",
+      "meanAbsDiff": 8.73,
+      "meanMaxChannelDiff": 13.98,
+      "visibleDiffPct": 18.62
+    },
+    {
+      "name": "奶鼠",
+      "a": "v3-16-03-naishu-20261109.png",
+      "b": "v3-20k-01-naishu-20261109.png",
+      "meanAbsDiff": 4.13,
+      "meanMaxChannelDiff": 7.17,
+      "visibleDiffPct": 6.03
+    },
+    {
+      "name": "奶猫",
+      "a": "v3-16-04-naimao-20261109.png",
+      "b": "v3-20k-03-naimao-20261109.png",
+      "meanAbsDiff": 3.4,
+      "meanMaxChannelDiff": 6.05,
+      "visibleDiffPct": 5.14
+    },
+    {
+      "name": "奶屎",
+      "a": "v3-16-05-naishi-20261109.png",
+      "b": "v3-20k-04-naishi-20261109.png",
+      "meanAbsDiff": 3.64,
+      "meanMaxChannelDiff": 6.43,
+      "visibleDiffPct": 5.58
+    }
+  ]
+}
