@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>奶蛙零 · Naiwa Zero</title>
-  <script type="module" crossorigin src="./assets/index-Dk8cbfW4.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B-IeMant.css">
+  <script type="module" crossorigin src="./assets/index-DXYmkd82.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DJ01gumS.css">
 </head>
 <body>
   <canvas id="gl"></canvas>
@@ -45,20 +45,34 @@
 
   <!-- 角色选择 -->
   <div id="screen-select" class="screen hidden">
-    <div class="select-inner">
+    <div class="select-inner glass">
       <div class="select-left">
         <div class="select-header">
-          <h2>选择出战角色</h2>
+          <h2>队伍编成</h2>
           <span class="select-count" id="select-count">16 名成员</span>
         </div>
         <div class="select-list" id="select-list"></div>
       </div>
       <div class="select-right">
-        <div class="showcase">
-          <div class="showcase-img" id="showcase-img"></div>
-          <div class="showcase-name" id="showcase-name">奶蛙</div>
-          <div class="showcase-role" id="showcase-role">主攻</div>
-          <div class="showcase-stats" id="showcase-stats"></div>
+        <div class="archive glass">
+          <div class="archive-head">
+            <div class="archive-avatar" id="archive-avatar"></div>
+            <div class="archive-id">
+              <div class="archive-name" id="showcase-name">奶蛙</div>
+              <div class="archive-role" id="showcase-role">主攻</div>
+              <div class="archive-lv">
+                <span class="archive-lv-label">LV.45</span>
+                <span class="archive-lv-bar"><i style="width:72%"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="archive-art" id="showcase-img"></div>
+          <div class="archive-stats" id="showcase-stats"></div>
+          <div class="archive-tabs">
+            <button class="atab active" data-tab="stat">属性</button>
+            <button class="atab" data-tab="move">招式</button>
+            <button class="atab" data-tab="voice">音羽</button>
+          </div>
         </div>
         <div class="select-actions">
           <button class="menu-btn" data-action="back-title">返回</button>
@@ -73,7 +87,7 @@
 
   <!-- 结算 -->
   <div id="screen-result" class="screen hidden">
-    <div class="result-inner">
+    <div class="result-inner glass">
       <div class="result-title" id="result-title">作战完成</div>
       <div class="result-grade" id="result-grade">S</div>
       <div class="result-stats" id="result-stats"></div>
@@ -87,7 +101,7 @@
 
   <!-- 设置 -->
   <div id="screen-settings" class="screen hidden">
-    <div class="settings-inner">
+    <div class="settings-inner glass">
       <h2>设置</h2>
       <div class="setting-row">
         <span>渲染风格</span>
