@@ -1,4 +1,38 @@
 /**
+ * 外观主题：跟随系统 / 浅色 / 深色。
+ * 只写 <html data-theme>，不触碰 main.mjs；CSS 变量与覆盖段负责换色。
+ * ?theme=dark|light|system 可直接预览（优先级高于 localStorage）。
+ */
+const THEME_KEY = "naiwa-theme";
+const darkQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
+
+function currentThemePref() {
+  const q = new URLSearchParams(location.search).get("theme");
+  if (q === "dark" || q === "light" || q === "system") return q;
+  try { return localStorage.getItem(THEME_KEY) || "system"; } catch { return "system"; }
+}
+function applyTheme(pref) {
+  const dark = pref === "dark" || (pref === "system" && !!darkQuery?.matches);
+  const root = document.documentElement;
+  root.dataset.theme = dark ? "dark" : "light";
+  root.style.colorScheme = dark ? "dark" : "light";
+}
+function setTheme(pref) {
+  try { localStorage.setItem(THEME_KEY, pref); } catch { /* 隐私模式下忽略 */ }
+  // ?theme= 只用于预览；用户一旦在设置里手动选择就移除它，避免 URL 压住选择
+  const u = new URL(location.href);
+  if (u.searchParams.has("theme")) {
+    u.searchParams.delete("theme");
+    history.replaceState(null, "", u.pathname + u.search + u.hash);
+  }
+  applyTheme(pref);
+}
+darkQuery?.addEventListener?.("change", () => {
+  if (currentThemePref() === "system") applyTheme("system");
+});
+applyTheme(currentThemePref());
+
+/**
  * 界面管理器 —— 主界面 / 选人 / 战斗 / 结算 / 设置 的流程串联。
  *
  * 流程：
@@ -7,7 +41,6 @@
  * 授权：全部自绘，不复制任何具体游戏 UI。
  */
 import { SQUAD } from "../game/squad.mjs";
-import { makePortrait, makeAllPortraits } from "./portrait.mjs";
 
 export class ScreenManager {
   /**
@@ -32,6 +65,13 @@ export class ScreenManager {
     this._bindButtons();
     this._buildSelectList(); // async，内部自处理
     this.show("title");
+
+    // 实时 3D 卡片层（独立 chunk，加载失败时卡片保持透明空位，不再退回黑底静态图）
+    this.live3d = null;
+    import("./live3d.mjs")
+      .then((m) => m.initLive3DCards())
+      .then((api) => { this.live3d = api; api?.setSelected?.(this.selectedIndex); })
+      .catch((e) => console.warn("[screens] 实时 3D 卡片不可用", e?.message));
   }
 
   _bindButtons() {
@@ -60,10 +100,17 @@ export class ScreenManager {
 
   /** 修（UI-3）：设置屏打开时按当前运行状态回填各 .setting-opts 的 active（行匹配规则与 _handleSetting 一致；运行时值无对应选项时整行清高亮如实显示） */
   _syncSettings() {
-    const st = this.o.getState?.();
-    if (!st) return;
+    const st = this.o.getState?.() || {};
     document.querySelectorAll(".setting-row").forEach((row) => {
       const label = row.querySelector("span")?.textContent ?? "";
+      // 外观由本模块自己管，不依赖 getState
+      if (label.includes("外观")) {
+        const v = currentThemePref();
+        row.querySelectorAll(".opt").forEach((opt) => {
+          opt.classList.toggle("active", opt.getAttribute("data-opt") === v);
+        });
+        return;
+      }
       let value = null;
       if (label.includes("渲染风格")) value = st.mode ? String(st.mode).toLowerCase() : null;
       else if (label.includes("色调分离")) value = st.steps == null ? null : String(st.steps);
@@ -107,6 +154,7 @@ export class ScreenManager {
     if (label.includes("渲染风格")) this.o.onSetMode?.(value.toUpperCase());
     else if (label.includes("色调分离")) this.o.onSetSteps?.(parseInt(value));
     else if (label.includes("画质")) this.o.onSetQuality?.(value);
+    else if (label.includes("外观")) setTheme(value);
   }
 
   _setVolume(v) {
@@ -118,63 +166,25 @@ export class ScreenManager {
     if (!list) return;
     list.innerHTML = "";
 
-    // 修：先查缓存，已生成过则直接显示（避免首屏色块）
-    const hasCache = this.__portraitCache && this.__portraitCache.size >= SQUAD.length;
-
-    // 先建卡片（占位色块 + 编号；有缓存则直接用图）
+    // 卡片只留编号/名称/透明占位，3D 模型由 live3d.mjs 画在下层 canvas
     SQUAD.forEach((m, i) => {
       const card = document.createElement("div");
       card.className = "char-card" + (i === this.selectedIndex ? " active" : "");
-      const cached = this.__portraitCache?.get(m.id);
       card.innerHTML = `
         <span class="cc-no">${String(i + 1).padStart(2, "0")}</span>
-        <div class="cc-img" ${cached ? "" : `style="background:linear-gradient(135deg,#${m.color.toString(16).padStart(6, "0")},#${shade(m.color)})"`}>
-          ${cached ? `<img src="${cached}" alt="" />` : '<div class="cc-loading"></div>'}
-        </div>
+        <div class="cc-img"><div class="cc-3d-slot"></div></div>
         <div class="cc-name">${m.name}</div>
         <div class="cc-role">${m.role}</div>
       `;
       card.addEventListener("click", () => {
         this.selectedIndex = i;
         list.querySelectorAll(".char-card").forEach((c, j) => c.classList.toggle("active", j === i));
+        this.live3d?.setSelected?.(i);
         this._updateShowcase(m);
       });
       list.appendChild(card);
     });
     this._updateShowcase(SQUAD[this.selectedIndex]);
-
-    // 渐进生成缩略图（每生成一张立刻更新卡片，不阻塞；带缓存）
-    if (hasCache) return;
-    window.__portraitStage = "start";
-    (async () => {
-      this.__portraitCache = this.__portraitCache || new Map();
-      let done = 0;
-      for (const m of SQUAD) {
-        try {
-          const url = await makePortrait(m, { size: 256 });
-          this.__portraitCache.set(m.id, url);
-          done++;
-          window.__portraitStage = `${done}/16`;
-          // 立刻更新对应卡片
-          const idx = SQUAD.indexOf(m);
-          const card = list.children[idx];
-          const imgEl = card?.querySelector(".cc-img");
-          if (imgEl) {
-            imgEl.style.background = "none";
-            imgEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
-          }
-          // 如果是当前选中角色，同步档案卡大图与头像
-          if (idx === this.selectedIndex) {
-            document.getElementById("showcase-img").innerHTML = `<img src="${url}" alt="${m.name}" />`;
-            const av = document.getElementById("archive-avatar");
-            if (av) av.innerHTML = `<img src="${url}" alt="${m.name}" />`;
-          }
-        } catch (e) {
-          console.warn(`[screens] 缺缩略图: ${m.id}`, e?.message);
-        }
-      }
-      window.__portraitStage = "done:" + done;
-    })();
   }
 
   _updateShowcase(m, portraits) {
@@ -183,19 +193,11 @@ export class ScreenManager {
     const statsEl = document.getElementById("showcase-stats");
     if (nameEl) nameEl.textContent = m.name;
     if (roleEl) roleEl.textContent = m.role;
-    // 展示台大图
+    // 展示台大图与头像由 live3d.mjs 的 3D 模型承担，这里只清空旧静态图
     const imgEl = document.getElementById("showcase-img");
     const avatarEl = document.getElementById("archive-avatar");
-    if (imgEl && portraits) {
-      const url = portraits.get(m.id);
-      if (url) imgEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
-    } else if (imgEl) {
-      // 异步生成单张
-      makePortrait(m, { size: 512 }).then((url) => {
-        imgEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
-        if (avatarEl) avatarEl.innerHTML = `<img src="${url}" alt="${m.name}" />`;
-      }).catch(() => {});
-    }
+    if (imgEl) imgEl.innerHTML = "";
+    if (avatarEl) avatarEl.innerHTML = "";
     if (statsEl) {
       const stats = [
         { label: "生命", value: m.maxHp, max: 150 },
@@ -320,8 +322,4 @@ export class ScreenManager {
   }
 }
 
-function shade(hex) {
-  const c = (hex >> 16) & 255, g = (hex >> 8) & 255, b = hex & 255;
-  const f = (v) => Math.max(0, Math.min(255, Math.round(v * 0.6)));
-  return ((f(c) << 16) | (f(g) << 8) | f(b)).toString(16).padStart(6, "0");
-}
+

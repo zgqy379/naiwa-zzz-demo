@@ -1,0 +1,196 @@
+[p1 "绑骨动画" | space "naiwa-lux-rig"(47): 1 managed, 0 untracked — p1* "绑骨动画"]
+root
+  container
+    container
+      container
+        anchor [ref=1, loc=href:/, url=https://lux3d.aholo3d.cn/]
+          image
+        container
+          anchor [ref=2, url=https://lux3d.aholo3d.cn/workspace]
+            text "工作台"
+          button [ref=3]
+            text "功能"
+            svg_root
+          anchor [ref=4, url=https://lux3d.aholo3d.cn/assets]
+            text "资产"
+          button [ref=5]
+            text "应用场景"
+            svg_root
+          button [ref=6]
+            text "资源"
+            svg_root
+          button [ref=7]
+            text "开发者"
+            svg_root
+          anchor [ref=8, url=https://lux3d.aholo3d.cn/pricing]
+            text "定价"
+      container
+        button "语言" [ref=9, loc=css:button[aria-label="语言"]]
+          svg_root
+        container
+          button [ref=10]
+            image
+            text "诸葛青云"
+            svg_root
+          button [ref=11]
+            image
+            container
+              text "2,356"
+              text "积分"
+            svg_root
+        anchor [ref=12, loc=href:/?entry_type=website&auth_action=get_api&from=lux3d, url=https://lux3d.aholo3d.cn/?entry_type=website&auth_action=get_api&from=lux3d]
+          text "控制台"
+    container
+      container "精简版功能"
+        button [ref=13]
+          svg_root
+          text "图生 3D"
+        button [ref=14]
+          svg_root
+          text "材质重绘"
+        button [ref=15]
+          svg_root
+          text "绑骨动画"
+        button [ref=16]
+          svg_root
+          text "任务记录"
+      container
+        container
+          container
+            heading
+              text "绑骨模型"
+            container [ref=17]
+              text "绑骨模型要求"
+              svg_root
+          container
+            container
+              container
+                text "手部骨骼"
+                container [ref=18]
+                  svg_root
+              switch "手部骨骼" [ref=19, loc=css:button[aria-label="手部骨骼"]]
+            container [ref=20]
+              button [ref=21]
+                svg_root
+                image
+                text "15"
+                text "自动绑骨"
+        container
+          container
+            text "动画库"
+            button [ref=22]
+              text "全部"
+              svg_root
+          container
+            textbox [ref=23, loc=css:input[placeholder="请输入"]]
+              text "请输入"
+            svg_root
+          tablist [ref=24]
+            tab [ref=25]
+              text "全部"
+            tab [ref=26]
+              text "沟通与表现"
+            tab [ref=27]
+              text "待机"
+            tab [ref=28]
+              text "移动"
+            tab [ref=29]
+              text "跳跃与闪避"
+          container [ref=30]
+            container
+              container [ref=31]
+                image
+                button [ref=32]
+                  text "应用"
+              text "倚栏呼喊"
+            container
+              container [ref=33]
+                image
+                button [ref=34]
+                  text "应用"
+              text "点头同意"
+            container
+              container [ref=35]
+                image
+                button [ref=36]
+                  text "应用"
+              text "舞蹈"
+            container
+              container [ref=37]
+                image
+                button [ref=38]
+                  text "应用"
+              text "打电话"
+            container
+              container [ref=39]
+                image
+                button [ref=40]
+                  text "应用"
+              text "交谈"
+            container
+              container [ref=41]
+                image
+                button [ref=42]
+                  text "应用"
+              text "站立待机"
+            container [ref=43]
+              image
+            container [ref=44]
+              image
+      container
+        image
+        heading
+          text "选择你的 3D 模型"
+        paragraph
+          text "上传本地模型，或在右侧【资产库】选择"
+      container "模型资产"
+        container
+          heading
+            svg_root
+            text "模型资产"
+          button "收起资产" [ref=45, loc=css:button[aria-label="收起资产"]]
+            svg_root
+            text "收起资产"
+        container [ref=46]
+          button [ref=47]
+            svg_root
+            text "上传模型"
+        container [ref=48]
+          button "快餐托盘" [ref=49, loc=css:button[aria-label="快餐托盘"]]
+            image
+          button "蟾蜍模型" [ref=50, loc=css:button[aria-label="蟾蜍模型"]]
+            image
+          button "黄皮女孩模型" [ref=51, loc=css:button[aria-label="黄皮女孩模型"]]
+            image
+          button "naiwa naiyu 100k" [ref=52]
+            image
+            svg_root
+          button "naiwa naimao 100k" [ref=53]
+            image
+            svg_root
+          button "naiwa naiyu 100k" [ref=54]
+            image
+          button "naiwa naimao 100k" [ref=55]
+            image
+          button "卡通公鸡" [ref=56]
+            image
+            svg_root
+          button "卡通公鸡" [ref=57]
+            image
+          button "naiwa naigou 100k" [ref=58]
+            image
+            svg_root
+          button "naiwa naigou 100k" [ref=59]
+            image
+          button "naiwa laugh g1 animated runtime" [ref=60, loc=css:button[aria-label="naiwa laugh g1 animated runtime"]]
+            svg_root
+          button "naiwa nashu 100k" [ref=61]
+            image
+            svg_root
+          button "naiwa nashu 100k" [ref=62]
+            image
+  svg_root
+  svg_root
+  svg_root
+  svg_root
+  svg_root

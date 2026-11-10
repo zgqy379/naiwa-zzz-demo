@@ -51,15 +51,18 @@ const scene = new THREE.Scene();
 // 美术圣经 v2 §4：黄昏蓝灰 0x9ab0cc（= stage.mjs:21 FOG_COLOR 同源；冷调统治，角色是唯一暖焦点）
 scene.background = new THREE.Color(0x9ab0cc);
 
-const key = new THREE.DirectionalLight(0xffe8c8, 2.0);   // 圣经 v2 §4：暖主光（方向 4,8,6 不动）
+// 2026-11-11 定版前收口：原三点光（key 2.0 / rim 0.7 / ambient 1.1）叠加 NPR shader 的
+// 额外补光后，奶油黄贴图高光溢出、五官被烧平。这里只降强度、不动方向与色相，
+// 让角色回到「亮但看得见细节」，街道/背景亮度不受 toneMappingExposure 全局压暗影响。
+const key = new THREE.DirectionalLight(0xffe8c8, 1.5);   // 2.0→1.5（方向 4,8,6 不动）
 key.position.set(4, 8, 6);
 key.castShadow = true;
 key.shadow.mapSize.set(1024, 1024);
 scene.add(key);
-const rim = new THREE.DirectionalLight(0x9ec8ff, 0.7);   // 圣经 v2 §4：冷天光逆光（金 rim 移交 NPR 我方 rim）
+const rim = new THREE.DirectionalLight(0x9ec8ff, 0.55);  // 0.7→0.55（冷天光逆光）
 rim.position.set(-6, 4, -4);
 scene.add(rim);
-scene.add(new THREE.AmbientLight(0x8090a8, 1.1));   // 圣经 v2 §4：高环境抬升（黄昏蓝灰）
+scene.add(new THREE.AmbientLight(0x8090a8, 0.85));  // 1.1→0.85（黄昏蓝灰环境抬升）
 
 const lite = new URLSearchParams(location.search).get("lite") === "1";
 const stage = buildStage({ npr: true, lite });

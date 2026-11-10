@@ -240,3 +240,41 @@ html, body {
     bottom: 76px;                  /* 抬到 .hud-help（窄屏自动折行）之上，不互相遮盖 */
   }
 }
+
+/* ============================================================
+ * 2026-11-11 定版前收口：WCAG 文字对比度
+ * 第三轮把玻璃底改成浅蓝白后，本文件里为深色底写的浅色字
+ * 全部失效（浅字压浅底）。这里只覆盖颜色与衬底，不动布局/动效。
+ * 回滚：删掉本段即恢复。
+ * ============================================================ */
+
+/* ① 固定浅玻璃底上的文字 → 深色 */
+.brand-mark, .hud-round, .shell-chip, .hud-mode, .hud-help,
+.key, .key span, .shell-chip b, .shell-chip span, .hud-mode b {
+  color: var(--glass-ink);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .55);
+}
+.chain-chip { color: #0f5140; text-shadow: 0 1px 1px rgba(255, 255, 255, .55); }
+.key kbd,
+.key.glow kbd, .key.urgent kbd {
+  color: #16223a;
+  background: rgba(255, 255, 255, .58);
+  border-color: rgba(24, 38, 62, .22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+/* 键位胶囊加更实的底，亮街景不再透出吃字 */
+.hud-keys .key { background-color: rgba(232, 242, 255, .92); }
+
+/* ② 直接压在 3D 画面上的 HUD 小字：保留浅字，但加深色实底衬底 */
+.brand-sub, .timer-label, .bar-label {
+  background: rgba(16, 26, 44, .68);
+  border-radius: 8px;
+  padding: 2px 8px;
+  color: #f2f6ff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+.hud-timer {
+  background: rgba(16, 26, 44, .52);
+  border-radius: 14px;
+  padding: 4px 14px 6px;
+}

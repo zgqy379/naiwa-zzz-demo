@@ -20,8 +20,8 @@ export const NPR_PRESET = {
   steps: 2,
   // 暗部提升（圣经 v2 §2：0.42 高环境抬升，暗部不死黑）
   shadowLift: 0.42,
-  // 高光强度（圣经 v2 §2：哑光硅胶 0.8，压 PVC 锐反射）
-  specularStrength: 0.8,
+  // 高光强度（0.8→0.45：定版前收口，果冻高光叠加场景强光会把奶油黄烧成纯白）
+  specularStrength: 0.45,
   // 高光锐度（圣经 v2 §2：14 = 宽软高光，替代 v1 的 30 锐高光）
   specularPower: 14.0,
   // 高光颜色（美术圣经 §3：果冻高光 0xfff8e0 不改）
@@ -257,15 +257,17 @@ export function makeNprMaterial(base, preset = {}) {
         float q = (floor(x) + edge) / steps;
         float quantizeK = mix(1.0, q / max(lum, 1e-4), 0.75);
 
-        // 圣经 v2 §2：keyColor/fillColor/ambientColor 接线（自研注入，量级取小，
-        // 防止与场景三点光/环境光重复加亮：主光顺向 10%、奶油补光 18%、暗部环境抬升 28%）
+        // keyColor/fillColor/ambientColor 接线（自研注入）。
+        // 2026-11-11 定版前收口：这三项是在场景三点光之外「再补一遍」，
+        // 原系数 10%/18%/28% 与 key 2.0 + ambient 1.1 叠加后把奶油黄打爆。
+        // 场景光已下调，这里同步减半：主光顺向 6%、奶油补光 10%、暗部抬升 14%。
         vec3 fillDir = normalize(vec3(-keyDir.x, 0.35, -keyDir.z));
         float fill = max(dot(nrm, fillDir), 0.0);
         vec3 nprLight = outgoingLight * quantizeK
                       + specC * spec + rimC * rim
-                      + keyC * (max(dot(nrm, keyDir), 0.0) * 0.10)
-                      + fillC * (fill * 0.18)
-                      + ambC * ((1.0 - lifted) * 0.28);
+                      + keyC * (max(dot(nrm, keyDir), 0.0) * 0.06)
+                      + fillC * (fill * 0.10)
+                      + ambC * ((1.0 - lifted) * 0.14);
         outgoingLight = nprLight;
         #include <opaque_fragment>`
       );

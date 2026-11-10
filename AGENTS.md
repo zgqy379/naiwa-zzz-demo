@@ -12,14 +12,14 @@ AIGC:
 # AGENTS.md · 奶蛙零 v3 多线协作契约
 
 > 本文件是仓库内所有 Agent（人或模型）的强制协作契约。**开工前必读，改共享文件前必登记。**
-> 最后更新：2026-11-09
+> 最后更新：2026-11-11
 
 ## 1. 项目坐标
 
 | 项 | 值 |
 | --- | --- |
 | 工作仓库 | `E:\naiwa-zzz`（唯一正式提交版本体） |
-| git 历史 | 仅 1 提交 `0fb882e`，工作区存在未提交改动 |
+| git 历史 | 提交数 / HEAD 随收口推进会变，**本表不再固化**，一律以 `git log -1` + `git status` 为准。历史基线：2026-11-11 00:30 盘点时为 8 提交 / HEAD `19bd0f2`；之后每轮交接见 §6 |
 | 只读封存 | `E:\naiwaling`（早期仓库，**禁止任何修改，禁止作为构建源**） |
 | 赛事截止 | 2026-11-19 19:00 |
 | 技术栈 / 目标 | Three.js + WebGL，静态站点托管 |
@@ -52,7 +52,9 @@ AIGC:
 
 ## 5. 部署闸门
 
-`scripts/deploy-api.ps1` 默认 `DEPLOY-BLOCKED`，只有显式设置 `NAIWA_DEPLOY_OK=1` 才放行。**任何人不得为「先跑通」而改掉这个默认值。**
+根目录 `deploy-api.ps1`（旧版本节误写为 `scripts/deploy-api.ps1`，该路径不存在）默认 `DEPLOY-BLOCKED`，只有显式设置 `NAIWA_DEPLOY_OK=1` 才放行。**任何人不得为「先跑通」而改掉这个默认值。**
+
+**现役发布通道不是 gh-pages**：提交填的在线 Demo 是魔搭 Static 创空间 `zgqy379/naiwa-zero-demo`，它读远端 **`master`** 分支（dist 子仓的 `modelscope` remote），与本地 `gh-pages` 分支无共同祖先。部署 = 把 `dist/` 内容同步到 master 并 push，**必须保留 `README.md`（平台 YAML 元数据）与 `.gitattributes`**；gh-pages 通道 2026-11-09 起停用，上述脚本只留作备份（且已补 `bg/` 收集，避免漏传首页视频）。详见 `docs/evidence/final-alignment-20261109.md`。
 
 已知缺陷：脚本为 UTF-8 无 BOM，在 PowerShell 5.1 下报语法错。处置二选一（改动需登记）：
 - 用 PowerShell 7（`pwsh`）执行；
@@ -69,6 +71,188 @@ AIGC:
 - 最近构建：dist/index-<hash>.js @ <时间>
 - 已知冲突 / 风险：
 ```
+
+### 交接 2026-11-11 03:35 by 收口线（全面测试审查 + 修复 + 定版构建）
+
+- 已做：
+  - **全面审查**：`lint` 0 / 52 个 `.mjs` 语法全过 / 全量 E2E **25/25**（两轮，最新 `docs/test-report.json`）/ `dist/` 52 文件全 200、无 404、无 console 错误、无未处理 rejection / 实机全屏流转（标题→选人→战斗→结算→设置）+ 深色 × 390px 手机 / 4 个 WebGL context（`gl`、`glass-layer`、`live3d-layer`、`cursor3d-layer`）。
+  - **修复**：①删首页 `display:none` 却仍惰性加载 `portrait.mjs`、离屏渲染 768px 立绘的死链路（`titlefx.mjs` + `index.html` 空节点），实测 portrait chunk 不再请求；②删 `public/asset/naiwa_laugh_mixamo.glb`（与 g1 逐字节相同、零引用的 331KB 副本），由重建自动从 dist 清除，**未手改 dist**；③`deploy-api.ps1` 补 `bg/` 与 `portrait/` 收集（原脚本漏传首页视频，gh-pages 通道会 404）；④`.gitignore` 精确排除官方 3D 原始大二进制（38.5MB GLB / 27.6MB OBJ zip）与 `.workbuddy/`；⑤`tests/run-e2e.mjs` 构建前清理 + 失败重试一次 + 完整错误日志（第二轮偶发构建失败的根因是 detached preview 残留文件句柄）。
+  - **评估后保留** 11.5MB 首页视频：原片已被手机助手临时目录清理，从已压版本二次转码只会更糊，且体积未阻塞部署。
+- 未做 / 待办：
+  - **Demo 视频与 §十插图已过期**（视频录于 11-10 00:42，之后首页整体改版：视频背景、艺术字、液态玻璃、深色模式、实时 3D、3D 光标）。按 §4 冻结前必须重录，交付说明中须标注；`submission.json` 的完成式字段仍留空待真实回执。
+  - 官网提交、发帖、冻结 tag、凭据轮换由制作人本人执行。
+- 待验证：
+  - 魔搭 master 部署后线上 `index.html` / `bg/title.mp4` / 新 JS hash / GLB 全 200 与真实浏览器首屏。
+  - 真机长时间运行 4 个 WebGL context 的稳定性（本机短时正常，帧率无明显代价）。
+- 产物与证据路径：
+  - 最近构建：`dist/assets/index-Ce5zGDeB.js`（987,200 B，sha256 前缀 `c678f49b2f9c6498`）+ `index-BkAXyDc9.css` @ 2026-11-11 03:28；`dist/` 子仓 20 项 dirty 待提交。
+  - 审查证据：`docs/test-report.json`、`docs/test-shots/`、`docs/evidence/v3-*-20261111.png`。
+- 已知冲突 / 风险：
+  - `dist/.git/config` 的 modelscope remote 含明文推送凭据，按既有决策保持不动；交付打包必须排除 `.git`。
+  - 线上此前停留在 `index-iKSx0O26.js`（master 分支旧构建），与本轮交付无关；另 `docs/submission.json` 里「线上与视频、插图一致」已不成立，需按部署实测回填。
+
+### 交接 2026-11-11 03:12 by 收口线（实时 3D 光标 + 九次定版构建）
+
+- 已做：
+  - 制作人在「静态 PNG 光标 / 重生成模型 / 实时 3D 光标」中选**上实时 3D 光标**。
+  - **模型压缩是硬前提**：官方 GLB 38,552,236 B（3 张 4096×4096 PNG 约 24 MB + 约 50 万面）。用 `gltf-transform` + `sharp` 处理：贴图转 512 JPEG（24 MB → 43 KB）、`weld` + `simplify(ratio .06, meshoptimizer)` → 30,000 面、`quantize` + `prune`，最终 **795,116 B** 落到 `public/asset/naiwa_hand_cursor.glb`。
+  - **新增 `src/ui/cursor3d.mjs`**：160×160 透明固定 canvas 跟随指针，GLTFLoader 加载压缩 GLB，透视相机 + ACES + 三点光；每帧轻微呼吸/摆动，按下有压按反馈；**初始化或 GLB 失败时不隐藏系统光标**，自动退回上一轮的 PNG 手型光标。`titlefx.mjs` 动态 import；`screens.css` 用 `body[data-cursor3d="on"]` 全局 `cursor:none !important` 覆盖 PNG 光标规则。
+  - **姿态调试**：加了 `window.__cursor3d.setPose()` 调试口，四角度实机截图拼图对比，选 `pose.x = -1.15`（掌心朝上、五指张开，贴合参考图），热点 `(20,88)` 落指尖。
+  - **验证**：无 JS 错误、`cursor3d=on`、body/卡片 computed cursor 均为 `none`、canvas 240×240 跟随指针；浅色首页与深色选人页实机截图里手清晰且不被玻璃卡片遮挡；帧率首页 **32.6** / 选人页 **23.9 fps**（此前选人页 24.5，基本无代价）；lint / `node --check` / 构建全过；正式产物 18080 复核 `cursor3d=on` / `body cursor none` / `glassApi=object`。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行。
+- 待验证 / 风险：主 `canvas#gl`、`glass-layer`、`live3d-layer`、`cursor3d-layer` **共 4 个 WebGL context** 并存，本机验证可运行，真机长时间显存 / 发热待验；图生 3D 的造型仍是单视角推断，姿态已调到最佳可用角度但几何本身未重生成。
+- 产物与证据路径：`src/ui/cursor3d.mjs`、`public/asset/naiwa_hand_cursor.glb`、`docs/evidence/v3-cursor3d-poses-compare-20261111.png`（四姿态对比）、`v3-cursor3d-final-title-20261111.png`、`v3-cursor3d-final-select-20261111.png`、`docs/evidence/naiwa-hand-3d/`（官方原始 GLB/OBJ/预览/viewer）、`docs/改动记录-角色线.md` 03:12 登记行。
+- 最近构建：`dist/assets/index-CWbVFASs.js` @ 2026-11-11 03:11，987,690 B，sha256 前 16 位 `1b0d21d43d14ec5f`；`index-BkAXyDc9.css` 46,870 B；`cursor3d-BFY-lDMa.js` 2,017 B；`dist/asset/naiwa_hand_cursor.glb` 795,116 B。构建人：收口线。02:52 的 `index-D3eSnMm_.js` 已作废。
+- 已知冲突 / 风险：承接 02:52 交接（抖音水印 / 字幕、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制）。
+
+### 交接 2026-11-11 02:52 by 收口线（官方 3D 生成 + 游戏内自定义光标 + 八次定版构建）
+
+- 已做：
+  - 制作人给参考图，要求「用官方工具生成 3D 奶蛙手，做成游戏内鼠标」。走 `buddy-multimodal-generation` 的 `3d` 子命令（先 `connect_cloud_service`）。**踩坑**：图生 3D 时不能同时传文字 prompt（服务端报「Prompt和ImageBase64、ImageUrl不能同时存在」），去掉后成功；本地图片 base64 用 Python `runpy` 设 `sys.argv` 传入，绕开 Windows 命令行长度上限。job `1511802818331189248` 状态 DONE。
+  - **产物全部落盘**：`docs/evidence/naiwa-hand-3d/naiwa_hand_cursor.glb`（38,552,236 B）、`model_obj.zip`（27,602,257 B）、`preview.png`（512×512 RGBA，44,410 B）；本地化 `model-viewer.min.js` + `generated_model_20261111_viewer.html`（相对引用 GLB，可拖拽旋转）。
+  - **光标**：预览图自带 alpha，按 bbox `(88,215)-(464,338)` 裁切 → 128×128 透明 PNG 8,002 B 放 `src/ui/naiwa_hand_cursor.png`，由 Vite 打包成 hashed 资源；CSS `html,body,body*` 全局 `cursor: url(...) 8 64, auto !important`，热点落在指尖，`!important` 用于覆盖 `.menu-btn` 等自带 `cursor:pointer`。
+  - **技术边界已如实说明**：浏览器原生 cursor 只接受图片、不能吃 GLB，因此交付的是「由 3D 模型渲染出的静态光标」；GLB 本体保留为可查看资产，**不进 dist**（避免交付包 +38 MB）。
+  - **验证**：computed cursor 在 body / 按钮 / canvas 均指向 hashed PNG；lint / 构建全过；正式产物 18080 实机复核按钮光标与 `glassApi`。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行。
+- 待验证 / 已知偏差：图生 3D 从**单张参考图**推断出的是**侧面手 + 空心袖口**，与参考图俯视五指张开有出入；若制作人不满意需重生成（可用多视角输入）。若要「实时 3D 光标」需压缩 GLB 并新增第 4 个 WebGL context，尚未实现。
+- 产物与证据路径：`docs/evidence/naiwa-hand-3d/generated_model_20261111_viewer.html`、`naiwa_hand_cursor.glb`、`preview.png`、`model_obj.zip`、`src/ui/naiwa_hand_cursor.png`、`docs/改动记录-角色线.md` 02:52 登记行。
+- 最近构建：`dist/assets/index-D3eSnMm_.js` @ 2026-11-11 02:52，987,520 B，sha256 前 16 位 `9eae28816bd862e3`；`index-CrbZ8bwE.css` 46,670 B；`naiwa_hand_cursor-CH4k1llj.png` 8,002 B；`dist/index.html` 6.30 kB。构建人：收口线。02:40 的 `index-Df48mftd.js` 已作废。
+- 已知冲突 / 风险：承接 02:40 交接（抖音水印 / 字幕、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制、三个 WebGL context）；新增 1 MB 本地 model-viewer 仅存 docs，不进 dist。
+
+### 交接 2026-11-11 02:40 by 收口线（选人页实时 3D + 七次定版构建）
+
+- 已做：
+  - 制作人指出角色卡仍是黑底静态图、白玻璃怪，要求「真 3D 模型 + 动起来 + 透明液态玻璃卡片」。**根因**：黑底来自 `portrait.mjs` 的 `makeStripedTexture(0x141821)` 被画进静态立绘；真模型在 `public/asset/*.glb`（`EXT_meshopt_compression`，主渲染用 `GLTFLoader + MeshoptDecoder`）。
+  - **新增 `src/ui/live3d.mjs`**：独立 `WebGLRenderer(alpha)` + 像素正交相机，并行加载 16 只 runtime GLB，**单 scene / 单 camera / 单 render** 按每张卡片 DOM rect 摆放模型；每帧缓慢转身 + 浮动，GLB 自带 clip 时走 `AnimationMixer`；展示台用 `SkeletonUtils.clone` 放大并在正面附近摆动；`ResizeObserver`、切屏跳过渲染、只画滚动可见卡片。
+  - `screens.mjs` 移除 `makePortrait` 静态立绘与不再使用的 `shade()`，卡片只留编号 / 名称 / 透明占位，点击时 `setSelected(i)`；`index.html` 在 `.select-inner` 内加 `#live3d-layer`。
+  - **观感收口**：整屏换中性蓝灰；面板 / 卡片 / 档案卡全部改成低不透明度真玻璃（亮边 + 高光 + 厚度），隐藏静态 `<img>` 与斜纹展示台；文字按主题分「浅色深字白描边 / 深色白字深阴影」；头像空位补成员色渐变。光照降为 `ACESFilmicToneMapping` exposure 0.85 + Ambient 0.95 / Key 1.25，避免奶油黄贴图烧白。
+  - **关键诊断**：展示台大模型一度是模糊黄影，把 canvas 置顶后模型本身完整清晰 → 根因是 `.archive` 仍为不透明玻璃底盖住 canvas，透明化后解决（非模型/贴图问题）。
+  - **验证**：无 JS 错误、卡片内 `<img>` 数 = 0、间隔 1.4s 两帧 PSNR 30.6 dB（动画在跑）、点击「奶豆」展示台由奶蛙换成奶豆、选人页帧率 24.5 fps（此前约 27）、深浅色实机截图、lint / `node --check` / 构建全过；正式产物 18080 实机复核 `theme=dark` / canvas 1714×1189 / `imgs=0` / `glassApi=object`。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行。
+- 待验证：真机（非 headless）下**三个 WebGL context**（主 `canvas#gl`、`glass-layer`、`live3d-layer`）长时间运行的显存与稳定性；GLB 动画 clip 的实际覆盖率（当前主要靠程序化转身 / 浮动）。
+- 产物与证据路径：`src/ui/live3d.mjs`、`docs/evidence/v3-live3d-light3-20261111.png`、`v3-live3d-dark3-20261111.png`、`v3-live3d-switch-20261111.png`、`v3-live3d-canvas-top-20261111.png`（诊断证据）、`docs/改动记录-角色线.md` 02:40 登记行。
+- 最近构建：`dist/assets/index-Df48mftd.js` @ 2026-11-11 02:38，987,520 B，sha256 前 16 位 `804672341cecfe81`；`index-e4MG6mHl.css` 46,590 B；`live3d-XnLLZx2q.js` 2,800 B；`dist/index.html` 6.30 kB。构建人：收口线。02:25 的 `index-C5t729fO.js` 已作废。
+- 已知冲突 / 风险：承接 02:25 交接（抖音水印 / 字幕、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制）；新增第三个 WebGL context，本机验证可运行，真机待验。
+
+### 交接 2026-11-11 02:25 by 收口线（深色模式 + 响应式 + 六次定版构建）
+
+- 已做：
+  - **深色模式**：`screens.mjs` 模块级主题（跟随系统 / 浅色 / 深色，`localStorage` 持久化 + `matchMedia` 监听 + `?theme=` 预览；手动选择时 `history.replaceState` 移除 URL 参数，避免预览参数压住用户设置）。设置屏新增「外观」行并接入 `_handleSetting` / `_syncSettings`（后者改为不依赖 `getState` 的独立分支）。**全程未改 `main.mjs`**。
+  - `screens.css` 新增 `:root[data-theme="dark"]` 变量与全量覆盖段：所有玻璃面换深底浅字、视频与 WebGL 透镜层同步 `filter: brightness(.58)` 保证透镜内外一致、卡片 / 计时器 / 键帽 / 标题副文字换色。
+  - **响应式**：补 6 档断点（≥1601 宽屏、≤1199、≤899 选人页单列、≤519 手机、≤620 矮视口、`prefers-reduced-motion`）。手机竖屏：提示卡加半透深底压住视频字幕、字号 11px；档案立绘 `max-height:30vh`；「返回 / 出战」`position:fixed` 底部悬浮并给滚动区留白；触摸目标 ≥44px。
+  - **验证**：egolite CDP `Emulation.setDeviceMetricsOverride` 跑 1527×944 / 820×1180 / 390×844 × 深浅色共 6 组实机截图；主题点击 light→dark、URL 参数清除、刷新后仍 dark 且「深色」高亮正确；正式产物 18080 实机复核 `theme=dark` / `glassApi=object` / 手机 footer 11px；lint / `node --check` / 构建全过。
+  - 清理追加命令重跑导致的 CSS 重复段（按内容去重）；幂等 marker 需与实际写入首行一致。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行。
+- 待验证：真机触摸滚动下悬浮按钮与档案卡内容是否始终不遮挡；`prefers-color-scheme` 在真实系统切换时的即时响应（本机已用 `?theme=` 与点击验证）。
+- 产物与证据路径：`docs/evidence/v3-responsive-*-20261111.png`（6 组 + 微调 3 张）、`docs/改动记录-角色线.md` 02:25 登记行。
+- 最近构建：`dist/assets/index-C5t729fO.js` @ 2026-11-11 02:22，987,630 B，sha256 前 16 位 `6ff6b076a11ce009`；`index-Cb5nOI3g.css` 43,000 B；`liquidglass-D79f_430.js` 6,460 B；`dist/index.html` 6.14 kB。构建人：收口线。02:15 的 `index-B5C5Ex8N.js` 已作废。
+- 已知冲突 / 风险：承接 02:15 交接（抖音水印 / 字幕、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制、双 WebGL context）；手机选人页为可滚动长列表，悬浮按钮会盖住首屏底部属性条，滚动到底可见。
+
+### 交接 2026-11-11 02:15 by 收口线（全面液态玻璃 + 五次定版构建）
+
+- 已做：
+  - 制作人「全面用液态玻璃」。**技术边界已如实说明**：非首页面板背后是 DOM 卡片/文字，WebGL 无法采样，因此**首页保留 WebGL 真折射，其余界面统一 CSS 液态玻璃材质**；视觉语言统一，光学实现分两档。
+  - `screens.css` 末尾新增全局材质组，覆盖：选人 / 结算 / 设置大面板、16 张角色卡、档案卡、`.atab`/`.opt`、非首页按钮、`#toast`、战斗 HUD 全部胶囊与计时器 / 血条标签。统一 `blur(14px) saturate(1.65)` + 1.3px 渐变描边环（`mask-composite:exclude`）+ 指针跟随镜面高光 + 多层 inset 厚度 + 边缘淡青/淡粉色散。
+  - 可读性修正：面板底 `.70→.78`（设置页灰字不再发虚）；计时器 / 血条标签由黑底白字改为浅玻璃深字，HUD 风格统一。`initLiquidGlassSheen()` 选择器扩展到全局，并跳过隐藏界面避免每帧读取 16 张卡片 rect。
+  - 清理此前被重复追加两遍的 CSS 段（Python 按 marker 截断重写）；追加类命令需防重复执行。
+  - **验证**：四界面实机截图 + computed `backdrop-filter` / `mask-composite` 全生效；战斗界面帧率玻璃 **27.2** vs 全关 **27.0 fps**（无代价）；lint / `node --check` / 构建全过；正式产物 18080 实机复核 `glassApi=object`、无 fallback、选人面板 blur 与 rim 生效。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行。
+- 待验证：真机（非 headless）长时间运行下多层 backdrop-filter 的显存与发热；窄屏下左下角提示卡与按钮组是否重叠。
+- 产物与证据路径：`docs/evidence/v3-glass-all-select-20261111.png`、`v3-glass-all-settings2-20261111.png`、`v3-glass-all-battle2-20261111.png`、`v3-glass-all-title-20261111.png`、`docs/改动记录-角色线.md` 02:15 登记行。
+- 最近构建：`dist/assets/index-B5C5Ex8N.js` @ 2026-11-11 02:12，987,630 B，sha256 前 16 位 `37fc689bfc91d2f6`；`index-DlYIGuKe.css` 38,880 B；`liquidglass-CiADvvZH.js` 6,460 B；`dist/index.html` 5.66 kB 引用主 JS/CSS。构建人：收口线。02:00 的 `index-Dr2hTk66.js` 已作废。
+- 已知冲突 / 风险：承接 02:00 交接（抖音水印 / 字幕、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制、双 WebGL context）；非首页为 CSS 玻璃拟态，不可对外宣称「全站真折射」。
+
+### 交接 2026-11-11 02:00 by 收口线（WebGL 真液态玻璃 + 四次定版构建）
+
+- 已做：
+  - 制作人问「这是真的液态玻璃吗」→ 如实答**不是**（CSS 玻璃拟态；Chrome 渲染层忽略 `backdrop-filter` 的 SVG `url()` 位移滤镜，已受控实验证伪）→ 裁决「直接上 WebGL」。
+  - **新增 `src/ui/liquidglass.mjs`**：独立 `WebGLRenderer` + 正交相机（像素坐标，不改 `main.mjs` 主渲染循环），把 `<video>` 当 `VideoTexture`，按每个按钮的 `getBoundingClientRect()` 画透镜 quad；片元 shader 用圆角矩形 SDF 梯度求边缘法线，**中心不偏移、bevel 带按法线位移采样**，R/G/B 三通道不同位移量做色散，叠指针镜面高光与边缘亮线，并复刻 `.title-bg` 深蓝遮罩解决透镜内外断层。
+  - 层级：`video(z:-3)` → 新 `canvas#glass-layer(z:0)` → DOM 文字与 1.4px 渐变描边环；按钮 DOM 改纯透明（`backdrop-filter:none`），只留文字/点击。动态 `import()` 出独立 chunk，不进首屏入口；WebGL 失败自动置 `data-glass-fallback="css"` 回退 CSS 磨砂玻璃；离开标题页时 `renderer.clear()` 并跳过渲染。
+  - **验证**：按钮区裁剪 PSNR 40.8 dB 且 G/B 通道差异明显（色散在跑）；视频水印的硬边缘文字在玻璃内被明显拉弯，为折射可见证据；帧率开 / 关 **26.3 / 26.7 fps**（headless 基线低但同条件可比，几乎无代价）；降级态 computed 恢复 `blur(12px)...`；lint / `node --check` / 构建全过。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」；18080 实机复核 `glassApi=object`、无 fallback、按钮背景透明、canvas 2290×1416。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行。
+- 待验证：真机（非 headless）双 WebGL context 的长时间稳定性；柔和云雾背景下的折射观感。
+- 已知局限：这是**屏幕空间折射**，不是物理光线追踪；背景云雾无硬边缘处弯折不明显，只有高对比边缘（文字/线条）可见。
+- 产物与证据路径：`src/ui/liquidglass.mjs`、`docs/evidence/v3-webgl-mask38-20261111.png`（定稿）、`v3-webgl-mask0-20261111.png`（零强度对照）、`v3-webgl-fallback-20261111.png`（降级）、`docs/改动记录-角色线.md` 02:00 登记行。
+- 最近构建：`dist/assets/index-Dr2hTk66.js` @ 2026-11-11 02:00，987,290 B，sha256 前 16 位 `f1dde4ac6e2de739`；`index-B4URAVhX.css` 36,050 B；`liquidglass-BQp9Vpqs.js` 6,460 B；`dist/index.html` 5.66 kB 引用主 JS/CSS。构建人：收口线。01:55 的 `index-DiPacdkP.js` 已作废。
+- 已知冲突 / 风险：承接 01:55 交接（抖音水印 / 字幕、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制）；新增两个 WebGL context 并存，已在本机验证可运行。
+
+### 交接 2026-11-11 01:55 by 收口线（液态玻璃收口 + 三次定版构建）
+
+- 已做：
+  - **GitHub 调研**（ytlook/Solarium、Z1Code/glass-refraction、kucukkanat/liquid-glass）：真液态玻璃 = 中心通透 + 边缘折射 + 渐变描边环 + 指针镜面高光 + 多层厚度 + 色散，不是 blur 加白底。
+  - **根因修复**：`vite.config.mjs` 的 `keepStandardBackdropFilter` 原只认 `var()` 形态，字面量 `blur()` 经 lightningcss 合并后只剩 `-webkit-`，Chrome 154 计算值恒 none（实测 `.title-sound`）。已放宽为任意值，并让前缀版去掉 `url()` 以兼容 Safari 降级。
+  - **真折射接入后证伪**：视频定帧、隐藏粒子、按钮后塞黑白条纹、scale 0→90，PSNR 44 dB 且条纹仍平直 → egolite 的 Chrome 虽 `CSS.supports=true` 且 computed 含 `url()`，渲染层忽略 `backdrop-filter` 的 SVG 位移滤镜；帧率开 / 关 26.4 / 26.6 fps，无代价。已撤掉 SVG 滤镜、折射参照网格、`?glass`/`?grid` 开关，并清理此前被重复追加两遍的 CSS 段。
+  - **最终版**（制作人 01:47 指令）：三个菜单按钮与声音按钮**彻底去掉实底色**（computed `backgroundColor=transparent`），只留 `blur(10px) saturate(1.7)` + 1.4px 渐变描边环 + 指针高光 + 多层内阴影厚度 + 边缘淡青/淡粉色散；文字改白字配深色描边阴影，`primary` 用金色描边/字色区分层级；亮 / 暗视频帧实机截图均确认文字可读。**WASD 提示卡移到左下角**（`position:absolute; left:20px; bottom:clamp(...)`，实测 rect x=20）。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」；`dist/.git` 完好，18080 实测 200；实机复核 `bg=transparent` / `bd=blur(10px)...` / `footer=absolute` / `font=NaiwaKuaiLe` / SVG 滤镜节点已不存在；产物 CSS 无 `lg-refract` 残留，`backdrop-filter` 标准与前缀各 18 条配平。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**；`submission.json` 完成式字段留空；闸门未放行，线上仍是旧构建。
+- 待验证：无（本机亮 / 暗帧与 computed 均验过）。
+- 产物与证据路径：`docs/evidence/v3-glass-nobg-dark-20261111.png`、`v3-glass-nobg-bright-20261111.png`、`v3-liquid-glass-final-20261111.png`、`v3-refract-clear90-20261111.png`（证伪证据）、`docs/改动记录-角色线.md` 01:25 / 01:30 / 01:50 登记行。
+- 最近构建：`dist/assets/index-DiPacdkP.js` @ 2026-11-11 01:53，986,910 B，sha256 前 16 位 `c91e7c5fdd7ba70d`；`index-mo6Kr7gG.css` 35,190 B；`dist/index.html` 5.52 kB 引用二者；两份 woff2 与 `bg/title.mp4` 仍在。构建人：收口线。
+- 已知冲突 / 风险：承接 01:20 交接——抖音水印 / 字幕（制作人裁决保留）、11.5 MB 背景视频、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制；01:15 的 `index-59Oxmk6e.js` 已作废。无底色按钮会透出视频里的水印文字，属预期表现。
+
+### 交接 2026-11-11 01:20 by 收口线（标题字定稿 + 二次定版构建）
+
+- 已做：
+  - **标题字艺术化**（制作人 01:09 指令，01:15 裁决「快乐体」）：用 Google Fonts `text=` 取站酷快乐体 / 站酷庆科黄油体的「奶蛙零」三字子集 woff2（1,072 B / 3,768 B，免费商用），放 `src/ui/fonts/` 由 Vite 打包；三字拆 span 做错落旋转 + 立体金边 + 装饰金线；删除 `.logo-sub` / `.logo-ver` 两行；**默认快乐体**，`?logo=qingke` 可切回黄油体对比。
+  - **正式重建**：`npm run build` exit=0，产物见「最近构建」；`dist/.git` 完好、HEAD 仍 `e50a536`；18080 实测 index / 视频均 200。
+  - **实机复核**（egolite，18080 正式产物）：computed font = `NaiwaKuaiLe`、`document.fonts.check` = true、副标题节点已不存在、视频 `paused=false` / 1280×720；`npm run lint` 与 `node --check` 全过。
+- 未做 / 待办：`dist/` 子仓仍未提交 / 推送 / 部署；**Demo 视频必须重录**（首页与标题均已改，旧录像过期）；`submission.json` 完成式字段留空；闸门未放行，线上仍是旧构建。
+- 待验证：无（本机已验）；11.5 MB 背景视频在慢网/真机的首屏体验仍由制作人把关。
+- 产物与证据路径：`docs/evidence/v3-logo-final-20261111.png`、`v3-logo-kuaile-20261111.png`、`v3-logo-qingke-20261111.png`、`src/ui/fonts/`、`docs/改动记录-角色线.md` 01:20 登记行。
+- 最近构建：`dist/assets/index-59Oxmk6e.js` @ 2026-11-11 01:15，986,314 B，sha256 前 16 位 `622ba928d2b53718`；`index-HQsDwwyy.css` 31,328 B；`dist/index.html` 5.52 kB 引用二者；`dist/assets/zcool-kuaile-3-DrMS74hz.woff2` 1,072 B + `zcool-qingke-3-DVsrUWU1.woff2` 3,768 B；`dist/bg/title.mp4` 11,564,527 B。构建人：收口线（标题字定稿）。
+- 已知冲突 / 风险：承接 01:10 交接——抖音水印 / 字幕经制作人裁决保留、11.5 MB 背景视频体积、`dist/.git/config` 明文凭据、浏览器有声 autoplay 限制。**01:07 的 `index-B_bfr5si.js` 已被本次构建取代，不再是交付候选**；`?logo=qingke` 仅为对比入口，交付默认快乐体。
+
+### 交接 2026-11-11 01:10 by 收口线（首页视频背景 + 定版构建）
+
+- 已做：
+  - **首页改版**（制作人 01:00 指令）：视频背景、按钮缩小靠下、标题移顶部居中并重做字形（中文字距 12px→3px、去 40px 发光、改实心描边+硬阴影）；顺带撤掉与视频主体打架的右侧 3D 立绘、给按钮/页脚加实底、声音按钮移右上角。素材自带抖音水印 / 第三方账号 / 中文字幕，制作人 01:0x 裁决「就这样」保留。
+  - **资产**：`public/bg/title.mp4`（源片 26,668,218 B → 30fps / CRF30 / AAC96k 后 11,564,527 B）+ `title-poster.jpg` 38,836 B；源片未入库、未修改。
+  - **声音兜底**：浏览器禁止无手势有声 autoplay，实现「muted 起播 → 尝试解静音 → 被拦回退 → 首次交互补声 → 手动开关」，并用 MutationObserver 在离开标题页时暂停，避免与战斗 BGM 叠音。egolite 实测 readyState=4 / paused=false / 1280×720；初始 muted=true，点击后 muted=false 且续播。
+  - **验证**：`node --check src/ui/titlefx.mjs` OK、`npm run lint` exit=0；临时构建 `.tmp-dist-visual` 与实机三屏截图通过；`npm run build` exit=0（vite 8.3.6，57 modules，4.37s）。
+  - **正式构建**：产物写入 `dist/`（见「最近构建」），`dist/.git` 完好、HEAD 仍 `e50a536`；`http://127.0.0.1:18080` 实测 index 200、视频 200 / 11,564,527 B、入口引用自洽。
+- 未做 / 待办：
+  - `dist/` 子仓**未提交、未推送、未部署**；是否以本次产物为交付构建由制作人裁决（本轮只构建，未做任何提交动作）。
+  - **Demo 视频必须重录**：现 `docs/demo-video-32s.mp4` 录于 11-10 00:42，早于本次构建且首页已改版，按 §4 属过期证据。
+  - `docs/submission.json` 完成式字段继续留空；`demo_url_note`「线上与视频一致」失真待修；闸门 `NAIWA_DEPLOY_OK` 未放行，线上仍是旧构建。
+  - `docs/报告书.md:178` 已于 00:40 改为 52.4 秒 / 1572 帧（单独立项），视频重录后规格会变，需再修。
+- 待验证：11.5 MB 背景视频在真机 / 慢网下的首屏加载体验（仅本机验证）；抖音水印在赛事评审口径下的合规性由制作人把关；「默认有声」受浏览器策略限制，实际表现为「首次交互后有声」。
+- 产物与证据路径：`docs/evidence/v3-title-video-20261111-01.png`（首版）、`-02.png`（微调后）、`docs/evidence/v3-visual-fix-20261111-0*.png`（前一轮视觉修复）、`public/bg/`、`docs/改动记录-角色线.md` 00:50 / 01:05 登记行。
+- 最近构建：`dist/assets/index-B_bfr5si.js` @ 2026-11-11 01:07，986,211 B，sha256 前 16 位 `6a9fd06f93267ae4`；`dist/assets/index-Cd3RirXl.css` 29,879 B；`dist/index.html` 5,571 B 引用二者；`dist/bg/title.mp4` 11,564,527 B + `title-poster.jpg` 38,836 B。构建人：收口线（首页改版定版构建）。
+- 已知冲突 / 风险：
+  - 素材自带抖音水印、第三方账号与中文字幕，主体为鸡非奶蛙，与项目 IP 不一致（制作人裁决保留）。
+  - 背景视频使首屏静态体积增加约 11.5 MB，`preload="auto"` 会拉满下载。
+  - `dist/.git/config` 仍有 1 条明文推送凭据；打包交付须确认包内不含 `.git`。
+  - `dist` 子仓现 14 项 dirty：4 GLB `M`、旧产物 2 项 `D`、`index.html` `M`、新产物 6 项 `??`、`bg/` 1 项 `??`、重复 GLB 1 项 `??`。
+
+### 交接 2026-11-11 00:30 by 收口线（状态盘点 / 交付链对齐前置）
+
+- 已做：
+  - **全仓只读盘点**（不构建、不部署、不改 `src/`、`dist/`）：主仓 HEAD `19bd0f2` @ 11-10 13:42:59、累计 8 提交；`git diff HEAD -- src/ tests/` 为空；`npm run lint` exit=0；32 个 `src/**/*.mjs` 全部 `node --check` 通过；`git -C dist fsck` exit=0。
+  - **更正 §1 失实坐标**：原「仅 1 提交 `0fb882e`」改为实测 8 提交 / HEAD `19bd0f2`；「最后更新」改 2026-11-11。旧值不删改历史交接记录，仅修坐标表。
+  - **质量证据复核**：`docs/test-report.json` 25/25、passRate 100 @ `2026-11-10T06:29:57.698Z`（本地 14:29）；`docs/dev-loop-state.json` round 1 = 100；T9 独立复核 `docs/evidence/v3-p0p2-verify-20261110.json` verdict PASS（20:18 落盘）。
+  - **构建核对**：`dist/assets/index-CbSem1CL.js` 985,095 B @ 14:28、`dist/index.html` 引用自洽；dist 子仓 4 只 `M` 状态 GLB（dounai / naifen / xiaonaiwa / xigema）与 `public/asset` 同名文件 sha256 前 16 位逐一 MATCH，即工作树内容与源一致，差异仅为子仓未提交。
+- 未做 / 待办（**按依赖排序，逐批待制作人确认**，非一次性混做）：
+  - **B1 报告书口径单独立项**：`docs/报告书.md:178` 仍写「44.4 秒 / 1333 帧」，ffprobe 实测 52.4 秒 / 1572 帧 / 30fps / 1920×1186；§8 要求不与其他改动混做。README 与 `docs/submission.json` 已为正确值。
+  - **B2 Demo 视频重录**：现 `docs/demo-video-32s.mp4` 录于 11-10 00:42，早于 14:28 构建，按 §4 属过期证据；须取自 B3 登记后的构建。
+  - **B3 dist 交付态**：子仓共 13 项 dirty——`assets/` 新产物 5 项 `??`、旧产物 2 项 `D`、未跟踪重复副本 `asset/naiwa_laugh_mixamo.glb` 1 项 `??`、`index.html` 1 项与 4 只 GLB `M`；HEAD 仍 `e50a536`。是否以本次产物为交付构建由制作人裁决，提交后方可作为 B2 的取证基准；重复副本是否剔除同属该裁决。
+  - **B4 台账**：`docs/submission.json` 的 `video_url` / `source_zip_url` / `rednote_url` / `submit_at` / `frozen_tag` / `receipt` / `rec_method` / `rec_driver` / `frozen_commit` 一律保持留空（§「不许预填完成式」）；`demo_url_note` 中「线上与视频、插图一致」已失真，需随本人发帖 / 打 tag / 提交后一并修订。
+  - **B5 部署闸门** `NAIWA_DEPLOY_OK` 未放行，线上（魔搭 / workbuddy）仍为旧构建；放行属制作人决策。
+  - **B6 交付视觉物料**：基于 B2–B3 对齐后的构建再产出，避免二次过期证据。
+- 待验证：20:18 一批文件（`src/main.mjs`、`src/ui/titlefx.mjs`、`src/ui/hud.mjs`、`tests/game-test.mjs`、`AGENTS.md`、`README.md`、`eslint.config.mjs`、`package.json`）mtime 更新但内容相对 HEAD 零差异，判为同字节重写 / 触碰，非源码漂移；14:28 构建与当前 `src/` 的逐字节对应关系未做独立重建复核（§4 禁止并发构建）。
+- 产物与证据路径：`docs/test-report.json`、`docs/dev-loop-state.json`、`docs/evidence/v3-p0p2-verify-20261110.json`、`docs/evidence/v3-showcase-20261110-01..06-*.png`（6 张 @ 20:14，未跟踪）、本文件 §1 与 §6。
+- 最近构建：`dist/assets/index-CbSem1CL.js` @ 2026-11-10 14:28，985,095 B（**子仓未提交**）；`dist/assets/index-OmbNf9jo.css` 26,281 B。构建人 p0-p2 修复线（T4），本线未重建。
+- 已知冲突 / 风险：
+  - `dist/.git/config` 仍有 1 条明文推送凭据（实测 `grep -c "oauth2:"` = 1），按既有决策保持现状；任何把 `dist/` 打包进交付物的动作须先确认包内不含 `.git`。
+  - 工作区 37 项 dirty：`docs/test-shots` 13、`docs/evidence` 13、`docs/*.json|txt|md` 9、`tests/dev-loop.mjs` 1、`package.json` 1；含大量 Lux3D 探针与 showcase 截图，按「不动身份不明产物」口径未清理、未归档。
+  - §6 此前最后一条交接为 11-10 13:30，14:28–20:18 的 dev-loop / showcase / T9 复核活动无对应交接，本条补记。
+  - 线上站点落后于本地构建；CSS 6 条 `-webkit-backdrop-filter` 仅前缀形态为既有债；约 20 个 node/ego 进程驻留疑为并行线残留，未终止。
+  - 赛事截止 2026-11-19 19:00，盘点时余约 8 天 18 小时。
 
 ### 交接 2026-11-10 13:30 by p0-p2 修复线（P0–P2 收口）
 

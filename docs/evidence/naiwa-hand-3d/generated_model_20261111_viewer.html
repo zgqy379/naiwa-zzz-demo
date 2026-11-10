@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>奶蛙的手 · 3D 模型</title>
+<script type="module" src="./model-viewer.min.js"></script>
+<style>
+  body { margin:0; height:100vh; display:grid; place-items:center; background:#0b1120; color:#dbe6ff; font:14px system-ui,sans-serif; }
+  model-viewer { width:92vw; height:82vh; background:transparent; }
+  p { position:fixed; bottom:12px; left:0; right:0; text-align:center; opacity:.6; }
+</style>
+</head>
+<body>
+  <model-viewer src="./naiwa_hand_cursor.glb" camera-controls auto-rotate shadow-intensity="1" exposure="1" environment-image="neutral"></model-viewer>
+  <p>拖拽旋转 · 滚轮缩放</p>
+</body>
+</html>

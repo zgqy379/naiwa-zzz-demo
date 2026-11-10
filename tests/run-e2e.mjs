@@ -69,10 +69,19 @@ async function main() {
   const reportPath = `${ROOT}/docs/test-report.json`;
 
   // 1) 构建（产物进临时目录，不覆盖交付物 dist/）
+  // 上一轮的 detached preview 可能仍握着 .tmp-dist-e2e 的文件句柄，Windows 上
+  // 直接清空 outDir 会偶发 EPERM/EBUSY。先清理 + 失败重试一次，并把完整日志打出来，
+  // 避免只截 500 字符把真正的错误藏起来。
   log(`构建生产版本（--outDir ${TMP_OUT}）...`);
-  const build = await run(`node node_modules/vite/bin/vite.js build --outDir ${TMP_OUT}`);
+  await cleanupTmp();
+  let build = await run(`node node_modules/vite/bin/vite.js build --outDir ${TMP_OUT}`);
   if (build.code !== 0) {
-    console.error("构建失败:", build.err.slice(-500));
+    log("构建失败，清理临时目录后重试一次...");
+    await cleanupTmp();
+    build = await run(`node node_modules/vite/bin/vite.js build --outDir ${TMP_OUT}`);
+  }
+  if (build.code !== 0) {
+    console.error("构建失败（已重试）：\n[stdout]\n" + build.out.slice(-2000) + "\n[stderr]\n" + build.err.slice(-2000));
     await cleanupTmp();
     process.exit(1);
   }

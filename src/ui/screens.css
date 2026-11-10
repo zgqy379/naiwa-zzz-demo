@@ -883,3 +883,737 @@ input[type=range] { width: 160px; accent-color: #f5c542; }
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ============================================================
+ * 2026-11-11 定版前收口：WCAG 文字对比度（浅玻璃底 × 深色字）
+ * 第三轮玻璃改浅蓝白后，标题页小字、菜单按钮、档案 tab 与设置项
+ * 仍在用为深色底写的浅灰/浅蓝字，实机几乎读不出来。
+ * 只覆盖文字色与衬底，不改动玻璃质感、圆角与版式。
+ * 回滚：删掉本段即恢复。
+ * ============================================================ */
+.logo-sub  { color: #35435f; text-shadow: 0 1px 2px rgba(255,255,255,.5); }
+.logo-ver  { color: #2f3d57; border-color: rgba(47,61,87,.42); }
+.title-footer      { color: #2f3d57; }
+.title-footer .hint { color: #35435f; }
+.title-footer .copy { opacity: 1; color: #3c4a63; }
+
+.menu-btn         { color: #1b2638; text-shadow: 0 1px 1px rgba(255,255,255,.5); }
+.menu-btn.primary { color: #23180a; text-shadow: none; }
+
+.atab        { color: #24334c; background: rgba(255,255,255,.42); text-shadow: 0 1px 1px rgba(255,255,255,.5); }
+.atab:hover  { background: rgba(255,255,255,.62); }
+.atab.active { color: #241a08; text-shadow: none; }
+
+.opt         { color: #24334c; background: rgba(255,255,255,.42); }
+.opt:hover   { background: rgba(255,255,255,.62); }
+.opt.active  { color: #241a08; background: rgba(255,209,92,.86); }
+
+.setting-row      { color: #1f2b3f; }
+.settings-inner h2 { color: #1a2030; text-shadow: 0 1px 2px rgba(255,255,255,.5); }
+.reward-chip      { color: #3a2c08; text-shadow: none; }
+
+/* ============================================================
+ * 2026-11-11 首页改版：视频背景 + 版式重排 + 标题字重做
+ * 只作用于 #screen-title，不影响选人/结算/设置页。
+ * 回滚：删掉本段即恢复。
+ * ============================================================ */
+
+/* ① 视频铺底，原渐变改为压暗遮罩（视频画面偏亮，保证文字对比度） */
+.title-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -3;
+  pointer-events: none;
+}
+#screen-title .title-bg {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 16, 30, .62) 0%,
+    rgba(10, 16, 30, .18) 32%,
+    rgba(10, 16, 30, .28) 62%,
+    rgba(8, 13, 26, .78) 100%
+  );
+}
+#screen-title .title-bg::before { opacity: .22; }
+#screen-title .title-vignette {
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(4, 8, 18, .58) 100%);
+}
+#screen-title .title-char { opacity: .72; }
+
+/* ② 版式：标题顶部居中，按钮组与页脚靠下 */
+#screen-title .title-inner {
+  position: absolute; inset: 0;
+  width: 100%; max-width: none;
+  padding: 0 20px;
+  gap: 0;
+  justify-content: flex-start;
+}
+#screen-title .game-logo { margin-top: clamp(26px, 6.5vh, 82px); }
+#screen-title .title-menu {
+  margin-top: auto;
+  margin-bottom: 12px;
+  width: min(300px, 78vw);
+  gap: 8px;
+}
+#screen-title .title-footer { margin-bottom: clamp(14px, 3vh, 34px); }
+
+/* 按钮缩小 */
+#screen-title .menu-btn {
+  padding: 9px 16px;
+  font-size: 13px;
+  gap: 10px;
+  border-radius: 12px;
+  color: #1b2638;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .55);
+}
+#screen-title .menu-btn.primary { color: #23180a; text-shadow: none; }
+#screen-title .menu-btn .btn-icon { font-size: 15px; width: 18px; }
+
+/* ③ 标题字重做：中文收紧字距、去掉糊边大发光、改实心描边 */
+#screen-title .logo-main {
+  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: clamp(40px, 6.2vw, 66px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  line-height: 1.05;
+  color: #ffd76a;
+  -webkit-text-stroke: 1.2px rgba(48, 32, 8, .78);
+  text-shadow: 0 3px 0 rgba(42, 28, 8, .62), 0 8px 22px rgba(0, 0, 0, .58);
+}
+#screen-title .logo-sub {
+  margin-top: 6px;
+  font-size: 12px; letter-spacing: 6px;
+  color: #f0f4ff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .85);
+}
+#screen-title .logo-ver {
+  margin-top: 10px;
+  color: #eef3ff;
+  border-color: rgba(238, 243, 255, .45);
+  background: rgba(14, 22, 38, .45);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .85);
+}
+#screen-title .title-footer,
+#screen-title .title-footer .hint,
+#screen-title .title-footer .copy {
+  color: #f2f6ff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .9);
+}
+
+/* ④ 声音开关 */
+.title-sound {
+  position: absolute; right: 18px; bottom: 16px; z-index: 5;
+  padding: 7px 13px;
+  font-family: inherit;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  color: #f2f6ff;
+  background: rgba(14, 22, 38, .62);
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.title-sound:hover { background: rgba(14, 22, 38, .84); }
+.title-sound.on { color: #ffe6a0; border-color: rgba(255, 217, 122, .6); }
+
+/* ===== 首页视频背景微调（2026-11-11）：避开素材主体/字幕/水印冲突 ===== */
+#screen-title .title-char { display: none; }   /* 视频已有主体，撤掉原 3D 立绘 */
+#screen-title .title-bg {
+  background: linear-gradient(180deg,
+    rgba(10,16,30,.62) 0%, rgba(10,16,30,.16) 30%,
+    rgba(10,16,30,.34) 58%, rgba(8,13,26,.94) 100%);
+}
+#screen-title .menu-btn { background-color: rgba(232, 242, 255, .94); }
+#screen-title .menu-btn.primary { background: linear-gradient(135deg, #ffd97a, #ffc04d); }
+#screen-title .title-footer {
+  align-self: center;
+  background: rgba(10, 16, 30, .78);
+  border-radius: 12px;
+  padding: 7px 16px;
+}
+.title-sound { top: 18px; bottom: auto; }
+
+/* ============================================================
+ * 2026-11-11 标题字艺术化
+ * 站酷庆科黄油体 / 站酷快乐体（免费商用），Google Fonts text= 三字子集，
+ * 各 1–4 KB；作为 CSS 资源由 Vite 打包，路径自动正确。
+ * 删掉 NAIWA ZERO 与 VOL.0 两行，改由一条金线收尾。
+ * 回滚：删掉本段并把 index.html 的 .logo-main 改回纯文本即可。
+ * ============================================================ */
+@font-face {
+  font-family: "NaiwaQingKe";
+  src: url("./fonts/zcool-qingke-3.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+5976, U+86D9, U+96F6;
+}
+@font-face {
+  font-family: "NaiwaKuaiLe";
+  src: url("./fonts/zcool-kuaile-3.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+5976, U+86D9, U+96F6;
+}
+
+#screen-title .logo-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: "NaiwaKuaiLe", "STHupo", "华文琥珀", "YouYuan", "幼圆", system-ui, sans-serif;
+  font-size: clamp(50px, 7.8vw, 86px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.12;
+  color: #ffd257;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    0 2px 0 #a9660f,
+    0 4px 0 #8a520c,
+    0 6px 0 #6b3d08,
+    0 8px 0 #4a2905,
+    0 12px 2px rgba(30, 16, 4, .78),
+    0 18px 28px rgba(0, 0, 0, .68);
+}
+#screen-title .logo-main span { display: inline-block; }
+#screen-title .logo-main span:nth-child(1) { transform: translateY(4px) rotate(-5deg); }
+#screen-title .logo-main span:nth-child(2) { transform: translateY(-5px) rotate(2deg) scale(1.06); }
+#screen-title .logo-main span:nth-child(3) { transform: translateY(3px) rotate(5deg); }
+
+/* 替代副标题的装饰金线 */
+#screen-title .game-logo::after {
+  content: "";
+  display: block;
+  width: min(220px, 46vw);
+  height: 2px;
+  margin: 16px auto 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 214, 110, .92), transparent);
+  box-shadow: 0 0 12px rgba(255, 200, 80, .6);
+}
+
+/* 备选：?logo=qingke */
+body[data-logo-font="qingke"] #screen-title .logo-main,
+#screen-title .logo-main.alt {
+  font-family: "NaiwaQingKe", "STHupo", "华文琥珀", "YouYuan", "幼圆", system-ui, sans-serif;
+  font-size: clamp(48px, 7.4vw, 82px);
+}
+
+/* ============================================================
+ * 2026-11-11 Liquid Glass 质感层
+ * 参考 GitHub: ytlook/Solarium、Z1Code/glass-refraction 的共同做法，自绘实现：
+ *  ① 渐变描边环 rim-light —— mask-composite 挖空中心，只留 1.4px 亮边
+ *  ② 指针跟随的镜面高光 —— 写在 background-image 而非伪元素，
+ *     保证永远不盖住文字（WCAG 对比度不受影响）
+ *  ③ 多层 inset 阴影造厚度与体积
+ * 不含 SVG 位移折射（WebGL 同页有性能代价），需要时另行接入。
+ * 回滚：删掉本段即恢复。
+ * ============================================================ */
+#screen-title .menu-btn,
+#screen-title .title-footer {
+  position: relative;
+  isolation: isolate;
+}
+/* .title-sound 本身已是 absolute；若改成 relative 会掉回文档流中央 */
+#screen-title .title-sound { isolation: isolate; }
+#screen-title .menu-btn::before,
+#screen-title .title-sound::before,
+#screen-title .title-footer::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, .95), rgba(255, 255, 255, .20) 24%,
+    rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, .12) 72%,
+    rgba(255, 255, 255, .62));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+/* 高光作为背景层，文字始终在其上 */
+#screen-title .menu-btn,
+#screen-title .title-sound,
+#screen-title .title-footer {
+  background-image:
+    radial-gradient(200px 150px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .42), transparent 62%),
+    linear-gradient(160deg, rgba(255, 255, 255, .26), transparent 38%);
+}
+#screen-title .title-footer {
+  background-image: radial-gradient(220px 130px at var(--lg-px, 50%) var(--lg-py, 0%), rgba(255, 255, 255, .12), transparent 65%);
+}
+#screen-title .menu-btn.primary {
+  background-color: #ffca62;
+  background-image:
+    radial-gradient(200px 150px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .45), transparent 62%),
+    linear-gradient(135deg, #ffd97a, #ffc04d);
+}
+/* 厚度：外投影 + 顶部一线高光 + 内部上下聚光/阴影 */
+#screen-title .menu-btn {
+  box-shadow:
+    0 14px 30px -12px rgba(6, 12, 26, .55),
+    0 3px 10px -4px rgba(6, 12, 26, .40),
+    inset 0 1px 0 rgba(255, 255, 255, .72),
+    inset 0 12px 26px -20px rgba(255, 255, 255, .90),
+    inset 0 -14px 26px -18px rgba(20, 34, 60, .50);
+}
+#screen-title .title-sound {
+  box-shadow:
+    0 10px 24px -10px rgba(6, 12, 26, .60),
+    inset 0 1px 0 rgba(255, 255, 255, .40),
+    inset 0 -10px 20px -16px rgba(0, 0, 0, .60);
+}
+#screen-title .title-footer {
+  box-shadow:
+    0 10px 26px -12px rgba(4, 8, 18, .70),
+    inset 0 1px 0 rgba(255, 255, 255, .18);
+}
+
+
+/* ===== 2026-11-11 液态玻璃最终版（无实底）=====
+ * 撤掉已证伪的 SVG 位移折射（Chrome 渲染层忽略 backdrop-filter 的 url()）
+ * 与折射参照网格。玻璃质感全部由 CSS 承担：模糊 + 1.4px 渐变描边环 +
+ * 指针跟随高光 + 多层内阴影厚度 + 边缘淡青/淡粉色散。
+ * 按钮不再有实底色；文字改白字 + 深色描边阴影，保证亮/暗视频帧上都可读。
+ */
+#screen-title .menu-btn,
+#screen-title .title-sound,
+#screen-title .title-footer {
+  backdrop-filter: blur(10px) saturate(1.7) brightness(1.08);
+}
+#screen-title .menu-btn::before,
+#screen-title .title-sound::before,
+#screen-title .title-footer::before {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, .95), rgba(150, 225, 255, .55) 18%,
+    rgba(255, 255, 255, 0) 46%, rgba(255, 170, 220, .26) 74%,
+    rgba(255, 255, 255, .62));
+}
+
+/* 按钮：彻底去掉实底，只留玻璃 */
+#screen-title .menu-btn {
+  background-color: transparent;
+  background-image:
+    radial-gradient(200px 150px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .18), transparent 62%),
+    linear-gradient(160deg, rgba(255, 255, 255, .10), transparent 40%);
+  border: 1px solid rgba(255, 255, 255, .40);
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .92), 0 0 12px rgba(0, 0, 0, .65);
+  box-shadow:
+    0 14px 30px -12px rgba(4, 8, 20, .60),
+    inset 0 1px 0 rgba(255, 255, 255, .55),
+    inset 0 14px 30px -22px rgba(255, 255, 255, .85),
+    inset 0 -16px 30px -22px rgba(0, 0, 0, .70);
+}
+#screen-title .menu-btn.primary {
+  background-color: transparent;
+  background-image:
+    radial-gradient(200px 150px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 226, 150, .26), transparent 62%),
+    linear-gradient(160deg, rgba(255, 215, 120, .14), transparent 42%);
+  border-color: rgba(255, 215, 120, .78);
+  color: #ffe9a8;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .95), 0 0 14px rgba(90, 50, 0, .75);
+}
+/* 声音按钮同样去实底 */
+#screen-title .title-sound {
+  background-color: transparent;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .90);
+  border-color: rgba(255, 255, 255, .45);
+}
+
+/* 操作提示卡：移到左下角 */
+#screen-title .title-footer {
+  position: absolute;
+  left: 20px;
+  bottom: clamp(16px, 3vh, 30px);
+  align-self: auto;
+  margin: 0;
+  text-align: left;
+  max-width: min(320px, 44vw);
+  background-color: rgba(10, 16, 30, .42);
+  background-image: radial-gradient(220px 130px at var(--lg-px, 50%) var(--lg-py, 0%), rgba(255, 255, 255, .10), transparent 65%);
+}
+
+
+/* ===== 2026-11-11 WebGL 液态玻璃透镜层 =====
+ * canvas 在视频之上、文字之下；按钮 DOM 只保留文字与 1.4px 渐变描边环，
+ * 真正的折射/色散/高光由 liquidglass.mjs 的 shader 完成。
+ */
+.glass-layer {
+  position: absolute; inset: 0;
+  z-index: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+#screen-title .menu-btn,
+#screen-title .title-sound,
+#screen-title .title-footer {
+  backdrop-filter: none;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+/* 降级：WebGL 不可用时恢复 CSS 磨砂玻璃 */
+body[data-glass-fallback="css"] #screen-title .menu-btn,
+body[data-glass-fallback="css"] #screen-title .title-sound,
+body[data-glass-fallback="css"] #screen-title .title-footer {
+  backdrop-filter: blur(12px) saturate(1.6) brightness(1.06);
+  background-color: rgba(226, 238, 252, .55);
+}
+body[data-glass-fallback="css"] #screen-title .menu-btn.primary {
+  background-color: rgba(255, 210, 110, .55);
+}
+
+/* ============================================================
+ * 2026-11-11 全局液态玻璃材质
+ * 首页由 WebGL 透镜负责真折射；其余界面背后是 DOM，WebGL 无法采样，
+ * 统一用同一套 CSS 材质：渐变描边环 + 指针镜面高光 + 厚度 + 边缘色散。
+ * 不含 #screen-title 任何元素，避免覆盖首页 WebGL 版。
+ * ============================================================ */
+:is(.select-inner, .result-inner, .settings-inner, .archive,
+    #screen-select .menu-btn, #screen-result .menu-btn, #screen-settings .menu-btn,
+    .atab, .opt, .char-card, #toast) {
+  position: relative;
+  isolation: isolate;
+  background-color: rgba(224, 238, 252, .78);
+  background-image:
+    radial-gradient(320px 220px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .34), transparent 64%),
+    linear-gradient(160deg, rgba(255, 255, 255, .16), transparent 40%);
+  backdrop-filter: blur(14px) saturate(1.65) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, .42);
+  box-shadow:
+    0 18px 40px -16px rgba(4, 10, 24, .55),
+    inset 0 1px 0 rgba(255, 255, 255, .60),
+    inset 0 16px 32px -24px rgba(255, 255, 255, .75),
+    inset 0 -18px 34px -24px rgba(10, 20, 40, .55);
+}
+#toast { background-color: rgba(14, 22, 38, .74); }
+
+/* 战斗 HUD 胶囊与计时器：底更实，保住强光场景下的可读性 */
+:is(.brand-mark, .hud-round, .chain-chip, .shell-chip, .key, .hud-mode, .hud-help,
+    .hud-timer, .bar-label) {
+  position: relative;
+  isolation: isolate;
+  background-color: rgba(226, 240, 255, .84);
+  background-image:
+    radial-gradient(180px 130px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .30), transparent 62%),
+    linear-gradient(160deg, rgba(255, 255, 255, .14), transparent 38%);
+  backdrop-filter: blur(14px) saturate(1.6) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, .45);
+  box-shadow:
+    0 12px 28px -12px rgba(4, 10, 24, .55),
+    inset 0 1px 0 rgba(255, 255, 255, .62),
+    inset 0 -14px 28px -20px rgba(10, 20, 40, .55);
+  color: #1b2638;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, .65);
+}
+.timer-num  { color: #16233a; text-shadow: 0 1px 2px rgba(255,255,255,.6), 0 2px 8px rgba(0,0,0,.18); }
+.timer-label { color: #2a3a52; text-shadow: 0 1px 2px rgba(255,255,255,.6); }
+.hud-timer  { border-radius: 16px; padding: 4px 14px 6px; }
+.bar-label  { border-radius: 8px; padding: 2px 8px; }
+
+/* 1.3px 渐变描边环（用 ::after，避开各元素已有的 ::before 斜切高光） */
+:is(.select-inner, .result-inner, .settings-inner, .archive,
+    #screen-select .menu-btn, #screen-result .menu-btn, #screen-settings .menu-btn,
+    .atab, .opt, .char-card, #toast,
+    .brand-mark, .hud-round, .chain-chip, .shell-chip, .key, .hud-mode, .hud-help,
+    .hud-timer, .bar-label)::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1.3px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, .95), rgba(150, 225, 255, .50) 18%,
+    rgba(255, 255, 255, 0) 46%, rgba(255, 170, 220, .24) 74%,
+    rgba(255, 255, 255, .60));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+ * 2026-11-11 深色模式（:root[data-theme="dark"]）
+ * 由 screens.mjs 根据系统偏好 / 设置屏 / ?theme= 写入。
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --glass-bg: rgba(22, 31, 48, .84);
+  --glass-bg-strong: rgba(16, 24, 38, .92);
+  --glass-bg-light: rgba(30, 42, 62, .76);
+  --glass-ink: #eaf2ff;
+  --glass-edge: rgba(165, 200, 255, .28);
+  --glass-edge-hi: rgba(190, 215, 255, .36);
+  --glass-edge-lo: rgba(0, 0, 0, .45);
+  --glass-blur: blur(18px) saturate(1.3) brightness(.92);
+  --glass-blur-strong: blur(24px) saturate(1.4) brightness(.92);
+  --glass-blur-soft: blur(10px) saturate(1.2) brightness(.94);
+  --ink: #eaf2ff;
+  --muted: #a9b8d0;
+}
+:root[data-theme="dark"] body { background: #060a13; }
+:root[data-theme="dark"] #screen-select {
+  background: linear-gradient(135deg, rgba(8, 13, 24, .92), rgba(4, 8, 16, .96));
+}
+:root[data-theme="dark"] #screen-result,
+:root[data-theme="dark"] #screen-settings { background: rgba(3, 6, 12, .78); }
+
+/* 所有玻璃面统一换深底浅字 */
+:root[data-theme="dark"] :is(.select-inner, .result-inner, .settings-inner, .archive,
+    #screen-select .menu-btn, #screen-result .menu-btn, #screen-settings .menu-btn,
+    .atab, .opt, .char-card, #toast,
+    .brand-mark, .hud-round, .chain-chip, .shell-chip, .key, .hud-mode, .hud-help,
+    .hud-timer, .bar-label) {
+  background-color: rgba(22, 31, 48, .84);
+  background-image:
+    radial-gradient(320px 220px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(150, 190, 255, .20), transparent 64%),
+    linear-gradient(160deg, rgba(160, 195, 255, .10), transparent 40%);
+  border-color: rgba(165, 200, 255, .28);
+  color: #eaf2ff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
+  box-shadow:
+    0 18px 40px -16px rgba(0, 0, 0, .72),
+    inset 0 1px 0 rgba(190, 215, 255, .22),
+    inset 0 -18px 34px -24px rgba(0, 0, 0, .70);
+}
+:root[data-theme="dark"] :is(
+  .select-header h2, .select-count, .char-card .cc-name, .char-card .cc-role, .cc-no,
+  .setting-row, .settings-inner h2, .result-stat .rs-label, .result-stat .rs-value,
+  .archive-name, .archive-role, .stat-label,
+  .logo-sub, .logo-ver, .title-footer, .title-footer .hint, .title-footer .copy
+) { color: #eaf2ff; text-shadow: 0 1px 3px rgba(0, 0, 0, .72); }
+:root[data-theme="dark"] .timer-num,
+:root[data-theme="dark"] .timer-label { color: #eaf2ff; text-shadow: 0 1px 3px rgba(0, 0, 0, .78); }
+:root[data-theme="dark"] .key kbd {
+  color: #eaf2ff;
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(180, 210, 255, .24);
+}
+:root[data-theme="dark"] .result-stat { background: rgba(255, 255, 255, .06); }
+:root[data-theme="dark"] #toast { background-color: rgba(10, 16, 28, .88); }
+
+/* 首页：视频与 WebGL 透镜层一起压暗，玻璃内外仍一致 */
+:root[data-theme="dark"] .title-video,
+:root[data-theme="dark"] .glass-layer { filter: brightness(.58) saturate(.85); }
+:root[data-theme="dark"] #screen-title .title-bg {
+  background: linear-gradient(180deg,
+    rgba(3, 6, 14, .72) 0%, rgba(3, 6, 14, .30) 32%,
+    rgba(3, 6, 14, .48) 62%, rgba(2, 4, 10, .94) 100%);
+}
+
+/* ============================================================
+ * 2026-11-11 响应式：宽屏 / 中等 / 平板 / 手机 / 矮视口
+ * ============================================================ */
+@media (min-width: 1601px) {
+  .select-inner { max-width: 1240px; height: min(82vh, 900px); }
+  #screen-title .game-logo { margin-top: clamp(40px, 8vh, 110px); }
+}
+@media (max-width: 1199px) {
+  .select-inner { width: 94%; gap: 18px; padding: 20px; }
+  .select-list { grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); }
+}
+@media (max-width: 899px) {
+  .select-inner {
+    flex-direction: column; height: auto;
+    max-height: 88vh; overflow-y: auto;
+  }
+  .select-left, .select-right { width: 100%; }
+  .select-list { max-height: 40vh; }
+  .archive { width: 100%; }
+  #screen-title .game-logo { margin-top: clamp(20px, 5vh, 48px); }
+  #screen-title .title-menu { width: min(300px, 72vw); }
+}
+@media (max-width: 519px) {
+  #screen-title .logo-main { font-size: clamp(34px, 11vw, 52px); letter-spacing: 1px; }
+  #screen-title .title-menu { width: min(280px, 86vw); margin-bottom: 78px; gap: 8px; }
+  #screen-title .menu-btn { min-height: 44px; }
+  #screen-title .title-footer {
+    left: 12px; right: 12px; max-width: none;
+    bottom: 12px; font-size: 11px; font-weight: 600;
+    /* 半透深底压住视频字幕，窄屏小字仍能读 */
+    background-color: rgba(8, 14, 26, .58);
+    padding: 8px 12px;
+  }
+  /* 手机竖屏：压缩立绘，让属性条与「出战」更容易进入首屏 */
+  .archive-art { max-height: 30vh; overflow: hidden; }
+  .archive-art img { max-height: 30vh; object-fit: contain; }
+  .select-inner { scrollbar-width: thin; }
+  .title-sound { top: 12px; right: 12px; }
+  .select-inner { width: 94vw; padding: 14px; max-height: 90vh; }
+  .select-list { grid-template-columns: repeat(2, 1fr); max-height: 34vh; }
+  .result-inner, .settings-inner {
+    width: 94vw; padding: 18px;
+    max-height: 88vh; overflow-y: auto;
+  }
+  .setting-row { flex-wrap: wrap; gap: 8px; }
+  .setting-opts { flex-wrap: wrap; }
+  .opt { min-height: 36px; }
+  /* 小屏给键位条让位 */
+  .hud-mode, .hud-help { display: none; }
+}
+@media (max-height: 620px) {
+  #screen-title .game-logo { margin-top: 12px; }
+  #screen-title .title-menu { margin-bottom: 8px; gap: 6px; }
+  #screen-title .title-footer { display: none; }
+  .select-inner { max-height: 92vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .title-particle, .title-bg::before { animation: none !important; }
+}
+
+
+/* 手机竖屏：出战按钮悬浮 —— 长列表滚动时操作入口始终可见 */
+@media (max-width: 519px) {
+  .select-actions {
+    position: fixed; left: 3vw; right: 3vw; bottom: 12px;
+    z-index: 30;
+    display: flex; gap: 8px;
+    padding: 8px;
+  }
+  .select-actions .menu-btn { flex: 1; min-height: 44px; justify-content: center; }
+  .select-inner { padding-bottom: 76px; }
+}
+
+/* ===== 2026-11-11 选人页：实时 3D + 透明液态玻璃卡片 ===== */
+.live3d-layer {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1; pointer-events: none;
+}
+.select-left, .select-right { position: relative; z-index: 2; }
+
+/* 面板：低不透明度真玻璃，让 3D 层与背景透出来 */
+#screen-select .select-inner {
+  background-color: rgba(226, 238, 252, .16);
+  background-image:
+    radial-gradient(420px 300px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .22), transparent 66%),
+    linear-gradient(160deg, rgba(255, 255, 255, .10), transparent 42%);
+  backdrop-filter: blur(6px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, .38);
+  box-shadow: 0 24px 60px -22px rgba(3, 8, 20, .55), inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+/* 卡片：几乎全透，只留亮边 / 高光 / 厚度 */
+#screen-select .char-card {
+  background-color: rgba(255, 255, 255, .055);
+  background-image: radial-gradient(180px 130px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .18), transparent 64%);
+  backdrop-filter: blur(2px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, .34);
+  box-shadow: 0 10px 26px -14px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .42);
+}
+#screen-select .char-card.active {
+  border-color: rgba(255, 214, 110, .85);
+  box-shadow: 0 0 0 1px rgba(255, 214, 110, .45), 0 12px 30px -12px rgba(245, 197, 66, .42), inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+/* 黑底彻底去掉：静态立绘图与斜纹展示台都不再显示 */
+#screen-select .char-card .cc-img,
+#screen-select .archive-art {
+  background: transparent;
+  border-color: rgba(255, 255, 255, .16);
+}
+#screen-select .char-card .cc-img img,
+#screen-select .archive-art img,
+#screen-select .cc-loading { display: none; }
+#screen-select .cc-3d-slot { width: 100%; height: 100%; }
+/* 透明玻璃上的文字：白字 + 深色描边阴影，亮暗背景都可读 */
+#screen-select :is(.cc-no, .cc-name, .cc-role, .select-header h2, .select-count,
+  .archive-name, .archive-role, .archive-lv-label, .stat-label, .atab) {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .92), 0 0 6px rgba(0, 0, 0, .78), 0 0 14px rgba(0, 0, 0, .55);
+}
+#screen-select .opt { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .9); }
+/* 整屏背景压成中性，突出 3D 模型 */
+#screen-select { background: linear-gradient(135deg, rgba(150, 178, 212, .60), rgba(96, 124, 166, .68)); }
+:root[data-theme="dark"] #screen-select {
+  background: linear-gradient(135deg, rgba(8, 13, 24, .90), rgba(4, 8, 16, .95));
+}
+:root[data-theme="dark"] #screen-select .select-inner {
+  background-color: rgba(12, 20, 34, .22);
+  border-color: rgba(165, 200, 255, .24);
+}
+:root[data-theme="dark"] #screen-select .char-card {
+  background-color: rgba(255, 255, 255, .045);
+  border-color: rgba(165, 200, 255, .26);
+}
+
+/* ===== 实时 3D 卡片观感收口：中性深背景 + 更透玻璃 + 分主题文字 ===== */
+#screen-select { background: linear-gradient(135deg, rgba(96, 122, 158, .72), rgba(58, 80, 116, .80)); }
+:root[data-theme="dark"] #screen-select {
+  background: linear-gradient(135deg, rgba(8, 13, 24, .92), rgba(4, 8, 16, .96));
+}
+#screen-select .select-inner {
+  background-color: rgba(226, 238, 252, .10);
+  backdrop-filter: blur(3px) saturate(1.25);
+}
+#screen-select .char-card {
+  background-color: rgba(255, 255, 255, .03);
+  backdrop-filter: blur(1px) saturate(1.15);
+  border-color: rgba(255, 255, 255, .42);
+}
+/* 浅色主题：深字 + 白描边，压在半透玻璃上仍清楚 */
+#screen-select :is(.cc-no, .cc-name, .cc-role, .select-header h2, .select-count,
+  .archive-name, .archive-role, .archive-lv-label, .stat-label, .atab) {
+  color: #10203a;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, .85), 0 0 6px rgba(255, 255, 255, .65);
+}
+#screen-select .opt { color: #10203a; text-shadow: 0 1px 2px rgba(255, 255, 255, .80); }
+/* 深色主题：白字 + 深阴影 */
+:root[data-theme="dark"] #screen-select :is(.cc-no, .cc-name, .cc-role, .select-header h2,
+  .select-count, .archive-name, .archive-role, .archive-lv-label, .stat-label, .atab) {
+  color: #f2f7ff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .92), 0 0 6px rgba(0, 0, 0, .80), 0 0 14px rgba(0, 0, 0, .55);
+}
+:root[data-theme="dark"] #screen-select .opt {
+  color: #f2f7ff; text-shadow: 0 1px 2px rgba(0, 0, 0, .90);
+}
+/* 头像空位补成员色，避免白洞 */
+#screen-select .archive-avatar {
+  background: linear-gradient(135deg, rgba(245, 197, 66, .85), rgba(190, 132, 36, .85));
+  border: 1px solid rgba(255, 255, 255, .40);
+}
+
+/* ===== 档案卡透明化：放出展示台 3D 模型 ===== */
+#screen-select .archive {
+  background-color: rgba(255, 255, 255, .035);
+  background-image:
+    radial-gradient(320px 240px at var(--lg-px, 30%) var(--lg-py, 0%), rgba(255, 255, 255, .16), transparent 66%),
+    linear-gradient(160deg, rgba(255, 255, 255, .08), transparent 42%);
+  backdrop-filter: blur(1px) saturate(1.15);
+  border: 1px solid rgba(255, 255, 255, .36);
+  box-shadow: 0 14px 34px -18px rgba(0, 0, 0, .48), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+:root[data-theme="dark"] #screen-select .archive {
+  background-color: rgba(255, 255, 255, .025);
+  border-color: rgba(165, 200, 255, .26);
+}
+/* 档案卡内的属性条 / 标签底也别挡模型 */
+#screen-select .archive-stats, #screen-select .archive-head { background: transparent; }
+#screen-select .archive-tabs { background: transparent; }
+
+/* ===== 游戏内自定义鼠标：奶蛙的手 =====
+ * 由官方图生 3D 模型渲染出的透明 PNG（128×128）；浏览器原生 cursor 只接受图片。
+ * 热点 8,64 落在指尖。URL 用相对路径，Vite 会打包并自动修正产物路径。
+ */
+html, body, body * {
+  /* 覆盖 .menu-btn/.opt 等自带 cursor:pointer 的规则 */
+  cursor: url("./naiwa_hand_cursor.png") 8 64, auto !important;
+}
+
+/* ===== 实时 3D 光标层 ===== */
+#cursor3d-layer {
+  position: fixed; left: 0; top: 0;
+  width: 160px; height: 160px;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+body[data-cursor3d="on"], body[data-cursor3d="on"] * {
+  cursor: none !important;
+}

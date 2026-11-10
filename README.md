@@ -11,7 +11,7 @@
 
 ## 当前硬规矩
 
-- **提交用在线 Demo**：https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo —— 魔搭 **Static** 创空间，2026-11-09 23:41 已 Running，静态资源全 200、主界面与 3D 立绘实测正常。
+- **提交用在线 Demo**：https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo —— 魔搭 **Static** 创空间，2026-11-09 23:41 起 Running；站点读远端 **`master` 分支**（保留 `README.md` 平台元数据），部署版本口径见 `docs/submission.json` 的 `demo_url_note`。当前首页已改版为视频背景 + WebGL 液态玻璃，不再是静态 3D 立绘。
 - **备用直达链接**：https://naiwa-zero-demo.app.workbuddy.host/?sharecode=NCT5AQ25MJ —— 同一份构建，直连 Demo 无 iframe 壳。
 - gh-pages 旧地址因 GitHub Pages 构建连续失败仍停在旧构建，**不再使用**；`deploy-api.ps1` 闸门保留（放行需 `NAIWA_DEPLOY_OK=1`，别用 `gh api` / `git push` 绕过），若 Pages 恢复可重跑。
 - Demo 视频 `docs/demo-video-32s.mp4` **已重录达标**（52.4 秒 / 5,509,596 B / 30fps / 1920×1186），且录于 Aholo 街区层接入之后；镜头脚本 `docs/evidence/record-shotlist-20261109.md`。旧 `demo-video-hd.mp4`（8.1s / 10fps）只作迭代对比，不再交付。（数值与 `docs/submission.json` 的 `rec_duration/rec_bytes/rec_sha256` 一致）

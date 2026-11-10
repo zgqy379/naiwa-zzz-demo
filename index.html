@@ -13,14 +13,18 @@
 
   <!-- 主界面 -->
   <div id="screen-title" class="screen">
+    <!-- 首页视频背景：muted autoplay 保证画面一定动，声音由 titlefx.mjs 尽力解锁 -->
+    <video id="title-video" class="title-video" muted autoplay loop playsinline preload="auto" poster="./bg/title-poster.jpg">
+      <source src="./bg/title.mp4" type="video/mp4" />
+    </video>
     <div class="title-bg"></div>
-    <div class="title-char" id="title-char"></div>
+    <!-- WebGL 液态玻璃透镜层：在视频之上、文字之下 -->
+    <canvas id="glass-layer" class="glass-layer"></canvas>
+    <button id="title-sound" class="title-sound" type="button" aria-label="开启声音">🔇 开启声音</button>
     <div class="title-particles" id="title-particles"></div>
     <div class="title-inner">
       <div class="game-logo">
-        <div class="logo-main">奶蛙零</div>
-        <div class="logo-sub">NAIWA ZERO</div>
-        <div class="logo-ver">VOL.0 · 连携短局</div>
+        <div class="logo-main" aria-label="奶蛙零"><span>奶</span><span>蛙</span><span>零</span></div>
       </div>
       <div class="title-menu">
         <button class="menu-btn primary" data-action="start">
@@ -47,6 +51,8 @@
   <!-- 角色选择 -->
   <div id="screen-select" class="screen hidden">
     <div class="select-inner glass">
+      <!-- 实时 3D 角色层：16 只 GLB 按卡片位置渲染，卡片 DOM 透明叠在上面 -->
+      <canvas id="live3d-layer" class="live3d-layer"></canvas>
       <div class="select-left">
         <div class="select-header">
           <h2>队伍编成</h2>
@@ -122,6 +128,14 @@
       <div class="setting-row">
         <span>音量</span>
         <input type="range" min="0" max="100" value="70" id="vol-slider" />
+      </div>
+      <div class="setting-row">
+        <span>外观</span>
+        <div class="setting-opts">
+          <button class="opt active" data-opt="system">跟随系统</button>
+          <button class="opt" data-opt="light">浅色</button>
+          <button class="opt" data-opt="dark">深色</button>
+        </div>
       </div>
       <div class="setting-row">
         <span>画质</span>

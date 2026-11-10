@@ -31,6 +31,12 @@ $files += Get-Item "$dist\index.html"
 if (Test-Path "$dist\.nojekyll") { $files += Get-Item "$dist\.nojekyll" }
 $files += Get-ChildItem "$dist\assets" -File
 $files += Get-ChildItem "$dist\asset" -File
+# 首页视频背景（2026-11-11 新增）：漏掉这一行，线上 index.html 里的
+# ./bg/title.mp4 与 title-poster.jpg 会 404，WebGL 透镜的 VideoTexture 也拿不到画面。
+# 注意：该脚本走 GitHub Contents API 逐文件 PUT，单个 11MB 视频的 base64 body
+# 极可能超限；现役发布通道是魔搭 Static 创空间（git push master），本脚本仅留作备份。
+if (Test-Path "$dist\bg") { $files += Get-ChildItem "$dist\bg" -File }
+if (Test-Path "$dist\portrait") { $files += Get-ChildItem "$dist\portrait" -File }
 # Aholo World 减面街区 GLB（2026-11-09 新增）。漏掉这一行，
 # 线上运行时会 404，画面静默降级成没有写实层，与已录视频 / 报告书不一致。
 if (Test-Path "$dist\world") {
