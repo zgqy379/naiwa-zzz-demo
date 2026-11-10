@@ -29,11 +29,13 @@ const GLB_URL = "./world/aholo-street.glb";
 const SHELL_SCALE = 8.0;
 // 画在 3D 之上（HUD 是 DOM 层，不受影响）
 const RENDER_ORDER = 9000;
-// 屏幕空间径向遮罩：中心 0.18 以内完全透明，到 0.56 渐显，峰值不透明度 0.60
-// （2026-11-09 制作人拍板「再明显一点」：从 0.26/0.66/0.42 调上来）
-const EDGE_INNER = 0.18;
-const EDGE_OUTER = 0.56;
-const EDGE_OPACITY = 0.60;
+// 屏幕空间径向遮罩：中心 0.42 以内完全透明，到 0.75 渐显，峰值不透明度 0.32
+// （2026-11-09 23:5x 美术复核后收紧：原 0.18/0.56/0.60 会让写实层在画面
+//  中部糊出一条白雾带、边缘灰白块，把招牌文字冲淡——对比实测关掉后更干净。
+//  现在只留最外圈一点写实质感，中心交给 NPR 卡通。）
+const EDGE_INNER = 0.42;
+const EDGE_OUTER = 0.75;
+const EDGE_OPACITY = 0.32;
 
 export function attachAholoStreet(group, opts = {}) {
   const state = { loaded: false, triangles: 0, error: null };

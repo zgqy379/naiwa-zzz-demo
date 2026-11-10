@@ -1,0 +1,173 @@
+{
+  "steps": [
+    {
+      "info": {
+        "title": "Lux3D：从图像走向现实",
+        "url": "https://lux3d.aholo3d.cn/",
+        "links": [
+          {
+            "text": "工作台",
+            "href": "/workspace"
+          },
+          {
+            "text": "功能",
+            "href": ""
+          },
+          {
+            "text": "资产",
+            "href": "/assets"
+          },
+          {
+            "text": "应用场景",
+            "href": ""
+          },
+          {
+            "text": "资源",
+            "href": ""
+          },
+          {
+            "text": "开发者",
+            "href": ""
+          },
+          {
+            "text": "定价",
+            "href": "/pricing"
+          },
+          {
+            "text": "工作台",
+            "href": "/workspace"
+          },
+          {
+            "text": "功能",
+            "href": ""
+          },
+          {
+            "text": "资产",
+            "href": "/assets"
+          },
+          {
+            "text": "应用场景",
+            "href": ""
+          },
+          {
+            "text": "资源",
+            "href": ""
+          },
+          {
+            "text": "开发者",
+            "href": ""
+          },
+          {
+            "text": "定价",
+            "href": "/pricing"
+          },
+          {
+            "text": "诸葛青云",
+            "href": ""
+          },
+          {
+            "text": "2,356积分",
+            "href": ""
+          },
+          {
+            "text": "开始生成",
+            "href": "/workspace"
+          },
+          {
+            "text": "获取 API Key",
+            "href": "https://lux3d.aholo3d.cn/?entry_type=website&auth_action=get_api&from=lux3d"
+          },
+          {
+            "text": "01输入参考一张清晰商品图，或一段文本描述。",
+            "href": ""
+          },
+          {
+            "text": "02生成预览快速生成 3D 高斯预览，验证整体外观。",
+            "href": ""
+          },
+          {
+            "text": "03生成材质生成颜色与 PBR 材质属性并完成烘焙。",
+            "href": ""
+          },
+          {
+            "text": "04进入生产继续用于商品展示、渲染与内容生产。",
+            "href": ""
+          },
+          {
+            "text": "01 / Aholo Lux3D StandardAholo",
+            "href": ""
+          },
+          {
+            "text": "02 / Aholo Lux3D TurboAholo Lu",
+            "href": ""
+          },
+          {
+            "text": "开始使用",
+            "href": "/workspace"
+          },
+          {
+            "text": "图生 3D",
+            "href": "/workspace/image-to-3d"
+          },
+          {
+            "text": "材质重绘",
+            "href": "/workspace/material-repaint"
+          },
+          {
+            "text": "绑骨动画",
+            "href": "/workspace/rigging"
+          },
+          {
+            "text": "节点画布",
+            "href": "/workspace/node-canvas"
+          },
+          {
+            "text": "游戏",
+            "href": "/solutions/game"
+          },
+          {
+            "text": "3D 打印",
+            "href": "/solutions/printing"
+          },
+          {
+            "text": "建筑",
+            "href": "/solutions/architecture"
+          },
+          {
+            "text": "影视",
+            "href": "/solutions/film"
+          },
+          {
+            "text": "开发文档",
+            "href": "/docs"
+          },
+          {
+            "text": "Codex/ChatGPT 插件",
+            "href": "/integrations/codex"
+          },
+          {
+            "text": "WorkBuddy 插件",
+            "href": "/integrations/workbuddy"
+          },
+          {
+            "text": "DeepSeek Harness 插件",
+            "href": "/integrations/deepseek-harness"
+          },
+          {
+            "text": "API",
+            "href": "/developers/api"
+          },
+          {
+            "text": "API Key",
+            "href": "https://lux3d.aholo3d.cn/?entry_type=website&auth_action=get_api&from=lux3d"
+          },
+          {
+            "text": "定价",
+            "href": "/pricing"
+          }
+        ],
+        "bodyText": "工作台\n功能\n资产\n应用场景\n资源\n开发者\n定价\n诸葛青云\n2,356\n积分\nAI 3D ASSET GENERATION\n从图片\n到 3D 资产\n\n上传一张图片，\n生成从可预览到可编辑的全套 3D 资产。\n\n开始生成\n获取 API Key\nIMAGE → 3D\nPBR READY\n20s\n3DGS 预览\n~40s\n网格预览\n~5min\n网格与 PBR 材质\nWHAT IS Aholo Lux3D\n工业级 3D资产生产\n\nAholo Lux3D 是群核科技自主研发的 AI 3D 生成大模型。它将图像或文本描述转化为可快速预览的 3D 高斯模型，并进一步转化为具备几何结构与 PBR 材质的精美模型，让生成结果可以继续用于渲染、编辑和业务生产。\n\n01\n输入参考\n\n一张清晰商品图，或一段文本描述。\n\n02\n生成预览\n\n快速生成 3D 高斯预览，验证整体外观。\n\n03\n生成材质\n\n生成颜色与 PBR 材质属性并完成烘焙。\n\n04\n进入生产\n\n继续用于商品展示、渲染与内容生产。\n\nTWO PRODUCTION RHYTHMS\n从快速预览，到精致交付。\n\n一套产品满足不同生产需求：Aholo L"
+      }
+    }
+  ]
+}

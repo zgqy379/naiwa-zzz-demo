@@ -90,7 +90,7 @@
 
 - 截图：`docs/evidence/v3-show3-00..05-*.png`（2000×1250 RGB）
 - 伴生帧：`v3-show3-bg-0X.png`、`v3-show3-clean-0X.png`、`v3-show3-iso-0X.png`、`v3-show3-iso-empty-0X.png`
-- 读数：`v3-show3-metrics.json`、`v3-show3-foot-check.json`、`v3-show3-iou.json`、`v3-show3-pixel-metrics.json`、`v3-show3-glb-diag.json`
+- 读数：`v3-show3-metrics.json`、`v3-show3-foot-check.json`、`v3-show3-iou.json`、`v3-show3-pixel-metrics.json`
 - 拼图：`v3-show3-family-sheet-20261109.png`（3×2）、`v3-show3-foot-diagnostic.png`（6 行底边裁剪 + 红/绿判据线）
 - 构建：`.tmp-dist-show3`（隔离，`--minify false`，50 modules，1.26s）
 - 脚本：`scripts/capture-show3.mjs`、`scripts/measure-show3.py`
@@ -100,3 +100,44 @@
 `final-alignment` 第 3 步验收线为"**≥4 只可辨剪影**"。按本文：**6/6 视觉可辨 + 6/6 脚脱离 HUD + 5/6 本体占屏 ≥30% + IoU 全部 <0.90**，**该条件已超额满足**。
 
 剩余动作只有一条：**重建 `dist/` 后录 32s 视频**。
+---
+
+## 九、收口补充（2026-11-09 23:30）：minify 已解除 + bloom 归属与建议
+
+### 9.1 `--minify` 白屏**已解除**（交付阻断消除）
+
+用**默认 minify**（不加 `--minify false`）构建 `.tmp-dist-minify`，并做真实浏览器加载：
+
+| 判据 | 结果 |
+|---|---|
+| `Runtime.exceptionThrown` | **0** |
+| console error / assert | **0** |
+| HTTP ≥400 | 2 条，均为 `favicon.ico` 404（无 GLB/JS/CSS 404） |
+| 运行时 `currentBgm` | **`"battle"`**（audio 模块正常） |
+| triangles / mean / uniqueColors | 188,350 / 106.23 / 118,026 |
+| 压缩产物 `this.currentBgm` | 6 处全为 `this.currentBgm`，**裸标识符 0 处** |
+
+体积：`50 modules`，JS **757.67 kB（gzip 195.78）** = `--minify false` 版（1713.95 kB）的 **44.2%**。
+
+**结论：不再需要 `--minify false`。** 此前"必须关压缩才能跑"的结论**作废**。
+证据：`v3-minify-verify-20261109.png/.json`、`v3-minify-off-verify-20261109.png/.json`、`v3-minify-pixel-metrics-20261109.json`。
+
+### 9.2 bloom 双入口已从机制上消除
+
+- `src/main.mjs` L120 改为 `postfx.setBloom(true)`（**不传强度**），沿用构造期 L79 的 `bloomStrength`。
+- 实测切档：`low → {enabled:false, strength:0.4}`、`high → {enabled:true, strength:0.4}`，**不再漂移到 0.16**。
+- **唯一强度来源 = L79，归世界线维护**；角色线不再持有第二份 bloom 值。
+
+### 9.3 请世界线确认：当前 bloom 参数显著软化角色细节
+
+| 参数（同帧 A/B，只差参数） | 角色区 p50 | p95 | 动态范围 | **局部对比度** | nearWhite |
+|---|---|---|---|---|---|
+| 0.22 / thr 0.88 / r 0.35 | 92.0 | 199.3 | 129.0 | **0.71** | 0.46% |
+| **0.40 / thr 0.68 / r 0.50（现值）** | 120.3 | 225.7 | 138.0 | **0.53（−25%）** | 2.02% |
+
+- `nearWhite` 像素 **100% 落在背景霓虹区**，**角色区纯白像素 = 0**（没有死白块）；
+- 但角色区**局部对比度 0.71 → 0.53（−25%）**：高光外溢把边缘糊软，细节可读性下降；
+- **建议（供世界线决策，角色线不改此值）**：把 `bloomThreshold 0.68 → 0.72~0.75`，预计 `nearWhite` 回落到 1% 量级、局部对比度回升；`strength 0.40`、`radius 0.50` 可保留以维持霓虹氛围。
+- 若世界线确认"这就是想要的氛围"，角色线不再主张。但**录视频前请两线对一次取值**，避免录完又改。
+
+> 角色线立场：过曝不是"角色被洗白"级缺陷（无纯白块），而是**细节锐度下降 25%**；既然 `main.mjs` 的 bloom 唯一来源已归世界线，是否调整由世界线定。

@@ -1,0 +1,6 @@
+[baseline-2000x1250] {"msPerDirectFrame":11.1,"canvas":[2000,1250],"calls":293,"triangles":187800,"geometries":257,"textures":47} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":1}
+[basic-shadow-type0] {"msPerDirectFrame":10.78,"canvas":[2000,1250],"calls":293,"triangles":187800,"geometries":257,"textures":47} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":0}
+[shadow-off] {"msPerDirectFrame":8.74,"canvas":[2000,1250],"calls":182,"triangles":108844,"geometries":257,"textures":47} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":false,"shadowType":1}
+[small-400x250] {"msPerDirectFrame":13.77,"canvas":[500,312],"calls":289,"triangles":187752,"geometries":275,"textures":50} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":1}
+[no-outline-hull] {"msPerDirectFrame":12.7,"canvas":[2000,1250],"calls":290,"triangles":149798,"geometries":275,"textures":50} scene={"meshes":783,"visibleMeshes":766,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":1}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-frame-probe-20261110.json

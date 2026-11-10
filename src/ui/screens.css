@@ -119,11 +119,12 @@
 
 /* ========== 角色选择 ========== */
 #screen-select {
-  /* 玻璃拟态：半透明白 + 背景模糊 + 高光边 */
-  background: rgba(255,255,255,.14);
-  backdrop-filter: blur(28px) saturate(1.5) brightness(1.1);
-  -webkit-backdrop-filter: blur(28px) saturate(1.5) brightness(1.1);
-  border: 1px solid rgba(255,255,255,.25);
+  /* 修：明亮通透玻璃（参考图）—— 浅色渐变底 + 高光边 */
+  background: linear-gradient(135deg, rgba(220,235,250,.88), rgba(200,220,240,.82));
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 8px 40px rgba(0,0,0,.15);
 }
 .select-inner {
   display: flex; gap: 28px; width: 90%; max-width: 1100px; height: 80vh;
@@ -132,8 +133,8 @@
 .select-header {
   display: flex; align-items: baseline; gap: 14px;
 }
-.select-header h2 { font-size: 24px; font-weight: 800; letter-spacing: 2px; }
-.select-count { font-size: 12px; color: #6a6a80; }
+.select-header h2 { font-size: 24px; font-weight: 800; letter-spacing: 2px; color: #1a2030; }  /* 修：浅色背景用深色字 */
+.select-count { font-size: 12px; color: #4a5568; }
 
 .select-list {
   flex: 1; overflow-y: auto;
@@ -144,27 +145,28 @@
 .select-list::-webkit-scrollbar-thumb { background: rgba(245,197,66,.3); border-radius: 2px; }
 
 /* 玻璃卡片 */
+/* 修：去掉背景色 + 模糊（深色背景下会出现黑方块，改为全透明）*/
 .char-card {
   position: relative;
   padding: 12px;
-  background: rgba(255,255,255,.12);
-  backdrop-filter: blur(10px) saturate(1.3);
-  -webkit-backdrop-filter: blur(10px) saturate(1.3);
-  border: 1px solid rgba(255,255,255,.22);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid transparent;
   border-radius: 12px;
   cursor: pointer; transition: all .18s cubic-bezier(.2, .8, .4, 1);
-  box-shadow: 0 2px 12px rgba(0,0,0,.1);
+  box-shadow: none;
 }
 .char-card:hover {
-  border-color: rgba(255,255,255,.5);
-  background: rgba(255,255,255,.2);
+  border-color: rgba(255,217,122,.7);   /* 只保留边框高亮 */
+  background: transparent;
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  box-shadow: none;
 }
 .char-card.active {
   border-color: rgba(255,217,122,.9);
-  background: rgba(255,217,122,.22);
-  box-shadow: 0 0 20px rgba(245,197,66,.35), inset 0 1px 0 rgba(255,255,255,.4);
+  background: transparent;   /* 修：去掉背景色 */
+  box-shadow: 0 0 16px rgba(245,197,66,.25);
 }
 .char-card .cc-img {
   width: 100%; height: 90px; border-radius: 6px;
@@ -176,8 +178,8 @@
   width: 100%; height: 100%; object-fit: contain;
   display: block;
 }
-.char-card .cc-name { font-size: 14px; font-weight: 700; }
-.char-card .cc-role { font-size: 11px; color: #9a9ab0; margin-top: 2px; }
+.char-card .cc-name { font-size: 14px; font-weight: 700; color: #1a2030; }  /* 修：深色字 */
+.char-card .cc-role { font-size: 11px; color: #4a5568; margin-top: 2px; }
 
 .select-right {
   width: 340px; display: flex; flex-direction: column; gap: 18px;
@@ -229,11 +231,12 @@
 
 /* ========== 结算 ========== */
 #screen-result {
-  /* 玻璃拟态：半透明白 + 背景模糊 + 高光边 */
-  background: rgba(255,255,255,.14);
-  backdrop-filter: blur(28px) saturate(1.5) brightness(1.1);
-  -webkit-backdrop-filter: blur(28px) saturate(1.5) brightness(1.1);
-  border: 1px solid rgba(255,255,255,.25);
+  /* 修：明亮通透玻璃（参考图）*/
+  background: linear-gradient(135deg, rgba(220,235,250,.9), rgba(200,220,240,.85));
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 8px 40px rgba(0,0,0,.15);
 }
 .result-inner {
   display: flex; flex-direction: column; align-items: center;
@@ -274,11 +277,12 @@
 
 /* ========== 设置 ========== */
 #screen-settings {
-  /* 玻璃拟态：半透明白 + 背景模糊 + 高光边 */
-  background: rgba(255,255,255,.14);
-  backdrop-filter: blur(28px) saturate(1.5) brightness(1.1);
-  -webkit-backdrop-filter: blur(28px) saturate(1.5) brightness(1.1);
-  border: 1px solid rgba(255,255,255,.25);
+  /* 修：明亮通透玻璃（参考图）*/
+  background: linear-gradient(135deg, rgba(220,235,250,.9), rgba(200,220,240,.85));
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 8px 40px rgba(0,0,0,.15);
 }
 .settings-inner {
   display: flex; flex-direction: column; gap: 20px;
@@ -568,7 +572,8 @@ input[type=range] { width: 160px; accent-color: #f5c542; }
 .select-header h2 {
   font-weight: 800;
   letter-spacing: 4px;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  color: #1a2030;   /* 修：深色字 */
+  text-shadow: none;
 }
 .select-count { letter-spacing: 2px; font-weight: 600; }
 
@@ -577,16 +582,14 @@ input[type=range] { width: 160px; accent-color: #f5c542; }
   grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
   gap: 12px;
 }
+/* 修：明亮通透版（参考图）—— 覆盖深色玻璃主题 */
 .char-card {
   border-radius: var(--glass-r-md);
-  border: 1px solid rgba(255,255,255,.18);
-  background-color: rgba(255,255,255,.07);
-  backdrop-filter: var(--glass-blur-soft);
-  -webkit-backdrop-filter: var(--glass-blur-soft);
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.28),
-    inset 0 1px 0 rgba(255,255,255,.30),
-    inset 0 -1px 0 rgba(0,0,0,.18);
+  border: 1px solid rgba(26,32,48,.12);
+  background-color: rgba(255,255,255,.55);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
   padding: 10px 10px 12px;
   overflow: hidden;
 }

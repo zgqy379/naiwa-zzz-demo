@@ -76,19 +76,28 @@ function profileKeyOf(moveTier, move) {
  */
 const VISUAL_SCALE_OVERRIDE = { shell_naiyu: 1.2 };
 
+// 2026-11-10 族谱像素采样（五路交叉，docs/evidence/tint2-ref-sample-20261110.json）证实：
+// 族谱奶猫 #CCB97F / 奶鱼 #C1AE6E / 奶粉 #D7A58C 均为黄系，GLB 贴图 vs 族谱色相差仅 5°/4.7°/10.8°，
+// 贴图忠实于设计。此前的"辨识色缺失"系把 config color（饰带色语义）误用为本体判据所致。
+// 本机制默认不启用（tintColor 全 null）；如未来需美术调色，目标色必须取族谱采样值。
+const COLOR_OVERRIDE = {};
+
 /** 队伍成员定义（16 只奶蛙家族，GLB 位于 public/asset/） */
 export const SQUAD = FAMILY.map((shell) => {
   const p = PROFILE[profileKeyOf(shell.moveTier, shell.move)];
   return {
     id: shell.id,
     name: shell.name,
-    glb: `/asset/${shell.glb}`,
+    glb: `./asset/${shell.glb}`,
     role: p.role,
     maxHp: p.maxHp,
     damageMul: p.damageMul,
     speedMul: p.speedMul,
     gridMul: p.gridMul,
     color: shell.color,
+    // 展示层重染目标色（默认全 null = 机制不激活；如需启用在 COLOR_OVERRIDE 填
+    // 族谱采样值，依据见其注释）。经 npr.mjs USE_TINT_NPR 路径作用于角色 albedo。
+    tintColor: COLOR_OVERRIDE[shell.id] ?? null,
     scale: p.scale,
     // 渲染体量补偿（默认 1；仅奶鱼需要，见 VISUAL_SCALE_OVERRIDE 说明）
     visualScale: VISUAL_SCALE_OVERRIDE[shell.id] ?? 1,
@@ -97,6 +106,9 @@ export const SQUAD = FAMILY.map((shell) => {
     moveTier: shell.moveTier,
   };
 });
+
+/** 连携窗口时长（秒）：失衡满时由 openChainWindow() 开启，连携换人后刷新 */
+const CHAIN_WINDOW_S = 4.0;
 
 export class Squad {
   constructor() {
@@ -145,12 +157,24 @@ export class Squad {
 
     if (viaChain) {
       this.chainCount++;
-      this.chainWindow = 4.0;
+      this.chainWindow = CHAIN_WINDOW_S;
     } else {
       this.swapCooldown = 2.0;
       this.chainCount = 0;
     }
     return { from, to, viaChain };
+  }
+
+  /**
+   * 打开连携窗口（外部唯一入口）。
+   * 修复 GAME-1 死锁：此前 chainWindow 全仓唯一写正值处在 swapTo 的 if(viaChain)
+   * 分支内，而 viaChain 唯一来源是 canChain（=chainWindow>0），循环依赖无外部入口，
+   * 连携链在正常游玩中不可达。现由 main.mjs applyDamage 失衡满分支调用。
+   * 只置窗口；chainCount 仍由 swapTo(viaChain=true) 递增（此处不重复计数），
+   * 窗口过期清零沿用 step() 既有逻辑。
+   */
+  openChainWindow() {
+    this.chainWindow = CHAIN_WINDOW_S;
   }
 
   /** 下一个存活角色（跳过 alive=false；无人存活返回 -1） */

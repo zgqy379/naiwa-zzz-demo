@@ -1,0 +1,301 @@
+{
+  "schema": "v3-p0p2-verify@1",
+  "task": "T9 独立复核：对 T1-T8 产物做对抗性验证",
+  "repository": "E:/naiwa-zzz",
+  "verifier": "复核员-独立验证 (session ses_e3c10954effe9AcCn7hyMdOgSb)",
+  "window": {
+    "startLocal": "2026-11-10T13:30:29+08:00",
+    "endLocal": "2026-11-10T13:40:00+08:00",
+    "note": "本轮 P0-P2 修复窗口起点约 2026-11-10T13:02:00+08:00（T1 开始）"
+  },
+  "method": "只读复核 + 三次独立构建到 .tmp-verify-*（未写入 dist/，构建后已清理）+ 字节/sha256/AST 级比对；按要求未运行 node tests/run-e2e.mjs",
+  "verdict": "PASS",
+  "checks": [
+    {
+      "id": "T1",
+      "target": "ESLint 落地：flat config / lint 脚本 / 依赖 / 退出码 0 / 无 ignore 漏扫业务文件 / 无大面积 eslint-disable",
+      "commands": [
+        "node -e \"const p=require('./package.json');console.log(JSON.stringify({scripts:p.scripts,dev:p.devDependencies}))\"",
+        "npm run lint",
+        "npx eslint src tests --debug | grep -c \"Linting code for\"",
+        "npx eslint src tests --debug | grep \"Linting code for\"",
+        "grep -rn \"eslint-disable\" src tests | wc -l",
+        "npx eslint --version",
+        "printf 'export function probe(){ return NEON_PALETTE + 1; }\\n' | npx eslint --stdin --stdin-filename src/probe-check.mjs",
+        "printf 'export function probe(){ return NEON_PALETTE + 1; }\\n' | npx eslint --stdin --stdin-filename scripts/probe-check.mjs"
+      ],
+      "observed": [
+        "package.json scripts.lint = \"eslint src tests\"（package.json:12）；devDependencies.eslint=^10.14.0（实装 v10.14.0）、globals=^17.14.0（实装 17.14.0）",
+        "eslint.config.mjs 存在，1681 B，export default [ ... ] 数组（flat config，:34-57），两张 files 段：src/**/*.mjs（:37）、tests/**/*.mjs（:46）",
+        "npm run lint 退出码 = 0（无任何告警输出）",
+        "实际扫描文件数 = 37（src 32 个 .mjs + tests 5 个 .mjs，与 find 计数 32/5 完全一致）；清单含 src/main.mjs、src/ui/screens.mjs、tests/game-test.mjs",
+        "src/tests 内 eslint-disable 计数 = 0",
+        "反例探针（未写文件）：src/probe-check.mjs 内 NEON_PALETTE → 1 error no-undef，exit=1；同代码放到 scripts/probe-check.mjs → 被 ignore（0 errors, 1 warning，exit=0）",
+        "src/ 与 tests/ 下非 .mjs 文件仅 3 个 CSS（src/ui/glass.css、screens.css、style.css），不被 lint 覆盖属预期"
+      ],
+      "verdict": "PASS",
+      "basis": "配置为 flat config；lint 脚本与依赖齐备；退出码 0；扫描集完整覆盖 src/tests 全部 .mjs（无业务文件被 ignore 排除，screens.mjs 在扫描清单内）；无 eslint-disable 压制；stdin 反例证明 no-undef 规则真实生效（非空跑）"
+    },
+    {
+      "id": "T2",
+      "target": "E2E 用例稳定化：移动/攻击动画触发改轮询+3 次重试；判据未被放宽；node --check 通过",
+      "commands": [
+        "git diff -U6 tests/game-test.mjs",
+        "grep -n \"POLL_TIMES|MAX_ATTEMPTS|const pollWithKey|移动动画触发|攻击动画触发|hit: (s)\" tests/game-test.mjs",
+        "node --check tests/game-test.mjs; node --check tests/harness.mjs",
+        "sed -n '240,320p' .codeartsdoer/plans/p0-p2-fix/plan.md",
+        "grep -c 'await t.case(' tests/game-test.mjs"
+      ],
+      "observed": [
+        "tests/game-test.mjs:42 POLL_TIMES=12、:43 POLL_INTERVAL_MS=250、:44 MAX_ATTEMPTS=3；:57 pollWithKey 通用骨架，:76 轮询循环，keyup 置于 finally",
+        "移动用例 tests/game-test.mjs:266-280：hit = 's.action === \"move\" || s.moving || (s.vel && Math.abs(s.vel.x) > 0.1)'（:277），阈值 0.1 未改",
+        "攻击用例 tests/game-test.mjs:282-298：hit = 's.isAttacking || [\"attack1\",\"attack2\",\"attack3\",\"finisher\"].includes(s.action) || s.comboStage >= 0'（:296），动作集合与 comboStage>=0 阈值未改",
+        "两条用例均保留 { shot: \"08-move\" } / { shot: \"09-attack\" }，用例名与分组未改；t.case 总数 = 25（与 test-report 的 25 条一致）",
+        "node --check tests/game-test.mjs exit=0；node --check tests/harness.mjs exit=0",
+        "plan §2.2.2（objective：判据不放宽）给出的移动骨架判据原文即上式 OR 三选一，并明令禁止降低 |vel.x|>0.1 阈值；当前实现与契约逐字一致"
+      ],
+      "verdict": "PASS",
+      "basis": "固定 sleep 已改为 12×250ms 轮询（任一命中 break）+ 最多 3 轮重试，keyup 在 finally；攻击判据与契约、与 HEAD 版本完全一致；移动判据与 leader 契约 §2.2.2 及用户验收口径逐字一致（OR 三选一、阈值 0.1）；语法检查通过。相对 HEAD 618ac1f 的严格 AND 判据的强度下降已在 issues[1] 单列披露（属契约授权形态，不构成本项不达标）"
+    },
+    {
+      "id": "T3",
+      "target": "首屏真拆分：screens/portrait 动态 import；入口 chunk < 993,311 B 且新增 async chunk；入口无 screen-result；无顶层 await；window.__npr 其余字段保留",
+      "commands": [
+        "grep -rn 'from \"\\./ui/screens.mjs\"|from \"\\./ui/portrait.mjs\"' src/",
+        "grep -rn 'ui/screens.mjs|ui/portrait.mjs' src/",
+        "npm run build -- --outDir .tmp-verify-dist",
+        "stat -c %s dist/assets/index-*.js",
+        "grep -o 'screen-result' dist/assets/index-CbSem1CL.js | wc -l",
+        "node -e \"acorn.parse(entry,{sourceType:'module'}) → 统计顶层 AwaitExpression\"",
+        "for f in setMode setSteps getMode getSteps battle combo counter squad opponent opponentAnim stage postfx startBattle endBattle audio screens makePortrait getBattleStats; do grep -o \\\"\\b$f\\b\\\" entry | wc -l; done"
+      ],
+      "observed": [
+        "src/main.mjs 无任何静态导入 screens/portrait；:119 fallback 界面层 makeFallbackScreens()，:122-157 IIFE 内 await import('./ui/screens.mjs')（:124），:841 getter get screens()，:842 makePortrait 惰性 import('./ui/portrait.mjs')",
+        "src/ui/titlefx.mjs:17 const { makePortrait } = await import('./portrait.mjs')（位于 async 函数内）",
+        "构建输出：57 modules transformed，built in 1.02s；入口 .tmp-verify-dist/assets/index-CbSem1CL.js = 985,095 B < 993,311 B；新增 async chunk screens-CUSChHM5.js 6,979 B、portrait-7e4dPSD-.js 2,613 B（另有既存 music-srt5ItQX.js 3,274 B）",
+        "入口 chunk 内 'screen-result' 出现 0 次；'data-action' 0 次；screens chunk 内 'screen-result'/'ScreenManager'/'showResult' 各 1 次 → 拆分边界彻底",
+        "acorn AST 解析入口 chunk：topLevelStatements=511，topLevelAwait=0，staticImports=0",
+        "window.__npr 字段在入口产物中全部可见：setMode=10 setSteps=1 getMode=2 getSteps=2 battle=9 combo=4 counter=6 squad=1 opponent=4 opponentAnim=1 stage=4 postfx=1 startBattle=1 endBattle=1 audio=1 screens=3 makePortrait=5 getBattleStats=1"
+      ],
+      "verdict": "PASS",
+      "basis": "screens/portrait 已改为动态 import（源码 0 处静态导入），入口 chunk 985,095 B 小于拆分前基线 993,311 B，且新增两个含界面/立绘实现的 async chunk；入口内 screen-result=0、无顶层 await（AST 实测 0）、__npr 对外字段无缺失"
+    },
+    {
+      "id": "T4",
+      "target": "dist 交付构建：与 npm run build 产物一致；dist/.git 完好；GLB 全一致",
+      "commands": [
+        "npm run build -- --outDir .tmp-verify-dist",
+        "sha256sum dist/assets/* .tmp-verify-dist/assets/* dist/index.html .tmp-verify-dist/index.html",
+        "npm run build -- --outDir .tmp-verify-dist2（vite JS API 二次构建）",
+        "git -C dist fsck; git -C dist rev-parse HEAD",
+        "for f in public/asset/*.glb; do sha256sum $f dist/asset/$(basename $f); done",
+        "ls public/portrait | wc -l; ls dist/portrait | wc -l; ls dist/world"
+      ],
+      "observed": [
+        "index-CbSem1CL.js dist=6e274882cc19236a/985,095 B，tmp=同值 → SAME",
+        "index-OmbNf9jo.css dist=d4554af4da6f6555/26,281 B → SAME；screens-CUSChHM5.js cbdb63c493abdc26/6,979 B → SAME；portrait-7e4dPSD-.js 246b29a059d334da/2,613 B → SAME；music-srt5ItQX.js d083b9e331734e32/3,274 B → SAME",
+        "dist/index.html 与两次独立构建 index.html sha256 全同 = 0ae7a19bf1fed9a9...（5,152 B）；index.html 仅引用 ./assets/index-CbSem1CL.js 与 ./assets/index-OmbNf9jo.css，两文件均存在",
+        "git -C dist fsck exit=0；HEAD = e50a5364151dd8dbc60cde16563469d5e41b0bee（未被改动）",
+        "dist/asset 17 个 .glb 与 public/asset 17 个逐一 sha256 比对 MISMATCH=0（含未跟踪副本 naiwa_laugh_mixamo.glb 与 naiwa_laugh_g1_runtime.glb 逐字节相同 2f037d3823a0b725...）",
+        "dist/portrait 18 = public/portrait 18（缺失 0）；dist/world/aholo-street.glb 存在且与 public/world 同名；.nojekyll 54 B",
+        "CSS 内 url(...) 引用计数 = 0（无悬空资源引用）"
+      ],
+      "verdict": "PASS",
+      "basis": "dist 磁盘产物与两次独立构建逐字节一致（5 个 assets + index.html 全部 sha256 相同，证明 dist 就是本轮源码的构建产物、非旧产物冒充）；dist/.git fsck exit=0、HEAD 仍 e50a536；17/17 GLB 全一致；静态资源无缺失"
+    },
+    {
+      "id": "T5a",
+      "target": "E2E 实测结果：docs/test-report.json at/summary = 25/25 100；排除旧文件冒充",
+      "commands": [
+        "node -e \"const r=JSON.parse(fs.readFileSync('docs/test-report.json'));console.log(r.at,r.summary)\"",
+        "ls -la --time-style=full-iso docs/test-report.json docs/test-shots/",
+        "find docs -maxdepth 2 -newermt '2026-11-10 13:00:00' -type f -printf '%TH:%TM %p\\n'"
+      ],
+      "observed": [
+        "at = 2026-11-10T05:16:57.695Z（= 本地 13:16:57，UTC+8），summary = {\"total\":25,\"passed\":25,\"failed\":0,\"passRate\":100}",
+        "文件 mtime = 2026-11-10 13:16:57.696282300（与 at 相差 1 ms）；分组 界面6/6、角色3/3、动画4/4、画面5/5、交互7/7；results 长度 25、失败 0",
+        "13 张 pass 截图 mtime 严格串行 13:16:02.646 → 13:16:57.692（01-title…12-mode-switch），最后一张 12-mode-switch.png(13:16:57.692) 之后 4 ms 才写报告 → 时序自洽",
+        "移动动画触发 duration=3135 ms、攻击动画触发 duration=3761 ms，与 12×250 ms 轮询实现的特征吻合（旧版固定 sleep 约 800/550 ms，不可能产生 3 s 级 duration）",
+        "T8 owner 会话时间窗 13:15:12–13:18:06，报告 at 13:16:57 落在窗内"
+      ],
+      "verdict": "PASS",
+      "basis": "报告 at 与文件 mtime 相差 1 ms、与 13 张截图串行 mtime 同一秒级时间线；用例 duration 携带新版轮询特征；T8 会话窗口吻合 → 排除旧报告冒充。25/25、passRate 100 与 AGENTS §6 记录一致"
+    },
+    {
+      "id": "T6",
+      "target": "文档口径：README 视频时长、AGENTS §7 dist 跟踪描述、AGENTS §6 交接段数值、docs/报告书.md 未修改",
+      "commands": [
+        "git diff README.md; grep -n '44.4|1333|52.4' README.md",
+        "ffprobe -v error -show_entries format=duration,size -of default=nw=1 docs/demo-video-32s.mp4",
+        "ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames,r_frame_rate,width,height -of default=nw=1 docs/demo-video-32s.mp4",
+        "sha256sum docs/demo-video-32s.mp4; node -e \"读取 docs/submission.json 的 rec_*\"",
+        "git ls-files dist | wc -l; git ls-files --stage | grep -c '^160000'; cat -n .gitignore",
+        "grep -n '6e274882cc19236a|0ae7a19bf1fed9a9|d4554af4da6f6555|05:16:57.695Z' AGENTS.md",
+        "stat -c '%y' docs/报告书.md; sed -n '176,180p' docs/报告书.md",
+        "git -C dist ls-files asset | wc -l"
+      ],
+      "observed": [
+        "README.md:17 = 「52.4 秒 / 5,509,596 B / 30fps / 1920×1186」，全文不再出现 44.4 或 1333",
+        "ffprobe 实测 duration=52.400000 s，size=5,509,596 B，1920×1186，r_frame_rate=30/1，nb_frames=1572；sha256=93d21d8864afe757...；与 docs/submission.json 的 rec_duration/rec_bytes/rec_sha256 三项逐一一致",
+        "AGENTS §7 描述与实测一致：git ls-files dist = 0 行；git ls-files --stage | grep ^160000 = 0 行；.gitignore:2 = 'dist/'",
+        "AGENTS §6 抽查 8 项全部与磁盘一致：index-CbSem1CL.js 985,095 B/6e274882cc19236a；index-OmbNf9jo.css 26,281 B/d4554af4da6f6555；index.html 5,152 B/0ae7a19bf1fed9a9 且引用正确；E2E at=2026-11-10T05:16:57.695Z；dist/asset 17 个 GLB（子仓跟踪 16）；dist/portrait 18；dist/world 1；.nojekyll 54 B；dist/.git HEAD e50a536 + fsck exit=0",
+        "AGENTS §6 声称 993,311 B → 985,095 B（−8,216 B，−0.83%）算术自洽（8216/993311=0.827%）；993,311 基线出处见 plan.md:99（index-HM87YEgH.js），本轮用 inlineDynamicImports 反演 1,000,208 B 交叉吻合（见 adversarialProbes[4]）",
+        "docs/报告书.md mtime = 2026-11-10 00:49:04（早于本轮窗口 13:02 起）→ 本轮未修改；其 §178 仍为 44.4 秒/1333 帧（与 AGENTS §6 披露一致），但 §410 已写 52.4 秒/1572 帧 → 文档内部自相矛盾（既有债）",
+        "docs/test-shots 内 FAIL 截图 15 张（与 AGENTS §6「15 张历史 FAIL 截图」一致），其中「攻击动画触发-FAIL.png」mtime 13:01:42 属本轮窗口前段的探索运行"
+      ],
+      "verdict": "PASS",
+      "basis": "README 新值与 ffprobe 实测完全一致且旧值已清除；AGENTS §7 dist 跟踪描述与 git 实测三条全部相符；§6 抽查 8 项数值全部可从磁盘复算；docs/报告书.md 本轮未被修改（mtime 00:49:04）。报告书内部 178/410 行口径不一致属既有文档债，已在 issues 单列"
+    }
+  ],
+  "adversarialProbes": [
+    {
+      "id": "P1",
+      "name": "lint 是否空跑（规则真实生效）",
+      "method": "npx eslint --stdin --stdin-filename src/probe-check.mjs 注入 no-undef 反例；同代码换到 scripts/ 路径做对照",
+      "result": "src 域 → 1 error no-undef，exit=1；scripts 域 → File ignored，exit=0。证明规则真实生效且忽略域边界明确"
+    },
+    {
+      "id": "P2",
+      "name": "lint 是否用 ignore 排除业务文件（点名 screens.mjs）",
+      "method": "npx eslint src tests --debug 全量文件清单比对 find 计数",
+      "result": "扫描 37 个文件 = src 32 + tests 5；src/ui/screens.mjs、src/main.mjs、tests/game-test.mjs 均在清单内，无遗漏"
+    },
+    {
+      "id": "P3",
+      "name": "入口 chunk 是否暗含顶层 await（首屏被阻塞）",
+      "method": "acorn.parse(dist/assets/index-CbSem1CL.js, sourceType=module) 遍历 Program.body 统计 AwaitExpression / 顶层变量初始化 await",
+      "result": "topLevelStatements=511，topLevelAwait=0，staticImports=0"
+    },
+    {
+      "id": "P4",
+      "name": "拆分是否只是搬家（入口仍含界面/立绘实现）",
+      "method": "入口与 async chunk 双向符号计数（screen-result / data-action / ScreenManager / showResult / loadStaticPortrait / ./portrait/ / hero_）",
+      "result": "入口 screen-result=0、data-action=0、.//portrait/=0、hero_=0、loadStaticPortrait=0；screens/portrait 符号全部落在各自 chunk 内"
+    },
+    {
+      "id": "P5",
+      "name": "993,311 B 基线是否编造（拆分前体积反演）",
+      "method": "vite JS API 以 rollupOptions.output.inlineDynamicImports=true 构建到 .tmp-verify-inline，把三个动态 chunk 全部内联后测入口体积",
+      "result": "全内联入口 = 1,000,208 B（含 music 3,274 B 内联）；拆分后 985,095 B；差值 15,113 B ≈ (6,979+2,613+3,274)=12,866 B + 包装开销 2,247 B，与「993,311 + music 独占 ≈ 1,000,208」的预期吻合（偏离 3,623 B ≈ 0.36%）→ 基线数值可采信（原始产物 index-HM87YEgH.js 已被清理，无法直接复测）"
+    },
+    {
+      "id": "P6",
+      "name": "交付构建是否可复现（幂等）+ 是否旧产物冒充",
+      "method": "两次独立构建（.tmp-verify-dist / .tmp-verify-dist2）与 dist 三方 sha256 比对",
+      "result": "5 个 assets + index.html 三方 sha256 完全相同；dist 产物 mtime 13:20:54 与 AGENTS 登记一致"
+    },
+    {
+      "id": "P7",
+      "name": "dist CSS 是否引用不存在的资源 / 玻璃降级链是否断裂",
+      "method": "解析产物 CSS 的 backdrop-filter 声明对（标准 vs -webkit-），并提取未配对声明的选择器上下文；统计 url(...) 引用",
+      "result": "url() 引用 = 0（无悬空资源）；但 backdrop-filter 标准版 9 条 vs 前缀版 15 条：var() 形态三组 6/2/1 全部配对，另有 6 条只在产物中剩 -webkit- 前缀（.menu-btn / #screen-select / #screen-result / #screen-settings / .char-card ×2）→ 见 issues[2]"
+    },
+    {
+      "id": "P8",
+      "name": "E2E 报告是否为旧文件冒充",
+      "method": "at 与 mtime 差值、13 张截图 mtime 串行、用例 duration 与轮询实现特征比对、T8 会话时间窗比对",
+      "result": "差值 1 ms；截图 13:16:02→13:16:57 串行；移动 3135 ms/攻击 3761 ms 符合 12×250 ms 轮询特征；at 落在 T8 窗口内 → 非冒充"
+    },
+    {
+      "id": "P9",
+      "name": "并发写入是否污染本轮证据",
+      "method": "find src -newermt '2026-11-10 13:18:00'；检查 .ego-tmp-* / docs/evidence 增量",
+      "result": "src 自 13:18 后 0 写入（E2E 构建 13:16 与 dist 构建 13:20 基于同一份源码）；但并行线在 13:32–13:37 新建 .ego-tmp-lux-rig*.mjs ×2 与 docs/evidence 3 个文件（527→533）→ 并行活动持续，收工需再清理"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "serious",
+      "title": "dist/.git/config 内含明文推送凭据（制作人已决定保持现状）",
+      "evidence": "dist/.git/config 仅 1 行含内嵌凭据的 URL（第 15 行，grep '://[^ ]*@' = 1；oauth2 出现 1 次；未回显任何 token 明文）；config mtime 2026-11-10 02:20:32；sha256 前 16 位 ac6aff69c1269f36。按制作人决策本轮不动，属已知风险而非本轮缺陷",
+      "impact": "任何把 dist/ 打包进交付物的动作都会泄露凭据；该 token 长期以明文落在交付目录",
+      "suggestion": "①轮换该 token；②改用 credential helper 或环境变量注入；③打包交付前确认包内不含 dist/.git"
+    },
+    {
+      "severity": "serious",
+      "title": "「移动动画触发」判据相对 HEAD 基线由 AND 放宽为 OR（契约授权，但削弱测试灵敏度）",
+      "evidence": "HEAD 618ac1f 版本（git diff）为 A.assertEqual(action,\"move\") + A.assert(moving)（AND）；现行 tests/game-test.mjs:277 为 's.action === \"move\" || s.moving || (s.vel && Math.abs(s.vel.x) > 0.1)'（OR）。该 OR 形态由 plan §2.2.2 骨架明文规定、也与本轮验收口径一致，故判 T2 达标；但 AGENTS §6 的「判据（阈值与断言文案）逐字不变」措辞相对 HEAD 不成立",
+      "impact": "即使动画状态机卡在 idle（action 不切换），只要 move.isMoving 或 |vel.x|>0.1 为真，用例仍通过 → 动画层回归可能漏检（攻击用例判据与 HEAD 完全一致，未受影响）",
+      "suggestion": "若要恢复灵敏度：在该用例内追加「action 必须进入 move 枚举」的第二断言（可与 OR 判据并存，不改变现有通过条件）；同时把 AGENTS §6 措辞改为「相对本轮开工实现逐字不变」"
+    },
+    {
+      "severity": "general",
+      "title": "dist CSS 中 6 条 backdrop-filter 只剩 -webkit- 前缀（玻璃降级链在产物层断裂）",
+      "evidence": "解析 dist/assets/index-OmbNf9jo.css：标准 9 条 vs -webkit- 15 条；var(--glass-blur/-soft/-strong) 三组 6/2/1 全部配对，未配对的 6 条为 -webkit-backdrop-filter:blur(12px)saturate(1.4)×1、blur(20px)saturate(1.4)×3、none×2，命中 .menu-btn、#screen-select、#screen-result、#screen-settings、.char-card×2；源码 screens.css:79/125/154/237/283/591 均为标准+前缀双写，vite.config.mjs:13-32 插件只识别 backdrop-filter:var(--x) 形态，漏掉字面量值",
+      "impact": "在仅认标准属性的浏览器版本下，主菜单按钮、选人/结算/设置整屏与角色卡会失去模糊玻璃（视觉降级、不白屏、不报错）；plan B2「backdrop-filter 与 -webkit- 计数相等」断言不成立",
+      "suggestion": "把插件正则扩展到任意值形态（如匹配 backdrop-filter:[^;}] 并为同声明补 -webkit-），或给这 6 处改用 var(--) 令牌形态；修复后重跑 T4 断言链。注：vite.config.mjs 与 src/ui/*.css 的 mtime（13:00 前）均早于本轮，非本轮引入"
+    },
+    {
+      "severity": "general",
+      "title": "AGENTS §6 凭据处数描述与实测不符（写 3 处，实测 1 条含凭据 URL）",
+      "evidence": "AGENTS.md:96 写「内含 3 处 modelscope oauth2 明文推送凭据」；实测 grep -c '://[^ ]*@' dist/.git/config = 1，grep -o oauth2 = 1，仅第 15 行含凭据；含 @ 的行共 3 行但另 2 行非凭据 URL（口径差异）",
+      "impact": "安全风险描述数字偏大 3 倍，复盘时可能误判凭据分布；实际风险等级不变（明文凭据仍存在）",
+      "suggestion": "把 §6 该行改为「1 条含内嵌凭据的推送 URL（第 15 行）」，或明确统计口径；不回显 token"
+    },
+    {
+      "severity": "general",
+      "title": "docs/报告书.md 内部视频口径自相矛盾（178 行旧值 / 410 行新值）",
+      "evidence": "报告书 mtime 2026-11-10 00:49:04（本轮未修改）；:178 写「44.4 秒 / 30fps / 1920×1186 / 1333 帧」，:410 写「52.4 秒 / 30fps / 1920×1186 / 1572 帧」；ffprobe 实测 52.400000 s / 1572 帧",
+      "impact": "同一文档两处时长/帧数冲突，官网材料「与成果匹配」审查存在被质疑风险；AGENTS §6 只披露了 178 行，未提 410 行已是新值",
+      "suggestion": "按 §8 单独立项把 :178 改为实测值并全库统一；修订时同步检查 :315/:328 等处的秒数表述"
+    },
+    {
+      "severity": "suggestion",
+      "title": "lint 规则集仅 9 条且忽略 scripts/、docs/、vite.config.mjs",
+      "evidence": "eslint.config.mjs:22-32 只启用 no-undef/no-redeclare/no-dupe-keys/no-dupe-args/no-unreachable/no-const-assign/no-fallthrough/no-self-compare/no-cond-assign（不含 recommended）；:4-19 IGNORES 含 scripts/**、docs/**、vite.config.mjs",
+      "impact": "scripts/ 下 16 个 .py 与多个 .mjs（含 verify-minify.mjs、capture-*.mjs）及构建配置不在门禁内；unused-vars、eqeqeq 等也未启用，exit=0 的保障面较窄",
+      "suggestion": "阶段化扩容：先把 scripts/*.mjs 与 vite.config.mjs 纳入（node 全局域），再逐步启用 no-unused-vars 等低噪规则，避免一次性被历史噪声淹没"
+    },
+    {
+      "severity": "suggestion",
+      "title": "T5 清理后并行线又产生临时目录，收工需二次清理",
+      "evidence": "当前 .tmp-dist-* = 0、src/core 不存在（T5 目标达成）；但 .ego-tmp-lux-rig.mjs（13:32:36）与 .ego-tmp-lux-rig2.mjs（13:33:19）在 T5 完成（13:29:45）之后新建；docs/evidence 文件数 527 → 533",
+      "impact": "若不二次清理，临时文件会残留在交付工作区（已被 .gitignore 忽略，不入库）",
+      "suggestion": "T10 提交前重跑 `ls -d .tmp-* .ego-tmp-* 2>/dev/null` 并清理本轮新产生的项；docs/evidence 只增不减属预期"
+    },
+    {
+      "severity": "suggestion",
+      "title": "首屏基线 993,311 B 的原始产物已不存在，无法直接复测",
+      "evidence": "plan.md:99 记录基线来自 dist/assets/index-HM87YEgH.js（993,311 B）；磁盘与 dist 子仓均无该文件（.tmp-dist-split 已清理）；本轮 inlineDynamicImports 反演 1,000,208 B 与之交叉吻合（偏差 0.36%）",
+      "impact": "基线只能靠交叉推演采信，未来复盘无法逐字节核对",
+      "suggestion": "后续把「拆分前基线产物」留存到 docs/evidence/<构建号>/ 或记录其 sha256，避免基线漂移不可追溯"
+    },
+    {
+      "severity": "suggestion",
+      "title": "docs/test-shots 混入 FAIL 截图（含本轮窗口内新增）",
+      "evidence": "docs/test-shots/*-FAIL.png 共 15 张；其中「攻击动画触发-FAIL.png」mtime 2026-11-10 13:01:42（本轮窗口前段）；.gitignore:48 已约定 *-FAIL.png 不进仓库、按注释应归档 docs/evidence/iteration/",
+      "impact": "截图目录语义混杂；虽不入库，但会干扰后续「本轮 pass 截图」取证",
+      "suggestion": "按 .gitignore 注释把 FAIL 截图移入 docs/evidence/iteration/；harness 写 FAIL 图时直接落到该目录"
+    },
+    {
+      "severity": "observation",
+      "title": "dist/ 子仓仍未提交（本轮新产物为未跟踪态）",
+      "evidence": "git -C dist status：?? assets/index-CbSem1CL.js 等 5 项、D assets/index-DXYmkd82.js + index-DJ01gumS.css、M index.html 与 4 个 asset GLB",
+      "impact": "当前产物只存在于工作区与子仓工作树，不是可追溯交付态（AGENTS §6 已如实披露）",
+      "suggestion": "由制作人决定是否以本次 13:20:54 构建为交付构建并在 dist 子仓提交；提交前先处置 issues[0]"
+    }
+  ],
+  "counts": {
+    "lintScannedFiles": 37,
+    "eslintDisableOccurrences": 0,
+    "e2eCases": 25,
+    "e2ePassed": 25,
+    "distAssets": 5,
+    "distGlb": 17,
+    "publicGlb": 17,
+    "distPortrait": 18,
+    "distTrackedGlb": 16,
+    "testShotPass": 13,
+    "testShotFail": 15,
+    "evidenceFilesAtT5": 527,
+    "evidenceFilesNow": 533
+  },
+  "artifacts": {
+    "tempBuilds": [
+      ".tmp-verify-dist（npm run build -- --outDir .tmp-verify-dist，57 modules，1.02s）",
+      ".tmp-verify-dist2（vite JS API 二次构建）",
+      ".tmp-verify-inline（inlineDynamicImports 反演，1,000,208 B）"
+    ],
+    "cleanup": "三个临时目录在取证完成后已删除；未修改 src/**、tests/**、docs/**（本文件除外）、dist/**、README.md、AGENTS.md"
+  }
+}

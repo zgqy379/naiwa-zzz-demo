@@ -1,0 +1,5 @@
+[baseline-2000x1250] {"msPerDirectFrame":380.05,"canvas":[2000,1250],"calls":294,"triangles":187812,"geometries":258,"textures":47} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":1}
+[shadow-off] {"msPerDirectFrame":9.34,"canvas":[2000,1250],"calls":211,"triangles":109172,"geometries":258,"textures":47} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":false,"shadowType":1}
+[small-400x250] {"msPerDirectFrame":10.65,"canvas":[500,312],"calls":294,"triangles":187812,"geometries":258,"textures":47} scene={"meshes":783,"visibleMeshes":783,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":1}
+[no-outline-hull] {"msPerDirectFrame":10.5,"canvas":[2000,1250],"calls":292,"triangles":149822,"geometries":258,"textures":47} scene={"meshes":783,"visibleMeshes":766,"casters":72,"sceneChildren":32,"shadowMapEnabled":true,"shadowType":1}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-frame-probe-20261110.json

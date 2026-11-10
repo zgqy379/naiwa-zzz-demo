@@ -3,8 +3,8 @@
  * 全部程序化几何，零外部资产。
  */
 import * as THREE from "three";
-import { mulberry32, NEON_PALETTE } from "./storefront.mjs";
-import { makeGroundTexture } from "./textures.mjs";
+import { mulberry32, NEON_WORDS, pickTubeColor, signIconOf } from "./storefront.mjs";
+import { makeGroundTexture, makeNeonSignTexture, makeShopSignTexture, pickSignTone } from "./textures.mjs";
 
 let _groundTex = null;
 function getGroundTex() {
@@ -19,10 +19,12 @@ export function makeStreet(opts = {}) {
   g.name = "street";
 
   // 柏油路面（程序化纹理 + 法线，PBR 质感）
+  // 圣经 v2 §5.7：沥青 0x1f242d→0x343b48（黄昏蓝调中灰蓝，路面 0.18–0.30 带内，
+  // 细节可读）；roughness 分层 0.88（湿感靠 makeWetPatches 光斑，不靠压暗）
   const asphaltMat = new THREE.MeshStandardMaterial({
-    color: 0x16181e,
+    color: 0x343b48,
     map: getGroundTex(),
-    roughness: 0.92,
+    roughness: 0.88,
     metalness: 0.02,
   });
   const road = new THREE.Mesh(new THREE.BoxGeometry(length, 0.1, width), asphaltMat);
@@ -30,8 +32,8 @@ export function makeStreet(opts = {}) {
   road.receiveShadow = true;
   g.add(road);
 
-  // 人行道（两侧）
-  const sidewalkMat = new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.95 });
+  // 人行道（两侧；0x353b46→0x4a5260，明度序「路面 > 立面」，roughness 0.95 分层）
+  const sidewalkMat = new THREE.MeshStandardMaterial({ color: 0x4a5260, roughness: 0.95 });
   for (const side of [-1, 1]) {
     const sw = new THREE.Mesh(new THREE.BoxGeometry(length, 0.18, 1.6), sidewalkMat);
     sw.position.set(0, 0.09, side * (width / 2 + 0.8));
@@ -39,16 +41,17 @@ export function makeStreet(opts = {}) {
     g.add(sw);
   }
 
-  // 路缘
-  const curbMat = new THREE.MeshStandardMaterial({ color: 0x2a2e36, roughness: 0.85 });
+  // 路缘（0x353a44→0x525a68）
+  const curbMat = new THREE.MeshStandardMaterial({ color: 0x525a68, roughness: 0.9 });
   for (const side of [-1, 1]) {
     const curb = new THREE.Mesh(new THREE.BoxGeometry(length, 0.22, 0.2), curbMat);
     curb.position.set(0, 0.11, side * (width / 2 + 0.05));
     g.add(curb);
   }
 
-  // 中央标线（虚线）
-  const lineMat = new THREE.MeshStandardMaterial({ color: 0x8a8a70, roughness: 0.8, emissive: 0x2a2a1a, emissiveIntensity: 0.2 });
+  // 中央标线（虚线；冷白 0xc8d0dc，无 emissive——自发光仅限灯笼/橱窗/贩卖机窗/招牌灯管/边线，
+  // 圣经 v2 §5.7；靠路面提亮后的漫反射对比保持可读）
+  const lineMat = new THREE.MeshStandardMaterial({ color: 0xc8d0dc, roughness: 0.85 });
   const rng = mulberry32(seed);
   for (let x = -length / 2 + 1; x < length / 2; x += 3.5) {
     const line = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.012, 0.12), lineMat);
@@ -56,8 +59,8 @@ export function makeStreet(opts = {}) {
     g.add(line);
   }
 
-  // 斑马线（两端）
-  const crossMat = new THREE.MeshStandardMaterial({ color: 0x9a9a8a, roughness: 0.8, emissive: 0x22221a, emissiveIntensity: 0.15 });
+  // 斑马线（两端；冷白 0xcfd4de，同上去 emissive）
+  const crossMat = new THREE.MeshStandardMaterial({ color: 0xcfd4de, roughness: 0.85 });
   for (const endX of [-length / 2 + 3, length / 2 - 3]) {
     for (let i = 0; i < 6; i++) {
       const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.012, width * 0.7), crossMat);
@@ -66,8 +69,9 @@ export function makeStreet(opts = {}) {
     }
   }
 
-  // 井盖
-  const manholeMat = new THREE.MeshStandardMaterial({ color: 0x2a2e34, roughness: 0.7, metalness: 0.4 });
+  // 井盖（金属构件法则：metalness 0.4–0.6 / roughness 0.35–0.5，圣经 v2 §5.7；
+  // 色提亮到掩体同族 0x3a4250，保证验收③「井盖可辨认」）
+  const manholeMat = new THREE.MeshStandardMaterial({ color: 0x3a4250, roughness: 0.45, metalness: 0.5 });
   for (let i = 0; i < 4; i++) {
     const mh = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.03, 12), manholeMat);
     mh.position.set(-length / 3 + rng() * (length * 0.6), 0.015, (rng() - 0.5) * (width * 0.6));
@@ -84,7 +88,7 @@ export function makePowerLines(opts = {}) {
   const g = new THREE.Group();
   g.name = "power-lines";
 
-  const poleMat = new THREE.MeshStandardMaterial({ color: 0x2a2e34, roughness: 0.8, metalness: 0.2 });
+  const poleMat = new THREE.MeshStandardMaterial({ color: 0x3a4250, roughness: 0.8, metalness: 0.08 });
   const rng = mulberry32(seed);
   const polePositions = [];
 
@@ -132,46 +136,51 @@ export function makeAtmosphereLights(opts = {}) {
   const g = new THREE.Group();
   g.name = "atmosphere";
 
-  // 黄昏主光（暖色，低角度）
-  const sun = new THREE.DirectionalLight(0xffb070, 1.6);
-  sun.position.set(-8, 6, 4);
+  // 明亮通透版光照（参考图：白天/黄昏暖光，整体提亮）
+
+  // 主光：暖阳（高角度，模拟午后）
+  const sun = new THREE.DirectionalLight(0xffd9a8, 2.4);
+  sun.position.set(-6, 10, 5);
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
   sun.shadow.camera.left = -15;
   sun.shadow.camera.right = 15;
   sun.shadow.camera.top = 15;
   sun.shadow.camera.bottom = -15;
+  sun.shadow.bias = -0.001;
   g.add(sun);
 
-  // 冷色补光（蓝紫，从对面）
-  const fill = new THREE.DirectionalLight(0x6a8aff, 0.7);
-  fill.position.set(6, 8, -6);
-  g.add(fill);
+  // 天空补光（冷蓝，模拟天光）
+  const sky = new THREE.DirectionalLight(0x9ec8ff, 1.1);
+  sky.position.set(4, 8, -4);
+  g.add(sky);
 
-  // 环境光（提亮店铺墙面 + 角色，避免全黑）
-  const amb = new THREE.AmbientLight(0x4a5470, 2.6);
+  // 环境光（明亮，模拟白天散射；圣经 v2 §4：光组不动，实机过曝仅压 amb 3.2→2.6 对冲）
+  const amb = new THREE.AmbientLight(0x8a9ab8, 2.6);
   g.add(amb);
 
-  // 顶部半球光（模拟天空反光）
-  const hemi = new THREE.HemisphereLight(0x6a7aa0, 0x3a3028, 1.0);
+  // 顶部半球光（天空蓝 + 地面暖）
+  const hemi = new THREE.HemisphereLight(0xa8c8f0, 0x6a5a48, 1.6);
   g.add(hemi);
 
-  // 正面补光（让角色正面可见）
-  const front = new THREE.DirectionalLight(0xfff0e0, 0.9);
+  // 正面补光（让角色正面明亮）
+  const front = new THREE.DirectionalLight(0xfff5e8, 1.2);
   front.position.set(6, 4, 8);
   g.add(front);
 
-  // 街道两侧补光（模拟店铺内透光映到街上）
+  // 街道两侧柔光（店铺内透光）
   for (const side of [-1, 1]) {
-    const sideLight = new THREE.PointLight(0xffc880, 8, 12, 2);
-    sideLight.position.set(0, 3, side * 4);
+    const sideLight = new THREE.PointLight(0xffe0b8, 10, 14, 2);
+    sideLight.position.set(0, 3.5, side * 4);
     g.add(sideLight);
   }
 
   return g;
 }
 
-/** 霓虹灯箱（独立悬挂的招牌） */
+/** 悬挂灯箱招牌（圣经 v2 §5.1：真字形 makeShopSignTexture 灯箱、底色五选一加权、
+ *  灯管三族边框；「奶」牌保留 makeNeonSignTexture 霓虹管。自发光靠
+ *  map+emissiveMap 且打 __skipNpr——makeNprMaterial 不拷 emissive） */
 export function makeNeonSigns(opts = {}) {
   const { count = 8, length = 30, z = -4, seed = 21 } = opts;
   const g = new THREE.Group();
@@ -179,13 +188,29 @@ export function makeNeonSigns(opts = {}) {
   const rng = mulberry32(seed);
 
   for (let i = 0; i < count; i++) {
-    const color = NEON_PALETTE[Math.floor(rng() * NEON_PALETTE.length)];
+    const tubeColor = pickTubeColor(rng);
+    const tubeHex = "#" + tubeColor.toString(16).padStart(6, "0");
+    const tone = pickSignTone(rng);
     const w = 0.6 + rng() * 1.2;
     const h = 0.3 + rng() * 0.8;
+    const word = NEON_WORDS[Math.floor(rng() * NEON_WORDS.length)];
+    const faceW = w * 0.92;
+    const faceH = h * 0.85;
+    const texH = Math.max(48, Math.round(512 * (faceH / faceW)));
+    const tex = word === "奶"
+      ? makeNeonSignTexture({ text: "奶", color: tubeHex, w: 512, h: texH })
+      : makeShopSignTexture({ text: word, tone, tube: tubeHex, icon: signIconOf(word), w: 512, h: texH });
     const mat = new THREE.MeshStandardMaterial({
-      color, roughness: 0.5, emissive: color, emissiveIntensity: 0.55,
+      color: 0x3a4250,
+      map: tex,
+      emissive: 0xffffff,
+      emissiveMap: tex,
+      emissiveIntensity: 0.75,
+      roughness: 0.5,
+      metalness: 0.4,
     });
     const sign = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.1), mat);
+    sign.userData.__skipNpr = true; // 灯箱自发光不进 NPR 量化
     const side = rng() > 0.5 ? 1 : -1;
     sign.position.set(
       -length / 2 + rng() * length,
@@ -196,11 +221,76 @@ export function makeNeonSigns(opts = {}) {
     g.add(sign);
 
     // 悬挂支架
-    const armMat = new THREE.MeshStandardMaterial({ color: 0x2a2e34, roughness: 0.8 });
+    const armMat = new THREE.MeshStandardMaterial({ color: 0x3a4250, roughness: 0.8 });
     const arm = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, 0.8), armMat);
     arm.position.set(sign.position.x, sign.position.y + h / 2 + 0.1, sign.position.z - side * 0.4);
     g.add(arm);
   }
 
   return g;
+}
+
+/**
+ * 灯笼链（美术圣经 v2 §5.2）：每链 4–6 只鼓形红灯笼 + 挂杆，檐下挂高 2.6–3.0m。
+ * 笼身 0xd8452e、内发光 emissive 0xff7a3d / 0.5、横棱纹、下挂黄穗 0xf0c060。
+ * 返回 { group, points }——points 为每只灯笼灯位，供 makeWetPatches 湿光斑对位。
+ * 灯笼自发光打 __skipNpr（makeNprMaterial 不拷 emissive）。
+ */
+export function makeLanternChain(opts = {}) {
+  const { x = 0, z = -3.9, seed = 1, hangY = 2.8 } = opts;
+  const rng = mulberry32(Math.floor(seed) * 977 + 3);
+  const g = new THREE.Group();
+  g.name = "lantern-chain";
+  const n = 4 + Math.floor(rng() * 3); // 4–6 只
+  const points = [];
+
+  const metalMat = new THREE.MeshStandardMaterial({ color: 0x3a4250, roughness: 0.5, metalness: 0.4 });
+  const bodyMat = new THREE.MeshStandardMaterial({
+    color: 0xd8452e, emissive: 0xff7a3d, emissiveIntensity: 0.5, roughness: 0.85,
+  });
+  const ribMat = new THREE.MeshStandardMaterial({ color: 0xb83a26, roughness: 0.85 });
+  const tasselMat = new THREE.MeshStandardMaterial({
+    color: 0xf0c060, emissive: 0xf0c060, emissiveIntensity: 0.25, roughness: 0.8,
+  });
+  const bodyGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.38, 10);
+  const capGeo = new THREE.CylinderGeometry(0.12, 0.16, 0.06, 10);
+  const ribGeo = new THREE.TorusGeometry(0.2, 0.012, 6, 14);
+  const tasselGeo = new THREE.ConeGeometry(0.045, 0.16, 6);
+  const chainGeo = new THREE.CylinderGeometry(0.008, 0.008, 0.24, 4);
+
+  // 挂杆（贴墙横杆）
+  const bar = new THREE.Mesh(new THREE.BoxGeometry(n * 0.5 + 0.4, 0.04, 0.04), metalMat);
+  bar.position.set(x, hangY, z);
+  g.add(bar);
+
+  for (let i = 0; i < n; i++) {
+    const lx = x + (i - (n - 1) / 2) * 0.5;
+    const drop = 0.12 + rng() * 0.1; // 挂绳长度微差（错落）
+    const ly = hangY - drop - 0.19;  // 灯笼中心（笼高 0.38）
+    const chain = new THREE.Mesh(chainGeo, metalMat);
+    chain.position.set(lx, hangY - drop / 2, z);
+    g.add(chain);
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.set(lx, ly, z);
+    body.userData.__skipNpr = true;
+    g.add(body);
+    for (const dy of [0.2, -0.2]) {
+      const cap = new THREE.Mesh(capGeo, ribMat);
+      cap.position.set(lx, ly + dy, z);
+      g.add(cap);
+    }
+    for (const dy of [0.07, -0.07]) {
+      const rib = new THREE.Mesh(ribGeo, ribMat);
+      rib.rotation.x = Math.PI / 2;
+      rib.position.set(lx, ly + dy, z);
+      g.add(rib);
+    }
+    const tassel = new THREE.Mesh(tasselGeo, tasselMat);
+    tassel.position.set(lx, ly - 0.31, z);
+    tassel.userData.__skipNpr = true;
+    g.add(tassel);
+    points.push({ x: lx, z, y: ly });
+  }
+
+  return { group: g, points };
 }

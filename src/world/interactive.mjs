@@ -121,6 +121,21 @@ export class InteractiveProps {
     }
   }
 
+  /** 收集掩体 AABB（XZ 平面，供 Movement.solidBoxes 做穿墙阻挡；掩体不可破坏，建场后取一次即可） */
+  coverSolids() {
+    return this.props
+      .filter((p) => p.userData.alive && p.userData.type === "cover")
+      .map((p) => {
+        const { width, depth } = p.geometry.parameters;
+        return {
+          minX: p.position.x - width / 2,
+          maxX: p.position.x + width / 2,
+          minZ: p.position.z - depth / 2,
+          maxZ: p.position.z + depth / 2,
+        };
+      });
+  }
+
   /** 检查位置是否被掩体挡住 */
   isBlocked(pos, targetPos) {
     for (const p of this.props) {

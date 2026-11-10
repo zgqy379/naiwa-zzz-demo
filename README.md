@@ -11,9 +11,10 @@
 
 ## 当前硬规矩
 
-- **正式在线 Demo**：https://naiwa-zero-demo.app.workbuddy.host/?sharecode=NCT5AQ25MJ （2026-11-09 23:09 已发布并验证，提交一律填这个）。
+- **提交用在线 Demo**：https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo —— 魔搭 **Static** 创空间，2026-11-09 23:41 已 Running，静态资源全 200、主界面与 3D 立绘实测正常。
+- **备用直达链接**：https://naiwa-zero-demo.app.workbuddy.host/?sharecode=NCT5AQ25MJ —— 同一份构建，直连 Demo 无 iframe 壳。
 - gh-pages 旧地址因 GitHub Pages 构建连续失败仍停在旧构建，**不再使用**；`deploy-api.ps1` 闸门保留（放行需 `NAIWA_DEPLOY_OK=1`，别用 `gh api` / `git push` 绕过），若 Pages 恢复可重跑。
-- Demo 视频 `docs/demo-video-32s.mp4` **已重录达标**（44.4 秒 / 30fps / 1920×1186），且录于 Aholo 街区层接入之后；镜头脚本 `docs/evidence/record-shotlist-20261109.md`。旧 `demo-video-hd.mp4`（8.1s / 10fps）只作迭代对比，不再交付。
+- Demo 视频 `docs/demo-video-32s.mp4` **已重录达标**（52.4 秒 / 5,509,596 B / 30fps / 1920×1186），且录于 Aholo 街区层接入之后；镜头脚本 `docs/evidence/record-shotlist-20261109.md`。旧 `demo-video-hd.mp4`（8.1s / 10fps）只作迭代对比，不再交付。（数值与 `docs/submission.json` 的 `rec_duration/rec_bytes/rec_sha256` 一致）
 - HUD 脏玻璃参数 `docs/evidence/hud-glass-spec-20261109.md`；搬玻璃代码时连 `keepStandardBackdropFilter()` 插件一起带过去。
 - 共享热点 `src/main.mjs` 改动先登记 `docs/改动记录-角色线.md`（展示线已有此约定）。
 - 报告书 `docs/报告书.md` 里标「未完成」的功能不许写成已实现（官网完成度分要求「材料与成果匹配」）。

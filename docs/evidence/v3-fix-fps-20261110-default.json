@@ -1,0 +1,57 @@
+{
+  "backend": "default",
+  "dist": "dist",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "dpr": 1.25
+  },
+  "measureFrames": 60,
+  "startedAt": "2026-11-09T17:09:09.547Z",
+  "url": "http://127.0.0.1:5308/",
+  "flags": [
+    "--headless=new",
+    "--remote-debugging-port=9704",
+    "--user-data-dir=C:\\Users\\dqy\\AppData\\Local\\Temp\\naiwa-fixfps-default-9704",
+    "--window-size=1600,1000",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--disable-extensions",
+    "--hide-scrollbars",
+    "--mute-audio",
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-backgrounding-occluded-windows",
+    "--enable-gpu",
+    "--ignore-gpu-blocklist",
+    "--enable-gpu-rasterization"
+  ],
+  "screen": "battle",
+  "gpu": {
+    "renderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+  },
+  "canvas": {
+    "canvas": [
+      2000,
+      1250
+    ],
+    "inner": [
+      1600,
+      1000
+    ],
+    "dpr": 1.25,
+    "bloom": true,
+    "postfx": true
+  },
+  "fps": {
+    "n": 60,
+    "avgMs": 78.93,
+    "avgFps": 12.67,
+    "p50Fps": 14.95,
+    "p5Fps": 7.49,
+    "p95Ms": 133.6,
+    "worstMs": 208.9
+  },
+  "finishedAt": "2026-11-09T17:09:37.954Z"
+}

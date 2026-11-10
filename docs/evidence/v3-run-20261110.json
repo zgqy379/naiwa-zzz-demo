@@ -1,0 +1,2483 @@
+{
+  "meta": {
+    "dist": "dist",
+    "viewport": {
+      "width": 1600,
+      "height": 1000,
+      "dpr": 1.25
+    },
+    "chrome": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "startedAt": "2026-11-09T16:55:08.785Z",
+    "url": "http://127.0.0.1:5292/",
+    "port": 5292,
+    "favicon404": true,
+    "finishedAt": "2026-11-09T16:55:38.846Z",
+    "portClosed": 5292
+  },
+  "distBefore": {
+    "dir": "dist",
+    "at": "2026-11-09T16:55:08.788Z",
+    "files": [
+      {
+        "file": "index.html",
+        "size": 4499,
+        "mtime": "2026-11-09T16:55:04.996Z",
+        "sha256": "ecfd2bddc453125747acdea6af6fce4ba040db43c266fe81441c2633d944eab8"
+      },
+      {
+        "file": "assets/index-B3F5S2WL.js",
+        "size": 762184,
+        "mtime": "2026-11-09T16:55:04.994Z",
+        "sha256": "a5261974b0af23e55dea2f800de12a4c7425bc84b605a551c1f1ed2a1d87974f"
+      },
+      {
+        "file": "assets/index-C7Q5dz7d.css",
+        "size": 16172,
+        "mtime": "2026-11-09T16:55:04.995Z",
+        "sha256": "40bd1b8257a80cbcd01b81f43962ae3061231086cf7ded69d531617e2fe27e24"
+      }
+    ],
+    "src": {
+      "src/main.mjs": {
+        "size": 26843,
+        "mtime": "2026-11-09T16:51:08.155Z"
+      },
+      "src/game/tuning.mjs": {
+        "size": 2134,
+        "mtime": "2026-11-09T14:44:33.736Z"
+      },
+      "src/vfx/cinematic.mjs": {
+        "size": 6410,
+        "mtime": "2026-11-09T15:51:48.227Z"
+      }
+    }
+  },
+  "boot": {
+    "nprMs": 3590,
+    "nprSeen": true,
+    "nav": {
+      "domContentLoadedMs": 2801.1,
+      "loadMs": 0,
+      "responseEndMs": 22.6,
+      "domInteractiveMs": 70.6,
+      "transferSizeKB": 4.7
+    },
+    "titleToSelectMs": 16,
+    "selectToBattleMs": 536,
+    "navToBattleMs": 7845
+  },
+  "fps": {
+    "frames": 120,
+    "avgMs": 30.72,
+    "avgFps": 32.55,
+    "p50Fps": 39.84,
+    "p5Fps": 14.99,
+    "worstMs": 83.5,
+    "lastMs": 83.5
+  },
+  "screenshots": [
+    {
+      "file": "docs/evidence/v3-run-01-start-20261110.png",
+      "bytes": 224207,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:55:27.522Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-02-drag-20261110.png",
+      "bytes": 224007,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:55:30.765Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-03-parry-20261110.png",
+      "bytes": 283013,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:55:33.469Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-04-finisher-20261110.png",
+      "bytes": 170702,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:55:36.792Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-05-timer-20261110.png",
+      "bytes": 178399,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:55:38.845Z"
+    }
+  ],
+  "steps": {
+    "enter": {
+      "startClick": {
+        "ok": true,
+        "rect": {
+          "x": 800,
+          "y": 485,
+          "w": 440,
+          "h": 58
+        },
+        "vis": "visible"
+      },
+      "selectReached": {
+        "ok": true,
+        "ms": 16
+      },
+      "urlAfter": "http://127.0.0.1:5292/?t=1794243310700",
+      "confirmClick": {
+        "ok": true,
+        "rect": {
+          "x": 1267.5,
+          "y": 874.5,
+          "w": 165,
+          "h": 51
+        },
+        "vis": "visible"
+      },
+      "battleReached": {
+        "ok": true,
+        "ms": 536
+      },
+      "titleClickAtMs": 5546,
+      "probe": {
+        "ok": true,
+        "flashObserved": true,
+        "wordsObserved": true
+      }
+    },
+    "step1": {
+      "state": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 200,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 0.6954000000059606,
+        "hudElapsedText": "00:00",
+        "hudHpText": "100",
+        "hudOppText": "100",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 6.171,
+          "y": 1.6,
+          "z": 2.205
+        },
+        "counter": {
+          "state": "idle",
+          "total": 0,
+          "last": null
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      },
+      "info": {
+        "measured": {
+          "triangles": 375512,
+          "calls": 608,
+          "geometries": 265,
+          "textures": 18
+        },
+        "direct": {
+          "triangles": 187740,
+          "calls": 288
+        },
+        "prevAutoReset": true
+      },
+      "probe": {
+        "flash": [],
+        "words": [],
+        "totalFlash": 0,
+        "totalWords": 0
+      }
+    },
+    "step2": {
+      "camBefore": {
+        "x": 6.2,
+        "y": 1.6,
+        "z": 2.2
+      },
+      "camAfter": {
+        "x": 5.848,
+        "y": 1.6,
+        "z": -2.677
+      },
+      "camBack": {
+        "x": 6.2,
+        "y": 1.6,
+        "z": 2.199
+      },
+      "backSamples": [
+        {
+          "x": 6.242,
+          "y": 1.6,
+          "z": 1.943
+        },
+        {
+          "x": 6.2,
+          "y": 1.6,
+          "z": 2.199
+        }
+      ],
+      "dragPx": 600,
+      "dragMs": 5176,
+      "moveLen": 4.89,
+      "backLen": 0.001,
+      "residual": 0.001,
+      "stateAfter": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 200,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 8.362300000041715,
+        "hudElapsedText": "00:08",
+        "hudHpText": "90",
+        "hudOppText": "100",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 6.2,
+          "y": 1.6,
+          "z": 2.199
+        },
+        "counter": {
+          "state": "idle",
+          "total": 0,
+          "last": {
+            "failed": true
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      },
+      "probe": {
+        "flash": [],
+        "words": [],
+        "totalFlash": 0,
+        "totalWords": 0
+      }
+    },
+    "step3": {
+      "windowWaitedMs": 196,
+      "windowSeen": {
+        "w": true,
+        "s": "warning",
+        "total": 0
+      },
+      "afterShift": {
+        "state": "success",
+        "total": 1,
+        "last": {
+          "perfect": true,
+          "damage": 23,
+          "gridGain": 2,
+          "punishS": 1.56,
+          "consecutive": 1
+        }
+      },
+      "probeImmediate": {
+        "flash": [
+          {
+            "t": 22144.9,
+            "v": 0.45
+          },
+          {
+            "t": 22182.2,
+            "v": 0.2602
+          },
+          {
+            "t": 22194.7,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 22145.1,
+            "text": "咚——",
+            "cls": "sfx-word heavy"
+          }
+        ],
+        "totalFlash": 3,
+        "totalWords": 1
+      },
+      "probeSettled": {
+        "flash": [
+          {
+            "t": 22144.9,
+            "v": 0.45
+          },
+          {
+            "t": 22182.2,
+            "v": 0.2602
+          },
+          {
+            "t": 22194.7,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 22145.1,
+            "text": "咚——",
+            "cls": "sfx-word heavy"
+          }
+        ],
+        "totalFlash": 3,
+        "totalWords": 1
+      },
+      "stateAfter": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 177,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 9.278200000017872,
+        "hudElapsedText": "00:09",
+        "hudHpText": "90",
+        "hudOppText": "89",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 6.184,
+          "y": 1.593,
+          "z": 2.191
+        },
+        "counter": {
+          "state": "success",
+          "total": 1,
+          "last": {
+            "perfect": true,
+            "damage": 23,
+            "gridGain": 2,
+            "punishS": 1.56,
+            "consecutive": 1
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      }
+    },
+    "step4": {
+      "atStage2": {
+        "stage": -1,
+        "count": 0,
+        "freeze": 0.301,
+        "phase": "playing",
+        "oppHp": 63,
+        "elapsed": 11.57
+      },
+      "afterFinisher": {
+        "stage": -1,
+        "count": 0,
+        "freeze": 0.301,
+        "phase": "playing",
+        "oppHp": 63,
+        "elapsed": 11.57
+      },
+      "finisherTriggered": true,
+      "comboTrail": [
+        {
+          "burst": 1,
+          "stage": 1,
+          "count": 1,
+          "freeze": 0.05,
+          "phase": "playing",
+          "oppHp": 156,
+          "elapsed": 10.03
+        },
+        {
+          "burst": 2,
+          "stage": 0,
+          "count": 1,
+          "freeze": 0.038,
+          "phase": "playing",
+          "oppHp": 120,
+          "elapsed": 10.7
+        },
+        {
+          "burst": 3,
+          "stage": 2,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 99,
+          "elapsed": 11.35
+        }
+      ],
+      "shockwavePolls": [
+        {
+          "dtMs": 14,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.212,
+              "scaleX": 2.67,
+              "opacity": 0.265
+            }
+          ]
+        },
+        {
+          "dtMs": 43,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.242,
+              "scaleX": 3.019,
+              "opacity": 0.175
+            }
+          ]
+        },
+        {
+          "dtMs": 69,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.265,
+              "scaleX": 3.293,
+              "opacity": 0.105
+            }
+          ]
+        }
+      ],
+      "shockwaveMaxRadiusSeen": 3.5,
+      "shockwaveMaxScaleSeen": 3.293,
+      "probeImmediate": {
+        "flash": [
+          {
+            "t": 23177.5,
+            "v": 0.0985
+          },
+          {
+            "t": 23191.4,
+            "v": 0
+          },
+          {
+            "t": 23805,
+            "v": 0.226
+          },
+          {
+            "t": 23827.5,
+            "v": 0
+          },
+          {
+            "t": 24002.8,
+            "v": 0.7
+          },
+          {
+            "t": 24027.5,
+            "v": 0.5308
+          },
+          {
+            "t": 24045.4,
+            "v": 0.2893
+          },
+          {
+            "t": 24058,
+            "v": 0.1225
+          },
+          {
+            "t": 24071.1,
+            "v": 0.0392
+          },
+          {
+            "t": 24084.2,
+            "v": 0.008
+          },
+          {
+            "t": 24101.3,
+            "v": 0.0005
+          },
+          {
+            "t": 24115.6,
+            "v": 0
+          },
+          {
+            "t": 24616.8,
+            "v": 0.1155
+          },
+          {
+            "t": 24631.6,
+            "v": 0.0192
+          },
+          {
+            "t": 24644.5,
+            "v": 0
+          },
+          {
+            "t": 24965.7,
+            "v": 0.21
+          },
+          {
+            "t": 24981.5,
+            "v": 0
+          },
+          {
+            "t": 25127.9,
+            "v": 0.7
+          },
+          {
+            "t": 25156.1,
+            "v": 0.5355
+          },
+          {
+            "t": 25173.3,
+            "v": 0.2941
+          },
+          {
+            "t": 25191.3,
+            "v": 0.125
+          },
+          {
+            "t": 25209.1,
+            "v": 0.0322
+          },
+          {
+            "t": 25224.4,
+            "v": 0.004
+          },
+          {
+            "t": 25242.9,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 23177.6,
+            "text": "唰",
+            "cls": "sfx-word light"
+          },
+          {
+            "t": 23805.1,
+            "text": "哐！",
+            "cls": "sfx-word medium"
+          },
+          {
+            "t": 24002.9,
+            "text": "碎！",
+            "cls": "sfx-word ultimate"
+          },
+          {
+            "t": 24616.8,
+            "text": "啪",
+            "cls": "sfx-word light"
+          },
+          {
+            "t": 24965.8,
+            "text": "咚！",
+            "cls": "sfx-word medium"
+          },
+          {
+            "t": 25128,
+            "text": "终结！",
+            "cls": "sfx-word ultimate"
+          }
+        ],
+        "totalFlash": 27,
+        "totalWords": 7
+      },
+      "probeSettled": {
+        "flash": [
+          {
+            "t": 23177.5,
+            "v": 0.0985
+          },
+          {
+            "t": 23191.4,
+            "v": 0
+          },
+          {
+            "t": 23805,
+            "v": 0.226
+          },
+          {
+            "t": 23827.5,
+            "v": 0
+          },
+          {
+            "t": 24002.8,
+            "v": 0.7
+          },
+          {
+            "t": 24027.5,
+            "v": 0.5308
+          },
+          {
+            "t": 24045.4,
+            "v": 0.2893
+          },
+          {
+            "t": 24058,
+            "v": 0.1225
+          },
+          {
+            "t": 24071.1,
+            "v": 0.0392
+          },
+          {
+            "t": 24084.2,
+            "v": 0.008
+          },
+          {
+            "t": 24101.3,
+            "v": 0.0005
+          },
+          {
+            "t": 24115.6,
+            "v": 0
+          },
+          {
+            "t": 24616.8,
+            "v": 0.1155
+          },
+          {
+            "t": 24631.6,
+            "v": 0.0192
+          },
+          {
+            "t": 24644.5,
+            "v": 0
+          },
+          {
+            "t": 24965.7,
+            "v": 0.21
+          },
+          {
+            "t": 24981.5,
+            "v": 0
+          },
+          {
+            "t": 25127.9,
+            "v": 0.7
+          },
+          {
+            "t": 25156.1,
+            "v": 0.5355
+          },
+          {
+            "t": 25173.3,
+            "v": 0.2941
+          },
+          {
+            "t": 25191.3,
+            "v": 0.125
+          },
+          {
+            "t": 25209.1,
+            "v": 0.0322
+          },
+          {
+            "t": 25224.4,
+            "v": 0.004
+          },
+          {
+            "t": 25242.9,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 23177.6,
+            "text": "唰",
+            "cls": "sfx-word light"
+          },
+          {
+            "t": 23805.1,
+            "text": "哐！",
+            "cls": "sfx-word medium"
+          },
+          {
+            "t": 24002.9,
+            "text": "碎！",
+            "cls": "sfx-word ultimate"
+          },
+          {
+            "t": 24616.8,
+            "text": "啪",
+            "cls": "sfx-word light"
+          },
+          {
+            "t": 24965.8,
+            "text": "咚！",
+            "cls": "sfx-word medium"
+          },
+          {
+            "t": 25128,
+            "text": "终结！",
+            "cls": "sfx-word ultimate"
+          }
+        ],
+        "totalFlash": 27,
+        "totalWords": 7
+      },
+      "stateAfter": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 63,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 12.583600000053636,
+        "hudElapsedText": "00:12",
+        "hudHpText": "90",
+        "hudOppText": "32",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 3.537,
+          "y": 1.6,
+          "z": 2.199
+        },
+        "counter": {
+          "state": "idle",
+          "total": 1,
+          "last": {
+            "perfect": true,
+            "damage": 23,
+            "gridGain": 2,
+            "punishS": 1.56,
+            "consecutive": 1
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      }
+    },
+    "step5": {
+      "state": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 63,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 13.784100000053638,
+        "hudElapsedText": "00:13",
+        "hudHpText": "90",
+        "hudOppText": "32",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 2.425,
+          "y": 1.6,
+          "z": 2.2
+        },
+        "counter": {
+          "state": "idle",
+          "total": 1,
+          "last": {
+            "perfect": true,
+            "damage": 23,
+            "gridGain": 2,
+            "punishS": 1.56,
+            "consecutive": 1
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      },
+      "hudTimerSelector": "#hud-elapsed（.hud-timer 容器内 ELAPSED 标签）",
+      "battleTimerNow": {
+        "timer": null,
+        "type": "undefined",
+        "elapsed": 13.799600000053637,
+        "phase": "playing"
+      },
+      "timerStart": "00:00",
+      "timerEnd": "00:13"
+    }
+  },
+  "errors": {
+    "exceptions": [],
+    "consoleErrors": [
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 0 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2043: 'uKeyDir' : undeclared identifier\nWARNING: 0:2043: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2043: '=' : dimension mismatch\nERROR: 0:2043: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2038:         // ---- NPR 风格化层（自研注入）----\n  2039:         vec3 nrm = normalize(vWorldNormalNpr);\n  2040:         vec3 vdir = normalize(vViewDirNpr);\n  2041: \n  2042:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2043:         vec3 keyDir = normalize(uKeyDir);\n  2044: \n  2045:         // 半兰伯特：暗部提升\n  2046:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2047:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2048: \n  2049:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2044: 'uKeyDir' : undeclared identifier\nWARNING: 0:2044: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2044: '=' : dimension mismatch\nERROR: 0:2044: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2039:         // ---- NPR 风格化层（自研注入）----\n  2040:         vec3 nrm = normalize(vWorldNormalNpr);\n  2041:         vec3 vdir = normalize(vViewDirNpr);\n  2042: \n  2043:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2044:         vec3 keyDir = normalize(uKeyDir);\n  2045: \n  2046:         // 半兰伯特：暗部提升\n  2047:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2048:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2049: \n  2050:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2046: 'uKeyDir' : undeclared identifier\nWARNING: 0:2046: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2046: '=' : dimension mismatch\nERROR: 0:2046: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2041:         // ---- NPR 风格化层（自研注入）----\n  2042:         vec3 nrm = normalize(vWorldNormalNpr);\n  2043:         vec3 vdir = normalize(vViewDirNpr);\n  2044: \n  2045:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2046:         vec3 keyDir = normalize(uKeyDir);\n  2047: \n  2048:         // 半兰伯特：暗部提升\n  2049:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2050:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2051: \n  2052:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2046: 'uKeyDir' : undeclared identifier\nWARNING: 0:2046: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2046: '=' : dimension mismatch\nERROR: 0:2046: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2041:         // ---- NPR 风格化层（自研注入）----\n  2042:         vec3 nrm = normalize(vWorldNormalNpr);\n  2043:         vec3 vdir = normalize(vViewDirNpr);\n  2044: \n  2045:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2046:         vec3 keyDir = normalize(uKeyDir);\n  2047: \n  2048:         // 半兰伯特：暗部提升\n  2049:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2050:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2051: \n  2052:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2143: 'uKeyDir' : undeclared identifier\nWARNING: 0:2143: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2143: '=' : dimension mismatch\nERROR: 0:2143: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2138:         // ---- NPR 风格化层（自研注入）----\n  2139:         vec3 nrm = normalize(vWorldNormalNpr);\n  2140:         vec3 vdir = normalize(vViewDirNpr);\n  2141: \n  2142:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2143:         vec3 keyDir = normalize(uKeyDir);\n  2144: \n  2145:         // 半兰伯特：暗部提升\n  2146:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2147:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2148: \n  2149:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2144: 'uKeyDir' : undeclared identifier\nWARNING: 0:2144: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2144: '=' : dimension mismatch\nERROR: 0:2144: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2139:         // ---- NPR 风格化层（自研注入）----\n  2140:         vec3 nrm = normalize(vWorldNormalNpr);\n  2141:         vec3 vdir = normalize(vViewDirNpr);\n  2142: \n  2143:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2144:         vec3 keyDir = normalize(uKeyDir);\n  2145: \n  2146:         // 半兰伯特：暗部提升\n  2147:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2148:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2149: \n  2150:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2146: 'uKeyDir' : undeclared identifier\nWARNING: 0:2146: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2146: '=' : dimension mismatch\nERROR: 0:2146: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2141:         // ---- NPR 风格化层（自研注入）----\n  2142:         vec3 nrm = normalize(vWorldNormalNpr);\n  2143:         vec3 vdir = normalize(vViewDirNpr);\n  2144: \n  2145:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2146:         vec3 keyDir = normalize(uKeyDir);\n  2147: \n  2148:         // 半兰伯特：暗部提升\n  2149:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2150:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2151: \n  2152:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      },
+      {
+        "type": "error",
+        "args": [
+          "THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: \nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Fragment shader is not compiled.\n\nFRAGMENT\n\nERROR: 0:2146: 'uKeyDir' : undeclared identifier\nWARNING: 0:2146: 'normalize' : operation result is undefined for the values passed in\nERROR: 0:2146: '=' : dimension mismatch\nERROR: 0:2146: '=' : cannot convert from 'const highp float' to 'highp 3-component vector of float'\n\n  2141:         // ---- NPR 风格化层（自研注入）----\n  2142:         vec3 nrm = normalize(vWorldNormalNpr);\n  2143:         vec3 vdir = normalize(vViewDirNpr);\n  2144: \n  2145:         // 主光方向：由 CPU 侧 uniform 传入（修：原硬编码导致场景三点光失效）\n> 2146:         vec3 keyDir = normalize(uKeyDir);\n  2147: \n  2148:         // 半兰伯特：暗部提升\n  2149:         float ndl = dot(nrm, keyDir) * 0.5 + 0.5;\n  2150:         float lifted = mix(ndl, 1.0, uShadowLift);\n  2151: \n  2152:         // 果冻高光：锐利的 Blinn-Phong"
+        ]
+      }
+    ],
+    "consoleWarnings": [
+      {
+        "type": "warning",
+        "args": [
+          "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+        ]
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "type": "warning",
+        "args": [
+          "THREE.WebGLProgram: Program Info Log:",
+          "(198,12-86): warning X3595: gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value\n(198,12-86): warning X3595: gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value\n(419,1): warning X4000: use of potentially uninitialized variable (f_ApplyFXAA)"
+        ]
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: INVALID_OPERATION: useProgram: program not valid",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      },
+      {
+        "source": "rendering",
+        "text": "WebGL: too many errors, no more errors will be reported to the console for this context.",
+        "url": "http://127.0.0.1:5292/assets/index-B3F5S2WL.js"
+      }
+    ],
+    "consoleOthers": [],
+    "logErrors": [],
+    "httpErrors": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:5292/favicon.ico",
+        "type": "Other"
+      },
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:5292/favicon.ico",
+        "type": "Other"
+      }
+    ],
+    "loadingFailed": []
+  },
+  "distAfter": {
+    "dir": "dist",
+    "at": "2026-11-09T16:55:39.999Z",
+    "files": [
+      {
+        "file": "index.html",
+        "size": 4499,
+        "mtime": "2026-11-09T16:55:04.996Z",
+        "sha256": "ecfd2bddc453125747acdea6af6fce4ba040db43c266fe81441c2633d944eab8"
+      },
+      {
+        "file": "assets/index-B3F5S2WL.js",
+        "size": 762184,
+        "mtime": "2026-11-09T16:55:04.994Z",
+        "sha256": "a5261974b0af23e55dea2f800de12a4c7425bc84b605a551c1f1ed2a1d87974f"
+      },
+      {
+        "file": "assets/index-C7Q5dz7d.css",
+        "size": 16172,
+        "mtime": "2026-11-09T16:55:04.995Z",
+        "sha256": "40bd1b8257a80cbcd01b81f43962ae3061231086cf7ded69d531617e2fe27e24"
+      }
+    ],
+    "src": {
+      "src/main.mjs": {
+        "size": 26843,
+        "mtime": "2026-11-09T16:51:08.155Z"
+      },
+      "src/game/tuning.mjs": {
+        "size": 2134,
+        "mtime": "2026-11-09T14:44:33.736Z"
+      },
+      "src/vfx/cinematic.mjs": {
+        "size": 6410,
+        "mtime": "2026-11-09T15:51:48.227Z"
+      }
+    }
+  },
+  "notes": []
+}

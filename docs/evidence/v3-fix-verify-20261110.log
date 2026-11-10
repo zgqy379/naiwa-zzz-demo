@@ -1,0 +1,22 @@
+[boot] root=E:\naiwa-zzz\.tmp-dist-fix url=http://127.0.0.1:5305/
+[chrome] port=9790 profile=C:\Users\dqy\AppData\Local\Temp\naiwa-fixverify-9790-1794243979323
+[boot] __npr=true in 5107ms
+[boot] nav={"domContentLoadedMs":4692.3,"loadMs":0,"responseEndMs":32.1,"domInteractiveMs":55.9,"transferSizeKB":4.7} gpu={"renderer":"ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)","version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"}
+[flow] start click=true select=true in 40ms
+[flow] confirm click=true battle=true in 3ms
+[fps] {"frames":120,"avgMs":84.09,"avgFps":11.89,"p50Fps":13.33,"p5Fps":5.21,"worstMs":274.8}
+[shot] docs/evidence/v3-fix-verify-01-start-20261110.png 809040B 2000x1250
+[step1] {"state":{"ok":true,"screen":"battle","activeName":"奶蛙","activeId":"shell_naiwa","activeIndex":0,"visibleGroups":[{"i":0,"name":"奶蛙","id":"shell_naiwa","visible":true}],"visibleCount":1,"totalGroups":16,"allMemberNames":["奶蛙","奶豆","小奶蛙","奶蛋","奶鼠","奶狗","奶粉","奶鸡","奶猫","奶屎","豆奶","奶兔","奶鱼","奶茶","奶瓶","西格玛奶蛙"],"opponentVisible":true,"opponentHp":200,"opponentMaxHp":200,"battleTimer":null,"battleTimerType":"undefined","battlePhase":"playing","battleElapsed":0.36969999998807906,"hudElapsedText":"00:00","hudHpText":"100","hudOppText":"100","hudShellName":"奶蛙","hudShellIdx":"1/16","canvas":[2000,1250],"inner":[1600,1000],"pixelRatio":1.25,"fov":40,"exposure":0.85,"shadowMapType":1,"bloom":{"enabled":true,"strength":0.4},"cam":{"x":5.897,"y":1.6,"z":2.25},"player":{"x":2.4,"y":0,"z":0},"counter":{"state":"idle","total":0,"last":null},"combo":{"stageIndex":-1,"comboCount":0},"freezeT":0,"materialProbe":{"nprMeshes":2,"types":["MeshStandardMaterial","ShaderMaterial"]}},"info":{"measured":{"triangles":375512,"calls":608,"geometries":260,"textures":49},"direct":{"triangles":187740,"calls":288},"prevAutoReset":true}}
+[shot] docs/evidence/v3-fix-verify-02-drag-20261110.png 736966B 2000x1250
+[step2] {"camMoveLen":4.899,"relAngles":{"angleDeg":63.97,"bearingBeforeDeg":59.93,"bearingAfterDeg":128.57,"bearingDeltaDeg":68.63},"backResidual":0.055}
+[shot] docs/evidence/v3-fix-verify-03-parry-20261110.png 888951B 2000x1250
+[step3] {"state":"success","total":1,"last":{"perfect":true,"damage":23,"gridGain":2,"punishS":1.56,"consecutive":1}}
+[shot] docs/evidence/v3-fix-verify-04-finisher-20261110.png 669511B 2000x1250
+[step4] {"trail":[{"round":1,"pressed":13,"stage":0,"count":1,"freeze":0.113,"phase":"playing","oppHp":120,"elapsed":15.78},{"round":2,"pressed":6,"stage":1,"count":1,"freeze":0,"phase":"playing","oppHp":113,"elapsed":16.18},{"round":3,"pressed":6,"stage":2,"count":1,"freeze":0,"phase":"playing","oppHp":99,"elapsed":16.54}],"maxRadius":3.5,"maxScale":1.776}
+[shot] docs/evidence/v3-fix-verify-05-timer-20261110.png 736092B 2000x1250
+[step5] timer 00:00 → 00:18 | battle.timer={"timer":null,"type":"undefined","elapsed":18.6932999999226,"phase":"playing"}
+[measure] v3-fix-verify-01-start-20261110.png                  meanLuma=  94.57  meanSat=0.3348  meanRGB=[96.1, 93.8, 97.6]  yellow=15.80%  warm=30.22%  pass=False | v3-fix-verify-02-drag-20261110.png                   meanLuma=  66.91  meanSat=0.2996  meanRGB=[67.5, 65.4, 80.7]  yellow=3.90%  warm=10.23%  pass=False | v3-fix-verify-03-parry-20261110.png                  meanLuma= 109.34  meanSat=0.3499  meanRGB=[115.1, 109.0, 96.0]  yellow=27.66%  warm=50.30%  pass=True | v3-fix-verify-04-finisher-20261110.png               meanLuma=  83.50  meanSat=0.4054  meanRGB=[89.9, 80.7, 92.5]  yellow=10.65%  warm=25.53%  pass=False | v3-fix-verify-05-timer-20261110.png                  meanLuma= 118.83  meanSat=0.3844  meanRGB=[130.6, 117.1, 100.9]  yellow=29.39%  warm=49.64%  pass=True | [json] E:\naiwa-zzz\docs\evidence\pixel-metrics-v3-fix-verify-20261110.json
+[done] E:\naiwa-zzz\docs\evidence\v3-fix-verify-20261110.json
+[summary] exceptions=0 consoleErr=0 logErr=0 warnings=2 netFail=0 http4xx+=2 pixelPass=false,false,true,false,true
+  HTTP 404 http://127.0.0.1:5305/favicon.ico
+  HTTP 404 http://127.0.0.1:5305/favicon.ico

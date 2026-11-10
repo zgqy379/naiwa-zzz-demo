@@ -1,0 +1,13 @@
+{
+  "steps": [
+    {
+      "clicked": true
+    },
+    {
+      "hasFileInput": {
+        "count": 5,
+        "accept": ".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+      }
+    }
+  ]
+}

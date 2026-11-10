@@ -1,0 +1,147 @@
+{
+  "steps": [
+    {
+      "tag": "baseline-2000x1250",
+      "probe": {
+        "msPerDirectFrame": 11.1,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 293,
+        "triangles": 187800,
+        "geometries": 257,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 1
+      }
+    },
+    {
+      "tag": "basic-shadow-type0",
+      "setup": {
+        "from": 1,
+        "to": 0,
+        "recompiled": 783
+      },
+      "probe": {
+        "msPerDirectFrame": 10.78,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 293,
+        "triangles": 187800,
+        "geometries": 257,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 0
+      },
+      "restore": {
+        "now": 1,
+        "recompiled": 783
+      }
+    },
+    {
+      "tag": "shadow-off",
+      "setup": {
+        "was": true
+      },
+      "probe": {
+        "msPerDirectFrame": 8.74,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 182,
+        "triangles": 108844,
+        "geometries": 257,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": false,
+        "shadowType": 1
+      },
+      "restore": {
+        "now": true
+      }
+    },
+    {
+      "tag": "small-400x250",
+      "setup": {
+        "canvas": [
+          500,
+          312
+        ]
+      },
+      "probe": {
+        "msPerDirectFrame": 13.77,
+        "canvas": [
+          500,
+          312
+        ],
+        "calls": 289,
+        "triangles": 187752,
+        "geometries": 275,
+        "textures": 50
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 1
+      },
+      "restore": {
+        "canvas": [
+          2000,
+          1250
+        ]
+      }
+    },
+    {
+      "tag": "no-outline-hull",
+      "setup": {
+        "hidden": 17
+      },
+      "probe": {
+        "msPerDirectFrame": 12.7,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 290,
+        "triangles": 149798,
+        "geometries": 275,
+        "textures": 50
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 766,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 1
+      },
+      "restore": {
+        "shown": 17
+      }
+    }
+  ]
+}

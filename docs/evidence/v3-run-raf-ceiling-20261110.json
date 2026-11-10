@@ -1,0 +1,58 @@
+{
+  "runs": [
+    {
+      "tag": "headless",
+      "blank": {
+        "n": 120,
+        "avgFps": 118.58,
+        "p50Fps": 119.05,
+        "p5Fps": 116.28,
+        "worstMs": 16.6
+      },
+      "blankBusy20ms": {
+        "avgFps": 46.6,
+        "worstMs": 33.4
+      },
+      "canvasPresent": {
+        "avgFps": 100.41,
+        "worstMs": 41.7
+      }
+    },
+    {
+      "tag": "headless-noframelimit",
+      "blank": {
+        "n": 120,
+        "avgFps": 35.63,
+        "p50Fps": 35.71,
+        "p5Fps": 24.45,
+        "worstMs": 67.9
+      },
+      "blankBusy20ms": {
+        "avgFps": 41.64,
+        "worstMs": 46.7
+      },
+      "canvasPresent": {
+        "avgFps": 616.36,
+        "worstMs": 47.6
+      }
+    },
+    {
+      "tag": "headful",
+      "blank": {
+        "n": 120,
+        "avgFps": 119.56,
+        "p50Fps": 120.48,
+        "p5Fps": 114.94,
+        "worstMs": 16.4
+      },
+      "blankBusy20ms": {
+        "avgFps": 47.69,
+        "worstMs": 33.4
+      },
+      "canvasPresent": {
+        "avgFps": 27.79,
+        "worstMs": 182.4
+      }
+    }
+  ]
+}

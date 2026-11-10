@@ -221,3 +221,22 @@ html, body {
   font-weight: 700;
   letter-spacing: 1px;
 }
+
+/* ---------- 窄屏适配（深挖修复 UI-5） ----------
+ * 左右 HUD 面板各 240px 宽 + 20px 边距，双份合计 520px；键位条四键横排 ~500px+。
+ * 视口 <520px（如 375px 手机竖屏）左右面板重叠 ~145px、键位条两侧溢出。
+ * 断点取 519px（重叠成立的精确上界），>519px 视口样式零变化。
+ */
+@media (max-width: 519px) {
+  .hud-left, .hud-right {
+    width: min(44vw, 240px);   /* 2×44vw + 24px 边距 ≤ 100vw，≥200px 视口恒不重叠 */
+  }
+  .hud-left { left: 12px; }
+  .hud-right { right: 12px; }
+  .hud-keys {
+    flex-wrap: wrap;               /* 四键横排放不下 → 换行 */
+    justify-content: center;
+    max-width: calc(100vw - 24px);
+    bottom: 76px;                  /* 抬到 .hud-help（窄屏自动折行）之上，不互相遮盖 */
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "criteria": {
+    "region": "leader 仲裁区域 x780-1240 / y640-1180（2000×1250）",
+    "nearWhite": "min(R,G,B)>240 占比 <2%",
+    "mean": "|新 − roster 基线| <15",
+    "meanSat": "新 / roster 基线 ∈ [0.8, 1.2]",
+    "maskHue": "掩膜中位色 hueΔ(新 vs roster) <8° = 回到原色"
+  },
+  "note": "撤销重染复验：COLOR_OVERRIDE 置空后渲染应回到 roster 基线观感",
+  "rows": [
+    {
+      "idx": 0,
+      "id": "naiwa",
+      "name": "奶蛙",
+      "leaderBase": {
+        "mean": 148.6,
+        "meanSat": 0.434,
+        "nearWhite": 0.0019
+      },
+      "regionNew": {
+        "mean": 141.7,
+        "meanSat": 0.254,
+        "nearWhitePct": 0.0,
+        "medRGB": [
+          137.0,
+          124.0,
+          106.0
+        ],
+        "medHSV": [
+          34.8,
+          0.226,
+          0.537
+        ]
+      },
+      "regionOld": {
+        "mean": 148.6,
+        "meanSat": 0.434,
+        "nearWhitePct": 0.19,
+        "medRGB": [
+          133.0,
+          155.0,
+          144.0
+        ],
+        "medHSV": [
+          150.0,
+          0.142,
+          0.608
+        ]
+      },
+      "maskNew": {
+        "medRGB": [
+          124.0,
+          115.0,
+          85.0
+        ],
+        "medHSV": [
+          46.2,
+          0.315,
+          0.486
+        ],
+        "areaPx": 304696
+      },
+      "maskOld": {
+        "medRGB": [
+          103.0,
+          87.0,
+          55.0
+        ],
+        "medHSV": [
+          40.0,
+          0.466,
+          0.404
+        ],
+        "areaPx": 181537
+      },
+      "dMean": -6.9,
+      "satRatioNewVsOld": 0.585,
+      "grade": {
+        "meanDelta<15": "通过",
+        "nearWhite<2%": "通过",
+        "meanSat±20%": "不达标",
+        "maskHue<8": "通过"
+      },
+      "maskHueDeltaNewVsOld": 6.2
+    },
+    {
+      "idx": 6,
+      "id": "naifen",
+      "name": "奶粉",
+      "leaderBase": null,
+      "regionNew": {
+        "mean": 155.9,
+        "meanSat": 0.144,
+        "nearWhitePct": 0.02,
+        "medRGB": [
+          148.0,
+          138.0,
+          127.0
+        ],
+        "medHSV": [
+          31.4,
+          0.142,
+          0.58
+        ]
+      },
+      "regionOld": {
+        "mean": 140.7,
+        "meanSat": 0.304,
+        "nearWhitePct": 0.0,
+        "medRGB": [
+          122.0,
+          153.0,
+          176.0
+        ],
+        "medHSV": [
+          205.6,
+          0.307,
+          0.69
+        ]
+      },
+      "maskNew": {
+        "medRGB": [
+          152.0,
+          138.0,
+          114.0
+        ],
+        "medHSV": [
+          37.9,
+          0.25,
+          0.596
+        ],
+        "areaPx": 214956
+      },
+      "maskOld": {
+        "medRGB": [
+          75.0,
+          64.0,
+          57.0
+        ],
+        "medHSV": [
+          23.3,
+          0.24,
+          0.294
+        ],
+        "areaPx": 125923
+      },
+      "dMean": 15.2,
+      "satRatioNewVsOld": 0.474,
+      "grade": {
+        "meanDelta<15": "不达标",
+        "nearWhite<2%": "通过",
+        "meanSat±20%": "不达标",
+        "maskHue<8": "不达标"
+      },
+      "maskHueDeltaNewVsOld": 14.6
+    },
+    {
+      "idx": 8,
+      "id": "naimao",
+      "name": "奶猫",
+      "leaderBase": {
+        "mean": 168.0,
+        "meanSat": 0.237,
+        "nearWhite": 0.0106
+      },
+      "regionNew": {
+        "mean": 169.6,
+        "meanSat": 0.164,
+        "nearWhitePct": 1.01,
+        "medRGB": [
+          168.0,
+          158.0,
+          140.0
+        ],
+        "medHSV": [
+          38.6,
+          0.167,
+          0.659
+        ]
+      },
+      "regionOld": {
+        "mean": 168.0,
+        "meanSat": 0.237,
+        "nearWhitePct": 1.06,
+        "medRGB": [
+          179.0,
+          172.0,
+          182.0
+        ],
+        "medHSV": [
+          282.0,
+          0.055,
+          0.714
+        ]
+      },
+      "maskNew": {
+        "medRGB": [
+          187.0,
+          170.0,
+          131.0
+        ],
+        "medHSV": [
+          41.8,
+          0.299,
+          0.733
+        ],
+        "areaPx": 212693
+      },
+      "maskOld": {
+        "medRGB": [
+          162.0,
+          142.0,
+          85.0
+        ],
+        "medHSV": [
+          44.4,
+          0.475,
+          0.635
+        ],
+        "areaPx": 160048
+      },
+      "dMean": 1.6,
+      "satRatioNewVsOld": 0.692,
+      "grade": {
+        "meanDelta<15": "通过",
+        "nearWhite<2%": "通过",
+        "meanSat±20%": "不达标",
+        "maskHue<8": "通过"
+      },
+      "maskHueDeltaNewVsOld": 2.6
+    },
+    {
+      "idx": 12,
+      "id": "naiyu",
+      "name": "奶鱼",
+      "leaderBase": {
+        "mean": 144.8,
+        "meanSat": 0.312,
+        "nearWhite": 0.0021
+      },
+      "regionNew": {
+        "mean": 161.8,
+        "meanSat": 0.165,
+        "nearWhitePct": 2.0,
+        "medRGB": [
+          158.0,
+          149.0,
+          134.0
+        ],
+        "medHSV": [
+          37.5,
+          0.152,
+          0.62
+        ]
+      },
+      "regionOld": {
+        "mean": 144.8,
+        "meanSat": 0.312,
+        "nearWhitePct": 0.21,
+        "medRGB": [
+          123.0,
+          154.0,
+          194.0
+        ],
+        "medHSV": [
+          213.8,
+          0.366,
+          0.761
+        ]
+      },
+      "maskNew": {
+        "medRGB": [
+          176.0,
+          159.0,
+          123.0
+        ],
+        "medHSV": [
+          40.8,
+          0.301,
+          0.69
+        ],
+        "areaPx": 147545
+      },
+      "maskOld": {
+        "medRGB": [
+          168.0,
+          152.0,
+          97.0
+        ],
+        "medHSV": [
+          46.5,
+          0.423,
+          0.659
+        ],
+        "areaPx": 86513
+      },
+      "dMean": 17.0,
+      "satRatioNewVsOld": 0.529,
+      "grade": {
+        "meanDelta<15": "不达标",
+        "nearWhite<2%": "不达标",
+        "meanSat±20%": "不达标",
+        "maskHue<8": "通过"
+      },
+      "maskHueDeltaNewVsOld": 5.7
+    },
+    {
+      "idx": 15,
+      "id": "xigema",
+      "name": "西格玛奶蛙",
+      "leaderBase": null,
+      "regionNew": {
+        "mean": 150.2,
+        "meanSat": 0.157,
+        "nearWhitePct": 0.33,
+        "medRGB": [
+          151.0,
+          141.0,
+          126.0
+        ],
+        "medHSV": [
+          36.0,
+          0.166,
+          0.592
+        ]
+      },
+      "regionOld": {
+        "mean": 123.6,
+        "meanSat": 0.338,
+        "nearWhitePct": 0.0,
+        "medRGB": [
+          116.0,
+          135.0,
+          176.0
+        ],
+        "medHSV": [
+          221.0,
+          0.341,
+          0.69
+        ]
+      },
+      "maskNew": {
+        "medRGB": [
+          149.0,
+          133.0,
+          88.0
+        ],
+        "medHSV": [
+          44.3,
+          0.409,
+          0.584
+        ],
+        "areaPx": 112747
+      },
+      "maskOld": {
+        "medRGB": [
+          88.0,
+          75.0,
+          61.0
+        ],
+        "medHSV": [
+          31.1,
+          0.307,
+          0.345
+        ],
+        "areaPx": 57351
+      },
+      "dMean": 26.6,
+      "satRatioNewVsOld": 0.464,
+      "grade": {
+        "meanDelta<15": "不达标",
+        "nearWhite<2%": "通过",
+        "meanSat±20%": "不达标",
+        "maskHue<8": "不达标"
+      },
+      "maskHueDeltaNewVsOld": 13.2
+    }
+  ]
+}

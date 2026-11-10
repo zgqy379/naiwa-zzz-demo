@@ -126,10 +126,16 @@ export class ComboSystem {
     this.hasHit = false;
   }
 
+  /** 设置当前角色的招式（供连段节奏/判定使用） */
+  setMove(move) {
+    this.currentMove = move;
+  }
+
   /** 闪避取消 */
   cancel() {
     this.stageIndex = -1;
     this.comboCount = 0;
+    this.currentMove = null;   // 修：清 currentMove，避免换壳后用错角色参数
   }
 
   get isInCombo() { return this.stageIndex >= 0; }

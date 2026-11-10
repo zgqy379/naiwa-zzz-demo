@@ -1,0 +1,65 @@
+{
+  "note": "4 只被外部替换的 glb 增量复核(采集后 02:22 版本, 只读)",
+  "rows": [
+    {
+      "glb": "naiwa_dounai_runtime.glb",
+      "bytes": 327344,
+      "mats": 1,
+      "baseColorFactor": null,
+      "tex0MedRGB": [
+        224.0,
+        165.0,
+        69.0
+      ],
+      "tex0Size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "glb": "naiwa_naifen_runtime.glb",
+      "bytes": 384844,
+      "mats": 1,
+      "baseColorFactor": null,
+      "tex0MedRGB": [
+        213.0,
+        194.0,
+        146.0
+      ],
+      "tex0Size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "glb": "naiwa_xiaonaiwa_runtime.glb",
+      "bytes": 339384,
+      "mats": 1,
+      "baseColorFactor": null,
+      "tex0MedRGB": [
+        230.0,
+        186.0,
+        94.0
+      ],
+      "tex0Size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "glb": "naiwa_xigema_runtime.glb",
+      "bytes": 352772,
+      "mats": 1,
+      "baseColorFactor": null,
+      "tex0MedRGB": [
+        89.0,
+        73.0,
+        45.0
+      ],
+      "tex0Size": [
+        1024,
+        1024
+      ]
+    }
+  ]
+}

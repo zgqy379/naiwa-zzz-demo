@@ -2,6 +2,17 @@
 import { writeFile } from "node:fs/promises";
 import { runAllTests } from "./game-test.mjs";
 
+// 环境检测：taskSpace 由 ego 宿主注入，普通 node 下不存在（直接跑会抛 ReferenceError）
+if (typeof taskSpace === "undefined") {
+  console.error(
+    "[run-game-test] 未检测到 ego 宿主全局 taskSpace：本脚本必须以 ego-browser 运行，请勿用普通 node 直接执行。\n" +
+    "正确调用方式（ego 环境）：\n" +
+    `  ego-browser nodejs -e "await import('file:///E:/naiwa-zzz/tests/run-game-test.mjs')"\n` +
+    "或走全链路（构建 + preview + ego）：npm run test"
+  );
+  process.exit(1);
+}
+
 const task = await taskSpace("naiwa-test");
 const page = task.page("p1");
 

@@ -1,0 +1,21 @@
+{
+  "screen": "battle",
+  "installed": "installed",
+  "frameProfile": {
+    "jsMs": {
+      "n": 60,
+      "avg": 13.35,
+      "p50": 12.9,
+      "p95": 18.4,
+      "max": 19.4
+    },
+    "gapMs": {
+      "n": 60,
+      "avg": 93.35,
+      "p50": 77.2,
+      "p95": 233.7,
+      "max": 308.4
+    },
+    "frames": 103
+  }
+}

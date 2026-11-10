@@ -1,0 +1,72 @@
+{
+  "variants": [
+    {
+      "tag": "default-1600x1000-dpr1.25",
+      "canvas": [
+        2000,
+        1250
+      ],
+      "composer": {
+        "kind": "composer",
+        "iters": 20,
+        "msPerFrame": 13.55,
+        "canvas": [
+          2000,
+          1250
+        ]
+      },
+      "direct": {
+        "kind": "direct",
+        "iters": 20,
+        "msPerFrame": 11.15,
+        "canvas": [
+          2000,
+          1250
+        ]
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 5.19,
+        "p50Fps": 7.49,
+        "p5Fps": 2.18,
+        "worstMs": 2028.2
+      },
+      "gpu": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "tag": "1920x1080",
+      "canvas": [
+        1920,
+        1080
+      ],
+      "composer": {
+        "kind": "composer",
+        "iters": 20,
+        "msPerFrame": 15.23,
+        "canvas": [
+          1920,
+          1080
+        ]
+      },
+      "direct": {
+        "kind": "direct",
+        "iters": 20,
+        "msPerFrame": 13.22,
+        "canvas": [
+          1920,
+          1080
+        ]
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 5.15,
+        "p50Fps": 9.98,
+        "p5Fps": 0.83,
+        "worstMs": 2028.1
+      },
+      "gpu": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  ],
+  "headful": false,
+  "screen": "battle"
+}

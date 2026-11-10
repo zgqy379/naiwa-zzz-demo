@@ -1,0 +1,272 @@
+{
+  "dist": ".tmp-dist-cam",
+  "exceptions": [],
+  "consoleErrors": [],
+  "logErrors": [],
+  "loadingFailed": [],
+  "httpErrors": [
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5289/favicon.ico"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5289/favicon.ico"
+    }
+  ],
+  "meta": {
+    "url": "http://127.0.0.1:5289/",
+    "port": 5289,
+    "bootOk": true,
+    "bootMs": 4508,
+    "startClick": {
+      "ok": true,
+      "x": 800,
+      "y": 485,
+      "w": 440,
+      "h": 58
+    },
+    "favicon404Ignored": true,
+    "confirmClick": {
+      "ok": true,
+      "x": 1277.9,
+      "y": 882.8,
+      "w": 168.7,
+      "h": 52.1
+    },
+    "screen": "battle",
+    "ultimateNoInputWait": true,
+    "finishedAt": "2026-11-09T16:07:09.506Z",
+    "portClosed": 5289
+  },
+  "cam": {
+    "before": {
+      "ok": true,
+      "cam": [
+        6.1093,
+        1.6,
+        2.2149
+      ],
+      "fov": 40,
+      "player": [
+        2.4,
+        0,
+        0
+      ]
+    },
+    "beforeRel": [
+      3.7093,
+      1.6,
+      2.2149
+    ],
+    "after": {
+      "ok": true,
+      "cam": [
+        5.8379,
+        1.6,
+        -2.6963
+      ],
+      "fov": 40,
+      "player": [
+        2.4,
+        0,
+        0
+      ]
+    },
+    "afterRel": [
+      3.4379,
+      1.6,
+      -2.6963
+    ],
+    "delta": {
+      "dx": -0.2714,
+      "dy": 0,
+      "dz": -4.9112,
+      "length": 4.9187
+    },
+    "restored": {
+      "ok": true,
+      "cam": [
+        6.2221,
+        1.5999,
+        1.9096
+      ],
+      "fov": 40,
+      "player": [
+        2.4,
+        0,
+        0
+      ]
+    },
+    "restoredRel": [
+      3.8221,
+      1.5999,
+      1.9096
+    ]
+  },
+  "hit": {
+    "ultimateApproachDist": 2.177,
+    "ultimateRingSeen": true,
+    "ultimateTriggerMs": 2680,
+    "ultimate": {
+      "flashMax": 0.4083,
+      "flashSetPeak": 0.7,
+      "flashSetHead": [
+        0.025,
+        0,
+        0.05,
+        0,
+        0.7,
+        0.408333,
+        0.0680555,
+        0.00226852
+      ],
+      "wordsMax": 1,
+      "words": [],
+      "wordTexts": [
+        "砰",
+        "啪！",
+        "轰！！！",
+        "唰"
+      ],
+      "byRing": {
+        "1.2": 18,
+        "1.8": 16,
+        "3.5": 16
+      },
+      "ringMaxRadius": 3.5,
+      "linesMax": 18,
+      "glowMax": 52,
+      "hitEvents": [
+        {
+          "t": 23407.90000000596,
+          "rings": 2,
+          "lines": 12,
+          "ringR": 1.2
+        },
+        {
+          "t": 23434,
+          "rings": 2,
+          "lines": 12,
+          "ringR": 1.2
+        },
+        {
+          "t": 23635.5,
+          "rings": 2,
+          "lines": 12,
+          "ringR": 1.2
+        },
+        {
+          "t": 23753,
+          "rings": 2,
+          "lines": 0,
+          "ringR": 1.2
+        },
+        {
+          "t": 23844.29999999702,
+          "rings": 2,
+          "lines": 0,
+          "ringR": 1.2
+        },
+        {
+          "t": 23878.29999999702,
+          "rings": 2,
+          "lines": 0,
+          "ringR": 1.2
+        },
+        {
+          "t": 24606.10000000894,
+          "rings": 2,
+          "lines": 16,
+          "ringR": 1.8
+        },
+        {
+          "t": 24626.29999999702,
+          "rings": 2,
+          "lines": 16,
+          "ringR": 1.8
+        }
+      ],
+      "samples": 45,
+      "oppHp": 136,
+      "comboStage": -1,
+      "counterState": "idle"
+    },
+    "heavyCounterSeen": true,
+    "heavy": {
+      "flashMax": 0.075,
+      "flashSetPeak": 0.45,
+      "flashSetHead": [
+        0.45,
+        0.075,
+        0
+      ],
+      "wordsMax": 1,
+      "words": [],
+      "wordTexts": [
+        "咚——"
+      ],
+      "byRing": {
+        "2.4": 12
+      },
+      "ringMaxRadius": 2.4,
+      "linesMax": 12,
+      "glowMax": 18,
+      "hitEvents": [
+        {
+          "t": 30643.79999999702,
+          "rings": 1,
+          "lines": 12,
+          "ringR": 2.4
+        },
+        {
+          "t": 30709,
+          "rings": 1,
+          "lines": 12,
+          "ringR": 2.4
+        },
+        {
+          "t": 30724.90000000596,
+          "rings": 1,
+          "lines": 12,
+          "ringR": 2.4
+        },
+        {
+          "t": 30843.5,
+          "rings": 1,
+          "lines": 12,
+          "ringR": 2.4
+        },
+        {
+          "t": 30872.10000000894,
+          "rings": 1,
+          "lines": 0,
+          "ringR": 2.4
+        },
+        {
+          "t": 30891.10000000894,
+          "rings": 1,
+          "lines": 0,
+          "ringR": 2.4
+        },
+        {
+          "t": 30907.60000000894,
+          "rings": 1,
+          "lines": 0,
+          "ringR": 2.4
+        },
+        {
+          "t": 30976.70000000298,
+          "rings": 1,
+          "lines": 0,
+          "ringR": 2.4
+        }
+      ],
+      "samples": 43,
+      "oppHp": 113,
+      "comboStage": -1,
+      "counterState": "success"
+    },
+    "heavyRingSeen": 2.4
+  }
+}

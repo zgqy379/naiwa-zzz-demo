@@ -1,0 +1,9 @@
+[server] http://127.0.0.1:5297/
+[gpu] {"renderer":"ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)","version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"} screen=battle
+[warmup] 6s ...
+[A-2000x1250-bloom-on] {"canvas":{"canvas":[1999,1249],"inner":[1600,1000],"dpr":1.2499999701976776,"bloom":true,"postfx":true},"fps":{"n":120,"avgMs":138.05,"avgFps":7.24,"p50Fps":7.63,"p5Fps":3.41,"p95Ms":293,"worstMs":567.7}}
+[B-2000x1250-bloom-off] {"canvas":{"canvas":[1999,1249],"inner":[1600,1000],"dpr":1.2499999701976776,"bloom":false,"postfx":true},"fps":{"n":120,"avgMs":124.97,"avgFps":8,"p50Fps":8.16,"p5Fps":4.92,"p95Ms":203.3,"worstMs":232.7}}
+[C-2000x1250-direct] {"canvas":{"canvas":[1999,1249],"inner":[1600,1000],"dpr":1.2499999701976776,"bloom":false,"postfx":false},"fps":{"n":120,"avgMs":111.38,"avgFps":8.98,"p50Fps":9.1,"p5Fps":5.49,"p95Ms":182.1,"worstMs":223.6}}
+[D-1920x1080-bloom-on] {"canvas":{"canvas":[1919,1079],"inner":[1536,864],"dpr":1.2499999701976776,"bloom":true,"postfx":true},"fps":{"n":120,"avgMs":130.08,"avgFps":7.69,"p50Fps":7.94,"p5Fps":5.02,"p95Ms":199.1,"worstMs":231.3}}
+[E-1280x800-bloom-on] {"canvas":{"canvas":[1599,999],"inner":[1280,800],"dpr":1.2499999701976776,"bloom":true,"postfx":true},"fps":{"n":120,"avgMs":89.95,"avgFps":11.12,"p50Fps":11.93,"p5Fps":6.93,"p95Ms":144.3,"worstMs":170.8}}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-bench-20261110-headful.json

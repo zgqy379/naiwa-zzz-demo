@@ -1,0 +1,116 @@
+{
+  "steps": [
+    {
+      "tag": "baseline-2000x1250",
+      "probe": {
+        "msPerDirectFrame": 380.05,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 294,
+        "triangles": 187812,
+        "geometries": 258,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 1
+      }
+    },
+    {
+      "tag": "shadow-off",
+      "setup": {
+        "was": true
+      },
+      "probe": {
+        "msPerDirectFrame": 9.34,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 211,
+        "triangles": 109172,
+        "geometries": 258,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": false,
+        "shadowType": 1
+      },
+      "restore": {
+        "now": true
+      }
+    },
+    {
+      "tag": "small-400x250",
+      "setup": {
+        "canvas": [
+          500,
+          312
+        ]
+      },
+      "probe": {
+        "msPerDirectFrame": 10.65,
+        "canvas": [
+          500,
+          312
+        ],
+        "calls": 294,
+        "triangles": 187812,
+        "geometries": 258,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 783,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 1
+      },
+      "restore": {
+        "canvas": [
+          2000,
+          1250
+        ]
+      }
+    },
+    {
+      "tag": "no-outline-hull",
+      "setup": {
+        "hidden": 17
+      },
+      "probe": {
+        "msPerDirectFrame": 10.5,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "calls": 292,
+        "triangles": 149822,
+        "geometries": 258,
+        "textures": 47
+      },
+      "sceneStats": {
+        "meshes": 783,
+        "visibleMeshes": 766,
+        "casters": 72,
+        "sceneChildren": 32,
+        "shadowMapEnabled": true,
+        "shadowType": 1
+      },
+      "restore": {
+        "shown": 17
+      }
+    }
+  ]
+}

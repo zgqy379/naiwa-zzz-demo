@@ -46,8 +46,12 @@ export class Movement {
     this.attackLungeT = 0;  // 攻击前冲
     this.attackLungeDir = new THREE.Vector3();
 
-    // 边界
-    this.bounds = { x: 8, z: 6 };
+    // 边界（修：收窄到店铺内侧，避免相机穿墙。店铺在 z=±4.6，相机 sideOffset 2.2）
+    this.bounds = { x: 4.5, z: 2.2 };
+
+    // 实体碰撞盒（XZ 平面 AABB：{minX,maxX,minZ,maxZ}），由外部注入（如掩体）
+    this.solidBoxes = [];
+    this.radius = 0.4;   // 角色碰撞半径（推出判定时按此膨胀）
   }
 
   /**
@@ -126,11 +130,36 @@ export class Movement {
     this.pos.x = THREE.MathUtils.clamp(this.pos.x, -this.bounds.x, this.bounds.x);
     this.pos.z = THREE.MathUtils.clamp(this.pos.z, -this.bounds.z, this.bounds.z);
 
+    // 实体碰撞（掩体等注入的 AABB）
+    this._resolveSolids();
+
     // ---- 写入渲染对象 ----
     this.group.position.copy(this.pos);
     this.group.rotation.y = this.facing;
 
     this.dodgeIframeT = Math.max(0, this.dodgeIframeT - dt);
+  }
+
+  /**
+   * 实体碰撞：把位置推出 solidBoxes（XZ 平面，最浅轴推出，含角色半径）。
+   * 闪避/前冲速度（≤12u/s）单帧位移 ~0.2 < 掩体有效厚度，无需连续检测。
+   */
+  _resolveSolids() {
+    if (!this.solidBoxes.length) return;
+    const r = this.radius;
+    for (const b of this.solidBoxes) {
+      const minX = b.minX - r, maxX = b.maxX + r;
+      const minZ = b.minZ - r, maxZ = b.maxZ + r;
+      if (this.pos.x <= minX || this.pos.x >= maxX || this.pos.z <= minZ || this.pos.z >= maxZ) continue;
+      // 圆心在膨胀盒内：向四邻方向取穿透最小者推出
+      const dL = this.pos.x - minX, dR = maxX - this.pos.x;
+      const dB = this.pos.z - minZ, dF = maxZ - this.pos.z;
+      const m = Math.min(dL, dR, dB, dF);
+      if (m === dL) this.pos.x = minX;
+      else if (m === dR) this.pos.x = maxX;
+      else if (m === dB) this.pos.z = minZ;
+      else this.pos.z = maxZ;
+    }
   }
 
   /** 攻击前冲 */
@@ -144,11 +173,12 @@ export class Movement {
     if (!move || move.lengthSq() < 0.001) return new THREE.Vector3();
 
     // 本项目相机沿 X 轴看街道（从 +X 看向 -X）
-    // 固定映射（保证直觉操作）：
-    //   A = -X（左）  D = +X（右）
-    //   W = -Z（远）  S = +Z（近）
-    // 注：相机在 +X 处看向 -X，屏幕"右"对应世界 -Z，
-    //     但为操作直觉，这里让 A/D 直接控制 X（沿街道方向）
+    // 实现映射（与 input.mjs updateMove 的按键增量一一对应）：
+    //   A = -X  D = +X（沿街道轴）
+    //   W = +Z  S = -Z（横穿街道轴）
+    // 注：机位在 +X 侧、含 +Z 侧偏（tuning.mjs distance=3.8/sideOffset=2.2，约 30° 侧角），
+    //     屏幕右 ≈ 世界 (0.50, 0, -0.87)：W/S 偏屏幕横向、A/D 兼具纵深分量，
+    //     与屏幕坐标轴不对齐；是否按机位重排映射属设计取舍，待世界/展示线定夺
     return new THREE.Vector3(move.x, 0, move.y);
   }
 

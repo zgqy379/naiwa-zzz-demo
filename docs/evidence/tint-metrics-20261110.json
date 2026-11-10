@@ -1,0 +1,304 @@
+{
+  "criteria": {
+    "diffTh": 30,
+    "medianK": 5,
+    "tintHue": "重染 3 只掩膜中位色 vs COLOR_OVERRIDE tint 目标色 hueΔ <25°=还原",
+    "drift": "抽查 2 只新旧帧掩膜中位色互比 hueΔ <8°=零漂移",
+    "luma": "重染 3 只同帧 uTintMix=1 vs 0 对照掩膜 meanLuma 差 <15=明度不塌"
+  },
+  "maskMethod": "|iso - isoEmpty| 三通道差分和 > 30 → 5x5 中值滤波（同 measure-roster.py）",
+  "rows": [
+    {
+      "idx": 0,
+      "id": "shell_naiwa",
+      "name": "奶蛙",
+      "tintTarget": null,
+      "cfgColor": "#F5C542",
+      "new": {
+        "medRGB": [
+          140.0,
+          129.0,
+          88.0
+        ],
+        "medHSV": [
+          46.8,
+          0.187,
+          0.553
+        ],
+        "maskMeanLuma": 137.5,
+        "areaPx": 316735
+      },
+      "diagNew": {
+        "diffMean": 27.02,
+        "maskFrac": 0.12669
+      },
+      "hueNewVsTarget": 2.9,
+      "targetHSV": [
+        43.9,
+        0.731,
+        0.961
+      ],
+      "old": {
+        "medRGB": [
+          103.0,
+          87.0,
+          55.0
+        ],
+        "medHSV": [
+          41.8,
+          0.354,
+          0.404
+        ],
+        "maskMeanLuma": 113.7,
+        "areaPx": 181537
+      },
+      "hueNewVsOld": 5.0,
+      "lumaNewVsOld": 23.8,
+      "driftGrade": "零漂移通过(<8°)"
+    },
+    {
+      "idx": 6,
+      "id": "shell_naifen",
+      "name": "奶粉",
+      "tintTarget": "#F2D8DE",
+      "cfgColor": "#F2D8DE",
+      "new": {
+        "medRGB": [
+          147.0,
+          130.0,
+          133.0
+        ],
+        "medHSV": [
+          325.0,
+          0.107,
+          0.584
+        ],
+        "maskMeanLuma": 134.7,
+        "areaPx": 217071
+      },
+      "diagNew": {
+        "diffMean": 14.87,
+        "maskFrac": 0.08683
+      },
+      "hueNewVsTarget": 21.2,
+      "targetHSV": [
+        346.2,
+        0.107,
+        0.949
+      ],
+      "tintOff": {
+        "medRGB": [
+          148.0,
+          134.0,
+          112.0
+        ],
+        "medHSV": [
+          38.0,
+          0.145,
+          0.588
+        ],
+        "maskMeanLuma": 134.8,
+        "areaPx": 217071
+      },
+      "lumaDeltaOnOff": -0.1,
+      "hueOffVsTarget": 51.8,
+      "old": {
+        "medRGB": [
+          75.0,
+          64.0,
+          57.0
+        ],
+        "medHSV": [
+          41.3,
+          0.185,
+          0.294
+        ],
+        "maskMeanLuma": 96.3,
+        "areaPx": 125923
+      },
+      "hueNewVsOld": 76.3,
+      "lumaNewVsOld": 38.4,
+      "hueGrade": "还原",
+      "lumaGrade": "通过(<15)"
+    },
+    {
+      "idx": 8,
+      "id": "shell_naimao",
+      "name": "奶猫",
+      "tintTarget": "#BFC4CC",
+      "cfgColor": "#BFC4CC",
+      "new": {
+        "medRGB": [
+          178.0,
+          176.0,
+          176.0
+        ],
+        "medHSV": [
+          217.5,
+          0.022,
+          0.702
+        ],
+        "maskMeanLuma": 166.2,
+        "areaPx": 220383
+      },
+      "diagNew": {
+        "diffMean": 9.29,
+        "maskFrac": 0.08815
+      },
+      "hueNewVsTarget": 0.6,
+      "targetHSV": [
+        216.9,
+        0.064,
+        0.8
+      ],
+      "tintOff": {
+        "medRGB": [
+          193.0,
+          176.0,
+          137.0
+        ],
+        "medHSV": [
+          41.8,
+          0.217,
+          0.757
+        ],
+        "maskMeanLuma": 166.2,
+        "areaPx": 220548
+      },
+      "lumaDeltaOnOff": 0.0,
+      "hueOffVsTarget": 175.1,
+      "old": {
+        "medRGB": [
+          162.0,
+          142.0,
+          85.0
+        ],
+        "medHSV": [
+          42.6,
+          0.291,
+          0.631
+        ],
+        "maskMeanLuma": 123.1,
+        "areaPx": 160048
+      },
+      "hueNewVsOld": 174.9,
+      "lumaNewVsOld": 43.1,
+      "hueGrade": "还原",
+      "lumaGrade": "通过(<15)"
+    },
+    {
+      "idx": 12,
+      "id": "shell_naiyu",
+      "name": "奶鱼",
+      "tintTarget": "#A8D8EA",
+      "cfgColor": "#A8D8EA",
+      "new": {
+        "medRGB": [
+          133.0,
+          161.0,
+          169.0
+        ],
+        "medHSV": [
+          193.1,
+          0.184,
+          0.667
+        ],
+        "maskMeanLuma": 151.1,
+        "areaPx": 131014
+      },
+      "diagNew": {
+        "diffMean": 7.83,
+        "maskFrac": 0.05241
+      },
+      "hueNewVsTarget": 3.3,
+      "targetHSV": [
+        196.4,
+        0.282,
+        0.918
+      ],
+      "tintOff": {
+        "medRGB": [
+          182.0,
+          170.0,
+          137.0
+        ],
+        "medHSV": [
+          41.2,
+          0.172,
+          0.729
+        ],
+        "maskMeanLuma": 156.0,
+        "areaPx": 147268
+      },
+      "lumaDeltaOnOff": -4.9,
+      "hueOffVsTarget": 155.2,
+      "old": {
+        "medRGB": [
+          168.0,
+          152.0,
+          97.0
+        ],
+        "medHSV": [
+          44.1,
+          0.212,
+          0.667
+        ],
+        "maskMeanLuma": 130.8,
+        "areaPx": 86513
+      },
+      "hueNewVsOld": 149.0,
+      "lumaNewVsOld": 20.3,
+      "hueGrade": "还原",
+      "lumaGrade": "通过(<15)"
+    },
+    {
+      "idx": 15,
+      "id": "shell_xigema",
+      "name": "西格玛奶蛙",
+      "tintTarget": null,
+      "cfgColor": "#9C7A3C",
+      "new": {
+        "medRGB": [
+          142.0,
+          127.0,
+          87.0
+        ],
+        "medHSV": [
+          38.5,
+          0.184,
+          0.569
+        ],
+        "maskMeanLuma": 125.8,
+        "areaPx": 116470
+      },
+      "diagNew": {
+        "diffMean": 9.92,
+        "maskFrac": 0.04659
+      },
+      "hueNewVsTarget": 0.2,
+      "targetHSV": [
+        38.8,
+        0.615,
+        0.612
+      ],
+      "old": {
+        "medRGB": [
+          88.0,
+          75.0,
+          61.0
+        ],
+        "medHSV": [
+          38.4,
+          0.212,
+          0.345
+        ],
+        "maskMeanLuma": 92.8,
+        "areaPx": 57351
+      },
+      "hueNewVsOld": 0.1,
+      "lumaNewVsOld": 33.0,
+      "driftGrade": "零漂移通过(<8°)"
+    }
+  ],
+  "familySource": "src/game/squad.mjs COLOR_OVERRIDE / FAMILY（只读对齐）"
+}

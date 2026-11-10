@@ -1,0 +1,144 @@
+{
+  "region": [
+    780,
+    640,
+    1240,
+    1180
+  ],
+  "criteria": {
+    "meanLuma>=": 100,
+    "meanSat>=": 0.25
+  },
+  "files": [
+    {
+      "file": "v3-fix-verify-01-start-20261110.png",
+      "image": [
+        2000,
+        1250
+      ],
+      "region": [
+        780,
+        640,
+        1240,
+        1180
+      ],
+      "meanLuma": 90.27,
+      "meanSat": 0.3359,
+      "meanRGB": [
+        90.9,
+        89.5,
+        96.4
+      ],
+      "yellowFrac": 0.1319,
+      "warmFrac": 0.2673,
+      "maxLuma": 247.1,
+      "passLuma": false,
+      "passSat": true,
+      "pass": false
+    },
+    {
+      "file": "v3-fix-verify-02-drag-20261110.png",
+      "image": [
+        2000,
+        1250
+      ],
+      "region": [
+        780,
+        640,
+        1240,
+        1180
+      ],
+      "meanLuma": 65.9,
+      "meanSat": 0.2932,
+      "meanRGB": [
+        72.2,
+        63.0,
+        76.1
+      ],
+      "yellowFrac": 0.0296,
+      "warmFrac": 0.0741,
+      "maxLuma": 224.7,
+      "passLuma": false,
+      "passSat": true,
+      "pass": false
+    },
+    {
+      "file": "v3-fix-verify-03-parry-20261110.png",
+      "image": [
+        2000,
+        1250
+      ],
+      "region": [
+        780,
+        640,
+        1240,
+        1180
+      ],
+      "meanLuma": 108.63,
+      "meanSat": 0.3508,
+      "meanRGB": [
+        113.2,
+        108.2,
+        99.1
+      ],
+      "yellowFrac": 0.2621,
+      "warmFrac": 0.4676,
+      "maxLuma": 248.0,
+      "passLuma": true,
+      "passSat": true,
+      "pass": true
+    },
+    {
+      "file": "v3-fix-verify-04-finisher-20261110.png",
+      "image": [
+        2000,
+        1250
+      ],
+      "region": [
+        780,
+        640,
+        1240,
+        1180
+      ],
+      "meanLuma": 100.07,
+      "meanSat": 0.4036,
+      "meanRGB": [
+        115.0,
+        95.6,
+        99.8
+      ],
+      "yellowFrac": 0.1938,
+      "warmFrac": 0.3463,
+      "maxLuma": 255.0,
+      "passLuma": true,
+      "passSat": true,
+      "pass": true
+    },
+    {
+      "file": "v3-fix-verify-05-timer-20261110.png",
+      "image": [
+        2000,
+        1250
+      ],
+      "region": [
+        780,
+        640,
+        1240,
+        1180
+      ],
+      "meanLuma": 92.18,
+      "meanSat": 0.4135,
+      "meanRGB": [
+        98.2,
+        90.5,
+        91.3
+      ],
+      "yellowFrac": 0.2068,
+      "warmFrac": 0.3449,
+      "maxLuma": 249.2,
+      "passLuma": false,
+      "passSat": true,
+      "pass": false
+    }
+  ]
+}

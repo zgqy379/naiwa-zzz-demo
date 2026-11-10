@@ -61,15 +61,23 @@ export class TestHarness {
     return item;
   }
 
-  /** 截图 */
+  /** 截图（带超时保护，超时不判失败） */
   async _shot(name) {
     const safe = name.replace(/[\\/:*?"<>|]/g, "_").slice(0, 60);
     const path = `${this.shotDir}/${safe}.png`;
     mkdirSync(this.shotDir, { recursive: true });
-    const res = await this.page.cdp("Page.captureScreenshot", { format: "png" });
-    if (res?.data) {
-      await writeFile(path, Buffer.from(res.data, "base64"));
-      return path;
+    try {
+      const res = await Promise.race([
+        this.page.cdp("Page.captureScreenshot", { format: "png" }),
+        new Promise((_, rej) => setTimeout(() => rej(new Error("shot-timeout")), 8000)),
+      ]);
+      if (res?.data) {
+        await writeFile(path, Buffer.from(res.data, "base64"));
+        return path;
+      }
+    } catch (e) {
+      // 截图失败不影响测试结论
+      console.log(`    (截图超时/失败: ${name} — ${String(e.message).slice(0, 40)})`);
     }
     return null;
   }

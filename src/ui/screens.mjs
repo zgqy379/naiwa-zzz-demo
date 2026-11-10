@@ -58,6 +58,23 @@ export class ScreenManager {
     if (vol) vol.addEventListener("input", () => this._setVolume(vol.value));
   }
 
+  /** 修（UI-3）：设置屏打开时按当前运行状态回填各 .setting-opts 的 active（行匹配规则与 _handleSetting 一致；运行时值无对应选项时整行清高亮如实显示） */
+  _syncSettings() {
+    const st = this.o.getState?.();
+    if (!st) return;
+    document.querySelectorAll(".setting-row").forEach((row) => {
+      const label = row.querySelector("span")?.textContent ?? "";
+      let value = null;
+      if (label.includes("渲染风格")) value = st.mode ? String(st.mode).toLowerCase() : null;
+      else if (label.includes("色调分离")) value = st.steps == null ? null : String(st.steps);
+      else if (label.includes("画质")) value = st.quality == null ? null : String(st.quality);
+      if (value == null) return;
+      row.querySelectorAll(".opt").forEach((opt) => {
+        opt.classList.toggle("active", opt.getAttribute("data-opt") === value);
+      });
+    });
+  }
+
   _handleAction(action) {
     switch (action) {
       case "start":
@@ -70,7 +87,9 @@ export class ScreenManager {
         this.show("settings");
         break;
       case "back-title":
-        this.show("title");
+        // 修（UI-3）：调 onBack（main.mjs 传入，含 BGM 切回标题副作用，原先从未执行）；未传时回退原地切屏
+        if (this.o.onBack) this.o.onBack();
+        else this.show("title");
         break;
       case "confirm":
         this.o.onStart?.(this.selectedIndex);
@@ -216,6 +235,8 @@ export class ScreenManager {
     if (this.hudRoot) {
       this.hudRoot.style.display = name === "battle" ? "block" : "none";
     }
+    // 修（UI-3）：打开设置屏时按当前运行状态回填高亮（N/[] 等键位改动后再打开也显示真实值）
+    if (name === "settings") this._syncSettings();
     // 非战斗界面：隐藏 3D 角色
     if (this.o.setCharactersVisible) {
       this.o.setCharactersVisible(name === "battle");

@@ -1,0 +1,4 @@
+[headless] canvas2000x1250-present={"avgFps":100.41,"worstMs":41.7}
+[headless-noframelimit] canvas2000x1250-present={"avgFps":616.36,"worstMs":47.6}
+[headful] canvas2000x1250-present={"avgFps":27.79,"worstMs":182.4}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-raf-ceiling-20261110.json

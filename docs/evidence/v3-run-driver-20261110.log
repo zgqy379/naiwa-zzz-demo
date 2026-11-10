@@ -1,0 +1,21 @@
+[boot] root=E:\naiwa-zzz\dist url=http://127.0.0.1:5292/
+[chrome] port=9498 profile=C:\Users\dqy\AppData\Local\Temp\naiwa-dist-readiness-9498-1794243308862
+[boot] __npr=true in 3590ms
+[boot] nav={"domContentLoadedMs":2801.1,"loadMs":0,"responseEndMs":22.6,"domInteractiveMs":70.6,"transferSizeKB":4.7}
+[flow] start click=true select=true in 16ms
+[flow] confirm click=true battle=true in 536ms; nav→battle=7845ms
+[fps] {"frames":120,"avgMs":30.72,"avgFps":32.55,"p50Fps":39.84,"p5Fps":14.99,"worstMs":83.5,"lastMs":83.5}
+[shot] docs/evidence/v3-run-01-start-20261110.png 224207B 2000x1250
+[step1] {"state":{"ok":true,"screen":"battle","activeName":"奶蛙","activeId":"shell_naiwa","activeIndex":0,"visibleGroups":[{"i":0,"name":"奶蛙","id":"shell_naiwa","visible":true}],"visibleCount":1,"totalGroups":16,"allMemberNames":["奶蛙","奶豆","小奶蛙","奶蛋","奶鼠","奶狗","奶粉","奶鸡","奶猫","奶屎","豆奶","奶兔","奶鱼","奶茶","奶瓶","西格玛奶蛙"],"opponentVisible":true,"opponentHp":200,"opponentMaxHp":200,"battleTimer":null,"battleTimerType":"undefined","battlePhase":"playing","battleElapsed":0.6954000000059606,"hudElapsedText":"00:00","hudHpText":"100","hudOppText":"100","hudShellName":"奶蛙","hudShellIdx":"1/16","hudCounterShown":false,"canvas":[2000,1250],"inner":[1600,1000],"pixelRatio":1.25,"fov":40,"exposure":0.85,"shadowMapType":1,"bloom":{"enabled":true,"strength":0.4},"cam":{"x":6.171,"y":1.6,"z":2.205},"counter":{"state":"idle","total":0,"last":null},"combo":{"stageIndex":-1,"comboCount":0},"freezeT":0},"info":{"measured":{"triangles":375512,"calls":608,"geometries":265,"textures":18},"direct":{"triangles":187740,"calls":288},"prevAutoReset":true}}
+[shot] docs/evidence/v3-run-02-drag-20261110.png 224007B 2000x1250
+[step2] {"camBefore":{"x":6.2,"y":1.6,"z":2.2},"camAfter":{"x":5.848,"y":1.6,"z":-2.677},"moveLen":4.89,"camBack":{"x":6.2,"y":1.6,"z":2.199},"residual":0.001}
+[shot] docs/evidence/v3-run-03-parry-20261110.png 283013B 2000x1250
+[step3] {"state":"success","total":1,"last":{"perfect":true,"damage":23,"gridGain":2,"punishS":1.56,"consecutive":1}}
+[shot] docs/evidence/v3-run-04-finisher-20261110.png 170702B 2000x1250
+[step4] {"trail":[{"burst":1,"stage":1,"count":1,"freeze":0.05,"phase":"playing","oppHp":156,"elapsed":10.03},{"burst":2,"stage":0,"count":1,"freeze":0.038,"phase":"playing","oppHp":120,"elapsed":10.7},{"burst":3,"stage":2,"count":1,"freeze":0,"phase":"playing","oppHp":99,"elapsed":11.35}],"maxRadius":3.5,"maxScale":3.293}
+[shot] docs/evidence/v3-run-05-timer-20261110.png 178399B 2000x1250
+[step5] timer 00:00 → 00:13 | battle.timer={"timer":null,"type":"undefined","elapsed":13.799600000053637,"phase":"playing"}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-20261110.json
+[summary] exceptions=0 consoleErr=8 logErr=0 warnings=259 netFail=0 http4xx+=2
+  HTTP 404 http://127.0.0.1:5292/favicon.ico
+  HTTP 404 http://127.0.0.1:5292/favicon.ico

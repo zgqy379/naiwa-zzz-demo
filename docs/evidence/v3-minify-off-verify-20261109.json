@@ -72,10 +72,10 @@
     "visibleGroups": [
       "奶蛙"
     ],
-    "triangles": 188422,
-    "calls": 329,
-    "geometries": 294,
-    "textures": 286,
+    "triangles": 188410,
+    "calls": 328,
+    "geometries": 295,
+    "textures": 287,
     "canvas": [
       2000,
       1250
@@ -98,15 +98,15 @@
   },
   "shot": {
     "file": "docs/evidence/v3-minify-off-verify-20261109.png",
-    "bytes": 949254
+    "bytes": 963725
   },
   "meta": {
     "url": "http://127.0.0.1:5287/",
     "port": 5287,
     "bootOk": true,
-    "bootMs": 3525,
+    "bootMs": 3865,
     "favicon404Ignored": true,
-    "finishedAt": "2026-11-09T15:13:29.524Z",
+    "finishedAt": "2026-11-09T15:22:46.940Z",
     "portClosed": 5287
   },
   "ab": [
@@ -116,8 +116,8 @@
         "strength": 0.4,
         "threshold": 0.68
       },
-      "file": "docs/evidence/v3-minify-bloom-ab-0.40-0.68-20261109.png",
-      "bytes": 949534
+      "file": "docs/evidence/v3-minify-off-bloom-ab-0.40-0.68-20261109.png",
+      "bytes": 961532
     },
     {
       "tag": "0.22-0.88",
@@ -125,8 +125,8 @@
         "strength": 0.22,
         "threshold": 0.88
       },
-      "file": "docs/evidence/v3-minify-bloom-ab-0.22-0.88-20261109.png",
-      "bytes": 891297
+      "file": "docs/evidence/v3-minify-off-bloom-ab-0.22-0.88-20261109.png",
+      "bytes": 895072
     }
   ]
 }

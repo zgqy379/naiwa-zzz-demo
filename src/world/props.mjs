@@ -3,18 +3,21 @@
  * 全部程序化几何，零外部资产。
  */
 import * as THREE from "three";
-import { mulberry32, NEON_PALETTE } from "./storefront.mjs";
+import { mulberry32, pickTubeColor } from "./storefront.mjs";
 
-/** 自动贩卖机 */
+/** 自动贩卖机（美术圣经 v2 §5.3）：机身冷白 0xdfe4ec 为主（≥3/4 台）+ 橙 0xe8863a
+ *  点缀机；金属感降（metalness 0.1 / roughness 0.8 哑光）；陈列窗彩排保留（圣经
+ *  暖点缀族饮料块）、窗 emissive 0.35。窗/侧灯条 emissive 靠 stage.mjs 合批后的
+ *  自发光 __skipNpr 通用规则保住（makeNprMaterial 不拷 emissive）。 */
 export function makeVendingMachine(seed = 1) {
   const rng = mulberry32(seed);
   const g = new THREE.Group();
-  const color = [0xd43a3a, 0x3a6ad4, 0x3ad47a, 0xf5c542][Math.floor(rng() * 4)];
+  const color = rng() < 0.78 ? 0xdfe4ec : 0xe8863a;
 
   // 主体
   const body = new THREE.Mesh(
     new THREE.BoxGeometry(0.9, 1.9, 0.7),
-    new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.2 })
+    new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0.1 })
   );
   body.position.y = 0.95;
   body.castShadow = true;
@@ -24,10 +27,26 @@ export function makeVendingMachine(seed = 1) {
   const winColor = 0xffffff;
   const win = new THREE.Mesh(
     new THREE.BoxGeometry(0.7, 1.0, 0.06),
-    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.7, roughness: 0.3 })
+    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.15, roughness: 0.3 })
   );
   win.position.set(0, 1.2, 0.36);
   g.add(win);
+
+  // 饮料彩排（两行 ×3 列；色取圣经暖点缀族，自发光微亮）
+  const canColors = [0xff7a3d, 0xffd98a, 0xcfe0f2, 0xd8452e];
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 3; col++) {
+      const cc = canColors[Math.floor(rng() * canColors.length)];
+      const can = new THREE.Mesh(
+        new THREE.BoxGeometry(0.12, 0.22, 0.05),
+        new THREE.MeshStandardMaterial({
+          color: cc, emissive: cc, emissiveIntensity: 0.3, roughness: 0.6,
+        })
+      );
+      can.position.set(-0.2 + col * 0.2, 0.92 + row * 0.3, 0.37);
+      g.add(can);
+    }
+  }
 
   // 取货口
   const slot = new THREE.Mesh(
@@ -40,7 +59,7 @@ export function makeVendingMachine(seed = 1) {
   // 侧面灯条
   const sideGlow = new THREE.Mesh(
     new THREE.BoxGeometry(0.05, 1.6, 0.05),
-    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.5 })
+    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.18 })
   );
   sideGlow.position.set(0.42, 1.0, 0.3);
   g.add(sideGlow);
@@ -48,11 +67,11 @@ export function makeVendingMachine(seed = 1) {
   return g;
 }
 
-/** 垃圾桶 */
+/** 垃圾桶（游离墨绿 0x2a3a2e 归板到人行道同族冷蓝灰 0x4a5260，圣经 v2 §0） */
 export function makeTrashCan(seed = 1) {
   const rng = mulberry32(seed);
   const g = new THREE.Group();
-  const mat = new THREE.MeshStandardMaterial({ color: 0x2a3a2e, roughness: 0.8, metalness: 0.2 });
+  const mat = new THREE.MeshStandardMaterial({ color: 0x4a5260, roughness: 0.85, metalness: 0.1 });
   const body = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.28, 0.75, 10), mat);
   body.position.y = 0.38;
   body.castShadow = true;
@@ -64,10 +83,10 @@ export function makeTrashCan(seed = 1) {
   return g;
 }
 
-/** 自行车（简化） */
+/** 自行车（简化；车架游离红 0x8a2a2a 归板到灯笼红暗调 0x7a2a20——冷调环境里的暖点缀） */
 export function makeBicycle(seed = 1) {
   const g = new THREE.Group();
-  const frameMat = new THREE.MeshStandardMaterial({ color: 0x8a2a2a, roughness: 0.5, metalness: 0.4 });
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0x7a2a20, roughness: 0.5, metalness: 0.4 });
   const tireMat = new THREE.MeshStandardMaterial({ color: 0x1a1c20, roughness: 0.9 });
 
   // 两个轮子
@@ -102,11 +121,11 @@ export function makeStreetSign(seed = 1) {
   pole.castShadow = true;
   g.add(pole);
 
-  // 牌面
-  const color = NEON_PALETTE[Math.floor(rng() * NEON_PALETTE.length)];
+  // 牌面（emissive 走灯管三族加权抽取，圣经 v2 §5.1；底板深青 0x2e4a52 归板）
+  const color = pickTubeColor(rng);
   const sign = new THREE.Mesh(
     new THREE.BoxGeometry(0.9, 0.5, 0.04),
-    new THREE.MeshStandardMaterial({ color: 0x1a2028, emissive: color, emissiveIntensity: 0.4, roughness: 0.6 })
+    new THREE.MeshStandardMaterial({ color: 0x2e4a52, emissive: color, emissiveIntensity: 0.4, roughness: 0.6 })
   );
   sign.position.y = 2.5;
   g.add(sign);
@@ -119,14 +138,14 @@ export function makeStreetSign(seed = 1) {
   return g;
 }
 
-/** 海报板（贴在墙上） */
+/** 海报板（贴在墙上；emissive 走灯管三族加权抽取，底板深青归板，圣经 v2 §5.1） */
 export function makePoster(seed = 1) {
   const rng = mulberry32(seed);
   const g = new THREE.Group();
-  const color = NEON_PALETTE[Math.floor(rng() * NEON_PALETTE.length)];
+  const color = pickTubeColor(rng);
   const poster = new THREE.Mesh(
     new THREE.BoxGeometry(0.8, 1.2, 0.03),
-    new THREE.MeshStandardMaterial({ color: 0x1a2028, emissive: color, emissiveIntensity: 0.25, roughness: 0.8 })
+    new THREE.MeshStandardMaterial({ color: 0x2e4a52, emissive: color, emissiveIntensity: 0.25, roughness: 0.8 })
   );
   // 图案块
   const art = new THREE.Mesh(

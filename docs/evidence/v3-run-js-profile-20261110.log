@@ -1,0 +1,11 @@
+[frameProfile] {"jsMs":{"n":60,"avg":13.35,"p50":12.9,"p95":18.4,"max":19.4},"gapMs":{"n":60,"avg":93.35,"p50":77.2,"p95":233.7,"max":308.4},"frames":103}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-js-profile-20261110.json
+[crash] Error: Uncaught TypeError: e.lengthSq is not a function
+    at tp._inputDir (http://127.0.0.1:5303/assets/index-iKSx0O26.js:4879:8192)
+    at tp.step (http://127.0.0.1:5303/assets/index-iKSx0O26.js:4879:6856)
+    at <anonymous>:7:46
+    at bench (<anonymous>:3:97)
+    at <anonymous>:7:7
+    at <anonymous>:13:7
+    at ev (file:///E:/naiwa-zzz/docs/evidence/v3-run-js-profile-20261110.mjs:46:33)
+    at async main (file:///E:/naiwa-zzz/docs/evidence/v3-run-js-profile-20261110.mjs:110:25)

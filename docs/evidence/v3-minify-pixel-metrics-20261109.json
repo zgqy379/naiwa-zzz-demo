@@ -1,0 +1,102 @@
+{
+  "measuredAt": "2026-11-09 23:2x",
+  "sourceHash": "4747990ce424d4b4aadec3d8716c237a33979b38",
+  "sourceMtime": "2026-11-09 23:20:12",
+  "caliber": "nearWhite=RGB 通道算术均值>240 的像素占比；blown=通道算术均值>250；口径已用 docs/evidence/v3-show3-0[0-5] 主图复算基线 0.41%/0.11% 验证一致",
+  "baseline_round3": {
+    "nearWhite_pct": 0.41,
+    "blown_pct": 0.11,
+    "rgbMean": "110.0-112.5",
+    "note": "基线为冻结展示帧（专用机位+HUD），本次为实时战斗帧，mean 不可直接横比；同帧 A/B 才可分离参数效应"
+  },
+  "leaderThreshold": {
+    "nearWhite_pct": "<=2",
+    "blown_pct": "<=0.5"
+  },
+  "images": [
+    {
+      "file": "v3-minify-verify-20261109.png",
+      "px": [
+        2000,
+        1250
+      ],
+      "bytes": 953232,
+      "rgbMean": 106.23,
+      "nearWhite_gray240_pct": 2.02,
+      "blown_gray250_pct": 0.27,
+      "allChannel240_pct": 0.62,
+      "anyChannel240_pct": 7.31,
+      "uniqueColors": 118026
+    },
+    {
+      "file": "v3-minify-off-verify-20261109.png",
+      "px": [
+        2000,
+        1250
+      ],
+      "bytes": 963725,
+      "rgbMean": 105.95,
+      "nearWhite_gray240_pct": 1.71,
+      "blown_gray250_pct": 0.27,
+      "allChannel240_pct": 0.57,
+      "anyChannel240_pct": 8.93,
+      "uniqueColors": 124698
+    },
+    {
+      "file": "v3-minify-bloom-ab-0.40-0.68-20261109.png",
+      "px": [
+        2000,
+        1250
+      ],
+      "bytes": 952031,
+      "rgbMean": 106.47,
+      "nearWhite_gray240_pct": 2.02,
+      "blown_gray250_pct": 0.27,
+      "allChannel240_pct": 0.62,
+      "anyChannel240_pct": 7.39,
+      "uniqueColors": 117863
+    },
+    {
+      "file": "v3-minify-bloom-ab-0.22-0.88-20261109.png",
+      "px": [
+        2000,
+        1250
+      ],
+      "bytes": 891649,
+      "rgbMean": 92.46,
+      "nearWhite_gray240_pct": 0.46,
+      "blown_gray250_pct": 0.16,
+      "allChannel240_pct": 0.27,
+      "anyChannel240_pct": 4.31,
+      "uniqueColors": 101624
+    },
+    {
+      "file": "v3-minify-off-bloom-ab-0.40-0.68-20261109.png",
+      "px": [
+        2000,
+        1250
+      ],
+      "bytes": 961532,
+      "rgbMean": 105.97,
+      "nearWhite_gray240_pct": 1.71,
+      "blown_gray250_pct": 0.27,
+      "allChannel240_pct": 0.57,
+      "anyChannel240_pct": 8.93,
+      "uniqueColors": 124371
+    },
+    {
+      "file": "v3-minify-off-bloom-ab-0.22-0.88-20261109.png",
+      "px": [
+        2000,
+        1250
+      ],
+      "bytes": 895072,
+      "rgbMean": 90.87,
+      "nearWhite_gray240_pct": 0.44,
+      "blown_gray250_pct": 0.15,
+      "allChannel240_pct": 0.25,
+      "anyChannel240_pct": 5.81,
+      "uniqueColors": 103354
+    }
+  ]
+}

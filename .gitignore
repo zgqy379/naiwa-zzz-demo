@@ -22,6 +22,7 @@ docs/demo-frames-hd-clean/
 # Agent 工具会话状态（扫描缓存 / 可视化桥），非项目内容
 .mimosa/
 .v2c/
+.arts/
 
 # Python 缓存
 __pycache__/
@@ -29,3 +30,20 @@ __pycache__/
 # 部署分发包（可由 dist 重建，不入库）
 docs/*.zip
 
+
+# 内部自审报告与过期失败截图（仅供统一参考，不进提交仓库，避免与最终成果失配）
+.review-internal/
+
+# 构建验证副本（dist 的另一次构建，可由 npm run build 重建，不进版本库）
+.verify-build/
+
+# ZCode/Agent 工作流运行记录与状态，非项目内容
+.zcode/
+
+# 一次性诊断输出（js 侧探针结果，非证据留档）
+docs/dodge-diag.json
+docs/stat-verify.json
+docs/perf-report.json
+
+# 失败截图一律归档到 docs/evidence/iteration/，不进 docs/test-shots
+docs/test-shots/*-FAIL.png

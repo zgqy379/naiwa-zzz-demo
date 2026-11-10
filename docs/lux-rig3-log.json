@@ -1,0 +1,74 @@
+{
+  "steps": [
+    {
+      "imgs": [
+        {
+          "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAElcAAAJ/CAYAAAD7MjIUAAAACXBIWXMAAC",
+          "alt": "Aholo Lux3D"
+        },
+        {
+          "src": "https://holo-cos.aholo3d.cn/resource/avatar/2026/11/09/NLY4MCAKTKX72AABAAAAABI8.",
+          "alt": "诸葛青云"
+        },
+        {
+          "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAACXBIWXMAAC",
+          "alt": ""
+        },
+        {
+          "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAACXBIWXMAAC",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/26c735ab08924337a288f",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/65df9bcfeda94f63ade17",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/4f7c4d5b7f424e85b6666",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/2f4015ff9d76494683bfc",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/67470e2de5a94a60b3a5a",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/27049008b9b94f8f8db9e",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/4e213fca168846219c50e",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/962982fecfa846c1bd9bf",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/d65e4f0f9fe4456c806c6",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/9e3fb39ef23a48aeb2378",
+          "alt": ""
+        },
+        {
+          "src": "https://qhsmodel.kujiale.com/humanoid-animation/2026/09/15/23f3fd9aef094573bca31",
+          "alt": ""
+        }
+      ]
+    },
+    {
+      "uploadBtn": {
+        "found": true,
+        "text": "上传模型"
+      }
+    }
+  ]
+}

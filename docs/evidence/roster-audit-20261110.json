@@ -1,0 +1,3171 @@
+{
+  "ok": true,
+  "task": "16 只族谱还原度核对（只读审计）",
+  "date": "20261110",
+  "thresholds": {
+    "silhouette": "族谱 signature 特征三要素：≥2 可见=还原 / 1=部分 / 0=缺失",
+    "color": "渲染帧掩膜中位色 vs squad.mjs config color 色相差：<25°=还原 / 25–45°=部分 / >45°=缺失；低饱和 config(灰/米白) hue 无意义改目检色差判级；ΔV(NPR/ACES 变暗)不判级",
+    "mask": "|iso - isoEmpty| 三通道差分和>30 → 5x5 中值滤波"
+  },
+  "evidence": {
+    "captureJson": "v3-roster-capture-20261110.json",
+    "metricsJson": "roster-metrics-20261110.json",
+    "glbMaterialsJson": "roster-glb-materials-20261110.json",
+    "glbTextureColorsJson": "roster-glb-texture-colors-20261110.json",
+    "sheet": "v3-roster-sheet-20261110.png"
+  },
+  "build": {
+    "dist": ".tmp-dist-roster",
+    "vite": "8.3.6",
+    "minify": "default(production)",
+    "outDirMtime": "2026-11-09T18:10:54.436Z",
+    "assetsMtime": "2026-11-09T18:10:54.436Z"
+  },
+  "renderBase": {
+    "exposure": 0.85,
+    "shadowMapType": 1,
+    "toneMapping": 4,
+    "canvas": [
+      2000,
+      1250
+    ],
+    "pixelRatio": 1.25,
+    "bloom": {
+      "enabled": true,
+      "strength": 0.2,
+      "threshold": 0.85,
+      "radius": 0.5
+    },
+    "squad": [
+      {
+        "idx": 0,
+        "id": "shell_naiwa",
+        "name": "奶蛙",
+        "glb": "/asset/naiwa_laugh_g1_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 1,
+        "id": "shell_naidou",
+        "name": "奶豆",
+        "glb": "/asset/naiwa_naidou_runtime.glb",
+        "scale": 1.15,
+        "visualScale": 1
+      },
+      {
+        "idx": 2,
+        "id": "shell_xiaonaiwa",
+        "name": "小奶蛙",
+        "glb": "/asset/naiwa_xiaonaiwa_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 3,
+        "id": "shell_naidan",
+        "name": "奶蛋",
+        "glb": "/asset/naiwa_naidan_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 4,
+        "id": "shell_nashu",
+        "name": "奶鼠",
+        "glb": "/asset/naiwa_nashu_runtime.glb",
+        "scale": 0.95,
+        "visualScale": 1
+      },
+      {
+        "idx": 5,
+        "id": "shell_naigou",
+        "name": "奶狗",
+        "glb": "/asset/naiwa_naigou_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 6,
+        "id": "shell_naifen",
+        "name": "奶粉",
+        "glb": "/asset/naiwa_naifen_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 7,
+        "id": "shell_naiji",
+        "name": "奶鸡",
+        "glb": "/asset/naiwa_naiji_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 8,
+        "id": "shell_naimao",
+        "name": "奶猫",
+        "glb": "/asset/naiwa_naimao_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 9,
+        "id": "shell_naishi",
+        "name": "奶屎",
+        "glb": "/asset/naiwa_naishi_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 10,
+        "id": "shell_dounai",
+        "name": "豆奶",
+        "glb": "/asset/naiwa_dounai_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 11,
+        "id": "shell_naitu",
+        "name": "奶兔",
+        "glb": "/asset/naiwa_naitu_runtime.glb",
+        "scale": 0.95,
+        "visualScale": 1
+      },
+      {
+        "idx": 12,
+        "id": "shell_naiyu",
+        "name": "奶鱼",
+        "glb": "/asset/naiwa_naiyu_runtime.glb",
+        "scale": 0.95,
+        "visualScale": 1.2
+      },
+      {
+        "idx": 13,
+        "id": "shell_naicha",
+        "name": "奶茶",
+        "glb": "/asset/naiwa_naicha_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 14,
+        "id": "shell_naiping",
+        "name": "奶瓶",
+        "glb": "/asset/naiwa_naiping_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      },
+      {
+        "idx": 15,
+        "id": "shell_xigema",
+        "name": "西格玛奶蛙",
+        "glb": "/asset/naiwa_xigema_runtime.glb",
+        "scale": 1.05,
+        "visualScale": 1
+      }
+    ]
+  },
+  "consoleErrors": [],
+  "roster": [
+    {
+      "idx": 0,
+      "id": "shell_naiwa",
+      "name": "奶蛙",
+      "glb": "naiwa_laugh_g1_runtime.glb",
+      "glbBytes": 331460,
+      "glbSha1": "7ae8e54463df38fab563b811625b75824d2110e6",
+      "silhouette": {
+        "bbox": [
+          728,
+          412,
+          1270,
+          1010
+        ],
+        "bboxSize": [
+          543,
+          599
+        ],
+        "aspectWH": 0.907,
+        "fill": 0.558,
+        "areaFrac": 0.0726,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "梨形体型✓",
+          "大圆眼+微笑嘴✓",
+          "直立蛙姿/手置身前✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#F5C542",
+        "cfgHSV": [
+          43.9,
+          0.731,
+          0.961
+        ],
+        "medRGB": [
+          103.0,
+          87.0,
+          55.0
+        ],
+        "medHSV": [
+          41.8,
+          0.354,
+          0.404
+        ],
+        "hueDeltaDeg": 2.1,
+        "svDelta": [
+          -0.377,
+          -0.557
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          188.0,
+          161.0,
+          72.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              201,
+              179,
+              79
+            ],
+            "frac": 0.254
+          },
+          {
+            "rgb": [
+              184,
+              169,
+              73
+            ],
+            "frac": 0.154
+          },
+          {
+            "rgb": [
+              180,
+              149,
+              58
+            ],
+            "frac": 0.115
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "梨形体型✓",
+          "大圆眼+微笑嘴✓",
+          "直立蛙姿/手置身前✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶蛙",
+          "hudIdx": "1/16",
+          "activeIndex": 0,
+          "activeName": "奶蛙",
+          "activeId": "shell_naiwa",
+          "activeGlb": "/asset/naiwa_laugh_g1_runtime.glb",
+          "visibleGroups": [
+            0
+          ],
+          "facing": -0.6560480079314246,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            4.625680610805506,
+            1.6,
+            2.408732302345475
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶蛙",
+          "hudIdx": "1/16",
+          "activeIndex": 0,
+          "activeName": "奶蛙",
+          "activeId": "shell_naiwa",
+          "activeGlb": "/asset/naiwa_laugh_g1_runtime.glb",
+          "visibleGroups": [
+            0
+          ],
+          "facing": -0.6560480079314246,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            4.625680610805506,
+            1.6,
+            2.408732302345475
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-00-naiwa.png",
+        "iso": "v3-roster-iso-00.png",
+        "isoEmpty": "v3-roster-iso-empty-00.png"
+      }
+    },
+    {
+      "idx": 1,
+      "id": "shell_naidou",
+      "name": "奶豆",
+      "glb": "naiwa_naidou_runtime.glb",
+      "glbBytes": 230412,
+      "glbSha1": "b00f597f0cfac46775337cfa5e78b0637f036fb6",
+      "silhouette": {
+        "bbox": [
+          725,
+          450,
+          1274,
+          950
+        ],
+        "bboxSize": [
+          550,
+          501
+        ],
+        "aspectWH": 1.098,
+        "fill": 0.599,
+        "areaFrac": 0.066,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "最圆润水滴/球状✓",
+          "黑点眼✓",
+          "无四肢✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#E0B84F",
+        "cfgHSV": [
+          43.4,
+          0.647,
+          0.878
+        ],
+        "medRGB": [
+          172.0,
+          147.0,
+          82.0
+        ],
+        "medHSV": [
+          42.4,
+          0.399,
+          0.675
+        ],
+        "hueDeltaDeg": 1.0,
+        "svDelta": [
+          -0.248,
+          -0.203
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          226.0,
+          201.0,
+          137.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              230,
+              206,
+              143
+            ],
+            "frac": 0.494
+          },
+          {
+            "rgb": [
+              217,
+              197,
+              138
+            ],
+            "frac": 0.188
+          },
+          {
+            "rgb": [
+              220,
+              194,
+              123
+            ],
+            "frac": 0.112
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "最圆润水滴/球状✓",
+          "黑点眼✓",
+          "无四肢✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶豆",
+          "hudIdx": "2/16",
+          "activeIndex": 1,
+          "activeName": "奶豆",
+          "activeId": "shell_naidou",
+          "activeGlb": "/asset/naiwa_naidou_runtime.glb",
+          "visibleGroups": [
+            1
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.476786440193916,
+            1.6,
+            2.5045109725499306
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶豆",
+          "hudIdx": "2/16",
+          "activeIndex": 1,
+          "activeName": "奶豆",
+          "activeId": "shell_naidou",
+          "activeGlb": "/asset/naiwa_naidou_runtime.glb",
+          "visibleGroups": [
+            1
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.476786440193916,
+            1.6,
+            2.5045109725499306
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-01-naidou.png",
+        "iso": "v3-roster-iso-01.png",
+        "isoEmpty": "v3-roster-iso-empty-01.png"
+      }
+    },
+    {
+      "idx": 2,
+      "id": "shell_xiaonaiwa",
+      "name": "小奶蛙",
+      "glb": "naiwa_xiaonaiwa_runtime.glb",
+      "glbBytes": 339032,
+      "glbSha1": "195f38b591e72d8195586cb71e796dd16a2cac0d",
+      "silhouette": {
+        "bbox": [
+          784,
+          457,
+          1215,
+          912
+        ],
+        "bboxSize": [
+          432,
+          456
+        ],
+        "aspectWH": 0.947,
+        "fill": 0.487,
+        "areaFrac": 0.0384,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "幼态小只✓",
+          "四肢张开✓",
+          "蛙形✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#F8D96B",
+        "cfgHSV": [
+          46.8,
+          0.569,
+          0.973
+        ],
+        "medRGB": [
+          164.0,
+          140.0,
+          64.0
+        ],
+        "medHSV": [
+          40.7,
+          0.453,
+          0.647
+        ],
+        "hueDeltaDeg": 6.1,
+        "svDelta": [
+          -0.116,
+          -0.326
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          230.0,
+          186.0,
+          94.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              230,
+              186,
+              94
+            ],
+            "frac": 0.66
+          },
+          {
+            "rgb": [
+              150,
+              120,
+              59
+            ],
+            "frac": 0.092
+          },
+          {
+            "rgb": [
+              70,
+              56,
+              27
+            ],
+            "frac": 0.069
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "幼态小只✓",
+          "四肢张开✓",
+          "蛙形✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "小奶蛙",
+          "hudIdx": "3/16",
+          "activeIndex": 2,
+          "activeName": "小奶蛙",
+          "activeId": "shell_xiaonaiwa",
+          "activeGlb": "/asset/naiwa_xiaonaiwa_runtime.glb",
+          "visibleGroups": [
+            2
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.739995676003981,
+            1.6,
+            2.3936860311562187
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "小奶蛙",
+          "hudIdx": "3/16",
+          "activeIndex": 2,
+          "activeName": "小奶蛙",
+          "activeId": "shell_xiaonaiwa",
+          "activeGlb": "/asset/naiwa_xiaonaiwa_runtime.glb",
+          "visibleGroups": [
+            2
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.739995676003981,
+            1.6,
+            2.3936860311562187
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-02-xiaonaiwa.png",
+        "iso": "v3-roster-iso-02.png",
+        "isoEmpty": "v3-roster-iso-empty-02.png"
+      }
+    },
+    {
+      "idx": 3,
+      "id": "shell_naidan",
+      "name": "奶蛋",
+      "glb": "naiwa_naidan_runtime.glb",
+      "glbBytes": 190532,
+      "glbSha1": "2ece09162e8dd74ae140ac0103ac14f6246edb85",
+      "silhouette": {
+        "bbox": [
+          763,
+          444,
+          1236,
+          905
+        ],
+        "bboxSize": [
+          474,
+          462
+        ],
+        "aspectWH": 1.026,
+        "fill": 0.684,
+        "areaFrac": 0.0599,
+        "shapeHint": "方圆·较饱满",
+        "elements": [
+          "完美蛋形✓",
+          "表面光滑✓",
+          "无四肢✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#FFF0C2",
+        "cfgHSV": [
+          45.2,
+          0.239,
+          1.0
+        ],
+        "medRGB": [
+          187.0,
+          144.0,
+          56.0
+        ],
+        "medHSV": [
+          40.0,
+          0.449,
+          0.733
+        ],
+        "hueDeltaDeg": 5.2,
+        "svDelta": [
+          0.21,
+          -0.267
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          245.0,
+          193.0,
+          86.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              245,
+              186,
+              77
+            ],
+            "frac": 0.329
+          },
+          {
+            "rgb": [
+              246,
+              196,
+              87
+            ],
+            "frac": 0.298
+          },
+          {
+            "rgb": [
+              244,
+              201,
+              103
+            ],
+            "frac": 0.236
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "完美蛋形✓",
+          "表面光滑✓",
+          "无四肢✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶蛋",
+          "hudIdx": "4/16",
+          "activeIndex": 3,
+          "activeName": "奶蛋",
+          "activeId": "shell_naidan",
+          "activeGlb": "/asset/naiwa_naidan_runtime.glb",
+          "visibleGroups": [
+            3
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶蛋",
+          "hudIdx": "4/16",
+          "activeIndex": 3,
+          "activeName": "奶蛋",
+          "activeId": "shell_naidan",
+          "activeGlb": "/asset/naiwa_naidan_runtime.glb",
+          "visibleGroups": [
+            3
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-03-naidan.png",
+        "iso": "v3-roster-iso-03.png",
+        "isoEmpty": "v3-roster-iso-empty-03.png"
+      }
+    },
+    {
+      "idx": 4,
+      "id": "shell_nashu",
+      "name": "奶鼠",
+      "glb": "naiwa_nashu_runtime.glb",
+      "glbBytes": 262456,
+      "glbSha1": "7054342338657ddb76261e16226d685efb1e6d32",
+      "silhouette": {
+        "bbox": [
+          787,
+          535,
+          1218,
+          971
+        ],
+        "bboxSize": [
+          432,
+          437
+        ],
+        "aspectWH": 0.989,
+        "fill": 0.497,
+        "areaFrac": 0.0375,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "两只巨大圆耳✓",
+          "小身✓",
+          "细长卷尾✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#CFA878",
+        "cfgHSV": [
+          33.1,
+          0.42,
+          0.812
+        ],
+        "medRGB": [
+          180.0,
+          147.0,
+          47.0
+        ],
+        "medHSV": [
+          37.4,
+          0.44,
+          0.706
+        ],
+        "hueDeltaDeg": 4.3,
+        "svDelta": [
+          0.02,
+          -0.106
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          233.0,
+          189.0,
+          23.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              234,
+              185,
+              8
+            ],
+            "frac": 0.355
+          },
+          {
+            "rgb": [
+              234,
+              197,
+              44
+            ],
+            "frac": 0.177
+          },
+          {
+            "rgb": [
+              238,
+              196,
+              13
+            ],
+            "frac": 0.173
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "两只巨大圆耳✓",
+          "小身✓",
+          "细长卷尾✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶鼠",
+          "hudIdx": "5/16",
+          "activeIndex": 4,
+          "activeName": "奶鼠",
+          "activeId": "shell_nashu",
+          "activeGlb": "/asset/naiwa_nashu_runtime.glb",
+          "visibleGroups": [
+            4
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.222155814215678,
+            1.6,
+            2.611723867698662
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶鼠",
+          "hudIdx": "5/16",
+          "activeIndex": 4,
+          "activeName": "奶鼠",
+          "activeId": "shell_nashu",
+          "activeGlb": "/asset/naiwa_nashu_runtime.glb",
+          "visibleGroups": [
+            4
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.222155814215678,
+            1.6,
+            2.611723867698662
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-04-nashu.png",
+        "iso": "v3-roster-iso-04.png",
+        "isoEmpty": "v3-roster-iso-empty-04.png"
+      }
+    },
+    {
+      "idx": 5,
+      "id": "shell_naigou",
+      "name": "奶狗",
+      "glb": "naiwa_naigou_runtime.glb",
+      "glbBytes": 210232,
+      "glbSha1": "4210b0d8108c057b6be5504ea05b2494acd522d8",
+      "silhouette": {
+        "bbox": [
+          765,
+          441,
+          1234,
+          920
+        ],
+        "bboxSize": [
+          470,
+          480
+        ],
+        "aspectWH": 0.979,
+        "fill": 0.54,
+        "areaFrac": 0.0487,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "两只下垂狗耳✓",
+          "张嘴笑✓",
+          "有尾(上卷)✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#C98D5A",
+        "cfgHSV": [
+          27.6,
+          0.552,
+          0.788
+        ],
+        "medRGB": [
+          112.0,
+          86.0,
+          49.0
+        ],
+        "medHSV": [
+          31.6,
+          0.479,
+          0.439
+        ],
+        "hueDeltaDeg": 4.0,
+        "svDelta": [
+          -0.073,
+          -0.349
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          230.0,
+          176.0,
+          49.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              232,
+              177,
+              49
+            ],
+            "frac": 0.448
+          },
+          {
+            "rgb": [
+              234,
+              171,
+              12
+            ],
+            "frac": 0.201
+          },
+          {
+            "rgb": [
+              231,
+              183,
+              72
+            ],
+            "frac": 0.165
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "两只下垂狗耳✓",
+          "张嘴笑✓",
+          "有尾(上卷)✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶狗",
+          "hudIdx": "6/16",
+          "activeIndex": 5,
+          "activeName": "奶狗",
+          "activeId": "shell_naigou",
+          "activeGlb": "/asset/naiwa_naigou_runtime.glb",
+          "visibleGroups": [
+            5
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.359054000225483,
+            1.6,
+            2.5540825262208493
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶狗",
+          "hudIdx": "6/16",
+          "activeIndex": 5,
+          "activeName": "奶狗",
+          "activeId": "shell_naigou",
+          "activeGlb": "/asset/naiwa_naigou_runtime.glb",
+          "visibleGroups": [
+            5
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.359054000225483,
+            1.6,
+            2.5540825262208493
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-05-naigou.png",
+        "iso": "v3-roster-iso-05.png",
+        "isoEmpty": "v3-roster-iso-empty-05.png"
+      }
+    },
+    {
+      "idx": 6,
+      "id": "shell_naifen",
+      "name": "奶粉",
+      "glb": "naiwa_naifen_runtime.glb",
+      "glbBytes": 345704,
+      "glbSha1": "5a2a5cf194893066f5ead2b6e440dcd6739681d1",
+      "silhouette": {
+        "bbox": [
+          774,
+          411,
+          1225,
+          866
+        ],
+        "bboxSize": [
+          452,
+          456
+        ],
+        "aspectWH": 0.991,
+        "fill": 0.611,
+        "areaFrac": 0.0504,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "族谱精灵/鸟形✗(罐壶形)",
+          "提手/奶嘴阀配件△",
+          "无耳无脸△"
+        ],
+        "elementCount": 1,
+        "grade": "部分"
+      },
+      "color": {
+        "cfgColor": "#F2D8DE",
+        "cfgHSV": [
+          346.2,
+          0.107,
+          0.949
+        ],
+        "medRGB": [
+          75.0,
+          64.0,
+          57.0
+        ],
+        "medHSV": [
+          41.3,
+          0.185,
+          0.294
+        ],
+        "hueDeltaDeg": 55.1,
+        "svDelta": [
+          0.078,
+          -0.655
+        ],
+        "grade": "缺失",
+        "glbTextureMedRGB": [
+          213.0,
+          194.0,
+          146.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              218,
+              196,
+              148
+            ],
+            "frac": 0.506
+          },
+          {
+            "rgb": [
+              117,
+              105,
+              80
+            ],
+            "frac": 0.142
+          },
+          {
+            "rgb": [
+              133,
+              120,
+              90
+            ],
+            "frac": 0.089
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "族谱精灵/鸟形✗(罐壶形)",
+          "提手/奶嘴阀配件△",
+          "无耳无脸△"
+        ],
+        "count": 1,
+        "grade": "部分"
+      },
+      "finalGrade": "缺失",
+      "hud": {
+        "before": {
+          "hudName": "奶粉",
+          "hudIdx": "7/16",
+          "activeIndex": 6,
+          "activeName": "奶粉",
+          "activeId": "shell_naifen",
+          "activeGlb": "/asset/naiwa_naifen_runtime.glb",
+          "visibleGroups": [
+            6
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.9483738811388935,
+            1.6,
+            2.305947839520466
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶粉",
+          "hudIdx": "7/16",
+          "activeIndex": 6,
+          "activeName": "奶粉",
+          "activeId": "shell_naifen",
+          "activeGlb": "/asset/naiwa_naifen_runtime.glb",
+          "visibleGroups": [
+            6
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.9483738811388935,
+            1.6,
+            2.305947839520466
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-06-naifen.png",
+        "iso": "v3-roster-iso-06.png",
+        "isoEmpty": "v3-roster-iso-empty-06.png"
+      }
+    },
+    {
+      "idx": 7,
+      "id": "shell_naiji",
+      "name": "奶鸡",
+      "glb": "naiwa_naiji_runtime.glb",
+      "glbBytes": 282376,
+      "glbSha1": "ea3945b8b079fb7864ea89bb92700fb3f9a396b9",
+      "silhouette": {
+        "bbox": [
+          755,
+          527,
+          1244,
+          969
+        ],
+        "bboxSize": [
+          490,
+          443
+        ],
+        "aspectWH": 1.106,
+        "fill": 0.589,
+        "areaFrac": 0.0512,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "红色锯齿鸡冠✓",
+          "尖喙✓",
+          "翅膀纹理+尾羽✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#F0E0A8",
+        "cfgHSV": [
+          46.7,
+          0.3,
+          0.941
+        ],
+        "medRGB": [
+          93.0,
+          68.0,
+          46.0
+        ],
+        "medHSV": [
+          40.0,
+          0.429,
+          0.361
+        ],
+        "hueDeltaDeg": 6.7,
+        "svDelta": [
+          0.129,
+          -0.58
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          238.0,
+          187.0,
+          55.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              238,
+              186,
+              52
+            ],
+            "frac": 0.627
+          },
+          {
+            "rgb": [
+              238,
+              187,
+              69
+            ],
+            "frac": 0.122
+          },
+          {
+            "rgb": [
+              217,
+              170,
+              51
+            ],
+            "frac": 0.071
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "红色锯齿鸡冠✓",
+          "尖喙✓",
+          "翅膀纹理+尾羽✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶鸡",
+          "hudIdx": "8/16",
+          "activeIndex": 7,
+          "activeName": "奶鸡",
+          "activeId": "shell_naiji",
+          "activeGlb": "/asset/naiwa_naiji_runtime.glb",
+          "visibleGroups": [
+            7
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.739995676003981,
+            1.6,
+            2.3936860311562187
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶鸡",
+          "hudIdx": "8/16",
+          "activeIndex": 7,
+          "activeName": "奶鸡",
+          "activeId": "shell_naiji",
+          "activeGlb": "/asset/naiwa_naiji_runtime.glb",
+          "visibleGroups": [
+            7
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.739995676003981,
+            1.6,
+            2.3936860311562187
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-07-naiji.png",
+        "iso": "v3-roster-iso-07.png",
+        "isoEmpty": "v3-roster-iso-empty-07.png"
+      }
+    },
+    {
+      "idx": 8,
+      "id": "shell_naimao",
+      "name": "奶猫",
+      "glb": "naiwa_naimao_runtime.glb",
+      "glbBytes": 292004,
+      "glbSha1": "0d5b2df4278bb9afa509247a9e8c7f8918733254",
+      "silhouette": {
+        "bbox": [
+          750,
+          488,
+          1249,
+          1004
+        ],
+        "bboxSize": [
+          500,
+          517
+        ],
+        "aspectWH": 0.967,
+        "fill": 0.619,
+        "areaFrac": 0.064,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "两只尖猫耳✓",
+          "蹲坐猫姿✓",
+          "胡须刻线✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#BFC4CC",
+        "cfgHSV": [
+          216.9,
+          0.064,
+          0.8
+        ],
+        "medRGB": [
+          162.0,
+          142.0,
+          85.0
+        ],
+        "medHSV": [
+          42.6,
+          0.291,
+          0.631
+        ],
+        "hueDeltaDeg": 174.3,
+        "svDelta": [
+          0.227,
+          -0.169
+        ],
+        "grade": "缺失(灰→金铜,hue对灰色config无意义,目检判定)",
+        "glbTextureMedRGB": [
+          219.0,
+          202.0,
+          148.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              217,
+              200,
+              147
+            ],
+            "frac": 0.592
+          },
+          {
+            "rgb": [
+              227,
+              205,
+              145
+            ],
+            "frac": 0.152
+          },
+          {
+            "rgb": [
+              217,
+              206,
+              166
+            ],
+            "frac": 0.107
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "两只尖猫耳✓",
+          "蹲坐猫姿✓",
+          "胡须刻线✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "部分",
+      "hud": {
+        "before": {
+          "hudName": "奶猫",
+          "hudIdx": "9/16",
+          "activeIndex": 8,
+          "activeName": "奶猫",
+          "activeId": "shell_naimao",
+          "activeGlb": "/asset/naiwa_naimao_runtime.glb",
+          "visibleGroups": [
+            8
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶猫",
+          "hudIdx": "9/16",
+          "activeIndex": 8,
+          "activeName": "奶猫",
+          "activeId": "shell_naimao",
+          "activeGlb": "/asset/naiwa_naimao_runtime.glb",
+          "visibleGroups": [
+            8
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-08-naimao.png",
+        "iso": "v3-roster-iso-08.png",
+        "isoEmpty": "v3-roster-iso-empty-08.png"
+      }
+    },
+    {
+      "idx": 9,
+      "id": "shell_naishi",
+      "name": "奶屎",
+      "glb": "naiwa_naishi_runtime.glb",
+      "glbBytes": 256076,
+      "glbSha1": "eda80a4bd88f24679a0dcd9b33f9a214d7995d8f",
+      "silhouette": {
+        "bbox": [
+          756,
+          435,
+          1243,
+          924
+        ],
+        "bboxSize": [
+          488,
+          490
+        ],
+        "aspectWH": 0.996,
+        "fill": 0.603,
+        "areaFrac": 0.0576,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "盘旋便便造型?(AI复核2次空返回,像素法aspect=1.00/fill=0.60无法确认盘旋)",
+          "黑点眼△",
+          "棕色△"
+        ],
+        "elementCount": 1,
+        "grade": "部分(口径受限)"
+      },
+      "color": {
+        "cfgColor": "#B08E5E",
+        "cfgHSV": [
+          35.1,
+          0.466,
+          0.69
+        ],
+        "medRGB": [
+          182.0,
+          150.0,
+          50.0
+        ],
+        "medHSV": [
+          38.2,
+          0.459,
+          0.714
+        ],
+        "hueDeltaDeg": 3.1,
+        "svDelta": [
+          -0.007,
+          0.024
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          234.0,
+          200.0,
+          86.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              237,
+              200,
+              79
+            ],
+            "frac": 0.335
+          },
+          {
+            "rgb": [
+              234,
+              202,
+              109
+            ],
+            "frac": 0.153
+          },
+          {
+            "rgb": [
+              242,
+              198,
+              53
+            ],
+            "frac": 0.147
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "盘旋便便造型?(AI复核2次空返回,像素法aspect=1.00/fill=0.60无法确认盘旋)",
+          "黑点眼△",
+          "棕色△"
+        ],
+        "count": 1,
+        "grade": "部分(口径受限)"
+      },
+      "finalGrade": "部分",
+      "hud": {
+        "before": {
+          "hudName": "奶屎",
+          "hudIdx": "10/16",
+          "activeIndex": 9,
+          "activeName": "奶屎",
+          "activeId": "shell_naishi",
+          "activeGlb": "/asset/naiwa_naishi_runtime.glb",
+          "visibleGroups": [
+            9
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶屎",
+          "hudIdx": "10/16",
+          "activeIndex": 9,
+          "activeName": "奶屎",
+          "activeId": "shell_naishi",
+          "activeGlb": "/asset/naiwa_naishi_runtime.glb",
+          "visibleGroups": [
+            9
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-09-naishi.png",
+        "iso": "v3-roster-iso-09.png",
+        "isoEmpty": "v3-roster-iso-empty-09.png"
+      }
+    },
+    {
+      "idx": 10,
+      "id": "shell_dounai",
+      "name": "豆奶",
+      "glb": "naiwa_dounai_runtime.glb",
+      "glbBytes": 314280,
+      "glbSha1": "d039fcf07028d27474b855edc52036698c1c59c5",
+      "silhouette": {
+        "bbox": [
+          871,
+          497,
+          1128,
+          925
+        ],
+        "bboxSize": [
+          258,
+          429
+        ],
+        "aspectWH": 0.601,
+        "fill": 0.485,
+        "areaFrac": 0.0215,
+        "shapeHint": "窄高·有分离件/细枝",
+        "elements": [
+          "人类少女发(深褐波波头+刘海)✓",
+          "人类少女脸(大圆眼+腮红)✓",
+          "裙子+人形躯干✗(圆球蛙形身体)"
+        ],
+        "elementCount": 2,
+        "grade": "还原(机械口径2/3)"
+      },
+      "color": {
+        "cfgColor": "#EFE8D8",
+        "cfgHSV": [
+          41.7,
+          0.096,
+          0.937
+        ],
+        "medRGB": [
+          84.0,
+          70.0,
+          58.0
+        ],
+        "medHSV": [
+          38.6,
+          0.182,
+          0.333
+        ],
+        "hueDeltaDeg": 3.1,
+        "svDelta": [
+          0.086,
+          -0.604
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          224.0,
+          165.0,
+          69.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              235,
+              166,
+              72
+            ],
+            "frac": 0.5
+          },
+          {
+            "rgb": [
+              74,
+              52,
+              21
+            ],
+            "frac": 0.364
+          },
+          {
+            "rgb": [
+              152,
+              107,
+              45
+            ],
+            "frac": 0.038
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "人类少女发(深褐波波头+刘海)✓",
+          "人类少女脸(大圆眼+腮红)✓",
+          "裙子+人形躯干✗(圆球蛙形身体)"
+        ],
+        "count": 2,
+        "grade": "还原(机械口径2/3)"
+      },
+      "finalGrade": "部分",
+      "hud": {
+        "before": {
+          "hudName": "豆奶",
+          "hudIdx": "11/16",
+          "activeIndex": 10,
+          "activeName": "豆奶",
+          "activeId": "shell_dounai",
+          "activeGlb": "/asset/naiwa_dounai_runtime.glb",
+          "visibleGroups": [
+            10
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.739995676003981,
+            1.6,
+            2.3936860311562187
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "豆奶",
+          "hudIdx": "11/16",
+          "activeIndex": 10,
+          "activeName": "豆奶",
+          "activeId": "shell_dounai",
+          "activeGlb": "/asset/naiwa_dounai_runtime.glb",
+          "visibleGroups": [
+            10
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.739995676003981,
+            1.6,
+            2.3936860311562187
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-10-dounai.png",
+        "iso": "v3-roster-iso-10.png",
+        "isoEmpty": "v3-roster-iso-empty-10.png"
+      }
+    },
+    {
+      "idx": 11,
+      "id": "shell_naitu",
+      "name": "奶兔",
+      "glb": "naiwa_naitu_runtime.glb",
+      "glbBytes": 214152,
+      "glbSha1": "87afc78f92deeb64474a81ba9240ccac441d9154",
+      "silhouette": {
+        "bbox": [
+          861,
+          427,
+          1138,
+          839
+        ],
+        "bboxSize": [
+          278,
+          413
+        ],
+        "aspectWH": 0.673,
+        "fill": 0.505,
+        "areaFrac": 0.0232,
+        "shapeHint": "窄高·有分离件/细枝",
+        "elements": [
+          "两只长兔耳✓(一前一后)",
+          "底部短脚✓",
+          "圆润兔形✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#F7F1E3",
+        "cfgHSV": [
+          42.0,
+          0.081,
+          0.969
+        ],
+        "medRGB": [
+          183.0,
+          145.0,
+          54.0
+        ],
+        "medHSV": [
+          36.9,
+          0.402,
+          0.718
+        ],
+        "hueDeltaDeg": 5.1,
+        "svDelta": [
+          0.321,
+          -0.251
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          243.0,
+          195.0,
+          75.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              243,
+              199,
+              78
+            ],
+            "frac": 0.52
+          },
+          {
+            "rgb": [
+              238,
+              188,
+              78
+            ],
+            "frac": 0.126
+          },
+          {
+            "rgb": [
+              246,
+              197,
+              54
+            ],
+            "frac": 0.119
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "两只长兔耳✓(一前一后)",
+          "底部短脚✓",
+          "圆润兔形✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶兔",
+          "hudIdx": "12/16",
+          "activeIndex": 11,
+          "activeName": "奶兔",
+          "activeId": "shell_naitu",
+          "activeGlb": "/asset/naiwa_naitu_runtime.glb",
+          "visibleGroups": [
+            11
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.804396281363424,
+            1.6,
+            2.366569986794348
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶兔",
+          "hudIdx": "12/16",
+          "activeIndex": 11,
+          "activeName": "奶兔",
+          "activeId": "shell_naitu",
+          "activeGlb": "/asset/naiwa_naitu_runtime.glb",
+          "visibleGroups": [
+            11
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.804396281363424,
+            1.6,
+            2.366569986794348
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-11-naitu.png",
+        "iso": "v3-roster-iso-11.png",
+        "isoEmpty": "v3-roster-iso-empty-11.png"
+      }
+    },
+    {
+      "idx": 12,
+      "id": "shell_naiyu",
+      "name": "奶鱼",
+      "glb": "naiwa_naiyu_runtime.glb",
+      "glbBytes": 222748,
+      "glbSha1": "b2feb924365a58d05b1ea3986aa5b14443571add",
+      "silhouette": {
+        "bbox": [
+          756,
+          484,
+          1243,
+          904
+        ],
+        "bboxSize": [
+          488,
+          421
+        ],
+        "aspectWH": 1.159,
+        "fill": 0.421,
+        "areaFrac": 0.0346,
+        "shapeHint": "方圆·大量分离件/极端纤细",
+        "elements": [
+          "流线型✓",
+          "胸鳍+尾鳍✓",
+          "无腿✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#A8D8EA",
+        "cfgHSV": [
+          196.4,
+          0.282,
+          0.918
+        ],
+        "medRGB": [
+          168.0,
+          152.0,
+          97.0
+        ],
+        "medHSV": [
+          44.1,
+          0.212,
+          0.667
+        ],
+        "hueDeltaDeg": 152.3,
+        "svDelta": [
+          -0.07,
+          -0.251
+        ],
+        "grade": "缺失",
+        "glbTextureMedRGB": [
+          206.0,
+          181.0,
+          111.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              208,
+              179,
+              110
+            ],
+            "frac": 0.529
+          },
+          {
+            "rgb": [
+              207,
+              187,
+              137
+            ],
+            "frac": 0.132
+          },
+          {
+            "rgb": [
+              202,
+              169,
+              89
+            ],
+            "frac": 0.113
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "流线型✓",
+          "胸鳍+尾鳍✓",
+          "无腿✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "部分",
+      "hud": {
+        "before": {
+          "hudName": "奶鱼",
+          "hudIdx": "13/16",
+          "activeIndex": 12,
+          "activeName": "奶鱼",
+          "activeId": "shell_naiyu",
+          "activeGlb": "/asset/naiwa_naiyu_runtime.glb",
+          "visibleGroups": [
+            12
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶鱼",
+          "hudIdx": "13/16",
+          "activeIndex": 12,
+          "activeName": "奶鱼",
+          "activeId": "shell_naiyu",
+          "activeGlb": "/asset/naiwa_naiyu_runtime.glb",
+          "visibleGroups": [
+            12
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-12-naiyu.png",
+        "iso": "v3-roster-iso-12.png",
+        "isoEmpty": "v3-roster-iso-empty-12.png"
+      }
+    },
+    {
+      "idx": 13,
+      "id": "shell_naicha",
+      "name": "奶茶",
+      "glb": "naiwa_naicha_runtime.glb",
+      "glbBytes": 220480,
+      "glbSha1": "8ab69b6010c263c424e395cd68e62419c7ff1ff5",
+      "silhouette": {
+        "bbox": [
+          805,
+          455,
+          1194,
+          921
+        ],
+        "bboxSize": [
+          390,
+          467
+        ],
+        "aspectWH": 0.835,
+        "fill": 0.415,
+        "areaFrac": 0.0303,
+        "shapeHint": "方圆·大量分离件/极端纤细",
+        "elements": [
+          "杯形(上窄下宽)✓",
+          "杯把手✓",
+          "笑脸✗(正面无五官)"
+        ],
+        "elementCount": 2,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#C68A4E",
+        "cfgHSV": [
+          30.0,
+          0.606,
+          0.776
+        ],
+        "medRGB": [
+          193.0,
+          147.0,
+          61.0
+        ],
+        "medHSV": [
+          33.9,
+          0.515,
+          0.757
+        ],
+        "hueDeltaDeg": 3.9,
+        "svDelta": [
+          -0.091,
+          -0.019
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          229.0,
+          156.0,
+          3.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              234,
+              149,
+              1
+            ],
+            "frac": 0.27
+          },
+          {
+            "rgb": [
+              243,
+              170,
+              7
+            ],
+            "frac": 0.192
+          },
+          {
+            "rgb": [
+              214,
+              141,
+              5
+            ],
+            "frac": 0.122
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "杯形(上窄下宽)✓",
+          "杯把手✓",
+          "笑脸✗(正面无五官)"
+        ],
+        "count": 2,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶茶",
+          "hudIdx": "14/16",
+          "activeIndex": 13,
+          "activeName": "奶茶",
+          "activeId": "shell_naicha",
+          "activeGlb": "/asset/naiwa_naicha_runtime.glb",
+          "visibleGroups": [
+            13
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.476786440193916,
+            1.6,
+            2.5045109725499306
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶茶",
+          "hudIdx": "14/16",
+          "activeIndex": 13,
+          "activeName": "奶茶",
+          "activeId": "shell_naicha",
+          "activeGlb": "/asset/naiwa_naicha_runtime.glb",
+          "visibleGroups": [
+            13
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.476786440193916,
+            1.6,
+            2.5045109725499306
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-13-naicha.png",
+        "iso": "v3-roster-iso-13.png",
+        "isoEmpty": "v3-roster-iso-empty-13.png"
+      }
+    },
+    {
+      "idx": 14,
+      "id": "shell_naiping",
+      "name": "奶瓶",
+      "glb": "naiwa_naiping_runtime.glb",
+      "glbBytes": 306980,
+      "glbSha1": "56cc26e8387744b72a5344466a3399e6bef2651c",
+      "silhouette": {
+        "bbox": [
+          804,
+          541,
+          1195,
+          975
+        ],
+        "bboxSize": [
+          392,
+          435
+        ],
+        "aspectWH": 0.901,
+        "fill": 0.51,
+        "areaFrac": 0.0348,
+        "shapeHint": "方圆·有分离件/细枝",
+        "elements": [
+          "上窄下宽梨形✓",
+          "顶部奶嘴配件✓",
+          "大圆眼✓"
+        ],
+        "elementCount": 3,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#FDF3E0",
+        "cfgHSV": [
+          39.3,
+          0.115,
+          0.992
+        ],
+        "medRGB": [
+          171.0,
+          146.0,
+          73.0
+        ],
+        "medHSV": [
+          38.8,
+          0.311,
+          0.667
+        ],
+        "hueDeltaDeg": 0.5,
+        "svDelta": [
+          0.196,
+          -0.325
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          218.0,
+          181.0,
+          90.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              211,
+              175,
+              80
+            ],
+            "frac": 0.133
+          },
+          {
+            "rgb": [
+              208,
+              180,
+              110
+            ],
+            "frac": 0.104
+          },
+          {
+            "rgb": [
+              215,
+              169,
+              51
+            ],
+            "frac": 0.091
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "上窄下宽梨形✓",
+          "顶部奶嘴配件✓",
+          "大圆眼✓"
+        ],
+        "count": 3,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "奶瓶",
+          "hudIdx": "15/16",
+          "activeIndex": 14,
+          "activeName": "奶瓶",
+          "activeId": "shell_naiping",
+          "activeGlb": "/asset/naiwa_naiping_runtime.glb",
+          "visibleGroups": [
+            14
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.66511125116742,
+            1.6,
+            2.4252163152979285
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "奶瓶",
+          "hudIdx": "15/16",
+          "activeIndex": 14,
+          "activeName": "奶瓶",
+          "activeId": "shell_naiping",
+          "activeGlb": "/asset/naiwa_naiping_runtime.glb",
+          "visibleGroups": [
+            14
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.66511125116742,
+            1.6,
+            2.4252163152979285
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-14-naiping.png",
+        "iso": "v3-roster-iso-14.png",
+        "isoEmpty": "v3-roster-iso-empty-14.png"
+      }
+    },
+    {
+      "idx": 15,
+      "id": "shell_xigema",
+      "name": "西格玛奶蛙",
+      "glb": "naiwa_xigema_runtime.glb",
+      "glbBytes": 346204,
+      "glbSha1": "2aa43b16c76a2ef9ce4133f0b2f18af940fc2d6a",
+      "silhouette": {
+        "bbox": [
+          822,
+          457,
+          1177,
+          913
+        ],
+        "bboxSize": [
+          356,
+          457
+        ],
+        "aspectWH": 0.779,
+        "fill": 0.353,
+        "areaFrac": 0.0229,
+        "shapeHint": "方圆·大量分离件/极端纤细",
+        "elements": [
+          "极胖体型✓",
+          "深沉表情/深色✓",
+          "盘腿打坐抱胸✗(站立双臂下垂)"
+        ],
+        "elementCount": 2,
+        "grade": "还原"
+      },
+      "color": {
+        "cfgColor": "#9C7A3C",
+        "cfgHSV": [
+          38.8,
+          0.615,
+          0.612
+        ],
+        "medRGB": [
+          88.0,
+          75.0,
+          61.0
+        ],
+        "medHSV": [
+          38.4,
+          0.212,
+          0.345
+        ],
+        "hueDeltaDeg": 0.4,
+        "svDelta": [
+          -0.403,
+          -0.267
+        ],
+        "grade": "还原",
+        "glbTextureMedRGB": [
+          89.0,
+          73.0,
+          45.0
+        ],
+        "glbTextureClusters": [
+          {
+            "rgb": [
+              226,
+              189,
+              120
+            ],
+            "frac": 0.396
+          },
+          {
+            "rgb": [
+              70,
+              59,
+              37
+            ],
+            "frac": 0.18
+          },
+          {
+            "rgb": [
+              81,
+              68,
+              42
+            ],
+            "frac": 0.138
+          }
+        ]
+      },
+      "features": {
+        "elements": [
+          "极胖体型✓",
+          "深沉表情/深色✓",
+          "盘腿打坐抱胸✗(站立双臂下垂)"
+        ],
+        "count": 2,
+        "grade": "还原"
+      },
+      "finalGrade": "还原",
+      "hud": {
+        "before": {
+          "hudName": "西格玛奶蛙",
+          "hudIdx": "16/16",
+          "activeIndex": 15,
+          "activeName": "西格玛奶蛙",
+          "activeId": "shell_xigema",
+          "activeGlb": "/asset/naiwa_xigema_runtime.glb",
+          "visibleGroups": [
+            15
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "after": {
+          "hudName": "西格玛奶蛙",
+          "hudIdx": "16/16",
+          "activeIndex": 15,
+          "activeName": "西格玛奶蛙",
+          "activeId": "shell_xigema",
+          "activeGlb": "/asset/naiwa_xigema_runtime.glb",
+          "visibleGroups": [
+            15
+          ],
+          "facing": 0,
+          "playerPos": [
+            2.4,
+            0,
+            0
+          ],
+          "groupPos": [
+            2.4,
+            0,
+            0
+          ],
+          "cameraPos": [
+            5.5780363385667675,
+            1.6,
+            2.46187943639294
+          ],
+          "cameraFov": 40,
+          "canvas": [
+            2000,
+            1250
+          ],
+          "pixelRatio": 1.25,
+          "exposure": 0.85,
+          "bloom": {
+            "enabled": true,
+            "strength": 0.2
+          }
+        },
+        "match": true
+      },
+      "shots": {
+        "main": "v3-roster-15-xigema.png",
+        "iso": "v3-roster-iso-15.png",
+        "isoEmpty": "v3-roster-iso-empty-15.png"
+      }
+    }
+  ],
+  "summary": {
+    "restored": 11,
+    "partial": 4,
+    "missing": 1,
+    "special_dounai": {
+      "conclusion": "部分还原(偏还原)：人类少女头(深褐波波头+刘海+二次元大眼+腮红+小嘴)高度吻合族谱『棕发人类少女』；身体为圆球/蛙形(非人形躯干)、无裙。三要素 2/3。",
+      "evidence": [
+        "v3-roster-closeup-dounai.png + v3-roster-iso-10.png analyzeImage 双跑一致(B类=人类少女头+圆球身)",
+        "GLB baseColor 贴图簇 [235,166,72]棕(发)+[74,52,21]深褐(发暗部)",
+        "注意：腰部白色 attachThemeBand 主题饰带曾被 AI 误读为『白裙』——实际无裙"
+      ],
+      "verdict": "部分还原（偏还原）：按三要素机械口径 2/3=还原，但缺失项(裙+人形躯干)是身体主体、结构性差异，综合降记为部分还原"
+    },
+    "special_naike": {
+      "conclusion": "族谱共 17 只角色（名牌 17 块）；『奶克』为真实存在的第 17 只（左起第 2，长条水滴状尖端朝上、2 黑点眼、黄色）——落选设计，未进 16 壳清单；非名牌误读。",
+      "roster17": [
+        "奶茶",
+        "奶克",
+        "奶狗",
+        "奶豆",
+        "奶鼠",
+        "小奶蛙",
+        "奶蛋",
+        "奶蛙(C位)",
+        "奶瓶",
+        "奶粉",
+        "奶鸡",
+        "奶猫",
+        "奶屎",
+        "豆奶",
+        "奶兔",
+        "奶鱼(前排)",
+        "西格玛奶蛙(前排)"
+      ],
+      "evidence": [
+        "左4区放大精读(roster-ref-left4.png, 1.5x)双跑一致：第2只名牌『奶克』、长条尖端朝上；第4只『奶豆』椭圆豆状",
+        "名牌条带精读(tagband-0..3, y960-1180, 1.6x)：左7(奶茶/奶克/奶狗/奶豆/奶鼠/小奶蛙/奶蛋)+右7(奶瓶/奶粉/奶鸡/奶猫/奶屎/豆奶/奶兔)=14 后排，跨块重叠正确拼回",
+        "C位奶蛙名牌(center-low 精读)+奶鱼名牌(naiyu-front 精读,展示台前)+西格玛名牌(tile13)=前排与C位 3 块",
+        "16 壳清单 = 族谱17只 − 奶克，一一对应无遗漏",
+        "像素列投影计数不可靠(名牌底色饱和度低/高度不一)，以多裁剪交叉精读为准"
+      ],
+      "verdict": "族谱 17 只；奶克=真实落选设计"
+    },
+    "rootCauseColor": {
+      "finding": "GLB 全部为单材质 baseColorFactor=[1,1,1]×贴图(EXT_texture_webp)；baseColor 贴图主色全部为黄/卡其/米系（奶粉[213,194,146]、奶猫[219,202,148]、奶鱼[206,181,111]），渲染帧色相与贴图一致 → 配色失真源在资产贴图（资产线），非展示层染色。",
+      "implication": "『颜色区分角色』设计失效：族谱核心辨识色（奶粉粉/奶猫灰/奶鱼蓝）在资产层即不存在。"
+    },
+    "buildRaceNote": "首轮默认 minify 隔离构建产出 NEON_PALETTE 裸残留(白屏,ReferenceError)；与共用 dist 02:09 重建并发所致源码中间态；重跑后 hash=index-DUHnm2xG.js 与 dist 完全一致、grep 残留=0。非源码缺陷，采集使用收敛后产物。",
+    "assetDrift": {
+      "finding": "采集(02:05-02:15)之后，public/asset 下 4 只 glb 于 02:22:41-02:23:13 被外部替换：dounai/naifen/xiaonaiwa/xigema（sha1 前后见 glbSha1 字段=采集时旧版，recheck=新版）。",
+      "recheck": {
+        "note": "4 只被外部替换的 glb 增量复核(采集后 02:22 版本, 只读)",
+        "rows": [
+          {
+            "glb": "naiwa_dounai_runtime.glb",
+            "bytes": 327344,
+            "mats": 1,
+            "baseColorFactor": null,
+            "tex0MedRGB": [
+              224.0,
+              165.0,
+              69.0
+            ],
+            "tex0Size": [
+              1024,
+              1024
+            ]
+          },
+          {
+            "glb": "naiwa_naifen_runtime.glb",
+            "bytes": 384844,
+            "mats": 1,
+            "baseColorFactor": null,
+            "tex0MedRGB": [
+              213.0,
+              194.0,
+              146.0
+            ],
+            "tex0Size": [
+              1024,
+              1024
+            ]
+          },
+          {
+            "glb": "naiwa_xiaonaiwa_runtime.glb",
+            "bytes": 339384,
+            "mats": 1,
+            "baseColorFactor": null,
+            "tex0MedRGB": [
+              230.0,
+              186.0,
+              94.0
+            ],
+            "tex0Size": [
+              1024,
+              1024
+            ]
+          },
+          {
+            "glb": "naiwa_xigema_runtime.glb",
+            "bytes": 352772,
+            "mats": 1,
+            "baseColorFactor": null,
+            "tex0MedRGB": [
+              89.0,
+              73.0,
+              45.0
+            ],
+            "tex0Size": [
+              1024,
+              1024
+            ]
+          }
+        ]
+      },
+      "conclusion": "4 只新版 glb 的 baseColor 贴图主色与旧版完全一致（bytes 变化=重导出），判级结论对当前资产仍有效；逐只判级绑定采集时 sha1。"
+    }
+  }
+}

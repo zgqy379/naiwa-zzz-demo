@@ -16,7 +16,7 @@ export class Hud {
     this.root = root;
     this.state = {
       mode: "PBR",
-      steps: 3,
+      steps: 2, // 修（UI-3）：对齐 main.mjs:132 现行默认 2 档（#hud-steps 元素已移除，本值仅初始台账）
       // 战斗状态（demo 用，真实战斗由 battle 写入）
       elapsed: 0,
       shellIndex: 0,
@@ -24,7 +24,8 @@ export class Hud {
       grids: 0, // 失衡格
       combo: 0,
       hp: 100,
-      oppHp: 100,
+      oppHp: 100, // 对手血条百分比口径（0–100，main.mjs 每帧按 (hp/maxHp)*100 写入）
+      oppHpRaw: null, // 对手绝对血量值（main.mjs 传入后 opp-num 显示它；未传回退显示 oppHp）
       // 按键可用性
       canAttack: true,
       canCharge: false,
@@ -34,8 +35,6 @@ export class Hud {
       counterWarning: false,
       // 当前壳（16 只家族；换壳时由 main.js 写入）
       shellName: "奶蛙",
-      shellIndex: 0,
-      shellTotal: 16,
     };
     this.el = {};
     this._build();
@@ -68,7 +67,7 @@ export class Hud {
       </div>
 
       <div class="hud-right">
-        <div class="bar-label">对手 <span class="bar-num" id="hud-opp-num">200</span></div>
+        <div class="bar-label">对手 <span class="bar-num" id="hud-opp-num">100</span></div>
         <div class="bar opp-bar"><div class="bar-fill" id="hud-opp" style="width:100%"></div></div>
         <div class="grids" id="hud-grids">
           <div class="grid"></div><div class="grid"></div><div class="grid"></div>
@@ -79,16 +78,14 @@ export class Hud {
       <div class="hud-counter" id="hud-counter">⚠ 弹反!</div>
 
       <div class="hud-keys">
-        <div class="key" id="key-attack"><kbd>A/D</kbd><span>移动</span></div>
-        <div class="key glow" id="key-charge"><kbd>空格</kbd><span>攻击(连按连段)</span></div>
-        <div class="key" id="key-dodge"><kbd>Shift</kbd><span>躲/弹反</span></div>
-        <div class="key" id="key-swap"><kbd>Tab</kbd><span>接力</span></div>
+        <div class="key" id="hud-key-attack"><kbd>WASD</kbd><span>移动</span></div>
+        <div class="key glow" id="hud-key-charge"><kbd>空格</kbd><span>攻击(连按连段)</span></div>
+        <div class="key" id="hud-key-dodge"><kbd>Shift</kbd><span>躲/弹反</span></div>
+        <div class="key" id="hud-key-swap"><kbd>Tab</kbd><span>接力</span></div>
       </div>
 
-      <div class="hud-mode">
-        <span>模式：<b id="hud-mode">PBR</b></span>
-        <span>色调分离：<b id="hud-steps">3</b> 档</span>
-      </div>
+      <!-- 美术圣经重做线：调参信息（模式/色调分离档数）移出玩家视野；
+           [ ] 档数键功能保留，数值可经 window.__npr.getMode()/getSteps() 读取 -->
 
       <div class="hud-help">
         N 切换 PBR/NPR · [ ] 档数 · Tab/Q/E 或 1–9/0 换壳 · 拖动旋转
@@ -124,14 +121,17 @@ export class Hud {
     }
     if (this.el.shell) this.el.shell.textContent = `${(s.shellIndex ?? 0) + 1}/${s.shellTotal ?? 16}`;
     if (this.el.hp) {
-      const hpPct = Math.max(0, s.hp);
+      // 修：按 maxHp 归一化（原直接用 hp 值，力量档 maxHp=120 会溢出 120%）
+      const maxHp = s.maxHp ?? 100;
+      const hpPct = Math.max(0, Math.min(100, (s.hp / maxHp) * 100));
       this.el.hp.style.width = `${hpPct}%`;
       // 低血警告（<30% 变红）
       this.el.hp.classList.toggle("low", hpPct < 30);
     }
     if (this.el.opp) this.el.opp.style.width = `${Math.max(0, s.oppHp)}%`;
     if (this.el["hp-num"]) this.el["hp-num"].textContent = Math.round(s.hp);
-    if (this.el["opp-num"]) this.el["opp-num"].textContent = Math.round(s.oppHp);
+    // opp-num 显示绝对血量值（main.mjs 传 oppHpRaw）；未传时回退旧的百分比口径，行为不变
+    if (this.el["opp-num"]) this.el["opp-num"].textContent = Math.round(s.oppHpRaw ?? s.oppHp);
     if (this.el.chain) this.el.chain.textContent = `连携 ${s.combo}/3`;
     if (this.el.mode) this.el.mode.textContent = s.mode;
     if (this.el.steps) this.el.steps.textContent = s.steps;
@@ -152,9 +152,10 @@ export class Hud {
     }
 
     // 按键发光（绝区零式引导）
+    // 移动键(hud-key-attack)不发光：原误绑 canAttack（每帧 !frozen 几乎恒真，会常亮）；
+    // 攻击键(hud-key-charge)改绑攻击可用状态 canAttack：原绑的 canCharge 全仓库无人写入，永不发光
     const keyMap = {
-      "key-attack": s.canAttack,
-      "key-charge": s.canCharge,
+      "key-charge": s.canAttack,
       "key-dodge": s.canDodge,
       "key-swap": s.canSwap,
     };

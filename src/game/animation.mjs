@@ -44,7 +44,10 @@ export class ProceduralAnim {
   constructor(o) {
     this.modelRoot = o.modelRoot;
     this.movement = o.movement;
-    this.inner = o.modelRoot.getObjectByName("model-wrapper") || o.modelRoot;
+    // 修：动画层用内层 anim-root（不直接操作 wrapper，避免覆盖贴地偏移）
+    this.inner = o.modelRoot.getObjectByName("anim-root")
+      || o.modelRoot.getObjectByName("model-wrapper")
+      || o.modelRoot;
 
     // 动作状态
     this.action = ACTION.IDLE;
@@ -62,12 +65,23 @@ export class ProceduralAnim {
     this.baseScale = this.inner.scale.clone();
   }
 
-  /** 触发一个动作 */
-  play(action, dur) {
+  /**
+   * 触发一个动作
+   * @param {string} action 动作名
+   * @param {number} dur 时长
+   * @param {object} move 招式参数（可选，含 style/lean/squash）——「换壳即换招」
+   */
+  play(action, dur, move = null) {
     this.action = action;
     this.actionT = 0;
     this.actionDur = dur ?? ACTION_DUR[action] ?? 0.3;
     if (action === ACTION.HIT) this.hitShake = 1;
+    // 记录本只角色的招式风格（供 _attack 使用）
+    if (move) {
+      this.moveStyle = move.style ?? "slash";
+      this.moveLean = move.anim?.lean ?? 0.5;
+      this.moveSquash = move.anim?.squash ?? 0.8;
+    }
   }
 
   /** 每帧推进（渲染帧 dt） */
@@ -125,33 +139,147 @@ export class ProceduralAnim {
   }
 
   _attack(dt, stage) {
-    // 三段攻击：起手(0~0.3) → 挥击(0.3~0.6) → 收招(0.6~1.0)
+    // 三段攻击，按 ATTACK_STYLE 分 6 种动作语言（「换壳即换招」的视觉核心）
     const t = this.actionT / this.actionDur;
-    const power = stage / 3; // 1/3, 2/3, 1
-    if (t < 0.3) {
-      // 起手：后仰蓄力
-      const k = t / 0.3;
-      this.inner.rotation.x = -0.25 * k * power;
-      this.inner.scale.set(
-        this.baseScale.x * (1 + 0.1 * k * power),
-        this.baseScale.y * (1 - 0.08 * k * power),
-        this.baseScale.z
-      );
-    } else if (t < 0.6) {
-      // 挥击：前倾猛冲
-      const k = (t - 0.3) / 0.3;
-      this.inner.rotation.x = -0.25 * power + 0.6 * k * power;
-      this.inner.position.y = Math.sin(k * Math.PI) * 0.08 * power;
-      this.inner.scale.set(
-        this.baseScale.x * (1 + 0.05 * power),
-        this.baseScale.y * (1 + 0.12 * k * power),
-        this.baseScale.z
-      );
-    } else {
-      // 收招：回正
-      const k = (t - 0.6) / 0.4;
-      this.inner.rotation.x = (0.35 * power) * (1 - k);
-      this.inner.scale.lerp(this.baseScale, k);
+    const power = stage / 3;
+    const style = this.moveStyle ?? "slash";
+    const lean = this.moveLean ?? 0.5;
+    const squash = this.moveSquash ?? 0.8;
+
+    switch (style) {
+      case "thrust": {
+        // 突刺：直线前冲 + 强烈前后拉伸（差异强化：位移更大、拉伸更强）
+        if (t < 0.22) {
+          const k = t / 0.22;
+          this.inner.rotation.x = -0.1 * k;
+          this.inner.scale.set(
+            this.baseScale.x * (1 - 0.18 * k),   // 明显变细
+            this.baseScale.y * (1 - 0.08 * k),
+            this.baseScale.z * (1 + 0.3 * k)     // 明显拉长
+          );
+        } else if (t < 0.5) {
+          const k = (t - 0.22) / 0.28;
+          this.inner.rotation.x = -0.1 + 0.45 * k;
+          this.inner.position.z = Math.sin(k * Math.PI) * 0.45 * power;  // 位移加大
+          this.inner.scale.set(
+            this.baseScale.x * (1 + 0.2 * k),
+            this.baseScale.y * (1 + 0.1 * k),
+            this.baseScale.z * (1 + 0.2)
+          );
+        } else {
+          const k = (t - 0.5) / 0.5;
+          this.inner.position.z *= (1 - k);
+          this.inner.rotation.x = 0.35 * (1 - k);
+          this.inner.scale.lerp(this.baseScale, k);
+        }
+        break;
+      }
+
+      case "slam": {
+        // 砸地：跳起 + 下砸 + 挤压（纵向为主）
+        if (t < 0.35) {
+          const k = t / 0.35;
+          this.inner.position.y = Math.sin(k * Math.PI) * 0.3 * power;
+          this.inner.rotation.x = -0.4 * k;
+          this.inner.scale.set(
+            this.baseScale.x * (1 - 0.08 * k),
+            this.baseScale.y * (1 + 0.2 * k),
+            this.baseScale.z
+          );
+        } else if (t < 0.55) {
+          const k = (t - 0.35) / 0.2;
+          this.inner.position.y = 0.3 * power * (1 - k);
+          this.inner.rotation.x = -0.4 + 0.9 * k;
+          this.inner.scale.set(
+            this.baseScale.x * (1 + 0.2 * k),
+            this.baseScale.y * (1 - 0.15 * k),
+            this.baseScale.z
+          );
+        } else {
+          const k = (t - 0.55) / 0.45;
+          this.inner.rotation.x = 0.5 * (1 - k);
+          this.inner.scale.lerp(this.baseScale, k);
+        }
+        break;
+      }
+
+      case "spin": {
+        // 旋转：绕 Y 轴大幅旋转 + 水平展开（差异强化：转两圈）
+        const spinT = t * Math.PI * 4 * (1 + power * 0.25);  // 两圈
+        this.inner.rotation.y = spinT;   // 连续旋转（不是摇摆）
+        this.inner.rotation.x = 0.15;
+        this.inner.scale.set(
+          this.baseScale.x * (1 + Math.abs(Math.sin(spinT)) * 0.22),  // 展开更大
+          this.baseScale.y * (1 + Math.abs(Math.sin(spinT * 2)) * 0.12),
+          this.baseScale.z * (1 + Math.abs(Math.sin(spinT)) * 0.22)
+        );
+        break;
+      }
+
+      case "peck": {
+        // 啄击：快速点刺（差异强化：5 次高频 + 明显点头）
+        const peckT = t * 5;  // 5 次
+        const peck = Math.sin(peckT * Math.PI);
+        this.inner.rotation.x = -0.3 + peck * 0.8;   // 点头幅度大
+        this.inner.position.y = Math.abs(peck) * 0.08;
+        this.inner.scale.set(
+          this.baseScale.x * (1 + peck * 0.12),
+          this.baseScale.y * (1 - peck * 0.1),
+          this.baseScale.z
+        );
+        break;
+      }
+
+      case "lash": {
+        // 鞭击：长弧横扫（大幅左右摆）
+        if (t < 0.3) {
+          const k = t / 0.3;
+          this.inner.rotation.z = -0.5 * k * power;
+          this.inner.rotation.x = -0.2 * k;
+        } else if (t < 0.6) {
+          const k = (t - 0.3) / 0.3;
+          this.inner.rotation.z = -0.5 * power + 1.0 * k * power;
+          this.inner.rotation.x = -0.2 + 0.4 * k;
+          this.inner.scale.set(
+            this.baseScale.x * (1 + 0.1 * k),
+            this.baseScale.y * (1 + 0.05 * k),
+            this.baseScale.z
+          );
+        } else {
+          const k = (t - 0.6) / 0.4;
+          this.inner.rotation.z = 0.5 * power * (1 - k);
+          this.inner.rotation.x = 0.2 * (1 - k);
+          this.inner.scale.lerp(this.baseScale, k);
+        }
+        break;
+      }
+
+      default: {
+        // 挥击（slash）：经典三段（原逻辑 + 参数化）
+        if (t < 0.3) {
+          const k = t / 0.3;
+          this.inner.rotation.x = -0.25 * k * power * lean;
+          this.inner.scale.set(
+            this.baseScale.x * (1 + 0.1 * k * power * squash),
+            this.baseScale.y * (1 - 0.08 * k * power * squash),
+            this.baseScale.z
+          );
+        } else if (t < 0.6) {
+          const k = (t - 0.3) / 0.3;
+          this.inner.rotation.x = -0.25 * power * lean + 0.6 * k * power * lean;
+          this.inner.position.y = Math.sin(k * Math.PI) * 0.08 * power;
+          this.inner.scale.set(
+            this.baseScale.x * (1 + 0.05 * power * squash),
+            this.baseScale.y * (1 + 0.12 * k * power * squash),
+            this.baseScale.z
+          );
+        } else {
+          const k = (t - 0.6) / 0.4;
+          this.inner.rotation.x = (0.35 * power * lean) * (1 - k);
+          this.inner.scale.lerp(this.baseScale, k);
+        }
+        break;
+      }
     }
   }
 

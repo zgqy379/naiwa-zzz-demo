@@ -5,7 +5,6 @@
  *  - 立绘：用缩略图（portrait）放大显示在右侧
  *  - 粒子：DOM 元素 + CSS 动画（轻量，不影响性能）
  */
-import { makePortrait } from "./portrait.mjs";
 import { SQUAD } from "../game/squad.mjs";
 
 /** 初始化主界面特效 */
@@ -14,10 +13,15 @@ export async function initTitleFX() {
   const charEl = document.getElementById("title-char");
   if (charEl) {
     try {
-      const url = await makePortrait(SQUAD[0], { size: 768, bgColor: "dark" });
-      charEl.innerHTML = `<img src="${url}" alt="奶蛙" />`;
+      // 立绘生成器惰性加载（不进入首屏入口 chunk）：与主界面渲染顺序无关
+      const { makePortrait } = await import("./portrait.mjs");
+      // transparent：主界面大图用透明底版本，避免立绘自带条纹底撞上背景警戒条
+      const url = await makePortrait(SQUAD[0], { size: 768, bgColor: "dark", transparent: true });
+      charEl.innerHTML = `<img src="${url}" alt="" />`;
     } catch (e) {
-      console.warn("主界面立绘生成失败", e);
+      // 降级：生成色块（不用 alt，避免出现文字）
+      console.warn("主界面立绘生成失败，使用色块降级", e?.message);
+      charEl.innerHTML = `<div class="title-char-fallback" style="background:linear-gradient(135deg,#f5c542,#c8902a)"></div>`;
     }
   }
 

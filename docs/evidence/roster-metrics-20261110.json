@@ -1,0 +1,843 @@
+{
+  "criteria": {
+    "diffTh": 30,
+    "medianK": 5,
+    "hueGrade": "<25°=还原 / 25–45°=部分 / >45°=缺失（相对 squad.mjs config color）"
+  },
+  "maskMethod": "|iso - isoEmpty| 三通道差分和 > 30 → 5x5 中值滤波",
+  "rows": [
+    {
+      "idx": 0,
+      "id": "shell_naiwa",
+      "name": "奶蛙",
+      "glb": "naiwa_laugh_g1_runtime.glb",
+      "cfgColor": "#F5C542",
+      "cfgHSV": [
+        43.9,
+        0.731,
+        0.961
+      ],
+      "bbox": [
+        728,
+        412,
+        1270,
+        1010
+      ],
+      "bboxSize": [
+        543,
+        599
+      ],
+      "aspectWH": 0.907,
+      "fill": 0.558,
+      "areaFrac": 0.0726,
+      "areaPx": 181537,
+      "centroid": [
+        989.1,
+        709.6
+      ],
+      "medRGB": [
+        103.0,
+        87.0,
+        55.0
+      ],
+      "medHSV": [
+        41.8,
+        0.354,
+        0.404
+      ],
+      "hueDeltaDeg": 2.1,
+      "svDelta": [
+        -0.377,
+        -0.557
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 15.29,
+        "rawFrac": 0.07257,
+        "maskFrac": 0.07261
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 1,
+      "id": "shell_naidou",
+      "name": "奶豆",
+      "glb": "naiwa_naidou_runtime.glb",
+      "cfgColor": "#E0B84F",
+      "cfgHSV": [
+        43.4,
+        0.647,
+        0.878
+      ],
+      "bbox": [
+        725,
+        450,
+        1274,
+        950
+      ],
+      "bboxSize": [
+        550,
+        501
+      ],
+      "aspectWH": 1.098,
+      "fill": 0.599,
+      "areaFrac": 0.066,
+      "areaPx": 165117,
+      "centroid": [
+        1002.0,
+        684.6
+      ],
+      "medRGB": [
+        172.0,
+        147.0,
+        82.0
+      ],
+      "medHSV": [
+        42.4,
+        0.399,
+        0.675
+      ],
+      "hueDeltaDeg": 1.0,
+      "svDelta": [
+        -0.248,
+        -0.203
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 15.48,
+        "rawFrac": 0.06597,
+        "maskFrac": 0.06605
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 2,
+      "id": "shell_xiaonaiwa",
+      "name": "小奶蛙",
+      "glb": "naiwa_xiaonaiwa_runtime.glb",
+      "cfgColor": "#F8D96B",
+      "cfgHSV": [
+        46.8,
+        0.569,
+        0.973
+      ],
+      "bbox": [
+        784,
+        457,
+        1215,
+        912
+      ],
+      "bboxSize": [
+        432,
+        456
+      ],
+      "aspectWH": 0.947,
+      "fill": 0.487,
+      "areaFrac": 0.0384,
+      "areaPx": 95946,
+      "centroid": [
+        1005.2,
+        677.3
+      ],
+      "medRGB": [
+        164.0,
+        140.0,
+        64.0
+      ],
+      "medHSV": [
+        40.7,
+        0.453,
+        0.647
+      ],
+      "hueDeltaDeg": 6.1,
+      "svDelta": [
+        -0.116,
+        -0.326
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 9.89,
+        "rawFrac": 0.03834,
+        "maskFrac": 0.03838
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 3,
+      "id": "shell_naidan",
+      "name": "奶蛋",
+      "glb": "naiwa_naidan_runtime.glb",
+      "cfgColor": "#FFF0C2",
+      "cfgHSV": [
+        45.2,
+        0.239,
+        1.0
+      ],
+      "bbox": [
+        763,
+        444,
+        1236,
+        905
+      ],
+      "bboxSize": [
+        474,
+        462
+      ],
+      "aspectWH": 1.026,
+      "fill": 0.684,
+      "areaFrac": 0.0599,
+      "areaPx": 149754,
+      "centroid": [
+        998.8,
+        681.3
+      ],
+      "medRGB": [
+        187.0,
+        144.0,
+        56.0
+      ],
+      "medHSV": [
+        40.0,
+        0.449,
+        0.733
+      ],
+      "hueDeltaDeg": 5.2,
+      "svDelta": [
+        0.21,
+        -0.267
+      ],
+      "shapeHint": "方圆·较饱满",
+      "diag": {
+        "diffMean": 15.9,
+        "rawFrac": 0.05985,
+        "maskFrac": 0.0599
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 4,
+      "id": "shell_nashu",
+      "name": "奶鼠",
+      "glb": "naiwa_nashu_runtime.glb",
+      "cfgColor": "#CFA878",
+      "cfgHSV": [
+        33.1,
+        0.42,
+        0.812
+      ],
+      "bbox": [
+        787,
+        535,
+        1218,
+        971
+      ],
+      "bboxSize": [
+        432,
+        437
+      ],
+      "aspectWH": 0.989,
+      "fill": 0.497,
+      "areaFrac": 0.0375,
+      "areaPx": 93788,
+      "centroid": [
+        984.1,
+        755.2
+      ],
+      "medRGB": [
+        180.0,
+        147.0,
+        47.0
+      ],
+      "medHSV": [
+        37.4,
+        0.44,
+        0.706
+      ],
+      "hueDeltaDeg": 4.3,
+      "svDelta": [
+        0.02,
+        -0.106
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 9.35,
+        "rawFrac": 0.03747,
+        "maskFrac": 0.03752
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 5,
+      "id": "shell_naigou",
+      "name": "奶狗",
+      "glb": "naiwa_naigou_runtime.glb",
+      "cfgColor": "#C98D5A",
+      "cfgHSV": [
+        27.6,
+        0.552,
+        0.788
+      ],
+      "bbox": [
+        765,
+        441,
+        1234,
+        920
+      ],
+      "bboxSize": [
+        470,
+        480
+      ],
+      "aspectWH": 0.979,
+      "fill": 0.54,
+      "areaFrac": 0.0487,
+      "areaPx": 121863,
+      "centroid": [
+        1000.5,
+        697.4
+      ],
+      "medRGB": [
+        112.0,
+        86.0,
+        49.0
+      ],
+      "medHSV": [
+        31.6,
+        0.479,
+        0.439
+      ],
+      "hueDeltaDeg": 4.0,
+      "svDelta": [
+        -0.073,
+        -0.349
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 10.56,
+        "rawFrac": 0.04867,
+        "maskFrac": 0.04875
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 6,
+      "id": "shell_naifen",
+      "name": "奶粉",
+      "glb": "naiwa_naifen_runtime.glb",
+      "cfgColor": "#F2D8DE",
+      "cfgHSV": [
+        346.2,
+        0.107,
+        0.949
+      ],
+      "bbox": [
+        774,
+        411,
+        1225,
+        866
+      ],
+      "bboxSize": [
+        452,
+        456
+      ],
+      "aspectWH": 0.991,
+      "fill": 0.611,
+      "areaFrac": 0.0504,
+      "areaPx": 125923,
+      "centroid": [
+        998.9,
+        628.6
+      ],
+      "medRGB": [
+        75.0,
+        64.0,
+        57.0
+      ],
+      "medHSV": [
+        41.3,
+        0.185,
+        0.294
+      ],
+      "hueDeltaDeg": 55.1,
+      "svDelta": [
+        0.078,
+        -0.655
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 9.3,
+        "rawFrac": 0.04969,
+        "maskFrac": 0.05037
+      },
+      "colorGrade": "缺失"
+    },
+    {
+      "idx": 7,
+      "id": "shell_naiji",
+      "name": "奶鸡",
+      "glb": "naiwa_naiji_runtime.glb",
+      "cfgColor": "#F0E0A8",
+      "cfgHSV": [
+        46.7,
+        0.3,
+        0.941
+      ],
+      "bbox": [
+        755,
+        527,
+        1244,
+        969
+      ],
+      "bboxSize": [
+        490,
+        443
+      ],
+      "aspectWH": 1.106,
+      "fill": 0.589,
+      "areaFrac": 0.0512,
+      "areaPx": 127914,
+      "centroid": [
+        990.1,
+        728.4
+      ],
+      "medRGB": [
+        93.0,
+        68.0,
+        46.0
+      ],
+      "medHSV": [
+        40.0,
+        0.429,
+        0.361
+      ],
+      "hueDeltaDeg": 6.7,
+      "svDelta": [
+        0.129,
+        -0.58
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 10.87,
+        "rawFrac": 0.05098,
+        "maskFrac": 0.05117
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 8,
+      "id": "shell_naimao",
+      "name": "奶猫",
+      "glb": "naiwa_naimao_runtime.glb",
+      "cfgColor": "#BFC4CC",
+      "cfgHSV": [
+        216.9,
+        0.064,
+        0.8
+      ],
+      "bbox": [
+        750,
+        488,
+        1249,
+        1004
+      ],
+      "bboxSize": [
+        500,
+        517
+      ],
+      "aspectWH": 0.967,
+      "fill": 0.619,
+      "areaFrac": 0.064,
+      "areaPx": 160048,
+      "centroid": [
+        991.9,
+        757.5
+      ],
+      "medRGB": [
+        162.0,
+        142.0,
+        85.0
+      ],
+      "medHSV": [
+        42.6,
+        0.291,
+        0.631
+      ],
+      "hueDeltaDeg": 174.3,
+      "svDelta": [
+        0.227,
+        -0.169
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 16.21,
+        "rawFrac": 0.06373,
+        "maskFrac": 0.06402
+      },
+      "colorGrade": "缺失"
+    },
+    {
+      "idx": 9,
+      "id": "shell_naishi",
+      "name": "奶屎",
+      "glb": "naiwa_naishi_runtime.glb",
+      "cfgColor": "#B08E5E",
+      "cfgHSV": [
+        35.1,
+        0.466,
+        0.69
+      ],
+      "bbox": [
+        756,
+        435,
+        1243,
+        924
+      ],
+      "bboxSize": [
+        488,
+        490
+      ],
+      "aspectWH": 0.996,
+      "fill": 0.603,
+      "areaFrac": 0.0576,
+      "areaPx": 144094,
+      "centroid": [
+        995.0,
+        720.2
+      ],
+      "medRGB": [
+        182.0,
+        150.0,
+        50.0
+      ],
+      "medHSV": [
+        38.2,
+        0.459,
+        0.714
+      ],
+      "hueDeltaDeg": 3.1,
+      "svDelta": [
+        -0.007,
+        0.024
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 13.74,
+        "rawFrac": 0.05756,
+        "maskFrac": 0.05764
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 10,
+      "id": "shell_dounai",
+      "name": "豆奶",
+      "glb": "naiwa_dounai_runtime.glb",
+      "cfgColor": "#EFE8D8",
+      "cfgHSV": [
+        41.7,
+        0.096,
+        0.937
+      ],
+      "bbox": [
+        871,
+        497,
+        1128,
+        925
+      ],
+      "bboxSize": [
+        258,
+        429
+      ],
+      "aspectWH": 0.601,
+      "fill": 0.485,
+      "areaFrac": 0.0215,
+      "areaPx": 53627,
+      "centroid": [
+        993.7,
+        697.3
+      ],
+      "medRGB": [
+        84.0,
+        70.0,
+        58.0
+      ],
+      "medHSV": [
+        38.6,
+        0.182,
+        0.333
+      ],
+      "hueDeltaDeg": 3.1,
+      "svDelta": [
+        0.086,
+        -0.604
+      ],
+      "shapeHint": "窄高·有分离件/细枝",
+      "diag": {
+        "diffMean": 4.78,
+        "rawFrac": 0.02139,
+        "maskFrac": 0.02145
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 11,
+      "id": "shell_naitu",
+      "name": "奶兔",
+      "glb": "naiwa_naitu_runtime.glb",
+      "cfgColor": "#F7F1E3",
+      "cfgHSV": [
+        42.0,
+        0.081,
+        0.969
+      ],
+      "bbox": [
+        861,
+        427,
+        1138,
+        839
+      ],
+      "bboxSize": [
+        278,
+        413
+      ],
+      "aspectWH": 0.673,
+      "fill": 0.505,
+      "areaFrac": 0.0232,
+      "areaPx": 57948,
+      "centroid": [
+        992.0,
+        655.3
+      ],
+      "medRGB": [
+        183.0,
+        145.0,
+        54.0
+      ],
+      "medHSV": [
+        36.9,
+        0.402,
+        0.718
+      ],
+      "hueDeltaDeg": 5.1,
+      "svDelta": [
+        0.321,
+        -0.251
+      ],
+      "shapeHint": "窄高·有分离件/细枝",
+      "diag": {
+        "diffMean": 6.28,
+        "rawFrac": 0.02307,
+        "maskFrac": 0.02318
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 12,
+      "id": "shell_naiyu",
+      "name": "奶鱼",
+      "glb": "naiwa_naiyu_runtime.glb",
+      "cfgColor": "#A8D8EA",
+      "cfgHSV": [
+        196.4,
+        0.282,
+        0.918
+      ],
+      "bbox": [
+        756,
+        484,
+        1243,
+        904
+      ],
+      "bboxSize": [
+        488,
+        421
+      ],
+      "aspectWH": 1.159,
+      "fill": 0.421,
+      "areaFrac": 0.0346,
+      "areaPx": 86513,
+      "centroid": [
+        1025.1,
+        675.0
+      ],
+      "medRGB": [
+        168.0,
+        152.0,
+        97.0
+      ],
+      "medHSV": [
+        44.1,
+        0.212,
+        0.667
+      ],
+      "hueDeltaDeg": 152.3,
+      "svDelta": [
+        -0.07,
+        -0.251
+      ],
+      "shapeHint": "方圆·大量分离件/极端纤细",
+      "diag": {
+        "diffMean": 9.78,
+        "rawFrac": 0.03453,
+        "maskFrac": 0.03461
+      },
+      "colorGrade": "缺失"
+    },
+    {
+      "idx": 13,
+      "id": "shell_naicha",
+      "name": "奶茶",
+      "glb": "naiwa_naicha_runtime.glb",
+      "cfgColor": "#C68A4E",
+      "cfgHSV": [
+        30.0,
+        0.606,
+        0.776
+      ],
+      "bbox": [
+        805,
+        455,
+        1194,
+        921
+      ],
+      "bboxSize": [
+        390,
+        467
+      ],
+      "aspectWH": 0.835,
+      "fill": 0.415,
+      "areaFrac": 0.0303,
+      "areaPx": 75635,
+      "centroid": [
+        993.2,
+        683.7
+      ],
+      "medRGB": [
+        193.0,
+        147.0,
+        61.0
+      ],
+      "medHSV": [
+        33.9,
+        0.515,
+        0.757
+      ],
+      "hueDeltaDeg": 3.9,
+      "svDelta": [
+        -0.091,
+        -0.019
+      ],
+      "shapeHint": "方圆·大量分离件/极端纤细",
+      "diag": {
+        "diffMean": 7.87,
+        "rawFrac": 0.03022,
+        "maskFrac": 0.03025
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 14,
+      "id": "shell_naiping",
+      "name": "奶瓶",
+      "glb": "naiwa_naiping_runtime.glb",
+      "cfgColor": "#FDF3E0",
+      "cfgHSV": [
+        39.3,
+        0.115,
+        0.992
+      ],
+      "bbox": [
+        804,
+        541,
+        1195,
+        975
+      ],
+      "bboxSize": [
+        392,
+        435
+      ],
+      "aspectWH": 0.901,
+      "fill": 0.51,
+      "areaFrac": 0.0348,
+      "areaPx": 86902,
+      "centroid": [
+        1000.8,
+        767.3
+      ],
+      "medRGB": [
+        171.0,
+        146.0,
+        73.0
+      ],
+      "medHSV": [
+        38.8,
+        0.311,
+        0.667
+      ],
+      "hueDeltaDeg": 0.5,
+      "svDelta": [
+        0.196,
+        -0.325
+      ],
+      "shapeHint": "方圆·有分离件/细枝",
+      "diag": {
+        "diffMean": 9.82,
+        "rawFrac": 0.03468,
+        "maskFrac": 0.03476
+      },
+      "colorGrade": "还原"
+    },
+    {
+      "idx": 15,
+      "id": "shell_xigema",
+      "name": "西格玛奶蛙",
+      "glb": "naiwa_xigema_runtime.glb",
+      "cfgColor": "#9C7A3C",
+      "cfgHSV": [
+        38.8,
+        0.615,
+        0.612
+      ],
+      "bbox": [
+        822,
+        457,
+        1177,
+        913
+      ],
+      "bboxSize": [
+        356,
+        457
+      ],
+      "aspectWH": 0.779,
+      "fill": 0.353,
+      "areaFrac": 0.0229,
+      "areaPx": 57351,
+      "centroid": [
+        1004.6,
+        678.7
+      ],
+      "medRGB": [
+        88.0,
+        75.0,
+        61.0
+      ],
+      "medHSV": [
+        38.4,
+        0.212,
+        0.345
+      ],
+      "hueDeltaDeg": 0.4,
+      "svDelta": [
+        -0.403,
+        -0.267
+      ],
+      "shapeHint": "方圆·大量分离件/极端纤细",
+      "diag": {
+        "diffMean": 3.91,
+        "rawFrac": 0.02281,
+        "maskFrac": 0.02294
+      },
+      "colorGrade": "还原"
+    }
+  ],
+  "familySource": "src/game/squad.mjs L22-38（只读对齐，勿臆造）"
+}

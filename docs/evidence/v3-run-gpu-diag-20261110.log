@@ -1,0 +1,6 @@
+[server] http://127.0.0.1:5295/
+[default] gpu={"version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)","vendor":"Google Inc. (AMD)","renderer":"ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)","maxTextureSize":16384} fpsFull={"frames":60,"avgMs":747.74,"avgFps":1.34,"p5Fps":0.49,"p50Fps":1.6,"worstMs":3864.2}
+[default] fpsSmall={"frames":60,"avgMs":390,"avgFps":2.56,"p5Fps":0.59,"p50Fps":4.13,"worstMs":2103.2} canvas={"canvas":[1000,625],"inner":[800,500],"dpr":1.25}
+[angle-d3d11] gpu={"version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)","vendor":"Google Inc. (AMD)","renderer":"ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)","maxTextureSize":16384} fpsFull={"frames":60,"avgMs":64.64,"avgFps":15.47,"p5Fps":7.05,"p50Fps":17.12,"worstMs":166.8}
+[angle-d3d11] fpsSmall={"frames":60,"avgMs":21.64,"avgFps":46.21,"p5Fps":23.92,"p50Fps":59.88,"worstMs":66.7} canvas={"canvas":[1000,625],"inner":[800,500],"dpr":1.25}
+[done] E:\naiwa-zzz\docs\evidence\v3-run-gpu-diag-20261110.json

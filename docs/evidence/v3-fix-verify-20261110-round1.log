@@ -1,0 +1,22 @@
+[boot] root=E:\naiwa-zzz\.tmp-dist-fix url=http://127.0.0.1:5305/
+[chrome] port=9527 profile=C:\Users\dqy\AppData\Local\Temp\naiwa-fixverify-9527-1794243803475
+[boot] __npr=true in 5085ms
+[boot] nav={"domContentLoadedMs":4708.4,"loadMs":0,"responseEndMs":454.5,"domInteractiveMs":476.2,"transferSizeKB":4.7} gpu={"renderer":"ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)","version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"}
+[flow] start click=true select=true in 20ms
+[flow] confirm click=true battle=true in 892ms
+[fps] {"frames":120,"avgMs":42.64,"avgFps":23.45,"p50Fps":24.04,"p5Fps":13.3,"worstMs":242}
+[shot] docs/evidence/v3-fix-verify-01-start-20261110.png 815756B 2000x1250
+[step1] {"state":{"ok":true,"screen":"battle","activeName":"奶蛙","activeId":"shell_naiwa","activeIndex":0,"visibleGroups":[{"i":0,"name":"奶蛙","id":"shell_naiwa","visible":true}],"visibleCount":1,"totalGroups":16,"allMemberNames":["奶蛙","奶豆","小奶蛙","奶蛋","奶鼠","奶狗","奶粉","奶鸡","奶猫","奶屎","豆奶","奶兔","奶鱼","奶茶","奶瓶","西格玛奶蛙"],"opponentVisible":true,"opponentHp":200,"opponentMaxHp":200,"battleTimer":null,"battleTimerType":"undefined","battlePhase":"playing","battleElapsed":1.2669000000357633,"hudElapsedText":"00:01","hudHpText":"100","hudOppText":"100","hudShellName":"奶蛙","hudShellIdx":"1/16","canvas":[2000,1250],"inner":[1600,1000],"pixelRatio":1.25,"fov":40,"exposure":0.85,"shadowMapType":1,"bloom":{"enabled":true,"strength":0.4},"cam":{"x":6.194,"y":1.6,"z":2.201},"player":{"x":2.4,"y":0,"z":0},"counter":{"state":"idle","total":0,"last":null},"combo":{"stageIndex":-1,"comboCount":0},"freezeT":0,"materialProbe":{"nprMeshes":2,"types":["MeshStandardMaterial","ShaderMaterial"]}},"info":{"measured":{"triangles":375656,"calls":620,"geometries":256,"textures":47},"direct":{"triangles":187812,"calls":294},"prevAutoReset":true}}
+[shot] docs/evidence/v3-fix-verify-02-drag-20261110.png 723964B 2000x1250
+[step2] {"camMoveLen":4.804,"relAngles":{"angleDeg":64.06,"bearingBeforeDeg":59.93,"bearingAfterDeg":128.67,"bearingDeltaDeg":68.74},"backResidual":0.194}
+[shot] docs/evidence/v3-fix-verify-03-parry-20261110.png 887695B 2000x1250
+[step3] {"state":"success","total":1,"last":{"perfect":true,"damage":23,"gridGain":2,"punishS":1.56,"consecutive":1}}
+[shot] docs/evidence/v3-fix-verify-04-finisher-20261110.png 677298B 2000x1250
+[step4] {"trail":[{"burst":1,"stage":1,"count":1,"freeze":0,"phase":"playing","oppHp":170,"elapsed":15.21},{"burst":2,"stage":0,"count":1,"freeze":0.201,"phase":"playing","oppHp":120,"elapsed":15.78},{"burst":3,"stage":1,"count":1,"freeze":0,"phase":"playing","oppHp":113,"elapsed":16.34},{"burst":4,"stage":0,"count":1,"freeze":0.207,"phase":"playing","oppHp":63,"elapsed":16.85},{"burst":5,"stage":-1,"count":1,"freeze":0,"phase":"playing","oppHp":56,"elapsed":17.37},{"burst":6,"stage":1,"count":1,"freeze":0.05,"phase":"playing","oppHp":35,"elapsed":17.79}],"maxRadius":3.5,"maxScale":0.703}
+[shot] docs/evidence/v3-fix-verify-05-timer-20261110.png 656338B 2000x1250
+[step5] timer 00:01 → 00:19 | battle.timer={"timer":null,"type":"undefined","elapsed":19.626300000041827,"phase":"playing"}
+[measure] v3-fix-verify-01-start-20261110.png                  meanLuma=  90.27  meanSat=0.3359  meanRGB=[90.9, 89.5, 96.4]  yellow=13.19%  warm=26.73%  pass=False | v3-fix-verify-02-drag-20261110.png                   meanLuma=  65.90  meanSat=0.2932  meanRGB=[72.2, 63.0, 76.1]  yellow=2.96%  warm=7.41%  pass=False | v3-fix-verify-03-parry-20261110.png                  meanLuma= 108.63  meanSat=0.3508  meanRGB=[113.2, 108.2, 99.1]  yellow=26.21%  warm=46.76%  pass=True | v3-fix-verify-04-finisher-20261110.png               meanLuma= 100.07  meanSat=0.4036  meanRGB=[115.0, 95.6, 99.8]  yellow=19.38%  warm=34.63%  pass=True | v3-fix-verify-05-timer-20261110.png                  meanLuma=  92.18  meanSat=0.4135  meanRGB=[98.2, 90.5, 91.3]  yellow=20.68%  warm=34.49%  pass=False | [json] E:\naiwa-zzz\docs\evidence\pixel-metrics-v3-fix-verify-20261110.json
+[done] E:\naiwa-zzz\docs\evidence\v3-fix-verify-20261110.json
+[summary] exceptions=0 consoleErr=0 logErr=0 warnings=2 netFail=0 http4xx+=2 pixelPass=false,false,true,true,false
+  HTTP 404 http://127.0.0.1:5305/favicon.ico
+  HTTP 404 http://127.0.0.1:5305/favicon.ico

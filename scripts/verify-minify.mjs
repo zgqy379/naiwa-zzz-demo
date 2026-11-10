@@ -427,6 +427,8 @@ async function main() {
     for (const x of result.httpErrors) log("  HTTP " + x.status + " " + x.url);
     for (const x of result.loadingFailed) log("  NET " + x.errorText);
   }
+  // ENG-7：fatal（白屏兜底 throw 等）必须以非零码退出，不能被 catch 吞掉后恒 exit(0)
+  return result.meta.fatal ? 1 : 0;
 }
 
-main().then(() => process.exit(0)).catch((e) => { log("[crash] " + (e?.stack || e)); process.exit(1); });
+main().then((code) => process.exit(code || 0)).catch((e) => { log("[crash] " + (e?.stack || e)); process.exit(1); });

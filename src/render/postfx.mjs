@@ -21,12 +21,14 @@ import { FXAAShader } from "three/addons/shaders/FXAAShader.js";
 const ColorGradeShader = {
   uniforms: {
     tDiffuse: { value: null },
-    uWarmHighlights: { value: new THREE.Color(0xffd0a0) }, // 暖色高光
-    uCoolShadows: { value: new THREE.Color(0x4a6aff) },    // 冷色阴影
-    uLift: { value: 0.06 },      // 阴影提升（修：原 0.12 导致暗部冷蓝污染）
-    uContrast: { value: 1.08 },  // 对比度
-    uSaturation: { value: 1.12 },// 饱和度（修：原 1.25 过艳）
-    uVignette: { value: 0.12 },  // 暗角强度（修：原 0.28 像望远镜）
+    uWarmHighlights: { value: new THREE.Color(0xffd0a0) }, // 暖色高光（圣经 v2 §3：色相保留）
+    uCoolShadows: { value: new THREE.Color(0x5a7ac0) },    // 冷色阴影（圣经 v2 §3：紫蓝→黄昏蓝灰）
+    uLift: { value: 0.06 },      // 阴影提升（圣经 v2 §3：不动）
+    uContrast: { value: 1.06 },  // 对比度（圣经 v2 §3：1.08→1.06，中到亮别压死）
+    uSaturation: { value: 1.02 },// 饱和度（圣经 v2 §3：1.05→1.02）
+    uVignette: { value: 0.10 },  // 暗角强度（圣经 v2 §3：0.12→0.10）
+    uWarmMix: { value: 0.16 },   // 暖高光混合系数（圣经 v2 §3：0.20→0.16，暖高光减弱）
+    uCoolMix: { value: 0.14 },   // 冷阴影加色系数（圣经 v2 §3：0.08→0.14，冷调主导）
   },
   vertexShader: /* glsl */ `
     varying vec2 vUv;
@@ -43,6 +45,8 @@ const ColorGradeShader = {
     uniform float uContrast;
     uniform float uSaturation;
     uniform float uVignette;
+    uniform float uWarmMix;
+    uniform float uCoolMix;
     varying vec2 vUv;
 
     void main() {
@@ -54,9 +58,9 @@ const ColorGradeShader = {
       float hiMask = smoothstep(0.55, 1.0, lum);
       float loMask = smoothstep(0.45, 0.0, lum);
 
-      // 2) 暖高光 + 冷阴影
-      c = mix(c, c * (uWarmHighlights / 1.0), hiMask * 0.35);
-      c = mix(c, c + uCoolShadows * 0.15, loMask * 0.3);
+      // 2) 暖高光 + 冷阴影（系数走 uniform，默认值 = 美术圣经 §2 目标）
+      c = mix(c, c * (uWarmHighlights / 1.0), hiMask * uWarmMix);
+      c = mix(c, c + uCoolShadows * uCoolMix, loMask * 0.3);
 
       // 3) 阴影提升
       c += uLift * (1.0 - lum);
@@ -99,11 +103,14 @@ export class PostFX {
     this.composer.addPass(this.renderPass);
 
     // 2) Bloom（泛光）
+    // 阈值按美术圣经 v2 §3 定为 0.90：只让散景/灯笼/橱窗等点光源柔辉泛光，
+    // 角色奶油基色（#f5d98a 亮度≈0.83）不被整只判成高光烧平。
+    // 默认值与 main.mjs 构造传参一致（单入口，消除双入口漂移）。
     this.bloom = new UnrealBloomPass(
       new THREE.Vector2(size.x, size.y),
-      opts.bloomStrength ?? 0.55,  // 强度
-      opts.bloomRadius ?? 0.5,     // 半径
-      opts.bloomThreshold ?? 0.72  // 阈值（只让亮部泛光）
+      opts.bloomStrength ?? 0.20,  // 强度（圣经 v2 §3：0.20 不动，低强度柔辉光）
+      opts.bloomRadius ?? 0.55,    // 半径（圣经 v2 §3：0.50→0.55，更散的柔光）
+      opts.bloomThreshold ?? 0.90  // 阈值（圣经 v2 §3：0.85→0.90）
     );
     this.composer.addPass(this.bloom);
 
@@ -111,9 +118,10 @@ export class PostFX {
     this.grade = new ShaderPass(ColorGradeShader);
     this.composer.addPass(this.grade);
 
-    // 4) FXAA
+    // 4) FXAA（分辨率用渲染缓冲尺寸，而非 CSS 像素）
     this.fxaa = new ShaderPass(FXAAShader);
-    this.fxaa.material.uniforms.resolution.value.set(1 / size.x, 1 / size.y);
+    const dpr = renderer.getPixelRatio();
+    this.fxaa.material.uniforms.resolution.value.set(1 / (size.x * dpr), 1 / (size.y * dpr));
     this.composer.addPass(this.fxaa);
 
     // 5) 输出（色彩空间转换）
@@ -133,7 +141,8 @@ export class PostFX {
   /** 尺寸变化 */
   setSize(w, h) {
     this.composer.setSize(w, h);
-    this.fxaa.material.uniforms.resolution.value.set(1 / w, 1 / h);
+    const dpr = this.renderer.getPixelRatio();
+    this.fxaa.material.uniforms.resolution.value.set(1 / (w * dpr), 1 / (h * dpr));
   }
 
   /** 开关 Bloom */
@@ -143,12 +152,14 @@ export class PostFX {
   }
 
   /** 调整色彩分级 */
-  setGrade({ lift, contrast, saturation, vignette } = {}) {
+  setGrade({ lift, contrast, saturation, vignette, warmMix, coolMix } = {}) {
     const u = this.grade.material.uniforms;
     if (lift !== undefined) u.uLift.value = lift;
     if (contrast !== undefined) u.uContrast.value = contrast;
     if (saturation !== undefined) u.uSaturation.value = saturation;
     if (vignette !== undefined) u.uVignette.value = vignette;
+    if (warmMix !== undefined) u.uWarmMix.value = warmMix;
+    if (coolMix !== undefined) u.uCoolMix.value = coolMix;
   }
 
   /** 低配模式：关 Bloom，只留 FXAA + 分级 */

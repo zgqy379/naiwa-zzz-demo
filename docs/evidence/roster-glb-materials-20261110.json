@@ -1,0 +1,597 @@
+{
+  "source": "public/asset/*.glb JSON chunk（只读）",
+  "rows": [
+    {
+      "name": "奶蛙",
+      "glb": "naiwa_laugh_g1_runtime.glb",
+      "bytes": 331460,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 19880,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶豆",
+      "glb": "naiwa_naidou_runtime.glb",
+      "bytes": 230412,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 15493,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "小奶蛙",
+      "glb": "naiwa_xiaonaiwa_runtime.glb",
+      "bytes": 339032,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 19380,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶蛋",
+      "glb": "naiwa_naidan_runtime.glb",
+      "bytes": 190532,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 11860,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶鼠",
+      "glb": "naiwa_nashu_runtime.glb",
+      "bytes": 262456,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 14664,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶狗",
+      "glb": "naiwa_naigou_runtime.glb",
+      "bytes": 210232,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 13702,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶粉",
+      "glb": "naiwa_naifen_runtime.glb",
+      "bytes": 345704,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 18543,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶鸡",
+      "glb": "naiwa_naiji_runtime.glb",
+      "bytes": 282376,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 18050,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶猫",
+      "glb": "naiwa_naimao_runtime.glb",
+      "bytes": 292004,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 17746,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶屎",
+      "glb": "naiwa_naishi_runtime.glb",
+      "bytes": 256076,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 15113,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "豆奶",
+      "glb": "naiwa_dounai_runtime.glb",
+      "bytes": 314280,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 16719,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶兔",
+      "glb": "naiwa_naitu_runtime.glb",
+      "bytes": 214152,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 14493,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶鱼",
+      "glb": "naiwa_naiyu_runtime.glb",
+      "bytes": 222748,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 13638,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶茶",
+      "glb": "naiwa_naicha_runtime.glb",
+      "bytes": 220480,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 13301,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "奶瓶",
+      "glb": "naiwa_naiping_runtime.glb",
+      "bytes": 306980,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 16449,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    },
+    {
+      "name": "西格玛奶蛙",
+      "glb": "naiwa_xigema_runtime.glb",
+      "bytes": 346204,
+      "materials": [
+        {
+          "name": "Designer_Logic_PBR",
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "baseColorRGB": [
+            255,
+            255,
+            255
+          ],
+          "hasBaseColorTex": true,
+          "alphaMode": "OPAQUE",
+          "doubleSided": false
+        }
+      ],
+      "images": 2,
+      "textures": 2,
+      "skins": 0,
+      "animations": 0,
+      "vertices": 17046,
+      "meshCount": 1,
+      "ringLikeNames": [],
+      "meshNames": [
+        "geometry_0"
+      ],
+      "nodeNames": [
+        "geometry_0"
+      ]
+    }
+  ]
+}

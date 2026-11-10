@@ -1,0 +1,135 @@
+{
+  "variants": [
+    {
+      "tag": "default-1600x1000-dpr1.25",
+      "canvas": [
+        2000,
+        1250
+      ],
+      "composer": {
+        "kind": "composer",
+        "iters": 20,
+        "msPerFrame": 12.42,
+        "canvas": [
+          2000,
+          1250
+        ]
+      },
+      "direct": {
+        "kind": "direct",
+        "iters": 20,
+        "msPerFrame": 10.93,
+        "canvas": [
+          2000,
+          1250
+        ]
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 3.44,
+        "p50Fps": 13.32,
+        "p5Fps": 0.49,
+        "worstMs": 2061.4
+      },
+      "gpu": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "tag": "canvas-hidden",
+      "setup": {
+        "was": ""
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 22.16,
+        "p50Fps": 39.84,
+        "p5Fps": 8.55,
+        "worstMs": 275.5
+      },
+      "restore": {
+        "now": ""
+      }
+    },
+    {
+      "tag": "hud-hidden",
+      "setup": {
+        "was": "block"
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 20.98,
+        "p50Fps": 29.94,
+        "p5Fps": 6.31,
+        "worstMs": 275.4
+      },
+      "restore": {
+        "now": "block"
+      }
+    },
+    {
+      "tag": "postfx-off",
+      "setup": {
+        "was": true
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 6.9,
+        "p50Fps": 29.59,
+        "p5Fps": 1.64,
+        "worstMs": 784.5
+      },
+      "restore": {
+        "now": true
+      }
+    },
+    {
+      "tag": "hud-hidden+postfx-off",
+      "setup": true,
+      "raf": {
+        "n": 60,
+        "avgFps": 3.18,
+        "p50Fps": 4.44,
+        "p5Fps": 1.06,
+        "worstMs": 1201.9
+      },
+      "restore": {
+        "postfx": true,
+        "ui": "block"
+      }
+    },
+    {
+      "tag": "1920x1080",
+      "canvas": [
+        1920,
+        1080
+      ],
+      "composer": {
+        "kind": "composer",
+        "iters": 20,
+        "msPerFrame": 12.22,
+        "canvas": [
+          1920,
+          1080
+        ]
+      },
+      "direct": {
+        "kind": "direct",
+        "iters": 20,
+        "msPerFrame": 12.83,
+        "canvas": [
+          1920,
+          1080
+        ]
+      },
+      "raf": {
+        "n": 60,
+        "avgFps": 2.24,
+        "p50Fps": 8.55,
+        "p5Fps": 0.49,
+        "worstMs": 2044.8
+      },
+      "gpu": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  ],
+  "headful": false,
+  "screen": "battle"
+}

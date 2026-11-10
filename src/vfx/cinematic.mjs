@@ -37,6 +37,9 @@ export class Cinematic {
     this.orbitT = 0;        // 环绕运镜
     this.orbitDur = 0;
     this.orbitAngle = 0;
+    // 用户鼠标拖拽环绕：main.mjs 每帧写目标角，这里做阻尼平滑
+    this.userAngle = 0;     // 目标偏航角（rad，main 侧已限幅 ±1.2）
+    this.userOrbit = 0;     // 阻尼后的实际偏航角
     this.focusTarget = new THREE.Vector3();
     this.focusWeight = 0;   // 0=跟随玩家, 1=锁定焦点
 
@@ -79,6 +82,11 @@ export class Cinematic {
     // ---- 慢镜 ----
     this.slowmoT = Math.max(0, this.slowmoT - dt);
 
+    // ---- 用户拖拽环绕（阻尼过渡，避免瞬跳）----
+    // 帧率无关指数阻尼：60fps 时每帧向目标收敛 15%（低帧率下按 dt 补偿，手感一致）
+    const orbitK = 1 - Math.pow(1 - 0.15, Math.max(0, dt) * 60);
+    this.userOrbit += (this.userAngle - this.userOrbit) * orbitK;
+
     // ---- 环绕运镜 ----
     if (this.orbitT > 0) {
       this.orbitT -= dt;
@@ -115,23 +123,42 @@ export class Cinematic {
     // 跟随目标（玩家 vs 焦点 混合）
     const followPos = new THREE.Vector3().lerpVectors(playerPos, this.focusTarget, this.focusWeight);
 
-    // 基础机位 + 跟随偏移：
-    //   X = 角色后方 distance（sideOffset 提供侧偏，使角色 Z 向体量投影出来）
-    //   Z = 侧偏基线 + 角色 Z（只叠加一次；旧实现重复叠加导致侧移放大）
+    // 修：相机跟随「死区 + 阻尼」
+    //   - 死区：玩家移动 < 0.4 时不更新相机目标（避免微小抖动）
+    //   - 阻尼：相机目标用慢速 lerp（比玩家慢，形成自然滞后）
+    if (!this._camAnchor) this._camAnchor = followPos.clone();
+    const anchorDelta = followPos.clone().sub(this._camAnchor);
+    anchorDelta.y = 0;
+    if (anchorDelta.length() > 0.4) {
+      // 玩家移动超过死区 → 相机目标跟随（但只跟一部分，保留预判空间）
+      this._camAnchor.add(anchorDelta.multiplyScalar(0.6));
+    }
+
+    // 基础机位 + 跟随偏移（用 anchor 而非 followPos，避免每帧抖动）
     const targetPos = new THREE.Vector3(
-      this.basePos.x + followPos.x,
+      this.basePos.x + this._camAnchor.x,
       this.basePos.y,
-      this.basePos.z + followPos.z
+      this.basePos.z + this._camAnchor.z
     );
 
     // 环绕半径（基础机位到注视点的距离）
     const dist = this.basePos.distanceTo(this.baseLook);
 
-    // 环绕偏移
+    // 环绕偏移（演出用：保持既有语义与原式，展示层已按其验收机位）
     if (Math.abs(this.orbitAngle) > 0.001) {
       const r = dist * 0.55;
       targetPos.x += Math.sin(this.orbitAngle) * r;
       targetPos.z -= (1 - Math.cos(this.orbitAngle)) * r * 0.4;
+    }
+
+    // 用户拖拽环绕：绕角色（followPos）Y 轴旋转当前机位水平偏移
+    // 半径守恒（水平位移长度不变），与演出环绕叠加；不做偏心
+    if (Math.abs(this.userOrbit) > 0.0005) {
+      const dx = targetPos.x - followPos.x;
+      const dz = targetPos.z - followPos.z;
+      const c = Math.cos(this.userOrbit), s = Math.sin(this.userOrbit);
+      targetPos.x = followPos.x + dx * c + dz * s;
+      targetPos.z = followPos.z - dx * s + dz * c;
     }
 
     // 拉近（向目标推）
@@ -140,15 +167,14 @@ export class Cinematic {
       targetPos.addScaledVector(dir, zoomK * 1.2);
     }
 
-    // 平滑跟随
-    this.camera.position.lerp(targetPos, 0.14);
+    // 平滑跟随（修：阻尼系数从 0.14 降到 0.08，更稳）
+    this.camera.position.lerp(targetPos, 0.08);
     this.camera.position.add(this.shakeOffset);
 
-    // 注视点：侧后方机位直接对准角色（X/Z 跟随），Y 固定 lookAtHeight
-    // 连携/终结时 focusWeight>0，followPos 已插值到对手，注视点自动切到对手（保留原演出语义）
+    // 注视点：用 anchor（与相机目标一致，避免视线抖动）
     const lookTarget = this.axis === "x"
-      ? new THREE.Vector3(followPos.x, this.lookAtHeight, followPos.z)
-      : new THREE.Vector3().lerpVectors(this.baseLook, followPos, 0.5 + this.focusWeight * 0.5);
+      ? new THREE.Vector3(this._camAnchor.x, this.lookAtHeight, this._camAnchor.z)
+      : new THREE.Vector3().lerpVectors(this.baseLook, this._camAnchor, 0.5 + this.focusWeight * 0.5);
     this.camera.lookAt(lookTarget);
 
     // FOV：拉近时收窄
@@ -161,5 +187,36 @@ export class Cinematic {
 
   get timeScale() {
     return this.slowmoT > 0 ? 0.3 : 1.0;
+  }
+
+  /**
+   * 修：只返回运镜偏移（不再直接控制相机，改由 CameraRig 控制）
+   * @returns {{ zoom: number, side: number }}
+   */
+  getOffset(dt) {
+    // 拉近
+    let zoomK = 0;
+    if (this.zoomT > 0) {
+      this.zoomT -= dt;
+      zoomK = Math.sin((1 - this.zoomT / this.zoomDur) * Math.PI);
+    }
+    // 环绕偏移（连携/终结）
+    let side = 0;
+    if (this.orbitT > 0) {
+      side = Math.sin(this.orbitAngle) * 0.8;
+    }
+    return { zoom: zoomK * 1.2, side };
+  }
+
+  /**
+   * 修：只应用震屏抖动（叠加在 CameraRig 之上）
+   */
+  applyShake(camera) {
+    if (this.shakeT > 0) {
+      this.shakeT -= 1 / 60;
+      const a = this.shakeT * 0.08;
+      camera.position.x += (Math.random() - 0.5) * a;
+      camera.position.y += (Math.random() - 0.5) * a;
+    }
   }
 }

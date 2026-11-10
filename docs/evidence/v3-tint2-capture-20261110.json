@@ -1,0 +1,765 @@
+{
+  "shots": [
+    {
+      "idx": 0,
+      "id": "shell_naiwa",
+      "expect": "奶蛙",
+      "file": "v3-tint2-00-naiwa.png",
+      "isoFile": "v3-tint2-iso-00.png",
+      "isoEmptyFile": "v3-tint2-iso-empty-00.png",
+      "pngBytes": 1108132,
+      "isoBytes": 385008,
+      "isoEmptyBytes": 42668,
+      "camSnap": {
+        "facing": -1.0356310148029144,
+        "camPos": [
+          -0.8687004717938165,
+          1.6,
+          1.9379363316927833
+        ],
+        "pos": [
+          2.4,
+          0,
+          0
+        ]
+      },
+      "hudBefore": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeGlb": "./asset/naiwa_laugh_g1_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          0
+        ],
+        "facing": -1.0356310148029144,
+        "cameraPos": [
+          0.6107039590198166,
+          1.6,
+          1.9959341662531902
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶蛙",
+        "hudIdx": "1/16",
+        "activeIndex": 0,
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeGlb": "./asset/naiwa_laugh_g1_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          0
+        ],
+        "facing": -1.0356310148029144,
+        "cameraPos": [
+          1.0271276422982312,
+          1.6,
+          2.012259432952935
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "memberReady": {
+        "ok": true,
+        "hudName": "奶蛙",
+        "visibleGroups": [
+          0
+        ],
+        "activeIndex": 0,
+        "activeId": "shell_naiwa",
+        "activeGlb": "./asset/naiwa_laugh_g1_runtime.glb",
+        "screen": "battle"
+      },
+      "tintInspect": {
+        "nprMats": 1,
+        "mats": [
+          {
+            "hasTint": false,
+            "uTintHS": null,
+            "uTintMix": null,
+            "defines": [
+              "STANDARD"
+            ]
+          }
+        ]
+      },
+      "hudMatch": true,
+      "shotAt": "2026-11-09T19:33:32.087Z"
+    },
+    {
+      "idx": 6,
+      "id": "shell_naifen",
+      "expect": "奶粉",
+      "file": "v3-tint2-06-naifen.png",
+      "isoFile": "v3-tint2-iso-06.png",
+      "isoEmptyFile": "v3-tint2-iso-empty-06.png",
+      "pngBytes": 1288504,
+      "isoBytes": 328044,
+      "isoEmptyBytes": 42668,
+      "camSnap": {
+        "facing": 0,
+        "camPos": [
+          2.4,
+          1.6,
+          3.8
+        ],
+        "pos": [
+          2.4,
+          0,
+          0
+        ]
+      },
+      "hudBefore": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "activeGlb": "./asset/naiwa_naifen_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          6
+        ],
+        "facing": 0,
+        "cameraPos": [
+          3.156001792,
+          1.6,
+          3.4459007999999995
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶粉",
+        "hudIdx": "7/16",
+        "activeIndex": 6,
+        "activeName": "奶粉",
+        "activeId": "shell_naifen",
+        "activeGlb": "./asset/naiwa_naifen_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          6
+        ],
+        "facing": 0,
+        "cameraPos": [
+          3.36880164864,
+          1.6,
+          3.3462287359999996
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "memberReady": {
+        "ok": true,
+        "hudName": "奶粉",
+        "visibleGroups": [
+          6
+        ],
+        "activeIndex": 6,
+        "activeId": "shell_naifen",
+        "activeGlb": "./asset/naiwa_naifen_runtime.glb",
+        "screen": "battle"
+      },
+      "tintInspect": {
+        "nprMats": 1,
+        "mats": [
+          {
+            "hasTint": false,
+            "uTintHS": null,
+            "uTintMix": null,
+            "defines": [
+              "STANDARD"
+            ]
+          }
+        ]
+      },
+      "hudMatch": true,
+      "shotAt": "2026-11-09T19:33:52.200Z"
+    },
+    {
+      "idx": 8,
+      "id": "shell_naimao",
+      "expect": "奶猫",
+      "file": "v3-tint2-08-naimao.png",
+      "isoFile": "v3-tint2-iso-08.png",
+      "isoEmptyFile": "v3-tint2-iso-empty-08.png",
+      "pngBytes": 1277016,
+      "isoBytes": 324516,
+      "isoEmptyBytes": 43632,
+      "camSnap": {
+        "facing": 0,
+        "camPos": [
+          2.4,
+          1.6,
+          3.8
+        ],
+        "pos": [
+          2.4,
+          0,
+          0
+        ]
+      },
+      "hudBefore": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "activeGlb": "./asset/naiwa_naimao_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          8
+        ],
+        "facing": 0,
+        "cameraPos": [
+          2.9246976,
+          1.6,
+          3.5542399999999996
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶猫",
+        "hudIdx": "9/16",
+        "activeIndex": 8,
+        "activeName": "奶猫",
+        "activeId": "shell_naimao",
+        "activeGlb": "./asset/naiwa_naimao_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          8
+        ],
+        "facing": 0,
+        "cameraPos": [
+          3.156001792,
+          1.6,
+          3.4459007999999995
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "memberReady": {
+        "ok": true,
+        "hudName": "奶猫",
+        "visibleGroups": [
+          8
+        ],
+        "activeIndex": 8,
+        "activeId": "shell_naimao",
+        "activeGlb": "./asset/naiwa_naimao_runtime.glb",
+        "screen": "battle"
+      },
+      "tintInspect": {
+        "nprMats": 1,
+        "mats": [
+          {
+            "hasTint": false,
+            "uTintHS": null,
+            "uTintMix": null,
+            "defines": [
+              "STANDARD"
+            ]
+          }
+        ]
+      },
+      "hudMatch": true,
+      "shotAt": "2026-11-09T19:34:08.552Z"
+    },
+    {
+      "idx": 12,
+      "id": "shell_naiyu",
+      "expect": "奶鱼",
+      "file": "v3-tint2-12-naiyu.png",
+      "isoFile": "v3-tint2-iso-12.png",
+      "isoEmptyFile": "v3-tint2-iso-empty-12.png",
+      "pngBytes": 1236972,
+      "isoBytes": 240620,
+      "isoEmptyBytes": 42668,
+      "camSnap": {
+        "facing": 0,
+        "camPos": [
+          2.4,
+          1.6,
+          3.8
+        ],
+        "pos": [
+          2.4,
+          0,
+          0
+        ]
+      },
+      "hudBefore": {
+        "hudName": "奶鱼",
+        "hudIdx": "13/16",
+        "activeIndex": 12,
+        "activeName": "奶鱼",
+        "activeId": "shell_naiyu",
+        "activeGlb": "./asset/naiwa_naiyu_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          12
+        ],
+        "facing": 0,
+        "cameraPos": [
+          2.9246976,
+          1.6,
+          3.5542399999999996
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "hudAfter": {
+        "hudName": "奶鱼",
+        "hudIdx": "13/16",
+        "activeIndex": 12,
+        "activeName": "奶鱼",
+        "activeId": "shell_naiyu",
+        "activeGlb": "./asset/naiwa_naiyu_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          12
+        ],
+        "facing": 0,
+        "cameraPos": [
+          3.156001792,
+          1.6,
+          3.4459007999999995
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "memberReady": {
+        "ok": true,
+        "hudName": "奶鱼",
+        "visibleGroups": [
+          12
+        ],
+        "activeIndex": 12,
+        "activeId": "shell_naiyu",
+        "activeGlb": "./asset/naiwa_naiyu_runtime.glb",
+        "screen": "battle"
+      },
+      "tintInspect": {
+        "nprMats": 1,
+        "mats": [
+          {
+            "hasTint": false,
+            "uTintHS": null,
+            "uTintMix": null,
+            "defines": [
+              "STANDARD"
+            ]
+          }
+        ]
+      },
+      "hudMatch": true,
+      "shotAt": "2026-11-09T19:34:30.411Z"
+    },
+    {
+      "idx": 15,
+      "id": "shell_xigema",
+      "expect": "西格玛奶蛙",
+      "file": "v3-tint2-15-xigema.png",
+      "isoFile": "v3-tint2-iso-15.png",
+      "isoEmptyFile": "v3-tint2-iso-empty-15.png",
+      "pngBytes": 1238120,
+      "isoBytes": 232768,
+      "isoEmptyBytes": 43632,
+      "camSnap": {
+        "facing": 0,
+        "camPos": [
+          2.4,
+          1.6,
+          3.8
+        ],
+        "pos": [
+          2.4,
+          0,
+          0
+        ]
+      },
+      "hudBefore": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "activeGlb": "./asset/naiwa_xigema_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          15
+        ],
+        "facing": 0,
+        "cameraPos": [
+          3.36880164864,
+          1.6,
+          3.3462287359999996
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "hudAfter": {
+        "hudName": "西格玛奶蛙",
+        "hudIdx": "16/16",
+        "activeIndex": 15,
+        "activeName": "西格玛奶蛙",
+        "activeId": "shell_xigema",
+        "activeGlb": "./asset/naiwa_xigema_runtime.glb",
+        "tintColor": null,
+        "visibleGroups": [
+          15
+        ],
+        "facing": 0,
+        "cameraPos": [
+          3.5645775167488,
+          1.6,
+          3.2545304371199997
+        ],
+        "cameraFov": 40,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "exposure": 0.85,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.2
+        }
+      },
+      "memberReady": {
+        "ok": true,
+        "hudName": "西格玛奶蛙",
+        "visibleGroups": [
+          15
+        ],
+        "activeIndex": 15,
+        "activeId": "shell_xigema",
+        "activeGlb": "./asset/naiwa_xigema_runtime.glb",
+        "screen": "battle"
+      },
+      "tintInspect": {
+        "nprMats": 1,
+        "mats": [
+          {
+            "hasTint": false,
+            "uTintHS": null,
+            "uTintMix": null,
+            "defines": [
+              "STANDARD"
+            ]
+          }
+        ]
+      },
+      "hudMatch": true,
+      "shotAt": "2026-11-09T19:34:53.836Z"
+    }
+  ],
+  "errors": [],
+  "meta": {
+    "glb": [
+      {
+        "idx": 0,
+        "id": "shell_naiwa",
+        "file": "naiwa_laugh_g1_runtime.glb",
+        "bytes": 331460,
+        "sha1": "7ae8e54463df38fab563b811625b75824d2110e6"
+      },
+      {
+        "idx": 6,
+        "id": "shell_naifen",
+        "file": "naiwa_naifen_runtime.glb",
+        "bytes": 384844,
+        "sha1": "e99b3e2411cc92d7175bc5b92ce518e27fe8b13f"
+      },
+      {
+        "idx": 8,
+        "id": "shell_naimao",
+        "file": "naiwa_naimao_runtime.glb",
+        "bytes": 292004,
+        "sha1": "0d5b2df4278bb9afa509247a9e8c7f8918733254"
+      },
+      {
+        "idx": 12,
+        "id": "shell_naiyu",
+        "file": "naiwa_naiyu_runtime.glb",
+        "bytes": 222748,
+        "sha1": "b2feb924365a58d05b1ea3986aa5b14443571add"
+      },
+      {
+        "idx": 15,
+        "id": "shell_xigema",
+        "file": "naiwa_xigema_runtime.glb",
+        "bytes": 352772,
+        "sha1": "093d31fa2709a3e5cea69691ff3dc28d9b45fc73"
+      }
+    ],
+    "srcMtimes": {
+      "src/game/squad.mjs": "2026-11-09T19:30:32.214Z",
+      "src/render/npr.mjs": "2026-11-09T19:29:51.221Z",
+      "src/main.mjs": "2026-11-09T19:11:50.153Z"
+    },
+    "base": {
+      "exposure": 0.85,
+      "toneMapping": 4,
+      "canvas": [
+        2000,
+        1250
+      ],
+      "pixelRatio": 1.25,
+      "bloom": {
+        "enabled": true,
+        "strength": 0.2,
+        "threshold": 0.9,
+        "radius": 0.55
+      },
+      "squad": [
+        {
+          "idx": 0,
+          "id": "shell_naiwa",
+          "name": "奶蛙",
+          "color": 16106818,
+          "tintColor": null
+        },
+        {
+          "idx": 1,
+          "id": "shell_naidou",
+          "name": "奶豆",
+          "color": 14727247,
+          "tintColor": null
+        },
+        {
+          "idx": 2,
+          "id": "shell_xiaonaiwa",
+          "name": "小奶蛙",
+          "color": 16308587,
+          "tintColor": null
+        },
+        {
+          "idx": 3,
+          "id": "shell_naidan",
+          "name": "奶蛋",
+          "color": 16773314,
+          "tintColor": null
+        },
+        {
+          "idx": 4,
+          "id": "shell_nashu",
+          "name": "奶鼠",
+          "color": 13609080,
+          "tintColor": null
+        },
+        {
+          "idx": 5,
+          "id": "shell_naigou",
+          "name": "奶狗",
+          "color": 13208922,
+          "tintColor": null
+        },
+        {
+          "idx": 6,
+          "id": "shell_naifen",
+          "name": "奶粉",
+          "color": 15915230,
+          "tintColor": null
+        },
+        {
+          "idx": 7,
+          "id": "shell_naiji",
+          "name": "奶鸡",
+          "color": 15786152,
+          "tintColor": null
+        },
+        {
+          "idx": 8,
+          "id": "shell_naimao",
+          "name": "奶猫",
+          "color": 12567756,
+          "tintColor": null
+        },
+        {
+          "idx": 9,
+          "id": "shell_naishi",
+          "name": "奶屎",
+          "color": 11570782,
+          "tintColor": null
+        },
+        {
+          "idx": 10,
+          "id": "shell_dounai",
+          "name": "豆奶",
+          "color": 15722712,
+          "tintColor": null
+        },
+        {
+          "idx": 11,
+          "id": "shell_naitu",
+          "name": "奶兔",
+          "color": 16249315,
+          "tintColor": null
+        },
+        {
+          "idx": 12,
+          "id": "shell_naiyu",
+          "name": "奶鱼",
+          "color": 11065578,
+          "tintColor": null
+        },
+        {
+          "idx": 13,
+          "id": "shell_naicha",
+          "name": "奶茶",
+          "color": 13011534,
+          "tintColor": null
+        },
+        {
+          "idx": 14,
+          "id": "shell_naiping",
+          "name": "奶瓶",
+          "color": 16643040,
+          "tintColor": null
+        },
+        {
+          "idx": 15,
+          "id": "shell_xigema",
+          "name": "西格玛奶蛙",
+          "color": 10254908,
+          "tintColor": null
+        }
+      ]
+    },
+    "readyMs": 15122,
+    "cdpPort": 9754,
+    "viewport": {
+      "width": 1600,
+      "height": 1000,
+      "dpr": 1.25
+    },
+    "server": {
+      "requestedPort": 5330,
+      "actualPort": 5330
+    },
+    "build": {
+      "dist": ".tmp-dist-tint2",
+      "vite": "8.3.6",
+      "minify": "default(production)",
+      "outDirMtime": "2026-11-09T19:31:06.528Z",
+      "assetsMtime": "2026-11-09T19:31:06.527Z"
+    },
+    "finishedAt": "2026-11-09T19:34:54.973Z"
+  },
+  "enter": {
+    "clicked": {
+      "ok": true
+    },
+    "confirmed": {
+      "ok": true
+    },
+    "enterState": {
+      "hudName": "奶蛙",
+      "hudIdx": "1/16",
+      "activeIndex": 0,
+      "activeName": "奶蛙",
+      "activeId": "shell_naiwa",
+      "activeGlb": "./asset/naiwa_laugh_g1_runtime.glb",
+      "tintColor": null,
+      "visibleGroups": [
+        0
+      ],
+      "facing": -1.0356310148029144,
+      "cameraPos": [
+        2.5180677269114478,
+        1.6,
+        2.7882662202478117
+      ],
+      "cameraFov": 40,
+      "canvas": [
+        2000,
+        1250
+      ],
+      "exposure": 0.85,
+      "bloom": {
+        "enabled": true,
+        "strength": 0.2
+      }
+    }
+  },
+  "ok": true,
+  "consoleErrors": []
+}

@@ -1,0 +1,1058 @@
+{
+  "meta": {
+    "dist": "dist",
+    "viewport": {
+      "width": 1600,
+      "height": 1000,
+      "dpr": 1.25
+    },
+    "chrome": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "startedAt": "2026-11-09T16:45:42.047Z",
+    "url": "http://127.0.0.1:5292/",
+    "port": 5292,
+    "favicon404": true,
+    "finishedAt": "2026-11-09T16:46:49.325Z",
+    "portClosed": 5292
+  },
+  "distBefore": {
+    "dir": "dist",
+    "at": "2026-11-09T16:45:42.049Z",
+    "files": [
+      {
+        "file": "index.html",
+        "size": 4499,
+        "mtime": "2026-11-09T16:44:22.686Z",
+        "sha256": "06e4505435a37bd281780202ff0c19da561470f45d36ec89a1625950cf805c79"
+      },
+      {
+        "file": "assets/index-C7Q5dz7d.css",
+        "size": 16172,
+        "mtime": "2026-11-09T16:44:22.685Z",
+        "sha256": "40bd1b8257a80cbcd01b81f43962ae3061231086cf7ded69d531617e2fe27e24"
+      },
+      {
+        "file": "assets/index-iKSx0O26.js",
+        "size": 762250,
+        "mtime": "2026-11-09T16:44:22.684Z",
+        "sha256": "91841e9407005f45c1e6525822cea933318b574412ea8ec67849ddd1a761dbe9"
+      }
+    ],
+    "src": {
+      "src/main.mjs": {
+        "size": 26741,
+        "mtime": "2026-11-09T16:26:19.017Z"
+      },
+      "src/game/tuning.mjs": {
+        "size": 2134,
+        "mtime": "2026-11-09T14:44:33.736Z"
+      },
+      "src/vfx/cinematic.mjs": {
+        "size": 6410,
+        "mtime": "2026-11-09T15:51:48.227Z"
+      }
+    }
+  },
+  "boot": {
+    "nprMs": 6363,
+    "nprSeen": true,
+    "nav": {
+      "domContentLoadedMs": 5921.6,
+      "loadMs": 0,
+      "responseEndMs": 36.8,
+      "domInteractiveMs": 63.3,
+      "transferSizeKB": 4.7
+    },
+    "titleToSelectMs": 19,
+    "selectToBattleMs": 4451,
+    "navToBattleMs": 16830
+  },
+  "fps": {
+    "frames": 120,
+    "avgMs": 122.1,
+    "avgFps": 8.19,
+    "p50Fps": 7.99,
+    "p5Fps": 4.79,
+    "worstMs": 442.3,
+    "lastMs": 442.3
+  },
+  "screenshots": [
+    {
+      "file": "docs/evidence/v3-run-01-start-20261110.png",
+      "bytes": 830612,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:46:22.751Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-02-drag-20261110.png",
+      "bytes": 696192,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:46:28.665Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-03-parry-20261110.png",
+      "bytes": 893140,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:46:40.665Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-04-finisher-20261110.png",
+      "bytes": 737590,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:46:45.571Z"
+    },
+    {
+      "file": "docs/evidence/v3-run-05-timer-20261110.png",
+      "bytes": 728083,
+      "px": {
+        "width": 2000,
+        "height": 1250
+      },
+      "at": "2026-11-09T16:46:49.323Z"
+    }
+  ],
+  "steps": {
+    "enter": {
+      "startClick": {
+        "ok": true,
+        "rect": {
+          "x": 800,
+          "y": 485,
+          "w": 440,
+          "h": 58
+        },
+        "vis": "visible"
+      },
+      "selectReached": {
+        "ok": true,
+        "ms": 19
+      },
+      "urlAfter": "http://127.0.0.1:5292/?t=1794242743580",
+      "confirmClick": {
+        "ok": true,
+        "rect": {
+          "x": 1272.6,
+          "y": 878.6,
+          "w": 166.8,
+          "h": 51.6
+        },
+        "vis": "visible"
+      },
+      "battleReached": {
+        "ok": true,
+        "ms": 4451
+      },
+      "titleClickAtMs": 7927,
+      "probe": {
+        "ok": true,
+        "flashObserved": true,
+        "wordsObserved": true
+      }
+    },
+    "step1": {
+      "state": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 200,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 0.38629999998211867,
+        "hudElapsedText": "00:00",
+        "hudHpText": "100",
+        "hudOppText": "100",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 5.825,
+          "y": 1.6,
+          "z": 2.267
+        },
+        "counter": {
+          "state": "idle",
+          "total": 0,
+          "last": null
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      },
+      "info": {
+        "measured": {
+          "triangles": 375488,
+          "calls": 606,
+          "geometries": 261,
+          "textures": 48
+        },
+        "direct": {
+          "triangles": 187728,
+          "calls": 287
+        },
+        "prevAutoReset": true
+      },
+      "probe": {
+        "flash": [],
+        "words": [],
+        "totalFlash": 0,
+        "totalWords": 0
+      }
+    },
+    "step2": {
+      "camBefore": {
+        "x": 6.2,
+        "y": 1.6,
+        "z": 2.2
+      },
+      "camAfter": {
+        "x": 5.871,
+        "y": 1.6,
+        "z": -2.544
+      },
+      "camBack": {
+        "x": 6.206,
+        "y": 1.599,
+        "z": 2.057
+      },
+      "backSamples": [
+        {
+          "x": 6.232,
+          "y": 1.584,
+          "z": -0.996
+        },
+        {
+          "x": 6.263,
+          "y": 1.591,
+          "z": 0.367
+        },
+        {
+          "x": 6.231,
+          "y": 1.596,
+          "z": 1.448
+        },
+        {
+          "x": 6.22,
+          "y": 1.598,
+          "z": 1.722
+        },
+        {
+          "x": 6.206,
+          "y": 1.599,
+          "z": 2.057
+        }
+      ],
+      "dragPx": 600,
+      "dragMs": 11087,
+      "moveLen": 4.755,
+      "backLen": 0.143,
+      "residual": 0.143,
+      "stateAfter": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 200,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 10.675699999898686,
+        "hudElapsedText": "00:10",
+        "hudHpText": "80",
+        "hudOppText": "100",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 6.206,
+          "y": 1.599,
+          "z": 2.057
+        },
+        "counter": {
+          "state": "idle",
+          "total": 0,
+          "last": {
+            "failed": true
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      },
+      "probe": {
+        "flash": [],
+        "words": [],
+        "totalFlash": 0,
+        "totalWords": 0
+      }
+    },
+    "step3": {
+      "windowWaitedMs": 5199,
+      "windowSeen": {
+        "w": true,
+        "s": "warning",
+        "total": 0
+      },
+      "afterShift": {
+        "state": "success",
+        "total": 1,
+        "last": {
+          "perfect": true,
+          "damage": 23,
+          "gridGain": 2,
+          "punishS": 1.56,
+          "consecutive": 1
+        }
+      },
+      "probeImmediate": {
+        "flash": [
+          {
+            "t": 54731.4,
+            "v": 0.45
+          },
+          {
+            "t": 55432.7,
+            "v": 0.075
+          }
+        ],
+        "words": [
+          {
+            "t": 54731.6,
+            "text": "砰！！",
+            "cls": "sfx-word heavy"
+          }
+        ],
+        "totalFlash": 2,
+        "totalWords": 1
+      },
+      "probeSettled": {
+        "flash": [
+          {
+            "t": 54731.4,
+            "v": 0.45
+          },
+          {
+            "t": 55432.7,
+            "v": 0.075
+          },
+          {
+            "t": 55615.4,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 54731.6,
+            "text": "砰！！",
+            "cls": "sfx-word heavy"
+          }
+        ],
+        "totalFlash": 3,
+        "totalWords": 1
+      },
+      "stateAfter": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 177,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 13.504099999904682,
+        "hudElapsedText": "00:13",
+        "hudHpText": "80",
+        "hudOppText": "89",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 6.07,
+          "y": 1.545,
+          "z": 2.126
+        },
+        "counter": {
+          "state": "success",
+          "total": 1,
+          "last": {
+            "perfect": true,
+            "damage": 23,
+            "gridGain": 2,
+            "punishS": 1.56,
+            "consecutive": 1
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      }
+    },
+    "step4": {
+      "atStage2": {
+        "stage": 2,
+        "count": 1,
+        "freeze": 0,
+        "phase": "playing",
+        "oppHp": 156,
+        "elapsed": 14.45
+      },
+      "afterFinisher": {
+        "stage": -1,
+        "count": 0,
+        "freeze": 0.339,
+        "phase": "playing",
+        "oppHp": 120,
+        "elapsed": 14.62
+      },
+      "finisherTriggered": true,
+      "comboTrail": [
+        {
+          "step": "press1",
+          "stage": 0,
+          "count": 1,
+          "freeze": 0.05,
+          "phase": "playing",
+          "oppHp": 170,
+          "elapsed": 13.62
+        },
+        {
+          "step": "press2",
+          "stage": 0,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 170,
+          "elapsed": 13.81
+        },
+        {
+          "step": "press3",
+          "stage": 0,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 170,
+          "elapsed": 13.9
+        },
+        {
+          "step": "press4",
+          "stage": 0,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 170,
+          "elapsed": 14.05
+        },
+        {
+          "step": "press5",
+          "stage": 1,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 170,
+          "elapsed": 14.2
+        },
+        {
+          "step": "press6",
+          "stage": 1,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 156,
+          "elapsed": 14.35
+        },
+        {
+          "step": "press7",
+          "stage": 2,
+          "count": 1,
+          "freeze": 0,
+          "phase": "playing",
+          "oppHp": 156,
+          "elapsed": 14.45
+        }
+      ],
+      "shockwavePolls": [
+        {
+          "dtMs": 2,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.161,
+              "scaleX": 2.079,
+              "opacity": 0.417
+            }
+          ]
+        },
+        {
+          "dtMs": 16,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.161,
+              "scaleX": 2.079,
+              "opacity": 0.417
+            }
+          ]
+        },
+        {
+          "dtMs": 133,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.261,
+              "scaleX": 3.246,
+              "opacity": 0.117
+            }
+          ]
+        },
+        {
+          "dtMs": 158,
+          "list": [
+            {
+              "maxRadius": 3.5,
+              "duration": 0.3,
+              "t": 0.261,
+              "scaleX": 3.246,
+              "opacity": 0.117
+            }
+          ]
+        }
+      ],
+      "shockwaveMaxRadiusSeen": 3.5,
+      "shockwaveMaxScaleSeen": 3.246,
+      "probeImmediate": {
+        "flash": [
+          {
+            "t": 58061.4,
+            "v": 0.025
+          },
+          {
+            "t": 58089.8,
+            "v": 0
+          },
+          {
+            "t": 59265.8,
+            "v": 0.05
+          },
+          {
+            "t": 59288.8,
+            "v": 0
+          },
+          {
+            "t": 59674.2,
+            "v": 0.7
+          },
+          {
+            "t": 59708.2,
+            "v": 0.4532
+          },
+          {
+            "t": 59778.9,
+            "v": 0.1046
+          },
+          {
+            "t": 59796.5,
+            "v": 0.0078
+          },
+          {
+            "t": 59853.4,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 58061.5,
+            "text": "咚",
+            "cls": "sfx-word light"
+          },
+          {
+            "t": 59265.9,
+            "text": "哐！",
+            "cls": "sfx-word medium"
+          },
+          {
+            "t": 59674.3,
+            "text": "绝杀！",
+            "cls": "sfx-word ultimate"
+          }
+        ],
+        "totalFlash": 12,
+        "totalWords": 4
+      },
+      "probeSettled": {
+        "flash": [
+          {
+            "t": 58061.4,
+            "v": 0.025
+          },
+          {
+            "t": 58089.8,
+            "v": 0
+          },
+          {
+            "t": 59265.8,
+            "v": 0.05
+          },
+          {
+            "t": 59288.8,
+            "v": 0
+          },
+          {
+            "t": 59674.2,
+            "v": 0.7
+          },
+          {
+            "t": 59708.2,
+            "v": 0.4532
+          },
+          {
+            "t": 59778.9,
+            "v": 0.1046
+          },
+          {
+            "t": 59796.5,
+            "v": 0.0078
+          },
+          {
+            "t": 59853.4,
+            "v": 0
+          }
+        ],
+        "words": [
+          {
+            "t": 58061.5,
+            "text": "咚",
+            "cls": "sfx-word light"
+          },
+          {
+            "t": 59265.9,
+            "text": "哐！",
+            "cls": "sfx-word medium"
+          },
+          {
+            "t": 59674.3,
+            "text": "绝杀！",
+            "cls": "sfx-word ultimate"
+          }
+        ],
+        "totalFlash": 12,
+        "totalWords": 4
+      },
+      "stateAfter": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 120,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 15.585599999904707,
+        "hudElapsedText": "00:15",
+        "hudHpText": "80",
+        "hudOppText": "60",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 5.432,
+          "y": 1.584,
+          "z": 1.922
+        },
+        "counter": {
+          "state": "idle",
+          "total": 1,
+          "last": {
+            "perfect": true,
+            "damage": 23,
+            "gridGain": 2,
+            "punishS": 1.56,
+            "consecutive": 1
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      }
+    },
+    "step5": {
+      "state": {
+        "ok": true,
+        "screen": "battle",
+        "activeName": "奶蛙",
+        "activeId": "shell_naiwa",
+        "activeIndex": 0,
+        "visibleGroups": [
+          {
+            "i": 0,
+            "name": "奶蛙",
+            "id": "shell_naiwa",
+            "visible": true
+          }
+        ],
+        "visibleCount": 1,
+        "totalGroups": 16,
+        "allMemberNames": [
+          "奶蛙",
+          "奶豆",
+          "小奶蛙",
+          "奶蛋",
+          "奶鼠",
+          "奶狗",
+          "奶粉",
+          "奶鸡",
+          "奶猫",
+          "奶屎",
+          "豆奶",
+          "奶兔",
+          "奶鱼",
+          "奶茶",
+          "奶瓶",
+          "西格玛奶蛙"
+        ],
+        "opponentVisible": true,
+        "opponentHp": 120,
+        "opponentMaxHp": 200,
+        "battleTimer": null,
+        "battleTimerType": "undefined",
+        "battlePhase": "playing",
+        "battleElapsed": 16.10199999988087,
+        "hudElapsedText": "00:16",
+        "hudHpText": "80",
+        "hudOppText": "60",
+        "hudShellName": "奶蛙",
+        "hudShellIdx": "1/16",
+        "hudCounterShown": false,
+        "canvas": [
+          2000,
+          1250
+        ],
+        "inner": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1.25,
+        "fov": 40,
+        "exposure": 0.85,
+        "shadowMapType": 1,
+        "bloom": {
+          "enabled": true,
+          "strength": 0.4
+        },
+        "cam": {
+          "x": 4.734,
+          "y": 1.597,
+          "z": 2.135
+        },
+        "counter": {
+          "state": "idle",
+          "total": 1,
+          "last": {
+            "perfect": true,
+            "damage": 23,
+            "gridGain": 2,
+            "punishS": 1.56,
+            "consecutive": 1
+          }
+        },
+        "combo": {
+          "stageIndex": -1,
+          "comboCount": 0
+        },
+        "freezeT": 0
+      },
+      "hudTimerSelector": "#hud-elapsed（.hud-timer 容器内 ELAPSED 标签）",
+      "battleTimerNow": {
+        "timer": null,
+        "type": "undefined",
+        "elapsed": 16.10199999988087,
+        "phase": "playing"
+      },
+      "timerStart": "00:00",
+      "timerEnd": "00:16"
+    }
+  },
+  "errors": {
+    "exceptions": [],
+    "consoleErrors": [],
+    "consoleWarnings": [
+      {
+        "type": "warning",
+        "args": [
+          "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+        ]
+      },
+      {
+        "type": "warning",
+        "args": [
+          "THREE.WebGLProgram: Program Info Log:",
+          "(198,12-86): warning X3595: gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value\n(198,12-86): warning X3595: gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value\n(419,1): warning X4000: use of potentially uninitialized variable (f_ApplyFXAA)"
+        ]
+      }
+    ],
+    "consoleOthers": [],
+    "logErrors": [],
+    "httpErrors": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:5292/favicon.ico",
+        "type": "Other"
+      },
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:5292/favicon.ico",
+        "type": "Other"
+      }
+    ],
+    "loadingFailed": []
+  },
+  "distAfter": {
+    "dir": "dist",
+    "at": "2026-11-09T16:46:50.641Z",
+    "files": [
+      {
+        "file": "index.html",
+        "size": 4499,
+        "mtime": "2026-11-09T16:44:22.686Z",
+        "sha256": "06e4505435a37bd281780202ff0c19da561470f45d36ec89a1625950cf805c79"
+      },
+      {
+        "file": "assets/index-C7Q5dz7d.css",
+        "size": 16172,
+        "mtime": "2026-11-09T16:44:22.685Z",
+        "sha256": "40bd1b8257a80cbcd01b81f43962ae3061231086cf7ded69d531617e2fe27e24"
+      },
+      {
+        "file": "assets/index-iKSx0O26.js",
+        "size": 762250,
+        "mtime": "2026-11-09T16:44:22.684Z",
+        "sha256": "91841e9407005f45c1e6525822cea933318b574412ea8ec67849ddd1a761dbe9"
+      }
+    ],
+    "src": {
+      "src/main.mjs": {
+        "size": 26741,
+        "mtime": "2026-11-09T16:26:19.017Z"
+      },
+      "src/game/tuning.mjs": {
+        "size": 2134,
+        "mtime": "2026-11-09T14:44:33.736Z"
+      },
+      "src/vfx/cinematic.mjs": {
+        "size": 6410,
+        "mtime": "2026-11-09T15:51:48.227Z"
+      }
+    }
+  },
+  "notes": []
+}

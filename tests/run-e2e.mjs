@@ -2,20 +2,20 @@
  * 一键端到端测试运行器（Node 侧）。
  *
  * 流程：
- *   1. 构建生产版本（vite build）
- *   2. 启动 preview 服务器（vite preview）
+ *   1. 构建生产版本（vite build --outDir .tmp-dist-e2e，不动交付物 dist/ —— AGENTS.md §4 构建唯一权）
+ *   2. 启动 preview 服务器（vite preview --outDir .tmp-dist-e2e）
  *   3. 调用 ego-browser 跑测试
- *   4. 汇总报告
+ *   4. 汇总报告（pending 只留内存态，不预写盘清空旧证据；报告由测试子进程测完后落盘）
  *
  * 用法：node tests/run-e2e.mjs
  */
 import { spawn, execSync } from "node:child_process";
-import { writeFile, readFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { readFile, stat, rm } from "node:fs/promises";
 
 const ROOT = "E:/naiwa-zzz";
 const EGO = "C:/Users/dqy/.local/share/ego/active_version_dir/ego-browser.exe";
 const PORT = 5274;
+const TMP_OUT = ".tmp-dist-e2e"; // .gitignore 已忽略 .tmp-*，收工清理
 
 function log(msg) {
   console.log(`[e2e] ${msg}`);
@@ -59,28 +59,29 @@ async function waitForServer(url, timeout = 30000) {
   return false;
 }
 
+async function cleanupTmp() {
+  // 尽力清理临时构建目录；失败不影响退出码（.tmp-* 已被 .gitignore 忽略）
+  try { await rm(`${ROOT}/${TMP_OUT}`, { recursive: true, force: true }); } catch {}
+}
+
 // ==================== 主流程 ====================
 async function main() {
   const reportPath = `${ROOT}/docs/test-report.json`;
 
-  // 0) 清理旧报告
-  if (existsSync(reportPath)) {
-    await writeFile(reportPath, JSON.stringify({ pending: true }, null, 2));
-  }
-
-  // 1) 构建
-  log("构建生产版本...");
-  const build = await run("node node_modules/vite/bin/vite.js build");
+  // 1) 构建（产物进临时目录，不覆盖交付物 dist/）
+  log(`构建生产版本（--outDir ${TMP_OUT}）...`);
+  const build = await run(`node node_modules/vite/bin/vite.js build --outDir ${TMP_OUT}`);
   if (build.code !== 0) {
     console.error("构建失败:", build.err.slice(-500));
+    await cleanupTmp();
     process.exit(1);
   }
   log("构建完成");
 
-  // 2) 启动 preview
+  // 2) 启动 preview（指向同一临时目录）
   await killPort();
   log("启动 preview 服务器...");
-  const preview = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--host", "127.0.0.1"], {
+  const preview = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--outDir", TMP_OUT, "--port", String(PORT), "--host", "127.0.0.1"], {
     cwd: ROOT,
     detached: true,
     stdio: "ignore",
@@ -91,22 +92,31 @@ async function main() {
   const ready = await waitForServer(url, 20000);
   if (!ready) {
     console.error("preview 服务器启动失败");
+    await cleanupTmp();
     process.exit(1);
   }
   log(`服务器就绪: ${url}`);
 
   // 3) 跑测试（ego）
   log("运行测试...");
+  const runStartMs = Date.now(); // 判定报告是否本轮新写，旧报告不得冒充本轮结果
   const testScript = `${ROOT}/tests/run-game-test.mjs`;
-  const test = await run(`"${EGO}" nodejs -e "await import('file:///${testScript.replace(/\\/g, "/")}')"`, {
+  // 显式覆盖宿主内 NAIWA_TEST_URL：ego nodejs 代码跑在常驻宿主进程里，命令行前缀 env 传不进去；
+  // 宿主环境若被历史会话污染（实测残留 NAIWA_TEST_URL=5399），-e 内先改 process.env 再 import 可自愈
+  const testEntry = `process.env.NAIWA_TEST_URL='http://127.0.0.1:${PORT}'; await import('file:///${testScript.replace(/\\/g, "/")}')`;
+  const test = await run(`"${EGO}" nodejs -e "${testEntry}"`, {
     timeout: 300000,
   });
 
-  // 4) 读报告
-  let report = null;
+  // 4) 读报告（pending 只留内存态：盘上旧报告一律保留，仅当本轮确有新写才采信）
+  let report = { pending: true };
   try {
-    const raw = await readFile(reportPath, "utf8");
-    report = JSON.parse(raw);
+    const st = await stat(reportPath);
+    if (st.mtimeMs >= runStartMs) {
+      report = JSON.parse(await readFile(reportPath, "utf8"));
+    } else {
+      console.error("报告未在本轮更新，旧证据保留在盘上，不作为本轮结果");
+    }
   } catch (e) {
     console.error("报告读取失败:", e.message);
   }
@@ -134,6 +144,7 @@ async function main() {
 
   // 6) 退出码
   const ok = report?.summary && report.summary.failed === 0;
+  await cleanupTmp();
   process.exit(ok ? 0 : 1);
 }
 
