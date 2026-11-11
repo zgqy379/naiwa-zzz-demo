@@ -16,6 +16,7 @@ bbox 来源：analyzeImage 全景定位 + 裁剪精读（名牌逐字确认：�
 用法：python -X utf8 scripts/sample-ref-tint.py
 """
 import json
+from pathlib import Path
 import colorsys
 import os
 
@@ -89,10 +90,9 @@ def main():
               % (key, t["name"], row["medHex"], row["medHSV"], len(pix), flat.shape[0],
                  row["bgRGB"], row["hueP25"], row["hueP75"], row["satP25"], row["satP75"]))
 
-    with open(OUT_JSON, "w", encoding="utf-8") as fh:
-        json.dump({"source": os.path.basename(REF), "criteria": {
+    Path(OUT_JSON).write_text(json.dumps({"source": os.path.basename(REF), "criteria": {
             "bgDist": BG_DIST, "whiteChDiff": WHITE_TH, "whiteLum": WHITE_LUM,
-        }, "rows": rows}, fh, ensure_ascii=False, indent=2)
+        }, "rows": rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + OUT_JSON)
     return 0
 

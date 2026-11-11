@@ -7,6 +7,7 @@
 输出：docs/evidence/roster-audit-20261110.json
 """
 import json
+from pathlib import Path
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,8 +146,7 @@ def main():
         },
     }
     out = os.path.join(EV, "roster-audit-20261110.json")
-    with open(out, "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
+    Path(out).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + out + " bytes=%d" % os.path.getsize(out))
     print("还原=%d 部分=%d 缺失=%d" % (payload["summary"]["restored"], payload["summary"]["partial"], payload["summary"]["missing"]))
 

@@ -26,6 +26,7 @@
 用法：python -X utf8 scripts/measure-tint.py
 """
 import json
+from pathlib import Path
 import colorsys
 import os
 
@@ -186,8 +187,7 @@ def main():
         "rows": rows,
         "familySource": "src/game/squad.mjs COLOR_OVERRIDE / FAMILY（只读对齐）",
     }
-    with open(OUT_JSON, "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
+    Path(OUT_JSON).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + OUT_JSON)
     return 0
 

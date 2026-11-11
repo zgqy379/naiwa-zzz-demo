@@ -24,6 +24,7 @@
 用法：python -X utf8 scripts/measure-tint2.py
 """
 import json
+from pathlib import Path
 import colorsys
 import os
 
@@ -172,8 +173,7 @@ def main():
         "note": "撤销重染复验：COLOR_OVERRIDE 置空后渲染应回到 roster 基线观感",
         "rows": rows,
     }
-    with open(OUT_JSON, "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
+    Path(OUT_JSON).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + OUT_JSON)
     return 0
 

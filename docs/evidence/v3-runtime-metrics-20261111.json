@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "measuredAt": "2026-11-11T14:31:04.368Z",
+  "measuredAt": "2026-11-11T16:37:30.871Z",
   "build": {
-    "entry": "assets/index-BIh5kwn5.js",
-    "entryBytes": 992868,
-    "indexBytes": 6316
+    "entry": "assets/index-BxioTyAg.js",
+    "entryBytes": 993117,
+    "indexBytes": 6403
   },
   "caveat": "draw call / 三角面为场景图谱事实；headless 为 SwiftShader 软件光栅，帧率不代表真机，真机帧率另走 ego 实机通道取证",
   "errors": [],
@@ -15,10 +15,10 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 316,
-        "textures": 55,
+        "geometries": 252,
+        "textures": 49,
         "programs": 23,
-        "frame": 1411
+        "frame": 17
       },
       "scene": {
         "sceneChildren": 32,
@@ -61,7 +61,7 @@
         "totalGetContextCalls": 4,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 21816381,
+        "heapUsed": 18195454,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -72,10 +72,10 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 316,
-        "textures": 55,
+        "geometries": 308,
+        "textures": 54,
         "programs": 23,
-        "frame": 3604
+        "frame": 357
       },
       "scene": {
         "sceneChildren": 32,
@@ -124,21 +124,21 @@
         "totalGetContextCalls": 6,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 37818877,
+        "heapUsed": 44373923,
         "heapLimit": 4395630592,
         "dpr": 1
       }
     },
     "battle": {
       "frame": {
-        "calls": 343,
-        "triangles": 126590,
+        "calls": 344,
+        "triangles": 126594,
         "points": 0,
         "lines": 0,
-        "geometries": 354,
-        "textures": 63,
+        "geometries": 351,
+        "textures": 62,
         "programs": 26,
-        "frame": 11798
+        "frame": 2703
       },
       "scene": {
         "sceneChildren": 32,
@@ -187,21 +187,21 @@
         "totalGetContextCalls": 7,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 38715126,
+        "heapUsed": 41545562,
         "heapLimit": 4395630592,
         "dpr": 1
       }
     },
     "result": {
       "frame": {
-        "calls": 337,
-        "triangles": 49010,
+        "calls": 336,
+        "triangles": 48998,
         "points": 0,
         "lines": 0,
-        "geometries": 354,
-        "textures": 63,
+        "geometries": 351,
+        "textures": 62,
         "programs": 26,
-        "frame": 14450
+        "frame": 4029
       },
       "scene": {
         "sceneChildren": 32,
@@ -250,7 +250,7 @@
         "totalGetContextCalls": 8,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 47055512,
+        "heapUsed": 39837332,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -261,10 +261,10 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 354,
-        "textures": 63,
+        "geometries": 351,
+        "textures": 62,
         "programs": 26,
-        "frame": 15300
+        "frame": 4539
       },
       "scene": {
         "sceneChildren": 32,
@@ -313,7 +313,7 @@
         "totalGetContextCalls": 9,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 41406444,
+        "heapUsed": 44553244,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -321,18 +321,18 @@
   },
   "aholoLayerAB": {
     "on": {
-      "calls": 343,
-      "triangles": 126590,
+      "calls": 344,
+      "triangles": 126594,
       "points": 0,
       "lines": 0,
-      "geometries": 354,
-      "textures": 63,
+      "geometries": 351,
+      "textures": 62,
       "programs": 26,
-      "frame": 11798
+      "frame": 2703
     },
     "off": {
       "calls": 342,
-      "triangles": 97438
+      "triangles": 97430
     }
   }
 }

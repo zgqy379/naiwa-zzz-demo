@@ -12,6 +12,7 @@ GLB images[].bufferView → BIN chunk 里的 PNG bytes → PIL 解码 →
 输出：docs/evidence/roster-glb-texture-colors-20261110.json + docs/evidence/glb-tex/<name>.png
 """
 import json
+from pathlib import Path
 import os
 import struct
 import io
@@ -109,8 +110,7 @@ def main():
             mime = im.get("mimeType", "image/png")
             ext = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp"}.get(mime, "bin")
             fn = "%s_%d.%s" % (name.replace(".glb", ""), i, ext)
-            with open(os.path.join(TEXDIR, fn), "wb") as fh:
-                fh.write(b)
+            Path(os.path.join(TEXDIR, fn)).write_bytes(b)
             if ext in ("png", "jpg", "webp"):
                 med, size, npix, clusters = tex_color(b)
                 entry["textures"].append({
@@ -125,8 +125,7 @@ def main():
                              t.get("medRGB"), [(c["rgb"], c["frac"]) for c in (t.get("clusters") or [])][:3])
                              for i, t in enumerate(entry["textures"]))
         print("%-6s %-34s %s" % (cn, name, tex_summary))
-    with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump({"source": "GLB BIN chunk 内嵌贴图（只读提取）", "rows": rows}, fh, ensure_ascii=False, indent=2)
+    Path(OUT).write_text(json.dumps({"source": "GLB BIN chunk 内嵌贴图（只读提取）", "rows": rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + OUT)
     print("[tex] " + TEXDIR)
 

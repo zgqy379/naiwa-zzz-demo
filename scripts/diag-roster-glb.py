@@ -13,6 +13,7 @@ GLB 材质/贴图解包（只读审计，roster 专项）：区分「资产本�
 输出：docs/evidence/roster-glb-materials-20261110.json + 控制台表
 """
 import json
+from pathlib import Path
 import os
 import struct
 
@@ -93,8 +94,7 @@ def main():
         print("%-6s %-34s verts=%6d mats=%d img=%d tex=%d skin=%d anim=%d ring=%s | %s"
               % (cn, name, verts, len(mats), len(imgs), len(texs),
                  rows[-1]["skins"], rows[-1]["animations"], ring_like or "-", base[:120]))
-    with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump({"source": "public/asset/*.glb JSON chunk（只读）", "rows": rows}, fh, ensure_ascii=False, indent=2)
+    Path(OUT).write_text(json.dumps({"source": "public/asset/*.glb JSON chunk（只读）", "rows": rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + OUT)
 
 

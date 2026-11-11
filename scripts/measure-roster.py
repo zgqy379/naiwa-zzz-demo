@@ -22,6 +22,7 @@
 输出：docs/evidence/roster-metrics-20261110.json + 控制台表
 """
 import json
+from pathlib import Path
 import colorsys
 import os
 
@@ -182,8 +183,7 @@ def main():
         "rows": rows,
         "familySource": "src/game/squad.mjs L22-38（只读对齐，勿臆造）",
     }
-    with open(OUT_JSON, "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
+    Path(OUT_JSON).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print("[json] " + OUT_JSON)
     return 0
 

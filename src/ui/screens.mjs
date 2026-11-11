@@ -69,9 +69,22 @@ export class ScreenManager {
     // 实时 3D 卡片层（独立 chunk，加载失败时卡片保持透明空位，不再退回黑底静态图）
     this.live3d = null;
     import("./live3d.mjs")
-      .then((m) => m.initLive3DCards())
+      .then((m) => m.initLive3DCards((loaded, total) => this._setLive3dLoading(loaded, total)))
       .then((api) => { this.live3d = api; api?.setSelected?.(this.selectedIndex); })
       .catch((e) => console.warn("[screens] 实时 3D 卡片不可用", e?.message));
+  }
+
+  /** 角色模型加载进度提示（慢网络下卡片会是空位，需要给出可见反馈） */
+  _setLive3dLoading(loaded, total) {
+    const el = document.getElementById("select-loading");
+    if (!el) return;
+    if (loaded >= total) {
+      el.textContent = "";
+      el.style.display = "none";
+      return;
+    }
+    el.textContent = `载入中 ${loaded}/${total}`;
+    el.style.display = "";
   }
 
   _bindButtons() {
@@ -243,7 +256,10 @@ export class ScreenManager {
     if (name === "settings") this._syncSettings();
     // 首次进入选人页才真正建 live3d 的 renderer 并加载 16 只 GLB
     //   （惰性化：标题页用不到这批模型，此前在 boot 就下载 ≈4.98MB，白占首屏带宽）
-    if (name === "select") this.live3d?.ensure?.();
+    if (name === "select") {
+      this._setLive3dLoading(0, 16);
+      this.live3d?.ensure?.();
+    }
     // 非战斗界面：隐藏 3D 角色
     if (this.o.setCharactersVisible) {
       this.o.setCharactersVisible(name === "battle");

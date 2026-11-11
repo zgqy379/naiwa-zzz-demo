@@ -17,6 +17,7 @@
   python -X utf8 scripts/measure-v3-fix.py --region 780,640,1240,1180 --json out.json a.png
 """
 import json
+from pathlib import Path
 import os
 import sys
 
@@ -96,8 +97,7 @@ def main(argv):
                m["yellowFrac"] * 100, m["warmFrac"] * 100, m["pass"])
         )
     if json_out:
-        with open(json_out, "w", encoding="utf-8") as fh:
-            json.dump(payload, fh, ensure_ascii=False, indent=2)
+        Path(json_out).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         print("[json] " + json_out)
     return 0
 

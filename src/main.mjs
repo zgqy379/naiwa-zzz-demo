@@ -173,6 +173,37 @@ const squad = new Squad();
 const loader = new GLTFLoader();
 loader.setMeshoptDecoder(MeshoptDecoder);
 
+/**
+ * 预取 16 只队员 GLB（≈4.98MB）。
+ *
+ * 触发时机：**首页视频就绪之后**（canplaythrough）——这样
+ *   ① 首屏视频（8.33MB）优先拿到带宽，不被模型下载拖慢；
+ *   ② 玩家在首页停留的这几秒里，模型在后台下载完；
+ *   ③ 进选人页时 live3d 要的同一批 URL 命中 HTTP 缓存，卡片立即有模型。
+ * 若玩家手快，select 屏会显示「载入中…」提示（见 screens.mjs 的 live3d 进度回调）。
+ *
+ * ⚠ 不能只依赖视频事件：部分 Chromium 构建（实测 ego lite）不带 H.264，<video> 直接
+ *   报错不触发 canplaythrough → 预取永不执行 → 选人页长时间空卡片。
+ *   故三选一触发：视频就绪 / 视频报错 / 2.5s 兜底。
+ */
+function kickModelPrefetch() {
+  const v = document.getElementById("title-video");
+  let fired = false;
+  const fire = () => {
+    if (fired) return;
+    fired = true;
+    setTimeout(() => { ensureSquadModels(); }, 300);
+  };
+  if (v) {
+    if (v.readyState >= 3) fire();
+    else {
+      v.addEventListener("canplaythrough", fire, { once: true });
+      v.addEventListener("error", fire, { once: true });
+    }
+  }
+  setTimeout(fire, 2500);   // 兜底：视频不可播 / 迟迟不就绪
+}
+
 // 每个队员一个 group（只显示活跃角色）
 for (const member of squad.members) {
   const g = new THREE.Group();
@@ -1105,9 +1136,10 @@ function _flashOpponentRed() {
   }, 150);
 }
 
-// 初始化
+// 启动
 syncActiveVisibility();
 initTitleFX(); // 主界面立绘 + 粒子（异步）
+kickModelPrefetch(); // 首页视频就绪后后台预取 16 只队员 GLB（不阻塞首屏）
 hud.set({ shellName: SQUAD[0].name, shellIndex: 0, shellTotal: SQUAD.length });
 
 window.__npr = {

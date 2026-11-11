@@ -22,8 +22,9 @@ import { SQUAD } from "../game/squad.mjs";
  *   推迟到**首次进入选人页**时才发生（此前在 boot 就建 context 并下载全部 16 只 GLB
  *   ≈ 4.98MB，而首屏（标题页）根本用不到——实测首屏瀑布 11,097KB，其中 4,980KB
  *   是这批只在战斗时需要的角色模型）。进选人页后与战斗共用同一批 URL，命中 HTTP 缓存。
+ *   模型未到齐时通过 onProgress 回报进度，由界面层显示「载入中…」。
  */
-export async function initLive3DCards() {
+export async function initLive3DCards(onProgress) {
   let api = null;            // 已建好的内部 API
   let initializing = null;   // 正在进行的初始化 Promise
   let pendingIndex = 0;      // 初始化前的选择（记住，等建好再套用）
@@ -31,7 +32,7 @@ export async function initLive3DCards() {
   async function ensure() {
     if (api) return api;
     if (!initializing) {
-      initializing = build().then((a) => {
+      initializing = build(onProgress).then((a) => {
         api = a;
         a.setSelected(pendingIndex);
         return a;
@@ -54,7 +55,7 @@ export async function initLive3DCards() {
 }
 
 /** 真正建 renderer + 载 16 只 GLB + 起渲染循环 */
-async function build() {
+async function build(onProgress) {
   const canvas = document.getElementById("live3d-layer");
   const screen = document.getElementById("screen-select");
   if (!canvas || !screen) return null;
@@ -120,6 +121,7 @@ async function build() {
     } catch (err) {
       console.warn("[live3d] GLB 加载失败", e.m.glb, err?.message);
     }
+    onProgress?.(entries.filter((x) => x.group).length, entries.length);
   }));
 
   let selected = 0;
