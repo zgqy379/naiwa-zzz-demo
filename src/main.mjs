@@ -25,6 +25,7 @@ import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
 import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
 import { AssistSystem, ASSIST_TUNING } from "./game/assist.mjs";
+import { ChainQteOverlay, CHAIN_QTE_WINDOW_S } from "./ui/chainqte.mjs";
 import { Squad, SQUAD } from "./game/squad.mjs";
 import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } from "./game/moves.mjs";
 import { InputManager } from "./game/input.mjs";
@@ -420,6 +421,8 @@ const battle = {
   oppAttackCd: 3.0,
   hitCount: 0,          // GAME-6：连段命中数（段间递增、连段结束清零；与 comboCount 连携次数分立）
   finisherPending: null, // GAME-7：终结技定时命中 { t, dmg, range, width, member }
+  chainCounts: 0,         // 阶段 C：本段失衡期剩余连携环数（回合1/2/3 → 1/2/3 环，精英/首领档）
+  chainQte: { active: false, counts: 0, t: 0, used: [], options: [] }, // 连携 QTE 状态
   phase: "idle",        // UI-1：初始非战斗（原 "playing" 使标题/选人界面防线全放行；startBattle 才置 playing）
 };
 
@@ -427,6 +430,8 @@ const battle = {
 const impactFx = new ImpactFX(scene);
 // 命中反馈（白闪 + 拟声词）
 const hitFeedback = new HitFeedback();
+// 连携 QTE 覆盖层（阶段 C）：chip 点击 → pickChain（函数声明提升，运行期才被调用）
+const chainOverlay = new ChainQteOverlay((chipIndex) => pickChain(chipIndex));
 
 function spawnParticles(pos, tier) {
   impactFx.hit(new THREE.Vector3(pos.x, 0, pos.z), tier === "ultimate" ? "ultimate" : tier === "heavy" ? "heavy" : tier === "medium" ? "medium" : "light");
@@ -486,6 +491,7 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   if (dazeGain > 0) stagger.gain(dazeGain * (squad.active?.gridMul ?? 1));
   if (!wasStaggered && stagger.isStaggered) {
     // 失衡瞬间（绝区零式）：打断对手当前行动（前摇/弹反窗取消）+ 慢镜 + 横幅
+    battle.chainCounts = Math.min(3, battle.round + 1);   // 阶段 C：本段失衡期连携环数 = 回合数档位
     battle.oppAttackWindup = 0;
     counter.expire();
     cinematic.onChain();
@@ -515,6 +521,8 @@ function doDodgeCounter() {
     const { dmg } = computeHitDamage(18 * active.damageMul * mv.impact.strength, active, mv, oppStyle);
     battle.hitCount++;
     applyDamage(dmg, "heavy", STAGGER_TUNING.gains.dodgeCounter * (rel === "counter" ? 1.25 : 1), rel === "counter" ? STYLE_LABEL.counter : null);
+    // 阶段 C：闪避反击也是重击级命中 → 可触发连携 QTE
+    tryOpenChainQte();
   }
   active.anim.play(ACTION.ATTACK_3, mv.comboTiming[2]);
   cinematic.onHit("heavy");
@@ -524,6 +532,8 @@ function doDodgeCounter() {
 
 function onAttackInput() {
   if (battle.phase !== "playing") return;
+  // 阶段 C：QTE 期间攻击输入被 QTE 吸收（选环走数字键/点击）
+  if (battle.chainQte.active) return;
   // 阶段 B：闪避反击资格期内攻击输入 = 闪避反击（瞬发重击，不进连段）
   if (assist.canDodgeCounter) {
     doDodgeCounter();
@@ -575,6 +585,8 @@ function onAttackInput() {
 /** 攻击键松手：结算蓄力（蓄满 → 蓄力终结；未蓄满 → 普通连段起手） */
 function onAttackRelease() {
   if (battle.phase !== "playing") return;
+  // 阶段 C：QTE 期间松手不结算（蓄力态已在 QTE 开启时清除）
+  if (battle.chainQte.active) { charging = false; return; }
   if (!charging) return;
   charging = false;
   const wasCharged = charged;
@@ -619,6 +631,107 @@ function ultimateAttack() {
   screens.toast("蓄力终结！");
 }
 
+// ---------- 阶段 C：连携技 QTE（绝区零式爆发窗口） ----------
+/**
+ * 尝试开启连携 QTE：对手失衡中 + 本段失衡期还有剩余环数。
+ * 由重击级命中路径调用（三段终结/蓄力终结/闪避反击）。
+ */
+function tryOpenChainQte() {
+  if (!stagger.isStaggered || battle.chainQte.active || battle.chainCounts <= 0) return;
+  battle.chainQte = {
+    active: true,
+    t: CHAIN_QTE_WINDOW_S,
+    counts: battle.chainCounts,
+    used: [],
+    options: [],
+  };
+  // 候选 = 轮换顺序下三位存活队员（ZZZ：后台队友头像 + 倒计时）
+  const opts = [];
+  let cur = squad.activeIndex;
+  for (let i = 0; i < 3; i++) {
+    const nxt = squad.nextAlive(cur);
+    if (nxt < 0 || opts.includes(nxt)) break;
+    opts.push(nxt);
+    cur = nxt;
+  }
+  battle.chainQte.options = opts;
+  cinematic.slowmoT = Math.max(cinematic.slowmoT, CHAIN_QTE_WINDOW_S);
+  chainOverlay.show(opts);
+  screens.toast("连携技！");
+  audio.playChain();
+  // 清蓄力态：QTE 期间攻击输入被吸收，蓄力条不复存在
+  charging = false;
+  chargeT = 0;
+  charged = false;
+  hud.set({ charge: 0, charging: false });
+}
+
+/** 关闭 QTE（环数耗尽 / 3s 到时 / Shift 取消） */
+function closeChainQte() {
+  if (!battle.chainQte.active) return;
+  battle.chainQte.active = false;
+  battle.chainQte.options = [];
+  chainOverlay.hide();
+  syncActiveVisibility();
+}
+
+/** 数字键/点击选择一环（chipIndex 0-2） */
+function pickChain(chipIndex) {
+  const q = battle.chainQte;
+  if (!q.active) return;
+  const mi = q.options[chipIndex];
+  if (mi == null || q.used.includes(mi) || q.counts <= 0) return;
+  executeChainStrike(mi, chipIndex);
+}
+
+/**
+ * 执行一环连携：链式换人上场 → 终结一击 → +1 支援点。
+ * @param {number} memberIdx 成员下标
+ * @param {number} chipIndex chip 下标（用于 chip 置灰）
+ */
+function executeChainStrike(memberIdx, chipIndex) {
+  const q = battle.chainQte;
+  const m = squad.members[memberIdx];
+  if (!m) return;
+  q.used.push(memberIdx);
+  q.counts--;
+  const isFinisher = q.counts <= 0;
+  // 链式换人上场（连携链）
+  squad.activeIndex = memberIdx;
+  syncActiveVisibility();
+  // 阶段 C 修正：链式入场贴位——新成员从原站位传送到对手侧翼判定距离内
+  //   （队员初始站位 (2.4,0,0) 距对手 4.8，超出判定框会让第一环必然落空）
+  const mv = getMove(m.id);
+  const toOpp = new THREE.Vector3().subVectors(opponentGroup.position, m.group.position).normalize();
+  const standDist = Math.max(1.2, mv.hitbox.range * 0.6);
+  m.move.pos.copy(opponentGroup.position).addScaledVector(toOpp, -standDist);
+  m.move.pos.y = 0;
+  m.group.position.copy(m.move.pos);
+  const oppStyle = getMove(opponentMember.id).style;
+  m.anim.play(ACTION.FINISHER, mv.anim.windup + mv.anim.strike + mv.anim.recover);
+  cinematic.setFocus(opponentGroup.position);
+  cinematic.onHit("ultimate");
+  battle.freezeT = Math.max(battle.freezeT, isFinisher ? 0.3 : 0.15);
+  // 连携命中不做玩家走位判定（QTE 演出契约），但做宽松距离校验防极端位置
+  if (opponentGroup.position.distanceTo(m.group.position) <= mv.hitbox.range + 1.6) {
+    const base = (isFinisher ? 36 : 24) * m.damageMul * mv.impact.strength;
+    const { dmg } = computeHitDamage(base, m, mv, oppStyle);
+    battle.hitCount++;
+    applyDamage(dmg, "ultimate", 0, null);
+  }
+  assist.refill(1);   // 连携 +1 支援点（ZZZ 循环咬合点：防御花资源、进攻回收资源）
+  audio.playChain();
+  if (isFinisher) {
+    hitFeedback.trigger(
+      new THREE.Vector3(opponentGroup.position.x, 1.4, opponentGroup.position.z),
+      "ultimate", camera, "连携终结！"
+    );
+    cinematic.slowmoT = Math.max(cinematic.slowmoT, 1.2);
+  }
+  chainOverlay.markUsed(chipIndex);
+  if (isFinisher) closeChainQte();
+}
+
 let dodgeRequested = false;
 
 // 蓄力必杀技（2026-11-11）：轻点空格 = 连段；按住空格 ≥ CHARGE_TIME 后松手 = 蓄力终结
@@ -631,6 +744,11 @@ let attackFiredOnPress = false;   // 本次按下是否已经出招（连段分�
 
 function onDodgeInput() {
   if (battle.phase !== "playing") return;
+  // 阶段 C：QTE 期间 Shift = 取消连携（ZZZ 1.1 手动取消）
+  if (battle.chainQte.active) {
+    closeChainQte();
+    return;
+  }
   // 弹反优先（阶段 B：消耗 1 支援点；无点时自动落为普通闪避 → 掐准时刻即极限闪避）
   if (counter.isWarning && assist.canParry) {
     const r = counter.tryCounter();
@@ -654,6 +772,8 @@ function onDodgeInput() {
 
 function onSwapInput(index) {
   if (battle.phase !== "playing") return;
+  // 阶段 C：QTE 期间普通换人被吸收（链式换人由 executeChainStrike 接管）
+  if (battle.chainQte.active) return;
   const viaChain = squad.canChain;
   const res = squad.swapTo(index, viaChain);
   if (!res) return;
@@ -704,7 +824,12 @@ window.addEventListener("keydown", (e) => {
   if (k === "[") { steps = Math.max(2, steps - 1); restyleAll(); }   // 圣经 v2 §2：档数键限 2–3
   else if (k === "]") { steps = Math.min(3, steps + 1); restyleAll(); }
   else if (k.length === 1 && k >= "0" && k <= "9") {
-    onSwapInput(k === "0" ? 9 : Number(k) - 1);
+    // 阶段 C：连携 QTE 期间数字键 = 选连携成员（chip 1/2/3）
+    if (battle.chainQte.active) {
+      pickChain(k === "0" ? 9 : Number(k) - 1);
+    } else {
+      onSwapInput(k === "0" ? 9 : Number(k) - 1);
+    }
   }
 });
 
@@ -897,6 +1022,8 @@ function tick() {
         if (fInRange && fInWidth) {
           // 阶段 A：蓄力终结/三段终结分档积累失衡（charged 标记见 onAttackInput/ultimateAttack）
           applyDamage(fp.dmg, "ultimate", fp.charged ? STAGGER_TUNING.gains.charged : STAGGER_TUNING.gains.heavy, fp.relation ? (STYLE_LABEL[fp.relation] || null) : null);
+          // 阶段 C：失衡中重击命中 → 连携 QTE（ZZZ：眩晕期重击触发连携）
+          tryOpenChainQte();
         }
       }
     }
@@ -905,6 +1032,13 @@ function tick() {
     // 3/4 侧身朝向（面向对手但偏向相机，避免背对）
     active.move.faceToward(opponentGroup.position, camera.position);
     opponentMove.faceToward(active.group.position, camera.position);
+  }
+
+  // 阶段 C：连携 QTE 倒计时（实时推进——不受慢镜/顿帧影响，ZZZ ~3s 真实窗口）
+  if (battle.chainQte.active) {
+    battle.chainQte.t -= rawDt;
+    chainOverlay.update(battle.chainQte.t, CHAIN_QTE_WINDOW_S);
+    if (battle.chainQte.t <= 0) closeChainQte();
   }
 
   // 战斗结束判定（不限时，对手 HP 或玩家 HP 归零）
@@ -996,7 +1130,7 @@ function tick() {
       daze: stagger.pct * 100,        // 阶段 A：失衡黄条（0~100）
       staggered: stagger.isStaggered, // 满条闪烁态
       assist: assist.points,          // 阶段 B：支援点 3 格
-      combo: battle.comboCount,
+      combo: battle.chainCounts > 0 ? battle.chainCounts : battle.comboCount,   // 阶段 C：有连携环时 chip 显示剩余环数
       canAttack: !frozen,
       canDodge: !frozen,
       // 接力键是否真的可换：需有下一只存活角色，且（非连携换人有 2s 冷却，除非连携窗口已开）
@@ -1080,6 +1214,8 @@ function startBattle(memberIndex) {
   counter.state = "idle";
   stagger.reset();   // 阶段 A：开战清失衡
   assist.reset();    // 阶段 B：支援点回满 3
+  battle.chainCounts = 0;   // 阶段 C：清连携环数与 QTE
+  battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
   opponent.hp = opponent.maxHp;
   battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
   // 界面切换
@@ -1139,6 +1275,8 @@ function advanceRound() {
   combo.cancel();
   counter.state = "idle";
   stagger.reset();   // 阶段 A：换回合清失衡（阈值抗性成长随之归零）
+  battle.chainCounts = 0;   // 阶段 C：清连携环数与 QTE
+  battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
   chargeT = 0;
   charged = false;
   charging = false;
@@ -1151,6 +1289,7 @@ function endBattle() {
   if (!inBattle) return;
   inBattle = false;
   battle.phase = "settle";
+  closeChainQte();   // 阶段 C：结算前关 QTE（防软锁）
   input.setEnabled(false);   // UI-1：结算界面禁用战斗输入
   charging = false;
   chargeT = 0;
@@ -1227,6 +1366,13 @@ window.__npr = {
   // 阶段 B 调试口：支援点读取/注入（E2E 用）
   assistState: () => ({ points: assist.points, dodgeCounterT: +assist.dodgeCounterT.toFixed(2) }),
   setAssist: (n) => { assist.points = Math.max(0, Math.min(3, n | 0)); },
+  // 阶段 C 调试口：连携 QTE 状态读取与测试注入
+  chainQteState: () => ({
+    active: battle.chainQte.active, counts: battle.chainQte.counts,
+    t: +battle.chainQte.t.toFixed(2), options: [...battle.chainQte.options], used: [...battle.chainQte.used],
+    chainCounts: battle.chainCounts,
+  }),
+  debugOpenChain: () => { battle.chainCounts = Math.max(1, battle.chainCounts); tryOpenChainQte(); },
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },

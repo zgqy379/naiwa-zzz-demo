@@ -696,6 +696,86 @@ export async function runAllTests(page) {
     A.assert(!after.chargeShown, "松手后蓄力条应收起");
   }, { shot: "15-charge-ultimate" });
 
+  await t.case("连携技 QTE", async () => {
+    // 进战斗（干净状态）：QTE 只在失衡期出现，用调试口注入避免真实命中时序抖动
+    await evalPage(() => document.querySelector('[data-action="start"]')?.click());
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    let playing = false;
+    for (let i = 0; i < 60; i++) {
+      playing = await page.evaluate(() => window.__npr?.battle?.phase === "playing");
+      if (playing) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(playing, "未能进入战斗状态（连携 QTE 需要 playing）");
+
+    // 注入：清空支援点（验证连携 +1 回复，避免开战满 3 被 refill 封顶）→ 失衡 → 开 QTE
+    await page.evaluate(() => {
+      const n = window.__npr;
+      n.setAssist(0);
+      n.addDaze(999);            // 失衡条直接打满
+      n.debugOpenChain();
+    });
+
+    // 轮询 QTE 激活（overlay show + active）
+    let qte = null;
+    for (let i = 0; i < 40; i++) {
+      qte = await page.evaluate(() => ({
+        active: window.__npr?.chainQteState?.().active ?? false,
+        shown: !!document.getElementById("chain-qte")?.classList.contains("show"),
+        counts: window.__npr?.chainQteState?.().counts ?? 0,
+        options: window.__npr?.chainQteState?.().options ?? [],
+        points: window.__npr?.assistState?.().points ?? 0,
+        activeIdx: window.__npr?.squad?.activeIndex ?? -1,
+      }));
+      if (qte.active && qte.shown) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(qte.active, "注入后连携 QTE 未激活");
+    A.assert(qte.shown, "连携 QTE 覆盖层未显示");
+    A.assertGreater(qte.counts, 0, `连携环数应为正，实际 ${qte.counts}`);
+    A.assertEqual(qte.options.length, 3, `候选成员应为 3 位，实际 ${qte.options.length}`);
+
+    // 按数字键 1 选第一环：应换人 + 支援点 +1 + 环数 -1
+    const before = qte;
+    await pressKey("1", "Digit1", 49);
+    let after = null;
+    for (let i = 0; i < 40; i++) {
+      after = await page.evaluate(() => ({
+        active: window.__npr?.chainQteState?.().active ?? false,
+        counts: window.__npr?.chainQteState?.().counts ?? 0,
+        used: window.__npr?.chainQteState?.().used ?? [],
+        points: window.__npr?.assistState?.().points ?? 0,
+        activeIdx: window.__npr?.squad?.activeIndex ?? -1,
+      }));
+      if (after.used.length > 0 || !after.active) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(after.used.length >= 1, "选择后应有成员已使用");
+    A.assertEqual(after.activeIdx, before.options[0], `第一环应换入 chip1 对应成员 ${before.options[0]}，实际 ${after.activeIdx}`);
+    A.assert(after.points > before.points, `连携应 +1 支援点（${before.points} → ${after.points}）`);
+    A.assertEqual(after.counts, before.counts - 1, `环数应 -1（${before.counts} → ${after.counts}）`);
+
+    // 连打到环数耗尽 → QTE 应自动关闭
+    for (let d = 0; d < 3; d++) {
+      const st = await page.evaluate(() => window.__npr?.chainQteState?.());
+      if (!st?.active) break;
+      await pressKey("1", "Digit1", 49);
+      await page.waitForTimeout(250);
+    }
+    let closed = null;
+    for (let i = 0; i < 40; i++) {
+      closed = await page.evaluate(() => ({
+        active: window.__npr?.chainQteState?.().active ?? null,
+        shown: !!document.getElementById("chain-qte")?.classList.contains("show"),
+      }));
+      if (closed.active === false && !closed.shown) break;
+      await page.waitForTimeout(150);
+    }
+    A.assertEqual(closed.active, false, "环数耗尽后 QTE 应自动关闭");
+    A.assert(!closed.shown, "QTE 关闭后覆盖层应隐藏");
+  }, { shot: "16-chain-qte" });
+
   await t.case("无 console 错误", async () => {
     const errs = errors.filter((e) => /error|uncaught|failed/i.test(e));
     A.assertEqual(errs.length, 0, `有 ${errs.length} 个错误：${errs.slice(0, 3).join(" | ")}`);
