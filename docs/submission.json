@@ -1,5 +1,5 @@
 {
-  "$comment": "奶蛙零 提交信息快照（报告书封面/附录 B 数据源；提交回执位）。按 docs/evidence/final-alignment-20261109.md 第 5 步于 2026-11-09 在 naiwa-zzz 重建（旧版仅存于封存仓库 E:/naiwaling/docs/submission.json 且指向旧地址）。口径：video_url / source_zip_url / rednote_url / submit_at / frozen_tag / receipt / frozen_commit 一律留空——对外视频链接等制作人发帖、冻结 tag 未打、官网未提交，填了就是编的（不许预填完成式）。rec_* 为实测参数（2026-11-11 重录后由收口线回填）。【2026-11-11 补指引·防填错】source_zip_url 应填的包是 docs/naiwa-zero-modelscope-static-20261111.zip（53 项 = dist 登记的 51 个文件 + 魔搭平台元数据 README.md + .gitattributes，无 .git，51 个共同文件与 dist 逐字节一致）；仓库里还留着一个更早的 docs/naiwa-zero-modelscope-static.zip（22 项 / 3.78MB，内含已作废的旧构建 index-DlNwcUlO.js）——那是过期包，禁止上传，已改名加 .STALE 后缀标记。",
+  "$comment": "奶蛙零 提交信息快照（报告书封面/附录 B 数据源；提交回执位）。按 docs/evidence/final-alignment-20261109.md 第 5 步于 2026-11-09 在 naiwa-zzz 重建（旧版仅存于封存仓库 E:/naiwaling/docs/submission.json 且指向旧地址）。口径：video_url / source_zip_url / rednote_url / submit_at / receipt 一律留空——对外视频链接等制作人发帖、冻结 tag 已打但**官网提交回执尚未取得**，填了就是编的（不许预填完成式）。frozen_tag / frozen_commit 已于 2026-11-11 阶段 3 回填（tag 指向 eb074ff）。rec_* 为实测参数（2026-11-11 第二次重录后由收口线回填）。【2026-11-11 补指引·防填错】source_zip_url 应填的包是 docs/naiwa-zero-modelscope-static-20261111.zip（36 项 = 34 个 dist 文件 + 魔搭平台元数据 README.md + .gitattributes，无 .git，13.12 MB）；仓库里还留着一个更早的 docs/naiwa-zero-modelscope-static.STALE.zip（22 项 / 3.61MB，内含已作废的旧构建 index-DlNwcUlO.js）——那是过期包，禁止上传。",
   "team_id": "3FO4K4VY3D07",
   "team_name": "必胜客的汉堡最好吃",
   "members": "诸葛青云（队长，1 人）",
@@ -9,7 +9,7 @@
   "source_zip_url": "",
   "rednote_url": "",
   "submit_at": "",
-  "frozen_tag": "",
+  "frozen_tag": "freeze-2026-11-11-final",
   "receipt": "",
   "demo_url_note": "提交填魔搭 Static 创空间 https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo （2026-11-11 部署，魔搭 master 9bf2025）：入口与 34 个交付文件实测全部可取（GET/Range 200 或 206；HEAD 一律 403 不可用作判据；index.html 为 301→根路径 200），含 bg/title.mp4 8.33 MiB 与 fonts/LICENSES.txt（OFL 1.1 字体许可全文，随包分发）；创空间 iframe 实机截图 docs/evidence/v3-deploy-live-studio-20261111.png，验收明细 docs/evidence/deploy-acceptance-20261111.json；线上内容与本地登记构建 index-BIh5kwn5.js 逐字节一致（入口 sha256 前 16 位 DCE7807BD57718C6、主 JS DAB2B035DD436ABA）。备用直连（2026-11-11 复测 34/34 可用且与本地 dist 逐字节一致）：https://zgqy379.github.io/naiwa-zzz-demo/ 。原 workbuddy 地址已失效（只返回引用旧构建 index-iKSx0O26.js 的壳页、静态资源全部 403），不再使用。Demo 视频已于 2026-11-11 第二次重录：docs/demo-video-20261111.mp4（63.6 秒 / 1908 帧，全页含 DOM HUD / 液态玻璃 / 实时 3D 选人 / 3D 光标 / 视频背景；片中演示三段连段 / 接力换人 / 弹反成功 x1 / 蓄力终结 / 三连战回合推进）；报告书 §十图 3-图 5 重拍（v3-show4）、图 6 换为 NPR-PBR 同机位对照、图 13 换为 Aholo 视差层开/关 A/B 对照，图 7-图 11 随 E2E 28/28 复跑刷新（docs/test-shots）。",
   "rec_video_path": "docs/demo-video-20261111.mp4",
@@ -21,6 +21,6 @@
   "rec_note": "2026-11-11 第二次重录（制作人委托收口线执行）：取自登记构建 dist/assets/index-BIh5kwn5.js（与线上魔搭 master 9bf2025 同版，未重建、未手改 dist）。CDP Page.startScreencast 全页合成录制——DOM HUD、液态玻璃层、live3d 实时 3D 层、3D 光标层与首页视频背景全部入画 → ffmpeg concat 30fps H.264（CRF20 / yuv420p / faststart）。场景时间线：首页（视频背景 + 液态玻璃按钮 + 3D 光标跟随）→ 选人（实时 3D 卡片，选中西格玛奶蛙）→ 战斗（三段连段 / Tab 接力换人 / 闪避 / 相机环绕 / 弹反成功 ×1 / **蓄力必杀技**）→ **三连战 3 个不同招式族对手接力（回合 0→1→2）** → S 级结算（含逐回合战果条）→ 返回首页；全程零 console 错误、黑帧检测 0 段（blackdetect ≥0.2s 无命中）。较 11-11 第一次重录（53.7 秒）新增三连战与蓄力必杀演示。旧版 demo-video-32s.mp4（52.4s，录于 11-10 00:42 首页整体改版前）保留作迭代对比。",
   "rec_method": "CDP Page.startScreencast 全页合成录制（jpeg q85，1920×1080@1x）→ ffmpeg concat 30fps H.264（libx264 CRF20 / yuv420p / +faststart）；页面由本地静态服务读取 dist/ 登记构建（未重建）",
   "rec_driver": "scripts/capture-demo-video.mjs（headless Chrome + CDP over WebSocket；场景经 window.__npr 公开 API、页面 KeyboardEvent 与 DOM click 驱动，非真人手操）；录制取证 docs/evidence/v3-demo-rec-20261111.json",
-  "frozen_commit": "",
+  "frozen_commit": "eb074ffef92ec11f36c93465ac807e9d466775a3",
   "team_id_verified": "2026-11-07 官网「我的参赛→我的团队」复核：团队编号 3FO4K4VY3D07（必胜客的汉堡最好吃，队长诸葛青云），证据 docs/evidence/hackathon_team_verify_2026-11-07.png；2026-11-09 报告书抬头同口径。"
 }

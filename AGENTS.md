@@ -72,6 +72,29 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-11 23:4x by 收口线（阶段 0-3 全程收口 · **冻结版已打**）
+
+- 已做（**本轮为完整交付轮**：材料校真 → 性能治理 → 玩法深化 → 全链重跑 → 冻结）：
+  - **阶段 0 材料校真**（三路只读深度核查 + 本人复核）：报告书 20 余处失实/过期口径改正——图 6 / 图 13 原为「选人界面截图」被写成别的内容（**已撤出并按新构建重拍为 A/B 对照**）、「≤8,000 三角面」→ 实测 18,990–19,000、「单局 90 秒」→ 不限时、行号漂移批量修正、无证据的性能断言改实测真值；**授权链补齐**（两个站酷字体 OFL 1.1 登记 + 随包 `public/fonts/LICENSES.txt`；首页背景视频如实登记为「授权待验证」并写入 §五/§九）。
+  - **阶段 2A 性能与 WebGL 上下文治理**：16 只 GLB 延迟加载、live3d 惰性化、主场景非战斗界面降频、cursor3d/liquidglass/live3d 离屏停 rAF、HUD 脏值比对。**实测：首屏请求 115 → 17、传输 11,097 KB → 2,458 KB（-78%）、first-paint 2,072 ms → 964 ms、标题页 WebGL context 4 → 3、heap 43 MB → 22 MB**。
+  - **阶段 2B 玩法深化**：**三连战**（3 个不同招式族对手接力 + 结算逐回合战果条）、**招式克制**（6 环单环，克制 ×1.25 / 被克 ×0.85）、**蓄力必杀技**（轻点连段·长按 0.55s 松手释放，前摇更长故仍可被读招弹反）。
+  - **阶段 2C 缺陷修复 11 项**：悬空引用 `TUNING.roundTotalS`、`battle.timer` 死字段、`hud.canSwap` 假引导、HUD 死分支、输入双监听冗余、`public/portrait/` 3.77 MB 死重、**录像脚本 hash 双重硬编码**、`r0safe` 死代码、`dev-loop.mjs` 违反 §4 构建进 dist、`harness` 缺 `assertNotEqual`、E2E 选择器选错按钮。
+  - **阶段 3 全链重跑**：重建 → **Demo 视频第二次重录（63.600 s / 1908 帧 / 28,571,670 B，片中含蓄力终结与三连战推进）** → **§十 13 张插图全部到位**（图 6 = NPR/PBR 同机位对照、图 13 = Aholo 层开/关 A/B，均附像素差分举证；界面流程 13 张改用自建 CDP 通道重拍，修正了「E2E 在 ego 宿主下截图返回空 data 被静默跳过」的隐患）→ **魔搭 master `9bf2025` + gh-pages `84e689f` 双通道部署**（各 34/34 文件 200/206，关键文件逐字节一致；旧构建与 portrait/ 已 404 下线）→ 备选包重打（36 项 / 13.12 MB，无 .git）→ **冻结 tag `freeze-2026-11-11-final`（指向 `eb074ff`）**。
+- 未做 / 待办（**制作人本人，我不代做**）：
+  - **官网提交 + 提交回执**（`receipt` 仍为空）、**小红书发帖 + `rednote_url`**、**对外视频链接 `video_url`**、**`submit_at`** —— 四项均须制作人完成后再回填。
+  - **首页背景视频授权凭证**：若无法补齐，处置为替换为自制 / CC0 背景（届时 §5.3 与 §九第 8 条同步更新；属 `src/` 外改动，不触发重录）。
+  - `origin/main` 体积 414 MB → 本轮新增 28.6 MB 视频 + 19 MB 实拍，`docs/evidence/` 占 249.9 MB；`.gitignore` 明写「证据留档，禁止加入忽略」，**未动**，如需瘦身须先定政策。
+- 待验证：真机长时间运行的显存/发热（本轮已实测「12 分钟长跑 contextlost 0 次、heap 无泄漏」，但**真机可见窗口**的观感与发热仍以制作人实机为准）；首页视频的第三方账号/水印是否影响评审观感（由制作人把关）。
+- 产物与证据路径：`docs/报告书.md`（§十 13 张插图全部到位）、`docs/demo-video-20261111.mp4`、`docs/naiwa-zero-modelscope-static-20261111.zip`、`docs/evidence/`（`v3-runtime-metrics-20261111.json` / `v3-stability-20261111.json` / `v3-ab-diff-20261111.json` / `v3-test-shots-20261111.json` / `v3-phase2*-*.png` / `v3-{npr,aholo-street}-{on,off}-20261111.png` / `v3-demo-rec-20261111.json` / `v3-glb-selfcheck-20261111.json`）、`docs/evidence/portrait-static/`（静态立绘存档）、`scripts/{measure-runtime,measure-stability,capture-phase2-check,capture-test-shots,shot-diff}.*`。
+- 最近构建：`dist/assets/index-BIh5kwn5.js` @ 2026-11-11 22:25（992,835 B，sha256 前 16 位 `dab2b035dd436aba`）+ `index-C4DRA1Du.css`（48,314 B，`6d71c98804ab196c`）；dist 交付 **34 个文件**（52 → 34，移除运行期零引用的 18 张静态立绘）。构建人：收口线。线上：魔搭 master `9bf2025` / gh-pages `84e689f`（同版，逐字节一致）。
+- 已知冲突 / 风险：
+  1. **`docs/test-shots/` 的截图产出路径已从 E2E 迁到 `scripts/capture-test-shots.mjs`**——E2E 截图在 ego 宿主下静默失败，若日后有人只看 E2E 报告就以为图已更新，会拿到过期图。已在 §7 记录，但**未改 harness 本身**（改它要动 E2E 断言链，留给需要时）。
+  2. **魔搭部署耗时约 13 分钟**（Building → Running），期间静态站全 404；本次无空窗（gh-pages 备份已先上线），下次部署建议**先推 gh-pages 再触发魔搭**。
+  3. **`scripts/capture-demo-video.mjs` 的 ffmpeg 步骤仍是手工**（脚本只出帧序列 + ffconcat，成片需手动跑 ffmpeg），见脚本头部注释。
+  4. **`public/portrait/` 已从交付包移除**，`src/ui/portrait.mjs` 的静态优先路径在运行期会落到离屏渲染兜底（仅 `window.__npr.makePortrait` 调试口与离线脚本用得到，运行期零调用）。
+  5. **GitHub 网络在 20:40 前后有一段不可达窗口**（连续 6 次 ls-remote 超时），期间靠后台重试脚本恢复；dist 子仓的 SSH deploy key 无写权限，gh-pages 必须走 HTTPS URL 推送。
+  6. **两处「如实披露的待办」是刻意保留的**：首页背景视频授权待验证（§九第 8 条）、Aholo 视差层在实战取景下不可辨识（§10.6 图 13 以 A/B + 像素差分举证）——二者都**不粉饰**。
+
 ### 交接 2026-11-11 18:3x by 收口线（深度复核后的材料校真 · 阶段 0 完成）
 
 - 已做（**本轮全程不碰 `src/`**，故 25/25 E2E 与全部现有截图/视频证据继续有效）：
