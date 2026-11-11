@@ -1,0 +1,92 @@
+{
+  "ok": true,
+  "measuredAt": "2026-11-11T13:11:21.950Z",
+  "build": {
+    "entry": "assets/index-CJ0VMBfL.js",
+    "bytes": 987764
+  },
+  "errors": [],
+  "shots": {
+    "title": {
+      "file": "v3-phase2-01-title-20261111.png",
+      "bytes": 1140133
+    },
+    "select": {
+      "file": "v3-phase2-02-select-20261111.png",
+      "bytes": 1121653
+    },
+    "battle": {
+      "file": "v3-phase2-03-battle-20261111.png",
+      "bytes": 955954
+    },
+    "result": {
+      "file": "v3-phase2-04-result-20261111.png",
+      "bytes": 721053
+    }
+  },
+  "titleVideo": {
+    "first": {
+      "found": true,
+      "readyState": 4,
+      "paused": false,
+      "currentTime": 5.24,
+      "muted": false,
+      "w": 1280,
+      "h": 720,
+      "err": null
+    },
+    "second": {
+      "found": true,
+      "readyState": 4,
+      "paused": false,
+      "currentTime": 7.75,
+      "muted": false,
+      "w": 1280,
+      "h": 720,
+      "err": null
+    },
+    "advancing": true
+  },
+  "select": {
+    "found": true,
+    "w": 1238,
+    "h": 884,
+    "cards": 16,
+    "hasData": true
+  },
+  "battle": {
+    "total": 16,
+    "loaded": 16,
+    "placeholders": 0,
+    "sample": [
+      {
+        "name": "奶蛙",
+        "verts": 39760,
+        "meshes": 2,
+        "placeholder": false
+      },
+      {
+        "name": "奶豆",
+        "verts": 30986,
+        "meshes": 2,
+        "placeholder": false
+      },
+      {
+        "name": "小奶蛙",
+        "verts": 38760,
+        "meshes": 2,
+        "placeholder": false
+      }
+    ]
+  },
+  "battleState": {
+    "phase": "playing",
+    "oppHp": 200,
+    "active": "奶蛙"
+  },
+  "result": {
+    "grade": "C",
+    "stats": 4,
+    "rewards": 3
+  }
+}

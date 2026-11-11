@@ -1,5 +1,5 @@
 /**
- * Demo 视频重录 + §十过期插图重拍 —— 取自当前登记构建（dist/assets/index-Ce5zGDeB.js）。
+ * Demo 视频重录 + §十过期插图重拍 —— 取自当前登记构建（dist/index.html 实际引用的入口 chunk）。
  *
  * 与旧版录像（canvas#gl captureStream）的本质差异：CDP Page.startScreencast 抓的是
  * 合成器输出，DOM HUD / 液态玻璃层 / live3d 层 / 3D 光标层 / 视频背景全部入画。
@@ -44,10 +44,23 @@ const CHROME = process.env.CHROME_PATH || [
 ].find((p) => existsSync(p));
 
 if (!CHROME) throw new Error("未找到 Chrome/Edge");
-{
-  const entry = path.join(DIST, "assets", "index-Ce5zGDeB.js");
-  if (!existsSync(entry)) throw new Error("缺少登记构建 dist/assets/index-Ce5zGDeB.js（AGENTS.md §4：录像只能取自最近登记构建）");
+
+// 登记构建指纹：原先此处与下方取证段**双重硬编码** `index-Ce5zGDeB.js`，
+// 任何 src 改动导致 hash 变化后脚本会立即抛错退出，必须手改脚本才能重录。
+// 现改为：读 dist/index.html **实际引用的**入口 chunk，自适应构建产物名，
+// 同时仍强制校验「该 chunk 真实存在」与「dist/index.html 引用的就是它」。
+function resolveEntryChunk() {
+  const indexPath = path.join(DIST, "index.html");
+  if (!existsSync(indexPath)) throw new Error("缺少 dist/index.html（AGENTS.md §4：录像只能取自最近登记构建）");
+  const html = readFileSync(indexPath, "utf8");
+  const m = html.match(/assets\/index-[A-Za-z0-9_-]+\.js/);
+  if (!m) throw new Error("dist/index.html 未引用入口 JS chunk");
+  const rel = m[0];
+  const abs = path.join(DIST, rel);
+  if (!existsSync(abs)) throw new Error(`dist/index.html 引用的入口 chunk 不存在: ${rel}`);
+  return { rel, abs };
 }
+const ENTRY_CHUNK = resolveEntryChunk();
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -491,9 +504,9 @@ async function main() {
     }
 
     // ---- 构建指纹 ----
-    const entry = path.join(DIST, "assets", "index-Ce5zGDeB.js");
+    const entry = ENTRY_CHUNK.abs;
     result.build = {
-      entry: "assets/index-Ce5zGDeB.js",
+      entry: ENTRY_CHUNK.rel,
       bytes: statSync(entry).size,
       sha256_16: createHash("sha256").update(readFileSync(entry)).digest("hex").slice(0, 16),
       servedIndexBytes: statSync(path.join(DIST, "index.html")).size,
@@ -517,8 +530,6 @@ async function main() {
   }
   if (!result.ok) process.exitCode = 1;
 }
-
-function r0safe(v) { return Math.max(1, Math.min(VIEW.height - 2, v)); }
 
 main().catch((e) => {
   log("[top-fatal] " + String((e && e.stack) || e));

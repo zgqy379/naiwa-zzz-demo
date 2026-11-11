@@ -226,17 +226,41 @@ export function initWebGLGlass() {
   resize();
 
   let enabled = true;
+  // 透镜位置缓存：原先每帧对每个透镜调 getBoundingClientRect()（强制 layout），
+  //   而这些按钮的位置在页面不滚动时是不变的。现按需重算（resize / 滚动）。
+  let lensRects = [];
+  let lensRectsDirty = true;
+  const invalidateLensRects = () => { lensRectsDirty = true; };
+  window.addEventListener("resize", invalidateLensRects, { passive: true });
+  window.addEventListener("scroll", invalidateLensRects, { passive: true });
+
+  // 离屏时**整条 rAF 停掉**（此前离屏仍每帧 renderer.clear()，白占一个 GL 调用 + rAF 槽位）
+  let running = false;
+  let rafId = 0;
+  const startLoop = () => { if (running) return; running = true; rafId = requestAnimationFrame(frame); };
+  const stopLoop = () => { if (!running) return; running = false; cancelAnimationFrame(rafId); };
+  new MutationObserver(() => {
+    if (screen.classList.contains("hidden")) stopLoop();
+    else { invalidateLensRects(); startLoop(); }
+  }).observe(screen, { attributes: true, attributeFilter: ["class"] });
+
   function frame() {
-    requestAnimationFrame(frame);
-    if (!enabled || screen.classList.contains("hidden")) {
+    if (!running) return;
+    rafId = requestAnimationFrame(frame);
+    if (!enabled) {
       renderer.clear();
       return;
     }
     if (video.readyState < 2) return;
 
-    for (const l of lenses) {
-      const r = l.el.getBoundingClientRect();
-      if (!r.width || !r.height) {
+    if (lensRectsDirty) {
+      lensRects = lenses.map((l) => l.el.getBoundingClientRect());
+      lensRectsDirty = false;
+    }
+    for (let li = 0; li < lenses.length; li++) {
+      const l = lenses[li];
+      const r = lensRects[li];
+      if (!r || !r.width || !r.height) {
         l.mesh.visible = false;
         continue;
       }
@@ -250,7 +274,7 @@ export function initWebGLGlass() {
     }
     renderer.render(scene, camera);
   }
-  requestAnimationFrame(frame);
+  startLoop();
 
   // 供调试/性能对比：?glass=off 临时停掉透镜层
   window.__nprGlass = {

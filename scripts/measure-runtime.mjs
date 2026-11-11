@@ -24,9 +24,9 @@ import os from "node:os";
 import path from "node:path";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
-const DIST = path.join(ROOT, "dist");
+const DIST = process.env.NAIWA_DIST ? path.resolve(process.env.NAIWA_DIST) : path.join(ROOT, "dist");
 const OUT = path.join(ROOT, "docs", "evidence");
-const OUT_JSON = path.join(OUT, "v3-runtime-metrics-20261111.json");
+const OUT_JSON = path.join(OUT, process.env.NAIWA_OUT || "v3-runtime-metrics-20261111.json");
 const PORTS = [5288, 5289];
 const HOST = "127.0.0.1";
 const VIEW = { width: 1920, height: 1080, dpr: 1 };
@@ -216,25 +216,31 @@ const SCENE_FACTS = `(() => {
 })()`;
 
 const CONTEXT_FACTS = `(() => {
-  const canvases = [...document.querySelectorAll("canvas")];
-  const ctxs = new Set();
-  const list = canvases.map((c) => {
-    let ctx = null, kind = null;
-    try { ctx = c.getContext("webgl2"); kind = ctx ? "webgl2" : null; } catch (e) { kind = "throw"; }
-    if (!ctx) { try { ctx = c.getContext("webgl"); kind = ctx ? "webgl" : kind; } catch (e) { /* noop */ } }
-    if (ctx) ctxs.add(ctx);
-    return { id: c.id || null, w: c.width, h: c.height, cssW: c.clientWidth, cssH: c.clientHeight, hasCtx: !!ctx, kind };
-  });
-  const gl = document.createElement("canvas").getContext("webgl2") || document.createElement("canvas").getContext("webgl");
+  // ⚠ 不要再用 getContext 探测「这个 canvas 有没有 context」——那会**凭空创建** context，
+  //   把不存在上下文的 canvas 也算进去（此前版本因此恒得 4，掩盖了惰性加载的真实效果）。
+  //   改为读页面加载前注入的 getContext 补丁记录（window.__ctxLog），只统计应用**真正创建过**的。
+  const log = window.__ctxLog || [];
+  const seen = new Map();
+  for (const e of log) {
+    if (e.id === "__probe__") continue;   // 探针自身查 GPU 型号用的 context，不算应用占用
+    const key = e.id + "@" + e.type;
+    if (!seen.has(key)) seen.set(key, e);
+  }
   let renderer = null;
   try {
-    const dbg = gl && gl.getExtension("WEBGL_debug_renderer_info");
-    renderer = gl ? (dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) : null;
+    const c = document.createElement("canvas");
+    c.id = "__probe__";   // 标记为探针自身，不计入应用 context 数
+    const gl = c.getContext("webgl2") || c.getContext("webgl");
+    if (gl) {
+      const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      renderer = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+    }
   } catch (e) { renderer = null; }
   return {
-    canvasCount: canvases.length,
-    uniqueWebGLContexts: ctxs.size,
-    canvases: list,
+    appContexts: seen.size,
+    appContextList: [...seen.values()].map((e) => ({ id: e.id, type: e.type, w: e.w, h: e.h })),
+    totalGetContextCalls: log.length,
+    canvasElements: document.querySelectorAll("canvas").length,
     glRenderer: renderer,
     heapUsed: performance.memory ? performance.memory.usedJSHeapSize : null,
     heapLimit: performance.memory ? performance.memory.jsHeapSizeLimit : null,
@@ -278,6 +284,20 @@ async function main() {
     cdp.on("Runtime.consoleAPICalled", (p) => { if (p.type === "error" || p.type === "assert") errors.push({ kind: "console." + p.type, args: (p.args || []).map((a) => a.value ?? a.description ?? a.type).slice(0, 3) }); });
 
     const url = `http://${HOST}:${srv.port}/`;
+    // 页面脚本执行**之前**注入 getContext 补丁：记录应用真正创建过的每一个 WebGL 上下文
+    await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `(() => {
+        const orig = HTMLCanvasElement.prototype.getContext;
+        window.__ctxLog = [];
+        HTMLCanvasElement.prototype.getContext = function (type, attrs) {
+          const ctx = orig.call(this, type, attrs);
+          if (ctx && (type === "webgl" || type === "webgl2" || type === "experimental-webgl")) {
+            window.__ctxLog.push({ id: this.id || "(anon)", type, w: this.width, h: this.height, at: Date.now() });
+          }
+          return ctx;
+        };
+      })()`,
+    });
     log("[nav] " + url);
     await cdp.send("Page.navigate", { url });
     log("[nav] sent");
@@ -355,7 +375,7 @@ async function main() {
   console.log("WROTE " + OUT_JSON);
   console.log("ok=" + result.ok + (result.error ? " error=" + result.error : ""));
   for (const [k, v] of Object.entries(result.screens)) {
-    console.log(`  ${k}: calls=${v.frame.calls} tris=${v.frame.triangles} meshes=${v.scene.meshes} geos=${v.scene.uniqueGeometries} ctx=${v.context.uniqueWebGLContexts} canvases=${v.context.canvasCount}`);
+    console.log(`  ${k}: calls=${v.frame.calls} tris=${v.frame.triangles} meshes=${v.scene.meshes} geos=${v.scene.uniqueGeometries} appCtx=${v.context.appContexts} [${(v.context.appContextList || []).map((c) => c.id).join(",")}]`);
   }
   if (result.aholoLayerAB) {
     console.log(`  aholo A/B: on calls=${result.aholoLayerAB.on.calls} tris=${result.aholoLayerAB.on.triangles} | off calls=${result.aholoLayerAB.off && result.aholoLayerAB.off.calls} tris=${result.aholoLayerAB.off && result.aholoLayerAB.off.triangles}`);

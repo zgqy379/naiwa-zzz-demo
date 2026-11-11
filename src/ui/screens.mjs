@@ -220,6 +220,8 @@ export class ScreenManager {
   /** 显示某个界面 */
   show(name) {
     this.current = name;
+    // 界面切换回调（main.mjs 用它触发「首次进入选人页 → 加载 16 只队员 GLB」）
+    this.o.onShow?.(name);
     // 修：显式控制每个界面（避免 toggle 逻辑漏洞导致的叠加）
     for (const [key, el] of Object.entries(this.screens)) {
       if (!el) continue;
@@ -239,6 +241,9 @@ export class ScreenManager {
     }
     // 修（UI-3）：打开设置屏时按当前运行状态回填高亮（N/[] 等键位改动后再打开也显示真实值）
     if (name === "settings") this._syncSettings();
+    // 首次进入选人页才真正建 live3d 的 renderer 并加载 16 只 GLB
+    //   （惰性化：标题页用不到这批模型，此前在 boot 就下载 ≈4.98MB，白占首屏带宽）
+    if (name === "select") this.live3d?.ensure?.();
     // 非战斗界面：隐藏 3D 角色
     if (this.o.setCharactersVisible) {
       this.o.setCharactersVisible(name === "battle");

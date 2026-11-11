@@ -1,0 +1,531 @@
+{
+  "ok": true,
+  "measuredAt": "2026-11-11T13:09:31.500Z",
+  "build": {
+    "entry": "assets/index-CJ0VMBfL.js",
+    "entryBytes": 987764
+  },
+  "caveats": [
+    "headless=new 窗口不可见；本机实测命中真实 AMD GPU（非 SwiftShader），但真机可见窗口与真实手指观感以 ego(lite) 实机通道为准",
+    "长时稳定性的 fps 为 headless 采样值，仅用于**趋势与衰减**判断，不作为真机帧率结论"
+  ],
+  "errors": [],
+  "waterfall": {
+    "wallMs": 8512,
+    "paint": [
+      {
+        "name": "first-paint",
+        "t": 964
+      },
+      {
+        "name": "first-contentful-paint",
+        "t": 964
+      }
+    ],
+    "navigation": {
+      "domContentLoaded": 433,
+      "load": 2311,
+      "responseEnd": 9,
+      "transferSize": 6556,
+      "encodedBodySize": 6256,
+      "decodedBodySize": 6256
+    },
+    "requestCount": 17,
+    "totalEncodedBytes": 2509975,
+    "byType": [
+      {
+        "type": "Fetch",
+        "bytes": 1399074
+      },
+      {
+        "type": "Script",
+        "bytes": 1008690
+      },
+      {
+        "type": "Image",
+        "bytes": 47234
+      },
+      {
+        "type": "Stylesheet",
+        "bytes": 47082
+      },
+      {
+        "type": "Document",
+        "bytes": 6468
+      },
+      {
+        "type": "Font",
+        "bytes": 1270
+      },
+      {
+        "type": "Other",
+        "bytes": 157
+      },
+      {
+        "type": "Media",
+        "bytes": 0
+      }
+    ],
+    "requests": [
+      {
+        "url": "/",
+        "type": "Document",
+        "status": 200,
+        "bytes": 6468,
+        "ms": 8,
+        "failed": null
+      },
+      {
+        "url": "/assets/index-CJ0VMBfL.js",
+        "type": "Script",
+        "status": 200,
+        "bytes": 987984,
+        "ms": 13,
+        "failed": null
+      },
+      {
+        "url": "/assets/index-BkAXyDc9.css",
+        "type": "Stylesheet",
+        "status": 200,
+        "bytes": 47082,
+        "ms": 4,
+        "failed": null
+      },
+      {
+        "url": "/bg/title-poster.jpg",
+        "type": "Image",
+        "status": 200,
+        "bytes": 39035,
+        "ms": 9,
+        "failed": null
+      },
+      {
+        "url": "/bg/title.mp4",
+        "type": "Media",
+        "status": 206,
+        "bytes": 0,
+        "ms": null,
+        "failed": null
+      },
+      {
+        "url": "/assets/naiwa_hand_cursor-CH4k1llj.png",
+        "type": "Image",
+        "status": 200,
+        "bytes": 8199,
+        "ms": 3,
+        "failed": null
+      },
+      {
+        "url": "/assets/zcool-kuaile-3-DrMS74hz.woff2",
+        "type": "Font",
+        "status": 200,
+        "bytes": 1270,
+        "ms": 3,
+        "failed": null
+      },
+      {
+        "url": "/world/aholo-street.glb",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 603751,
+        "ms": 7,
+        "failed": null
+      },
+      {
+        "url": "/assets/screens-cihBpvdL.js",
+        "type": "Script",
+        "status": 200,
+        "bytes": 7196,
+        "ms": 3,
+        "failed": null
+      },
+      {
+        "url": "/assets/liquidglass-CxAvhf6L.js",
+        "type": "Script",
+        "status": 200,
+        "bytes": 7034,
+        "ms": 3,
+        "failed": null
+      },
+      {
+        "url": "/assets/live3d-B4Gl1H7r.js",
+        "type": "Script",
+        "status": 200,
+        "bytes": 3741,
+        "ms": 3,
+        "failed": null
+      },
+      {
+        "url": "/assets/cursor3d-BoBduq_I.js",
+        "type": "Script",
+        "status": 200,
+        "bytes": 2735,
+        "ms": 3,
+        "failed": null
+      },
+      {
+        "url": "/asset/naiwa_hand_cursor.glb",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 795323,
+        "ms": 5,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/666ab923-53f4-43b4-8f95-9afa76b45665",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/550efa88-9526-41dd-bc2e-61678fc62d17",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/db81579c-261b-47f6-b243-958039522094",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "/favicon.ico",
+        "type": "Other",
+        "status": 404,
+        "bytes": 157,
+        "ms": 2,
+        "failed": null
+      }
+    ]
+  },
+  "stability": {
+    "runMs": 30167,
+    "sampleCount": 15,
+    "screensVisited": [
+      "screen-title"
+    ],
+    "fps": {
+      "min": 358.5,
+      "max": 363,
+      "avgFirstHalf": 361.3,
+      "avgSecondHalf": 361.3
+    },
+    "contextLostEvents": 0,
+    "maxContexts": 3,
+    "heap": {
+      "firstMB": 22,
+      "lastMB": 20,
+      "maxMB": 29
+    },
+    "samples": [
+      {
+        "t": 1794402580525,
+        "frames": 0,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 22736750,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 1,
+        "fps": 0
+      },
+      {
+        "t": 1794402582533,
+        "frames": 717,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 28191922,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 2009,
+        "fps": 358.5
+      },
+      {
+        "t": 1794402584542,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 19333093,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 4018,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402586553,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 24737157,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 6029,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402588558,
+        "frames": 720,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 30138253,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 8034,
+        "fps": 360
+      },
+      {
+        "t": 1794402590577,
+        "frames": 726,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 22417825,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 10053,
+        "fps": 363
+      },
+      {
+        "t": 1794402592592,
+        "frames": 726,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 21250765,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 12068,
+        "fps": 363
+      },
+      {
+        "t": 1794402594604,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 26629633,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 14080,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402596617,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 18832629,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 16093,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402598633,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 24210609,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 18109,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402600635,
+        "frames": 720,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 19391909,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 20111,
+        "fps": 360
+      },
+      {
+        "t": 1794402602645,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 24915381,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 22121,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402604657,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 30282293,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 24133,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402606669,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 22365113,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 26145,
+        "fps": 361.5
+      },
+      {
+        "t": 1794402608680,
+        "frames": 723,
+        "ctx": 3,
+        "canvases": 4,
+        "screen": "screen-title",
+        "heap": 20750109,
+        "lost": 0,
+        "errs": 0,
+        "phase": "idle",
+        "elapsedMs": 28156,
+        "fps": 361.5
+      }
+    ]
+  },
+  "touch": {
+    "viewport": "390x844 @dpr3, touch enabled",
+    "steps": [
+      {
+        "label": "触屏点击「开始作战」",
+        "ok": true,
+        "rect": {
+          "x": 195,
+          "y": 640,
+          "w": 280,
+          "h": 44
+        }
+      },
+      {
+        "label": "触屏点击第 1 张角色卡",
+        "ok": true,
+        "rect": {
+          "x": 106,
+          "y": 182,
+          "w": 159,
+          "h": 162
+        }
+      },
+      {
+        "label": "触屏点击「出战」",
+        "ok": true,
+        "rect": {
+          "x": 278,
+          "y": 755,
+          "w": 159,
+          "h": 51
+        }
+      },
+      {
+        "label": "触屏点击 HUD 键位",
+        "ok": true,
+        "rect": {
+          "x": 195,
+          "y": 588,
+          "w": 132,
+          "h": 43
+        }
+      }
+    ],
+    "hudKeyCandidates": [
+      {
+        "text": "WASD移动",
+        "cls": "key"
+      },
+      {
+        "text": "空格攻击(连按连段)",
+        "cls": "key glow"
+      },
+      {
+        "text": "Shift躲/弹反",
+        "cls": "key glow"
+      },
+      {
+        "text": "Tab接力",
+        "cls": "key glow"
+      }
+    ],
+    "states": {
+      "st0": {
+        "screen": "screen-title",
+        "selected": 0,
+        "phase": "idle",
+        "activeIndex": 0
+      },
+      "st1": {
+        "screen": "screen-select",
+        "selected": 0,
+        "phase": "idle",
+        "activeIndex": 0
+      },
+      "st2": {
+        "screen": "screen-select",
+        "selected": 0,
+        "phase": "idle",
+        "activeIndex": 0
+      },
+      "st3": {
+        "screen": "unknown",
+        "selected": 0,
+        "phase": "playing",
+        "activeIndex": 0
+      },
+      "st4": {
+        "screen": "unknown",
+        "selected": 0,
+        "phase": "playing",
+        "activeIndex": 0
+      }
+    },
+    "cameraDrag": {
+      "before": {
+        "x": 6.2,
+        "z": 2.2
+      },
+      "after": {
+        "x": 6.2,
+        "z": 2.2
+      },
+      "moved": false
+    }
+  }
+}

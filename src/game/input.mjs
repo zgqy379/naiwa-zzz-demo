@@ -75,11 +75,11 @@ export class InputManager {
       this.o.onAction?.("swap", 2); // R 直选固定 3 号位（index 2），语义见 main.mjs 头注
     } else if (k === "n") {
       this.o.onAction?.("mode", "N");
-    } else if (k >= "1" && k <= "9") {
-      this.o.onAction?.("steps", parseInt(k));
-    } else if (k === "0") {
-      this.o.onAction?.("steps", 10);
     }
+    // 数字键（1-9 直选、0 选第 10 只）**不在这里处理**：此前 input.mjs 与 main.mjs 的
+    //   旁路监听各处理一次，同一次按键走两条路径（input.mjs 发 "steps" payload，
+    //   其中 0 → payload=10 被 main.mjs 的 payload<=9 判据丢弃，再由旁路兜住），
+    //   属于重复分发的冗余。现统一由 main.mjs 的旁路监听处理（它自带 inBattle 门控）。
   }
 
   _onKeyUp(e) {

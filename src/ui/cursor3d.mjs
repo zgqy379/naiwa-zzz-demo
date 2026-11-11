@@ -16,6 +16,21 @@ const HOT_X = 20;
 const HOT_Y = 88;
 
 export async function initCursor3D() {
+  // 移动端 / 粗指针设备不启用 3D 光标：这类设备用不着「跟随指针的 3D 手」，
+  //   却要为此常驻一个 160×160 的 WebGL context（第 4 个）并每帧渲染。
+  //   跳过后退回 PNG 手型光标（screens.css 的全局 cursor 规则，不依赖本模块）。
+  const coarse = window.matchMedia?.("(pointer: coarse)").matches;
+  const touchOnly = (navigator.maxTouchPoints ?? 0) > 0;
+  const lowMem = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4;
+  if (coarse && touchOnly) {
+    console.info("[cursor3d] 触摸设备，跳过 3D 光标（保留 PNG 手型光标）");
+    return false;
+  }
+  if (lowMem) {
+    console.info("[cursor3d] 低内存设备（deviceMemory<=4），跳过 3D 光标");
+    return false;
+  }
+
   const canvas = document.createElement("canvas");
   canvas.id = "cursor3d-layer";
   document.body.appendChild(canvas);
@@ -84,6 +99,8 @@ export async function initCursor3D() {
   let y = -999;
   let visible = false;
   let pressed = false;
+  // 页面可见性：切到后台时整条 rAF 停掉（不渲染、不跑模型动画）
+  let pageVisible = !document.hidden;
 
   window.addEventListener("pointermove", (e) => {
     x = e.clientX;
@@ -94,12 +111,20 @@ export async function initCursor3D() {
   window.addEventListener("pointerup", () => { pressed = false; }, { passive: true });
   document.addEventListener("pointerleave", () => { visible = false; });
   window.addEventListener("blur", () => { visible = false; pressed = false; });
+  document.addEventListener("visibilitychange", () => {
+    pageVisible = !document.hidden;
+    if (pageVisible) requestAnimationFrame(frame);
+  });
 
   function frame() {
+    if (!pageVisible) return;   // 后台：彻底停掉，不排下一帧
     requestAnimationFrame(frame);
     const t = performance.now() * 0.001;
     canvas.style.opacity = visible ? "1" : "0";
     canvas.style.transform = `translate3d(${x - HOT_X}px, ${y - HOT_Y}px, 0)`;
+    // 指针不在窗口内时画布是全透明的（opacity 0），此时**没有任何渲染收益**，
+    //   却仍每帧跑一次 renderer.render —— 原实现的全量空转，这里直接跳过。
+    if (!visible) return;
     if (model) {
       const press = pressed ? 0.86 : 1;
       model.scale.setScalar(baseScale * press * (1 + Math.sin(t * 2.1) * 0.012));

@@ -7,9 +7,13 @@
  *  - 主界面立绘
  *
  * 实现：两条路，静态优先
- *  1) **静态立绘**：`public/portrait/<id>.png`（离线预渲染，脚本见
+ *  1) **静态立绘**：`./portrait/<id>.png`（离线预渲染，脚本见
  *     `scripts/render-portraits.mjs`）。命中就直接返回 URL，界面秒开、
  *     不吃 WebGL 上下文，也不受首帧 shader 编译拖累。
+ *     ⚠ 2026-11-11 起这批 PNG **不再随构建分发**：选人页已改用实时 3D
+ *     （`src/ui/live3d.mjs`），运行期零引用；而 public/ 会被整包拷进 dist/，
+ *     白带 3.77MB 死重。现存档于 `docs/evidence/portrait-static/`，
+ *     静态路径命中不了时会自动落到下面的离屏兜底（img.onerror → null）。
  *  2) **实时离屏渲染**：静态图缺失时兜底——独立 WebGLRenderer + 离屏
  *     canvas，加载 GLB → 摆好姿势 → NPR 材质 + 描边 → 渲染 → dataURL。
  *

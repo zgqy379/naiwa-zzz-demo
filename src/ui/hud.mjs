@@ -93,13 +93,21 @@ export class Hud {
     `;
 
     // 缓存元素引用
-    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "grids", "chain", "counter", "mode", "steps",
+    // 注意：#hud-mode / #hud-steps 两个元素在美术圣经重做时已被移除（调参信息移出玩家视野），
+    //   原先仍留在 ids 列表里 → this.el.mode / this.el.steps 恒为 null，_apply 里对应分支
+    //   是永不执行的死代码。现已从列表移除，mode/steps 仍可经 window.__npr.getMode()/getSteps() 读取。
+    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "grids", "chain", "counter",
                  "shell-name", "shell-idx",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
     for (const id of ids) {
       this.el[id] = this.root.querySelector(`#hud-${id}`);
     }
     this.el.gridCells = Array.from(this.root.querySelectorAll("#hud-grids .grid"));
+
+    // 脏值缓存：HUD 每帧被 set() 调用一次，_apply 原本无差别写 ~18 个 DOM 节点
+    //   （textContent / style.width / classList.toggle），即使值没变也会触发样式重算。
+    //   这里按「值是否真的变了」决定是否写 DOM。
+    this._last = {};
 
     this._apply();
   }
@@ -110,6 +118,14 @@ export class Hud {
     this._apply();
   }
 
+  /** 仅当值变化时才写 DOM（返回 true = 确实改了） */
+  _put(key, value, apply) {
+    if (this._last[key] === value) return false;
+    this._last[key] = value;
+    apply();
+    return true;
+  }
+
   _apply() {
     const s = this.state;
     // 已用时间（mm:ss）
@@ -117,37 +133,58 @@ export class Hud {
       const t = Math.max(0, Math.floor(s.elapsed ?? 0));
       const mm = String(Math.floor(t / 60)).padStart(2, "0");
       const ss = String(t % 60).padStart(2, "0");
-      this.el.elapsed.textContent = `${mm}:${ss}`;
+      this._put("elapsed", `${mm}:${ss}`, () => { this.el.elapsed.textContent = `${mm}:${ss}`; });
     }
-    if (this.el.shell) this.el.shell.textContent = `${(s.shellIndex ?? 0) + 1}/${s.shellTotal ?? 16}`;
+    if (this.el.shell) {
+      const v = `${(s.shellIndex ?? 0) + 1}/${s.shellTotal ?? 16}`;
+      this._put("shell", v, () => { this.el.shell.textContent = v; });
+    }
     if (this.el.hp) {
       // 修：按 maxHp 归一化（原直接用 hp 值，力量档 maxHp=120 会溢出 120%）
       const maxHp = s.maxHp ?? 100;
       const hpPct = Math.max(0, Math.min(100, (s.hp / maxHp) * 100));
-      this.el.hp.style.width = `${hpPct}%`;
-      // 低血警告（<30% 变红）
-      this.el.hp.classList.toggle("low", hpPct < 30);
+      this._put("hp", hpPct, () => {
+        this.el.hp.style.width = `${hpPct}%`;
+        // 低血警告（<30% 变红）
+        this.el.hp.classList.toggle("low", hpPct < 30);
+      });
     }
-    if (this.el.opp) this.el.opp.style.width = `${Math.max(0, s.oppHp)}%`;
-    if (this.el["hp-num"]) this.el["hp-num"].textContent = Math.round(s.hp);
+    if (this.el.opp) {
+      const v = Math.max(0, s.oppHp);
+      this._put("opp", v, () => { this.el.opp.style.width = `${v}%`; });
+    }
+    if (this.el["hp-num"]) {
+      const v = Math.round(s.hp);
+      this._put("hp-num", v, () => { this.el["hp-num"].textContent = v; });
+    }
     // opp-num 显示绝对血量值（main.mjs 传 oppHpRaw）；未传时回退旧的百分比口径，行为不变
-    if (this.el["opp-num"]) this.el["opp-num"].textContent = Math.round(s.oppHpRaw ?? s.oppHp);
-    if (this.el.chain) this.el.chain.textContent = `连携 ${s.combo}/3`;
-    if (this.el.mode) this.el.mode.textContent = s.mode;
-    if (this.el.steps) this.el.steps.textContent = s.steps;
+    if (this.el["opp-num"]) {
+      const v = Math.round(s.oppHpRaw ?? s.oppHp);
+      this._put("opp-num", v, () => { this.el["opp-num"].textContent = v; });
+    }
+    if (this.el.chain) {
+      const v = `连携 ${s.combo}/3`;
+      this._put("chain", v, () => { this.el.chain.textContent = v; });
+    }
 
     // 当前壳：<name> · <i+1>/16（换壳即换人；i 为 0 基索引）
-    if (this.el["shell-name"]) this.el["shell-name"].textContent = s.shellName;
+    if (this.el["shell-name"]) {
+      const v = s.shellName;
+      this._put("shell-name", v, () => { this.el["shell-name"].textContent = v; });
+    }
     if (this.el["shell-idx"]) {
       const total = s.shellTotal || 0;
       const cur = total > 0 ? Math.min(Math.max(0, s.shellIndex) + 1, total) : 0;
-      this.el["shell-idx"].textContent = `${cur}/${total}`;
+      const v = `${cur}/${total}`;
+      this._put("shell-idx", v, () => { this.el["shell-idx"].textContent = v; });
     }
 
     // 失衡格
     if (this.el.gridCells) {
-      this.el.gridCells.forEach((cell, i) => {
-        cell.classList.toggle("on", i < s.grids);
+      this._put("grids", s.grids, () => {
+        this.el.gridCells.forEach((cell, i) => {
+          cell.classList.toggle("on", i < s.grids);
+        });
       });
     }
 
@@ -161,15 +198,20 @@ export class Hud {
     };
     for (const [id, active] of Object.entries(keyMap)) {
       const el = this.el[id];
-      if (el) el.classList.toggle("glow", !!active);
+      if (!el) continue;
+      this._put(id, !!active, () => el.classList.toggle("glow", !!active));
     }
     // 连携就绪时接力键强烈闪烁
     if (this.el["key-swap"]) {
-      this.el["key-swap"].classList.toggle("urgent", !!s.chainReady);
+      this._put("key-swap-urgent", !!s.chainReady, () => {
+        this.el["key-swap"].classList.toggle("urgent", !!s.chainReady);
+      });
     }
     // 弹反提示（对手攻击预警时显示）
     if (this.el.counter) {
-      this.el.counter.classList.toggle("show", !!s.counterWarning);
+      this._put("counter", !!s.counterWarning, () => {
+        this.el.counter.classList.toggle("show", !!s.counterWarning);
+      });
     }
   }
 }

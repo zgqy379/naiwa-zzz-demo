@@ -1,4 +1,6 @@
-// 离线批量渲染 16 只家族立绘 → public/portrait/<id>.png
+// 离线批量渲染 16 只家族立绘 → docs/evidence/portrait-static/<id>.png
+// 2026-11-11 起不再输出到 public/：选人页已改用实时 3D（live3d.mjs），
+//   这批静态立绘在运行期**零引用**，留在 public/ 会被整包拷进 dist/（+3.77MB 死重）。
 // 页面里跑实时离屏渲染（portrait.mjs 的兜底路径），逐只取回 base64 落盘。
 const fs = await import("node:fs/promises");
 
@@ -32,7 +34,7 @@ for (let i = 0; i < 40; i++) {
   await page.waitForTimeout(2500);
 }
 
-const OUT = "E:/naiwa-zzz/public/portrait";
+const OUT = "E:/naiwa-zzz/docs/evidence/portrait-static";
 await fs.mkdir(OUT, { recursive: true });
 const report = [];
 for (const { id, name } of ids) {

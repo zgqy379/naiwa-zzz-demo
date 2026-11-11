@@ -107,6 +107,15 @@ export class TestHarness {
     if (!v) throw new Error(msg ?? `期望真值，实际 ${v}`);
   }
 
+  /**
+   * 断言两值不相等。
+   * 此前本方法缺失 → game-test.mjs 的 `A.assertNotEqual?.(after, before, ...)` 是可选调用，
+   * 被静默跳过（真正生效的是紧随其后的手写 throw）——属于「断言形同虚设」的隐患。
+   */
+  static assertNotEqual(actual, expected, msg) {
+    if (actual === expected) throw new Error(msg ?? `期望 ${JSON.stringify(actual)} != ${JSON.stringify(expected)}`);
+  }
+
   /** 汇总报告 */
   async report() {
     const total = this.results.length;

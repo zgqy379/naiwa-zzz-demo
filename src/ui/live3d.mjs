@@ -16,9 +16,45 @@ import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
 import { SQUAD } from "../game/squad.mjs";
 
 /**
- * @returns {Promise<{setSelected:(i:number)=>void}|null>}
+ * @returns {{ensure:()=>Promise<any>, setSelected:(i:number)=>void}}
+ *
+ * 2026-11-11 起改为**惰性初始化**：真正的 WebGLRenderer 与 16 只 GLB 加载
+ *   推迟到**首次进入选人页**时才发生（此前在 boot 就建 context 并下载全部 16 只 GLB
+ *   ≈ 4.98MB，而首屏（标题页）根本用不到——实测首屏瀑布 11,097KB，其中 4,980KB
+ *   是这批只在战斗时需要的角色模型）。进选人页后与战斗共用同一批 URL，命中 HTTP 缓存。
  */
 export async function initLive3DCards() {
+  let api = null;            // 已建好的内部 API
+  let initializing = null;   // 正在进行的初始化 Promise
+  let pendingIndex = 0;      // 初始化前的选择（记住，等建好再套用）
+
+  async function ensure() {
+    if (api) return api;
+    if (!initializing) {
+      initializing = build().then((a) => {
+        api = a;
+        a.setSelected(pendingIndex);
+        return a;
+      }).catch((e) => {
+        console.warn("[live3d] 初始化失败", e?.message);
+        initializing = null;
+        return null;
+      });
+    }
+    return initializing;
+  }
+
+  return {
+    ensure,
+    setSelected(i) {
+      pendingIndex = i;
+      api?.setSelected(i);
+    },
+  };
+}
+
+/** 真正建 renderer + 载 16 只 GLB + 起渲染循环 */
+async function build() {
   const canvas = document.getElementById("live3d-layer");
   const screen = document.getElementById("screen-select");
   if (!canvas || !screen) return null;
@@ -123,10 +159,40 @@ export async function initLive3DCards() {
 
   const clock = new THREE.Clock();
 
+  // ---- 渲染循环：选人页不可见时**整条 rAF 停掉**（此前每帧仍调 renderer.clear()，
+  //      白占一个 GL 调用与一个 rAF 槽位）；重新可见时自动恢复 ----
+  let running = false;
+  let rafId = 0;
+  const startLoop = () => { if (running) return; running = true; rafId = requestAnimationFrame(frame); };
+  const stopLoop = () => { if (!running) return; running = false; cancelAnimationFrame(rafId); };
+
+  // ---- 每帧 DOM 查询消除：缓存卡片元素与展示台元素；卡片位置只在滚动/尺寸变化时重算 ----
+  const listEl = document.getElementById("select-list");
+  const artEl = document.getElementById("showcase-img");
+  let cards = [];
+  let cardRects = [];
+  let rectsDirty = true;
+  const refreshCards = () => {
+    cards = listEl ? Array.from(listEl.querySelectorAll(".char-card")) : [];
+    rectsDirty = true;
+  };
+  refreshCards();
+  if (listEl) {
+    new MutationObserver(refreshCards).observe(listEl, { childList: true, subtree: false });
+    listEl.addEventListener("scroll", () => { rectsDirty = true; }, { passive: true });
+  }
+  window.addEventListener("resize", () => { rectsDirty = true; }, { passive: true });
+
+  // 选人屏显隐变化 → 起/停循环
+  new MutationObserver(() => {
+    if (screen.classList.contains("hidden")) stopLoop();
+    else { rectsDirty = true; startLoop(); }
+  }).observe(screen, { attributes: true, attributeFilter: ["class"] });
+
   function frame() {
-    requestAnimationFrame(frame);
+    if (!running) return;
+    rafId = requestAnimationFrame(frame);
     if (screen.classList.contains("hidden")) {
-      renderer.clear();
       clock.getDelta();
       return;
     }
@@ -136,12 +202,14 @@ export async function initLive3DCards() {
     const H = cr.height;
     if (H < 1) return;
 
-    const cards = document.querySelectorAll("#select-list .char-card");
+    if (rectsDirty) {
+      cardRects = cards.map((el) => el.getBoundingClientRect());
+      rectsDirty = false;
+    }
     for (const e of entries) {
       if (!e.group) continue;
-      const el = cards[e.i];
-      if (!el) { e.group.visible = false; continue; }
-      const r = el.getBoundingClientRect();
+      const r = cardRects[e.i];
+      if (!r) { e.group.visible = false; continue; }
       const lx = r.x - cr.x;
       const ly = r.y - cr.y;
       // 滚动出容器就不画，省 draw call
@@ -160,7 +228,7 @@ export async function initLive3DCards() {
       e.mixer?.update(dt);
     }
 
-    const art = document.getElementById("showcase-img");
+    const art = artEl;
     if (showcase && art) {
       const r = art.getBoundingClientRect();
       const lx = r.x - cr.x;
@@ -182,7 +250,7 @@ export async function initLive3DCards() {
 
     renderer.render(scene, camera);
   }
-  requestAnimationFrame(frame);
+  startLoop();
 
   return { setSelected };
 }

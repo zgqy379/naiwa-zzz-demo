@@ -149,6 +149,10 @@ let screens = makeFallbackScreens();
         else { postfx.setBloom(true); } // 强度不传，沿用构造期 L79 bloomStrength，消除双入口漂移
       },
       onSetVolume: (v) => audio.setVolume(v),
+      // 首次进入选人页时才加载 16 只队员 GLB（约 4.98MB，标题页用不到）
+      onShow: (name) => {
+        if (name === "select") { ensureSquadModels(); ensureOpponentModel(); }
+      },
       // 修（UI-3）：设置屏打开时读取当前运行状态回填高亮（getter 惰性求值，mode/steps/quality 声明在后无 TDZ 问题）
       getState: () => ({ mode, steps, quality }),
     });
@@ -180,49 +184,68 @@ for (const member of squad.members) {
   member.move.pos.set(2.4, 0, 0);
   g.position.set(2.4, 0, 0);
   member.anim = new ProceduralAnim({ modelRoot: g, movement: member.move });
+  // 占位球：GLB 加载中 / 加载失败时先顶一个同色球，避免角色凭空消失
+  //   （延迟加载后模型可能晚于开战到达，见 ensureSquadModels）
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 24), new THREE.MeshStandardMaterial({ color: member.color }));
+  ball.castShadow = true;
+  g.add(ball);
+  member.placeholder = ball;
+}
 
-  loader.load(member.glb, (gltf) => {
-    const m = gltf.scene;
-    g.add(m);
-    // 包 wrapper（外层：负责贴地/缩放）
-    const wrapper = new THREE.Group();
-    wrapper.name = "model-wrapper";
-    // 内层 anim-root（动画层操作这个，不碰 wrapper 的贴地偏移）
-    const animRoot = new THREE.Group();
-    animRoot.name = "anim-root";
-    const existing = [...g.children];
-    for (const c of existing) animRoot.add(c);
-    wrapper.add(animRoot);
-    g.add(wrapper);
-    wrapper.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
-    const box = new THREE.Box3().setFromObject(wrapper);
-    const size = box.getSize(new THREE.Vector3());
-    // 按身高归一化：保留胖瘦/宽窄比例（不给最大维拉平）
-    const s = member.scale / (size.y || 1) * (member.visualScale || 1);
-    wrapper.scale.set(s, s, s);
-    const box2 = new THREE.Box3().setFromObject(wrapper);
-    wrapper.position.y = -box2.min.y;
-    wrapper.userData.__origMats = new Map();
-    wrapper.traverse((c) => { if (c.isMesh) wrapper.userData.__origMats.set(c, c.material); });
-    // 动画层用 anim-root（修：原用 wrapper 会被每帧 position.set(0,0,0) 覆盖贴地偏移）
-    member.anim.inner = animRoot;
-    member.anim.baseScale = animRoot.scale.clone();
-    // 主题色饰带（圣经 A1 可读性）：玩家按 SQUAD member.color
-    attachThemeBand(g, { color: member.color });
-    // 展示层重染（roster-audit-20261110 差距#1）：奶猫/奶鱼/奶粉传 tintColor（member.tintColor
-    // 为 null 时 applyNpr 走无 tint 路径，其余 13 只零行为变化）
-    if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.016, tintColor: member.tintColor });   // 圣经 v2 §2 描边 0.022→0.016
-  }, undefined, () => {
-    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 24), new THREE.MeshStandardMaterial({ color: member.color }));
-    ball.castShadow = true;
-    g.add(ball);
-    const wrapper = new THREE.Group();
-    wrapper.name = "model-wrapper";
-    wrapper.add(ball);
-    g.add(wrapper);
-    member.anim.inner = wrapper;
-    member.anim.baseScale = wrapper.scale.clone();
-  });
+/**
+ * 加载 16 只队员 GLB。
+ * 2026-11-11 起**延迟到首次进入选人页**才发起：此前在 boot 就下载全部 16 只（≈4.98MB），
+ *   而首屏（标题页）根本用不到——实测首屏瀑布 11,097KB，其中 4,980KB 是这批只在战斗时
+ *   需要的模型。选人页同时会加载同一批 URL（live3d 实时 3D 卡片），命中 HTTP 缓存；
+ *   进战斗时模型早已就位，占位球早已被替换。
+ * 幂等：重复调用只会生效一次。
+ */
+let squadModelsRequested = false;
+function ensureSquadModels() {
+  if (squadModelsRequested) return;
+  squadModelsRequested = true;
+  for (const member of squad.members) {
+    loader.load(member.glb, (gltf) => {
+      const m = gltf.scene;
+      const g = member.group;
+      // 占位球退场（真正的模型接管）
+      if (member.placeholder) {
+        member.placeholder.parent?.remove(member.placeholder);
+        member.placeholder = null;
+      }
+      g.add(m);
+      // 包 wrapper（外层：负责贴地/缩放）
+      const wrapper = new THREE.Group();
+      wrapper.name = "model-wrapper";
+      // 内层 anim-root（动画层操作这个，不碰 wrapper 的贴地偏移）
+      const animRoot = new THREE.Group();
+      animRoot.name = "anim-root";
+      const existing = [...g.children];
+      for (const c of existing) animRoot.add(c);
+      wrapper.add(animRoot);
+      g.add(wrapper);
+      wrapper.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      const box = new THREE.Box3().setFromObject(wrapper);
+      const size = box.getSize(new THREE.Vector3());
+      // 按身高归一化：保留胖瘦/宽窄比例（不给最大维拉平）
+      const s = member.scale / (size.y || 1) * (member.visualScale || 1);
+      wrapper.scale.set(s, s, s);
+      const box2 = new THREE.Box3().setFromObject(wrapper);
+      wrapper.position.y = -box2.min.y;
+      wrapper.userData.__origMats = new Map();
+      wrapper.traverse((c) => { if (c.isMesh) wrapper.userData.__origMats.set(c, c.material); });
+      // 动画层用 anim-root（修：原用 wrapper 会被每帧 position.set(0,0,0) 覆盖贴地偏移）
+      member.anim.inner = animRoot;
+      member.anim.baseScale = animRoot.scale.clone();
+      // 主题色饰带（圣经 A1 可读性）：玩家按 SQUAD member.color
+      attachThemeBand(g, { color: member.color });
+      // 展示层重染（roster-audit-20261110 差距#1）：奶猫/奶鱼/奶粉传 tintColor（member.tintColor
+      // 为 null 时 applyNpr 走无 tint 路径，其余 13 只零行为变化）
+      if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.016, tintColor: member.tintColor });   // 圣经 v2 §2 描边 0.022→0.016
+    }, undefined, () => {
+      // 加载失败：保留占位球（不再另建一个）
+    });
+  }
 }
 
 // 显示活跃角色
@@ -253,7 +276,13 @@ opponentMove.solidBoxes = coverSolids;
 
 let opponent = { hp: 200, maxHp: 200 };
 
-loader.load("./asset/naiwa_naidan_runtime.glb", (gltf) => {
+// 对手模型同样延迟到「首次进入选人页」再加载（≈190KB，标题页用不到）
+//   与 16 只队员共用同一批加载时机，避免首屏白付这笔带宽。
+let opponentModelRequested = false;
+function ensureOpponentModel() {
+  if (opponentModelRequested) return;
+  opponentModelRequested = true;
+  loader.load("./asset/naiwa_naidan_runtime.glb", (gltf) => {
   const m = gltf.scene;
   opponentGroup.add(m);
   const wrapper = new THREE.Group();
@@ -279,17 +308,18 @@ loader.load("./asset/naiwa_naidan_runtime.glb", (gltf) => {
   // 敌我分离（圣经 v2 §6）：对手冷白银 rim/描边/饰带，洋红只活在 UI 层（血条/失衡格/预警/受击闪）
   attachThemeBand(opponentGroup, { color: 0xd8e6f4 });
   if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.016, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
-}, undefined, () => {
-  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 24), new THREE.MeshStandardMaterial({ color: 0x8a3a3a }));
-  ball.castShadow = true;
-  opponentGroup.add(ball);
-  const wrapper = new THREE.Group();
-  wrapper.name = "model-wrapper";
-  wrapper.add(ball);
-  opponentGroup.add(wrapper);
-  opponentAnim.inner = wrapper;
-  opponentAnim.baseScale = wrapper.scale.clone();
-});
+  }, undefined, () => {
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 24), new THREE.MeshStandardMaterial({ color: 0x8a3a3a }));
+    ball.castShadow = true;
+    opponentGroup.add(ball);
+    const wrapper = new THREE.Group();
+    wrapper.name = "model-wrapper";
+    wrapper.add(ball);
+    opponentGroup.add(wrapper);
+    opponentAnim.inner = wrapper;
+    opponentAnim.baseScale = wrapper.scale.clone();
+  });
+}
 
 // ---------- 战斗系统 ----------
 const combo = new ComboSystem();
@@ -311,7 +341,9 @@ camRig.setBoundary(new THREE.Box3(
 ));
 
 const battle = {
-  timer: TUNING.roundTotalS,
+  // 原 timer: TUNING.roundTotalS 已删除——TUNING 里**没有** roundTotalS 这个键（悬空引用，
+  //   赋值结果恒为 undefined），且 battle.timer 全仓无任何读取点；战斗本就是**不限时**模式
+  //   （src/game/tuning.mjs:6「以击败对手为唯一胜利条件」），HUD 显示的是 ELAPSED 正计时。
   grids: 0,
   comboCount: 0,
   freezeT: 0,
@@ -464,13 +496,7 @@ const input = new InputManager({
       case "swap-next": onSwapInput(squad.nextAlive()); break;
       case "swap-prev": onSwapInput(squad.prevAlive()); break;
       case "mode": mode = mode === "PBR" ? "NPR" : "PBR"; restyleAll(); break;
-      case "steps": {
-        // 1-9 = 直选角色；0 = 第 10 只；档数用 [ / ]
-        if (typeof payload === "number" && payload >= 1 && payload <= 9) {
-          onSwapInput(payload - 1);
-        }
-        break;
-      }
+      // 数字键直选角色统一由下方旁路监听处理（见 input.mjs 注释），此处不再有 "steps" 分支
     }
   },
 });
@@ -520,7 +546,8 @@ function restyleAll() {
     ow.traverse((c) => { if (c.isMesh) { c.userData.__npr = false; c.userData.__isOutline = false; } });
     if (mode === "NPR") applyNpr(ow, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.016, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
   }
-  hud.set({ mode, steps });
+  // 模式/档数不再写入 HUD：#hud-mode / #hud-steps 元素已随美术圣经重做移除，
+  //   数值仍可经 window.__npr.getMode()/getSteps() 读取（见 §4.1 色调分离档数）
 }
 
 // ---------- 相机拖动 ----------
@@ -719,6 +746,9 @@ function tick() {
       combo: battle.comboCount,
       canAttack: !frozen,
       canDodge: !frozen,
+      // 接力键是否真的可换：需有下一只存活角色，且（非连携换人有 2s 冷却，除非连携窗口已开）
+      //   修：canSwap 此前全仓库无写入方 → 恒为 true → 接力键常亮（假引导）
+      canSwap: squad.nextAlive() !== null && (squad.swapCooldown <= 0 || squad.canChain),
       chainReady: squad.canChain,
       counterWarning: counter.isWarning,
       shellName: active.name,
@@ -727,7 +757,23 @@ function tick() {
     });
   }
 
-  postfx.render(rawDt);
+  // 主场景渲染频率（2026-11-11 性能治理）
+  //   原实现是**无条件** postfx.render(rawDt) —— 标题页被视频背景完全盖住、选人页由
+  //   live3d 实时 3D 覆盖，却仍在全速渲染整条 3D 街道场景（344 draw call / 126,602 三角面）。
+  //   现按界面降频；切屏时立即补一帧，避免首帧空白。
+  const screenNow = screens?.current ?? "title";
+  let renderEvery = 1;
+  if (!inBattle) {
+    if (screenNow === "title") renderEvery = 6;                 // 视频背景全遮挡
+    else if (screenNow === "select" || screenNow === "settings") renderEvery = 3;  // live3d / 面板覆盖
+    else renderEvery = 2;                                      // 结算页：玻璃面板后仍透出场景
+  }
+  if (screenNow !== lastRenderScreen) {
+    lastRenderScreen = screenNow;
+    renderPhase = 0;   // 切屏：下一帧就渲染
+  }
+  renderPhase++;
+  if (renderPhase % renderEvery === 0) postfx.render(rawDt);
 }
 
 window.addEventListener("resize", () => {
@@ -740,10 +786,16 @@ window.addEventListener("resize", () => {
 // ---------- 流程控制 ----------
 let inBattle = false;
 let battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
+// 渲染降频控制（见 tick 末尾）
+let lastRenderScreen = "";
+let renderPhase = 0;
 
 function startBattle(memberIndex) {
   inBattle = true;
   input.setEnabled(true);   // UI-1：进战斗恢复输入
+  // 兜底：正常路径已在「进入选人页」时触发加载；这里再调一次（幂等）防止直接开战时模型未到
+  ensureSquadModels();
+  ensureOpponentModel();
   // GAME-2：重置全队 hp/alive（Squad 为模块级单例跨局持久，不重置则选中阵亡角色 0 血开局、全灭判负无法解除）
   for (const m of squad.members) { m.hp = m.maxHp; m.alive = true; }
   // GAME-2：传入索引做范围校验（重置后全员存活；非法/越界回退 0，校验口径参照 squad.swapTo）
@@ -763,7 +815,6 @@ function startBattle(memberIndex) {
   const og = scene.getObjectByName("opponent");
   if (og) og.visible = true;
   // 重置战斗状态
-  battle.timer = TUNING.roundTotalS;
   battle.grids = 0;
   battle.comboCount = 0;
   battle.hitCount = 0;   // GAME-6：清连段命中数
@@ -779,7 +830,7 @@ function startBattle(memberIndex) {
   screens.show("battle");
   audio.playBgm("battle");
   audio.playConfirm();
-  hud.set({ mode, steps, shellName: SQUAD[memberIndex].name, shellIndex: memberIndex, shellTotal: SQUAD.length });
+  hud.set({ shellName: SQUAD[memberIndex].name, shellIndex: memberIndex, shellTotal: SQUAD.length });
   screens.toast(`${SQUAD[memberIndex].name} 出战！`);
 }
 
@@ -831,7 +882,7 @@ function _flashOpponentRed() {
 // 初始化
 syncActiveVisibility();
 initTitleFX(); // 主界面立绘 + 粒子（异步）
-hud.set({ mode, steps, shellName: SQUAD[0].name, shellIndex: 0, shellTotal: SQUAD.length });
+hud.set({ shellName: SQUAD[0].name, shellIndex: 0, shellTotal: SQUAD.length });
 
 window.__npr = {
   setMode: (m) => { mode = m; restyleAll(); },
@@ -844,6 +895,9 @@ window.__npr = {
   get screens() { return screens; },
   // 立绘生成器惰性加载：保持「调用即得 Promise」的对外语义（scripts/render-portraits.mjs 依赖 await）
   makePortrait: (...args) => import("./ui/portrait.mjs").then((m) => m.makePortrait(...args)),
+  // 16 只队员 + 对手模型的延迟加载入口（幂等）：E2E 用例可直接触发，不必先进选人页
+  loadModels: () => { ensureSquadModels(); ensureOpponentModel(); },
+  modelsRequested: () => squadModelsRequested,
   getBattleStats: () => battleStats,   // 供测试/结算读取
 };
 

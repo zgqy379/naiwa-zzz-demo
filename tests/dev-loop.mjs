@@ -14,12 +14,15 @@
  * 设计目标：每次改动都能快速验证，不靠"看着说好看"
  */
 import { spawn, execSync } from "node:child_process";
-import { writeFile, readFile } from "node:fs/promises";
+import { writeFile, readFile, stat } from "node:fs/promises";
 import { existsSync as exists } from "node:fs";
 
 const ROOT = "E:/naiwa-zzz";
 const EGO = "C:/Users/dqy/.local/share/ego/active_version_dir/ego-browser.exe";
 const PORT = 5274;
+// 开发循环的构建产物目录：与 run-e2e.mjs 一致隔离到临时目录，**不写 dist/**
+// （AGENTS.md §4：dist/ 是唯一正式构建产物，多线并发时不得由开发循环覆盖）
+const TMP_OUT = ".tmp-dist-devloop";
 
 function log(msg) { console.log(`[loop] ${msg}`); }
 
@@ -75,20 +78,22 @@ async function main() {
   console.log(`\n========== 开发循环 · 第 ${round} 轮 ==========\n`);
 
   // ---- 1. 构建 ----
+  // 修（AGENTS.md §4「dist/ 唯一构建权」）：原先这里直接 `vite build`（默认 outDir=dist），
+  //   会把开发循环的产物写进正式 dist/，与登记构建互相覆盖。现改为构建到独立临时目录。
   log("1/4 构建...");
-  const build = await run("node node_modules/vite/bin/vite.js build");
+  const build = await run(`node node_modules/vite/bin/vite.js build --outDir ${TMP_OUT}`);
   if (build.code !== 0) {
     console.error("❌ 构建失败:", build.err.slice(-400));
     state.history.push({ round, phase: "build", status: "fail", err: build.err.slice(-200) });
     await writeFile(statePath, JSON.stringify(state, null, 2));
     process.exit(1);
   }
-  log("   构建成功");
+  log("   构建成功 -> " + TMP_OUT);
 
   // ---- 2. 启动 + 测试 ----
   await killPort();
   log("2/4 启动服务器...");
-  const preview = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--host", "127.0.0.1"], {
+  const preview = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--outDir", TMP_OUT, "--port", String(PORT), "--host", "127.0.0.1"], {
     cwd: ROOT, detached: true, stdio: "ignore",
   });
   preview.unref();
@@ -101,12 +106,21 @@ async function main() {
 
   log("3/4 运行测试...");
   const testScript = `${ROOT}/tests/run-game-test.mjs`;
+  // 记录本轮起始时刻：只有**本轮内**写出的报告才可信（否则会读到上一次遗留的旧报告）
+  const runStartMs = Date.now();
   const test = await run(`"${EGO}" nodejs -e "await import('file:///${testScript.replace(/\\/g, "/")}')"`, { timeout: 300000 });
 
   // ---- 3. 读报告 ----
   let report = null;
+  let reportFresh = false;
   try {
-    report = JSON.parse(await readFile(`${ROOT}/docs/test-report.json`, "utf8"));
+    const reportPath = `${ROOT}/docs/test-report.json`;
+    report = JSON.parse(await readFile(reportPath, "utf8"));
+    const st = await stat(reportPath);
+    reportFresh = st.mtimeMs >= runStartMs;
+    if (!reportFresh) {
+      console.warn("⚠ 报告未在本轮更新（旧证据保留在盘上），本轮结果按 pending 处理");
+    }
   } catch {}
 
   // ---- 4. 诊断 ----
@@ -172,7 +186,8 @@ async function main() {
   }
 
   console.log("\n========== 循环结束 ==========\n");
-  process.exit(failures.length === 0 ? 0 : 1);
+  // 报告陈旧/缺失 → 不能判绿（与 run-e2e.mjs 同一口径：旧证据不算本轮结果）
+  process.exit(!reportFresh ? 1 : failures.length === 0 ? 0 : 1);
 }
 
 main().catch((e) => { console.error("循环失败:", e); process.exit(1); });

@@ -165,7 +165,9 @@ export async function runAllTests(page) {
   }, { shot: "05-result" });
 
   await t.case("返回主界面", async () => {
-    await evalPage(() => document.querySelector('[data-action="back-title"]')?.click());
+    // 限定作用域到结算屏：index.html 里「返回」按钮有 3 个（选人屏 / 结算屏 / 设置屏），
+    //   无作用域的 querySelector 会命中 DOM 顺序第一个（选人屏的），点到的不是结算屏那个。
+    await evalPage(() => document.querySelector('#screen-result [data-action="back-title"]')?.click());
     await page.waitForTimeout(600);
     const v = await evalPage(() => ({
       titleVisible: !document.getElementById("screen-title")?.classList.contains("hidden"),
@@ -180,6 +182,9 @@ export async function runAllTests(page) {
   t.group("角色");
 
   await t.case("16 只角色全部加载", async () => {
+    // 2026-11-11 起 16 只 GLB 改为**延迟加载**（首次进入选人页才发起，约 4.98MB，
+    //   标题页用不到）→ 本用例显式触发加载，不依赖页面路径
+    await evalPage(() => window.__npr?.loadModels?.());
     // 等待所有角色加载完成（GLB 异步加载，最多等 8 秒）
     for (let i = 0; i < 16; i++) {
       await page.waitForTimeout(500);

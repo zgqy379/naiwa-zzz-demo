@@ -29,7 +29,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 透明底立绘落在项目根目录的 .ego-tmp-alpha-<id>.png
 ALPHA_GLOB = ".ego-tmp-alpha-%s.png"
 OUT_EVIDENCE = os.path.join(ROOT, "docs", "evidence", "family-roster.png")
-OUT_PUBLIC = os.path.join(ROOT, "public", "portrait", "family-roster.png")
+# 2026-11-11：静态立绘批次已从 public/ 移出（运行期零引用，整包拷贝进 dist 会多带 3.77MB 死重），
+#   改存 docs/evidence/portrait-static/ 作为过程留档。
+OUT_PUBLIC = os.path.join(ROOT, "docs", "evidence", "portrait-static", "family-roster.png")
 
 W, H = 1920, 1080
 
