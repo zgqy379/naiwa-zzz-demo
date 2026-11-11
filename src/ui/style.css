@@ -233,6 +233,21 @@ html, body {
   to   { filter: hue-rotate(360deg); }
 }
 
+/* 支援点 3 格（阶段 B：绝区零式金格——弹反花 1、连携/终结技回复） */
+.assist-pips { display: flex; gap: 4px; margin-top: 8px; justify-content: flex-start; }
+.assist-cell {
+  width: 26px; height: 9px;
+  background: rgba(255,255,255,.10);
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,.18);
+  transition: all .12s;
+}
+.assist-cell.on {
+  background: linear-gradient(90deg, #f5d98a, #ffd93d);
+  border-color: #ffe97a;
+  box-shadow: 0 0 12px rgba(255,217,61,.68);
+}
+
 .chain-chip {
   display: inline-block; margin-top: 9px;
   font-size: 12px; font-weight: 800;

@@ -24,6 +24,7 @@ import { ProceduralAnim, ACTION } from "./game/animation.mjs";
 import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
 import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
+import { AssistSystem, ASSIST_TUNING } from "./game/assist.mjs";
 import { Squad, SQUAD } from "./game/squad.mjs";
 import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } from "./game/moves.mjs";
 import { InputManager } from "./game/input.mjs";
@@ -384,6 +385,8 @@ const combo = new ComboSystem();
 const counter = new CounterSystem();
 // 失衡系统（阶段 A·绝区零对标）：黄条 → 眩晕 → 易伤爆发，循环心脏
 const stagger = new StaggerSystem();
+// 支援系统（阶段 B）：3 格支援点（弹反花 1 / 连携·终结技回）+ 闪避反击资格窗
+const assist = new AssistSystem();
 const cinematic = new Cinematic(camera, TUNING);
 // 相机装备（行业标准 camera-controls：碰撞 + 平滑，解决穿墙/镜头不稳）
 const camRig = new CameraRig(camera, canvas);
@@ -500,8 +503,32 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
  *   - 在连段中：沿用原有逻辑立即推进下一段（终结段走带前摇的定时命中），
  *     同时蓄力继续计时——按住不放即可在连段后追加一记蓄力终结
  */
+// 阶段 B：闪避反击（绝区零式）——极限闪避后 1.5s 内攻击输入 = 瞬发重击
+function doDodgeCounter() {
+  assist.dodgeCounterT = 0;
+  const active = squad.active;
+  const mv = getMove(active.id);
+  const oppStyle = getMove(opponentMember.id).style;
+  const rel = styleRelation(mv.style, oppStyle);
+  const inRange = opponentGroup.position.distanceTo(active.group.position) <= mv.hitbox.range + 0.6;
+  if (inRange) {
+    const { dmg } = computeHitDamage(18 * active.damageMul * mv.impact.strength, active, mv, oppStyle);
+    battle.hitCount++;
+    applyDamage(dmg, "heavy", STAGGER_TUNING.gains.dodgeCounter * (rel === "counter" ? 1.25 : 1), rel === "counter" ? STYLE_LABEL.counter : null);
+  }
+  active.anim.play(ACTION.ATTACK_3, mv.comboTiming[2]);
+  cinematic.onHit("heavy");
+  cinematic.setFocus(opponentGroup.position);
+  audio.playHit("heavy");
+}
+
 function onAttackInput() {
   if (battle.phase !== "playing") return;
+  // 阶段 B：闪避反击资格期内攻击输入 = 闪避反击（瞬发重击，不进连段）
+  if (assist.canDodgeCounter) {
+    doDodgeCounter();
+    return;
+  }
   charging = true;
   chargeT = 0;
   chargeStartMs = performance.now();
@@ -604,8 +631,8 @@ let attackFiredOnPress = false;   // 本次按下是否已经出招（连段分�
 
 function onDodgeInput() {
   if (battle.phase !== "playing") return;
-  // 弹反优先
-  if (counter.isWarning) {
+  // 弹反优先（阶段 B：消耗 1 支援点；无点时自动落为普通闪避 → 掐准时刻即极限闪避）
+  if (counter.isWarning && assist.canParry) {
     const r = counter.tryCounter();
     if (r) {
       // 修：弹反成功不做位移（原代码先置 dodgeRequested 再弹反，导致成功后仍后撤）
@@ -791,21 +818,36 @@ function tick() {
     // 弹反窗口：先判定受击，再推进 counter（修：原顺序会让 expire 吞掉攻击）
     if (counter.isWarning && battle.oppAttackWindup > 0) {
       battle.oppAttackWindup -= dt;
-      if (battle.oppAttackWindup <= 0 && !active.move.hasIframe) {
-        // 未弹反 → 受击。伤害随对手招式强度浮动，并受招式克制影响
-        //   （对手的风格克当前角色的风格 → 伤害更高；被克 → 更低）
-        const oppMv = getMove(opponentMember.id);
-        const rel = styleRelation(oppMv.style, getMove(active.id).style);
-        const dmgToPlayer = Math.round(10 * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
-        squad.damageActive(dmgToPlayer);
-        active.anim.play(ACTION.HIT, 0.22);
-        cinematic.onHit("medium");
-        counter.expire();   // 显式结束窗口
+      if (battle.oppAttackWindup <= 0) {
+        if (active.move.hasIframe) {
+          // 阶段 B：极限闪避（绝区零式）——攻击落地瞬间玩家闪避无敌帧仍生效
+          //   三重收益：慢镜 ×0.3 0.5s +「极限闪避！」弹出 + 闪避反击资格 1.5s
+          assist.dodgeCounterT = ASSIST_TUNING.dodgeCounterS;
+          cinematic.slowmoT = Math.max(cinematic.slowmoT, 0.5);
+          hitFeedback.trigger(
+            new THREE.Vector3(active.group.position.x, 1.2, active.group.position.z),
+            "heavy", camera, "极限闪避！"
+          );
+          audio.playCounter();
+          counter.expire();   // 攻击已落空，结束弹反窗
+        } else {
+          // 未弹反未闪避 → 受击。伤害随对手招式强度浮动，并受招式克制影响
+          //   （对手的风格克当前角色的风格 → 伤害更高；被克 → 更低）
+          const oppMv = getMove(opponentMember.id);
+          const rel = styleRelation(oppMv.style, getMove(active.id).style);
+          const dmgToPlayer = Math.round(10 * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
+          squad.damageActive(dmgToPlayer);
+          active.anim.play(ACTION.HIT, 0.22);
+          cinematic.onHit("medium");
+          counter.expire();   // 显式结束窗口
+        }
       }
     }
     counter.step(dt);
     // 阶段 A：失衡计时（与 counter 同一帧域：仅战斗运行、按 scaled dt 推进）
     stagger.step(dt);
+    // 阶段 B：闪避反击资格窗计时
+    assist.step(dt);
 
     // 连段推进
     const hit = combo.step(dt);
@@ -953,6 +995,7 @@ function tick() {
       grids: battle.grids,
       daze: stagger.pct * 100,        // 阶段 A：失衡黄条（0~100）
       staggered: stagger.isStaggered, // 满条闪烁态
+      assist: assist.points,          // 阶段 B：支援点 3 格
       combo: battle.comboCount,
       canAttack: !frozen,
       canDodge: !frozen,
@@ -1036,6 +1079,7 @@ function startBattle(memberIndex) {
   combo.cancel();
   counter.state = "idle";
   stagger.reset();   // 阶段 A：开战清失衡
+  assist.reset();    // 阶段 B：支援点回满 3
   opponent.hp = opponent.maxHp;
   battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
   // 界面切换
@@ -1180,6 +1224,9 @@ window.__npr = {
     state: stagger.state, timer: +stagger.timer.toFixed(2), staggered: stagger.isStaggered,
   }),
   addDaze: (n) => { stagger.gain(n); },
+  // 阶段 B 调试口：支援点读取/注入（E2E 用）
+  assistState: () => ({ points: assist.points, dodgeCounterT: +assist.dodgeCounterT.toFixed(2) }),
+  setAssist: (n) => { assist.points = Math.max(0, Math.min(3, n | 0)); },
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },

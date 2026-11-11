@@ -78,6 +78,9 @@ export class Hud {
           <span class="shell-sep">·</span>
           <span id="hud-shell-idx">1/16</span>
         </div>
+        <div class="assist-pips" id="hud-assist">
+          <span class="assist-cell"></span><span class="assist-cell"></span><span class="assist-cell"></span>
+        </div>
       </div>
 
       <div class="hud-right">
@@ -111,7 +114,7 @@ export class Hud {
     // 注意：#hud-mode / #hud-steps 两个元素在美术圣经重做时已被移除（调参信息移出玩家视野），
     //   原先仍留在 ids 列表里 → this.el.mode / this.el.steps 恒为 null，_apply 里对应分支
     //   是永不执行的死代码。现已从列表移除，mode/steps 仍可经 window.__npr.getMode()/getSteps() 读取。
-    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "daze-fill", "daze-label", "daze-wrap", "chain", "counter",
+    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "daze-fill", "daze-label", "daze-wrap", "assist", "chain", "counter",
                  "shell-name", "shell-idx", "round", "charge", "charge-fill", "charge-text",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
     for (const id of ids) {
@@ -203,6 +206,16 @@ export class Hud {
     if (this.el["daze-wrap"]) {
       this._put("staggered", !!s.staggered, () => {
         this.el["daze-wrap"].classList.toggle("staggered", !!s.staggered);
+      });
+    }
+
+    // 支援点 3 格（阶段 B：ZZZ 支援按钮样式——弹反消耗、连携/终结技回复）
+    if (this.el.assist) {
+      const n = Math.round(Math.max(0, Math.min(3, s.assist ?? 0)));
+      this._put("assist", n, () => {
+        this.el.assist.querySelectorAll(".assist-cell").forEach((c, i) => {
+          c.classList.toggle("on", i < n);
+        });
       });
     }
 
