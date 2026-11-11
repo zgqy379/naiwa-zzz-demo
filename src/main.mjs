@@ -23,6 +23,7 @@ import { Movement } from "./game/movement.mjs";
 import { ProceduralAnim, ACTION } from "./game/animation.mjs";
 import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
+import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
 import { Squad, SQUAD } from "./game/squad.mjs";
 import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } from "./game/moves.mjs";
 import { InputManager } from "./game/input.mjs";
@@ -381,6 +382,8 @@ function prefetchOpponentModel(memberIndex) {
 // ---------- 战斗系统 ----------
 const combo = new ComboSystem();
 const counter = new CounterSystem();
+// 失衡系统（阶段 A·绝区零对标）：黄条 → 眩晕 → 易伤爆发，循环心脏
+const stagger = new StaggerSystem();
 const cinematic = new Cinematic(camera, TUNING);
 // 相机装备（行业标准 camera-controls：碰撞 + 平滑，解决穿墙/镜头不稳）
 const camRig = new CameraRig(camera, canvas);
@@ -430,7 +433,7 @@ function spawnParticles(pos, tier) {
  * 结算一次命中。
  * @param {number} dmg 伤害
  * @param {string} tier light|medium|heavy|ultimate
- * @param {number} gridGain 失衡格
+ * @param {number} dazeGain 失衡积累（阶段 A：行为基础值×克制乘区已由调用方乘好；0 = 不积累）
  * @param {string|null} relationLabel 招式克制提示词（克制！/抵抗），为空则不显示
  */
 /**
@@ -441,14 +444,16 @@ function spawnParticles(pos, tier) {
 function computeHitDamage(base, member, mv, defenderStyle) {
   const rel = styleRelation(mv.style, defenderStyle);
   return {
-    dmg: Math.round(base * member.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]),
+    // 失衡易伤（阶段 A）：眩晕期受伤 ×1.5——与「测的就是打的」口径一致，
+    // damagePreview 走同一函数，未眩晕时 ×1 不影响既有 E2E 断言
+    dmg: Math.round(base * member.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]
+      * (stagger.isStaggered ? STAGGER_TUNING.vulnMul : 1)),
     rel,
   };
 }
 
-function applyDamage(dmg, tier, gridGain = 1, relationLabel = null) {
+function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   opponent.hp = Math.max(0, opponent.hp - dmg);
-  battle.grids = Math.min(TUNING.balanceGrids, battle.grids + gridGain);
   cinematic.onHit(tier);
   // 顿帧：读 TUNING.hitstopF（修：原代码写死固定值，忽略调参）
   const hitstopF = tier === "ultimate" ? TUNING.hitstopFFinisher
@@ -473,17 +478,16 @@ function applyDamage(dmg, tier, gridGain = 1, relationLabel = null) {
     battleStats.damageDealt += dmg;
     battleStats.maxCombo = Math.max(battleStats.maxCombo, battle.hitCount);   // GAME-6：最大连击取连段命中数（原读 comboCount 会被命中分支覆盖逻辑抹回 1）
   }
-  if (battle.grids >= TUNING.balanceGrids) {
-    // 「换壳即换招」：连携演出用本角色的慢镜/推近/粒子参数
-    const mv = combo.currentMove ?? getMove(squad.active.id);
+  // 失衡积累（阶段 A）：伤害事件携带失衡值；克制/弱点乘区已由调用方乘好，这里只乘成员失衡系数
+  const wasStaggered = stagger.isStaggered;
+  if (dazeGain > 0) stagger.gain(dazeGain * (squad.active?.gridMul ?? 1));
+  if (!wasStaggered && stagger.isStaggered) {
+    // 失衡瞬间（绝区零式）：打断对手当前行动（前摇/弹反窗取消）+ 慢镜 + 横幅
+    battle.oppAttackWindup = 0;
+    counter.expire();
     cinematic.onChain();
-    cinematic.setFocus(opponentGroup.position);   // RENDER-2：连携慢镜焦点对准对手（原漏设，focusWeight=1 时相机看向停留旧值/原点的焦点）
-    cinematic.slowmoT = mv.chain.slowmo;
-    cinematic.orbitDur = mv.chain.slowmo;
-    cinematic.orbitT = mv.chain.slowmo;
-    battle.comboCount++;   // GAME-6：连携次数 +1（不再被命中分支覆盖）
-    squad.openChainWindow();   // GAME-1：失衡满 → 开启连携窗口（squad.mjs openChainWindow；修复 chainWindow 无写正值入口的连携链循环依赖死锁）
-    battle.grids = 0;
+    cinematic.setFocus(opponentGroup.position);   // 焦点对准对手（同 RENDER-2 口径）
+    screens.toast("失衡！");
     audio.playChain();
   }
 }
@@ -523,6 +527,7 @@ function onAttackInput() {
       width: mv.hitbox.width,
       member: active,
       relation: null,
+      charged: false,   // 三段终结（非蓄力）：失衡积累取 heavy 档
     };
     combo.cancel();   // 终结技替换第三段判定（防过 hitAt 后 24+30 双重结算）
     return;
@@ -577,6 +582,7 @@ function ultimateAttack() {
     width: mv.hitbox.width + 0.6,
     member: active,
     relation: rel,
+    charged: true,   // 蓄力终结：失衡积累取 charged 档
   };
   active.anim.play(ACTION.FINISHER, mv.anim.windup * 1.6 + mv.anim.strike + mv.anim.recover);
   cinematic.onFinisher();
@@ -603,7 +609,9 @@ function onDodgeInput() {
     const r = counter.tryCounter();
     if (r) {
       // 修：弹反成功不做位移（原代码先置 dodgeRequested 再弹反，导致成功后仍后撤）
-      applyDamage(r.damage, "heavy", r.gridGain);
+      // 阶段 A：弹反惩罚击也吃招式克制乘区（失衡积累与伤害同一口径）
+      const relC = styleRelation(getMove(squad.active.id).style, getMove(opponentMember.id).style);
+      applyDamage(r.damage, "heavy", STAGGER_TUNING.gains.counter * (relC === "counter" ? 1.25 : 1));
       cinematic.onHit("heavy");
       cinematic.setFocus(opponentGroup.position);
       audio.playCounter();
@@ -635,7 +643,7 @@ function onSwapInput(index) {
     const inRangeSwap = opponentGroup.position.distanceTo(res.to.group.position) <= mvTo.hitbox.range;
     const inWidthSwap = Math.abs(res.to.group.position.z - opponentGroup.position.z) <= mvTo.hitbox.width / 2;
     if (inRangeSwap && inWidthSwap) {
-      applyDamage(Math.round(12 * res.to.damageMul), "medium", 1);
+      applyDamage(Math.round(12 * res.to.damageMul), "medium", STAGGER_TUNING.gains.swap);
     }
   }
 }
@@ -754,10 +762,12 @@ function tick() {
     // 速度特性
     active.move.walkSpeed = TUNING.playerSpeed * active.speedMul;
 
-    // 对手 AI
+    // 对手 AI（阶段 A：失衡期间定身——不追击、不攻击；dist 仍需计算供命中判定）
     const toPlayer = new THREE.Vector3().subVectors(active.group.position, opponentGroup.position);
     const dist = toPlayer.length();
-    if (dist > 2.4) {
+    if (stagger.isStaggered) {
+      battle.oppAttackWindup = 0;
+    } else if (dist > 2.4) {
       // 对手只沿 X 方向追击（保持街道轴线，不乱跑 Z）
       const dirX = Math.sign(toPlayer.x) || 0;
       opponentMove.step({ move: new THREE.Vector2(dirX, 0), jump: false, dodge: false }, dt);
@@ -794,6 +804,8 @@ function tick() {
       }
     }
     counter.step(dt);
+    // 阶段 A：失衡计时（与 counter 同一帧域：仅战斗运行、按 scaled dt 推进）
+    stagger.step(dt);
 
     // 连段推进
     const hit = combo.step(dt);
@@ -812,7 +824,11 @@ function tick() {
         const oppMove = getMove(opponentMember.id);
         const { dmg, rel } = computeHitDamage(hit.damage, active, mv, oppMove.style);
         battle.hitCount++;   // GAME-6：连段命中数段间递增（先自增再结算，供 applyDamage 内 maxCombo 采样）
-        applyDamage(dmg, hit.finisher ? "ultimate" : hit.shake, hit.gridGain, STYLE_LABEL[rel] || null);
+        // 阶段 A：失衡积累按段位取表（轻6/中9/重16），克制命中积累 ×1.25（与伤害倍率同系数）
+        const dazeBase = hit.stage === 0 ? STAGGER_TUNING.gains.light
+          : hit.stage === 1 ? STAGGER_TUNING.gains.medium
+          : STAGGER_TUNING.gains.heavy;
+        applyDamage(dmg, hit.finisher ? "ultimate" : hit.shake, dazeBase * (rel === "counter" ? 1.25 : 1), STYLE_LABEL[rel] || null);
         // GAME-6：原此处 battle.comboCount = combo.comboCount 无条件覆盖已删（同帧抹回连携计数）
         // RENDER-3：原此处重复 impactFx.hit 已删（applyDamage→spawnParticles 已按同位置同档生成一次）
       }
@@ -837,7 +853,8 @@ function tick() {
         const fInRange = opponentGroup.position.distanceTo(fp.member.group.position) <= fp.range;
         const fInWidth = Math.abs(fp.member.group.position.z - opponentGroup.position.z) <= fp.width / 2;
         if (fInRange && fInWidth) {
-          applyDamage(fp.dmg, "ultimate", 3, fp.relation ? (STYLE_LABEL[fp.relation] || null) : null);
+          // 阶段 A：蓄力终结/三段终结分档积累失衡（charged 标记见 onAttackInput/ultimateAttack）
+          applyDamage(fp.dmg, "ultimate", fp.charged ? STAGGER_TUNING.gains.charged : STAGGER_TUNING.gains.heavy, fp.relation ? (STYLE_LABEL[fp.relation] || null) : null);
         }
       }
     }
@@ -873,6 +890,10 @@ function tick() {
   const animDt = frozen ? 0 : dt;
   active.anim.step(animDt);
   opponentAnim.step(animDt);
+  // 阶段 A：失衡姿态接管——受击动画播完后保持瘫软摇摆（仅战斗中；受击 HIT 动画优先播完）
+  if (inBattle && stagger.isStaggered && opponentAnim.action !== ACTION.STAGGER && !opponentAnim.isAttacking) {
+    opponentAnim.play(ACTION.STAGGER, Math.max(0.5, stagger.timer));
+  }
 
   // 假阴影跟随
   updateShadowBlob(playerShadow, active.group.position, active.scale ?? 1);
@@ -930,6 +951,8 @@ function tick() {
       oppHp: (opponent.hp / opponent.maxHp) * 100,
       oppHpRaw: opponent.hp,   // UI-2：对手数字显绝对血量值（hud.mjs 优先读它；血条仍用 oppHp 百分比口径）
       grids: battle.grids,
+      daze: stagger.pct * 100,        // 阶段 A：失衡黄条（0~100）
+      staggered: stagger.isStaggered, // 满条闪烁态
       combo: battle.comboCount,
       canAttack: !frozen,
       canDodge: !frozen,
@@ -1012,6 +1035,7 @@ function startBattle(memberIndex) {
   battle.oppTimer = 0;
   combo.cancel();
   counter.state = "idle";
+  stagger.reset();   // 阶段 A：开战清失衡
   opponent.hp = opponent.maxHp;
   battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
   // 界面切换
@@ -1070,6 +1094,7 @@ function advanceRound() {
   battle.oppAttackCd = 3.0;
   combo.cancel();
   counter.state = "idle";
+  stagger.reset();   // 阶段 A：换回合清失衡（阈值抗性成长随之归零）
   chargeT = 0;
   charged = false;
   charging = false;
@@ -1148,6 +1173,13 @@ window.__npr = {
   getMode: () => mode,
   getSteps: () => steps,
   battle, combo, counter, squad, opponent, opponentAnim, scene, camera, renderer, stage, postfx,
+  stagger,
+  // 阶段 A 调试口：失衡状态读取与测试注入（E2E 用）
+  staggerState: () => ({
+    value: +stagger.value.toFixed(1), threshold: stagger.threshold,
+    state: stagger.state, timer: +stagger.timer.toFixed(2), staggered: stagger.isStaggered,
+  }),
+  addDaze: (n) => { stagger.gain(n); },
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },

@@ -21,7 +21,9 @@ export class Hud {
       elapsed: 0,
       shellIndex: 0,
       shellTotal: 16,
-      grids: 0, // 失衡格
+      grids: 0, // 失衡格（阶段 A 起由 daze/staggered 取代，字段保留兼容旧探针）
+      daze: 0,        // 失衡条 0~100（绝区零式黄条）
+      staggered: false, // 是否处于失衡状态（满条闪烁 + 对手定身）
       combo: 0,
       hp: 100,
       oppHp: 100, // 对手血条百分比口径（0–100，main.mjs 每帧按 (hp/maxHp)*100 写入）
@@ -81,8 +83,9 @@ export class Hud {
       <div class="hud-right">
         <div class="bar-label">对手 <span class="bar-num" id="hud-opp-num">100</span></div>
         <div class="bar opp-bar"><div class="bar-fill" id="hud-opp" style="width:100%"></div></div>
-        <div class="grids" id="hud-grids">
-          <div class="grid"></div><div class="grid"></div><div class="grid"></div>
+        <div class="daze-wrap" id="hud-daze-wrap">
+          <span class="daze-label" id="hud-daze-label">失衡</span>
+          <div class="daze-bar"><div class="daze-fill" id="hud-daze-fill"></div></div>
         </div>
         <div class="chain-chip" id="hud-chain">连携 0/3</div>
       </div>
@@ -108,13 +111,12 @@ export class Hud {
     // 注意：#hud-mode / #hud-steps 两个元素在美术圣经重做时已被移除（调参信息移出玩家视野），
     //   原先仍留在 ids 列表里 → this.el.mode / this.el.steps 恒为 null，_apply 里对应分支
     //   是永不执行的死代码。现已从列表移除，mode/steps 仍可经 window.__npr.getMode()/getSteps() 读取。
-    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "grids", "chain", "counter",
+    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "daze-fill", "daze-label", "daze-wrap", "chain", "counter",
                  "shell-name", "shell-idx", "round", "charge", "charge-fill", "charge-text",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
     for (const id of ids) {
       this.el[id] = this.root.querySelector(`#hud-${id}`);
     }
-    this.el.gridCells = Array.from(this.root.querySelectorAll("#hud-grids .grid"));
 
     // 脏值缓存：HUD 每帧被 set() 调用一次，_apply 原本无差别写 ~18 个 DOM 节点
     //   （textContent / style.width / classList.toggle），即使值没变也会触发样式重算。
@@ -191,12 +193,16 @@ export class Hud {
       this._put("shell-idx", v, () => { this.el["shell-idx"].textContent = v; });
     }
 
-    // 失衡格
-    if (this.el.gridCells) {
-      this._put("grids", s.grids, () => {
-        this.el.gridCells.forEach((cell, i) => {
-          cell.classList.toggle("on", i < s.grids);
-        });
+    // 失衡条（绝区零式黄条：积累期白→黄，失衡态变彩闪烁）
+    if (this.el["daze-fill"]) {
+      const pct = Math.round(Math.max(0, Math.min(100, s.daze ?? 0)));
+      this._put("daze", pct, () => {
+        this.el["daze-fill"].style.width = `${pct}%`;
+      });
+    }
+    if (this.el["daze-wrap"]) {
+      this._put("staggered", !!s.staggered, () => {
+        this.el["daze-wrap"].classList.toggle("staggered", !!s.staggered);
       });
     }
 

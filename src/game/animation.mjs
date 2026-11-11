@@ -24,6 +24,7 @@ export const ACTION = {
   HIT: "hit",
   DODGE: "dodge",
   FINISHER: "finisher",
+  STAGGER: "stagger",   // 失衡瘫软（阶段 A 新增；仅对手播放，玩家不进此动作）
 };
 
 /** 动作时长（秒）—— 调校：更干脆，不拖节奏 */
@@ -115,6 +116,7 @@ export class ProceduralAnim {
       case ACTION.FINISHER: this._finisher(dt); break;
       case ACTION.HIT: this._hit(dt); break;
       case ACTION.DODGE: this._dodge(dt); break;
+      case ACTION.STAGGER: this._stagger(dt); break;
     }
   }
 
@@ -337,6 +339,20 @@ export class ProceduralAnim {
       this.baseScale.x * (1 + 0.15 * Math.sin(t * Math.PI)),
       this.baseScale.y * (1 - 0.1 * Math.sin(t * Math.PI)),
       this.baseScale.z
+    );
+  }
+
+  _stagger(dt) {
+    // 失衡瘫软（绝区零式）：0.3s 下沉入场 → 后仰瘫软 + 缓慢摇摆
+    //   摇摆基于 idlePhase（不随 actionT 归零重启，重复 play 不会跳变）
+    const ease = 1 - Math.min(1, this.actionT / 0.3);
+    this.inner.rotation.x = -0.32 * ease - 0.05;
+    this.inner.position.y = -0.06 * ease;
+    this.inner.rotation.z = Math.sin(this.idlePhase * 1.4) * 0.07;
+    this.inner.scale.set(
+      this.baseScale.x * (1 + 0.06 * ease),
+      this.baseScale.y * (1 - 0.1 * ease),
+      this.baseScale.z * (1 + 0.06 * ease)
     );
   }
 
