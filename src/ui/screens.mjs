@@ -266,13 +266,14 @@ export class ScreenManager {
     }
   }
 
-  /** 显示结算（含动态数字滚动 + 奖励卡片弹出） */
-  showResult({ win, grade, stats, rewards, rounds = [], roundsSummary = "" }) {
+  /** 显示结算（含动态数字滚动 + 奖励卡片弹出 + 多维评价条） */
+  showResult({ win, grade, stats, rewards, rounds = [], roundsSummary = "", dims = [], timeMult = null }) {
     const title = document.getElementById("result-title");
     const gradeEl = document.getElementById("result-grade");
     const statsEl = document.getElementById("result-stats");
     const rewardsEl = document.getElementById("result-rewards");
     const roundsEl = document.getElementById("result-rounds");
+    const dimsEl = document.getElementById("result-dims");
 
     if (title) {
       title.textContent = win ? "作战完成" : "作战失败";
@@ -286,6 +287,19 @@ export class ScreenManager {
            `).join("")
         : "";
       roundsEl.style.display = rounds.length ? "flex" : "none";
+    }
+    // 多维评价条（阶段 F：输出/连击/支援/用时 + 时间乘数）
+    if (dimsEl) {
+      dimsEl.innerHTML = (dims.length
+        ? `<div class="result-dims-head">评价${timeMult ? ` · 时间乘数 ×${timeMult.toFixed(1)}` : ""}</div>`
+          + dims.map((d) => `
+             <div class="result-dim">
+               <span class="rd-label">${d.label}</span>
+               <div class="rd-bar"><div class="rd-fill" style="width:${Math.max(0, Math.min(100, d.value))}%"></div></div>
+             </div>
+           `).join("")
+        : "");
+      dimsEl.style.display = dims.length ? "flex" : "none";
     }
     if (gradeEl) {
       gradeEl.textContent = grade;

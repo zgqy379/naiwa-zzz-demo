@@ -401,6 +401,7 @@ const anomaly = new AnomalySystem({
   },
   daze: (n) => stagger.gain(n),
   onStatus: (attr, name) => {
+    if (inBattle) battleStats.anomalies++;   // 阶段 F：异常触发计入结算
     screens.toast(`${ATTR[attr].name}异常 · ${name}！`);
     audio.playHit("medium");
   },
@@ -460,6 +461,8 @@ const battle = {
   decibel: 0,             // 阶段 D：喧响值 0-3000（只增不减；[极]=3000 解锁终结技）
   invulnT: 0,             // 阶段 D：喧响终结技释放期间无敌（realDt 计时，覆盖前摇+演出）
   weaknessAttr: null,     // 阶段 E：本回合对手弱点属性（physical|fire|ice|electric|ether）
+  enraged: false,         // 阶段 F：首领狂暴（回合3 且血量 <50%）
+  attackCount: 0,         // 阶段 F：狂暴期攻击计数（每 3 击一次红光不可弹反）
   phase: "idle",        // UI-1：初始非战斗（原 "playing" 使标题/选人界面防线全放行；startBattle 才置 playing）
 };
 
@@ -533,11 +536,13 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   opponentAnim.play(ACTION.HIT, 0.22);
   spawnParticles(opponentGroup.position, tier);
   // 白闪 + 拟声词（绝区零式打击反馈）；有克制关系时用自定义词顶替拟声词
+  //   阶段 F：失衡期命中 → 金色大字（易伤窗口的视觉强化）
   hitFeedback.trigger(
     new THREE.Vector3(opponentGroup.position.x, 1.2, opponentGroup.position.z),
     tier === "finisher" ? "ultimate" : tier,
     camera,
-    relationLabel
+    relationLabel,
+    stagger.isStaggered
   );
   // 音效 + 统计
   if (tier === "ultimate") audio.playFinisher();
@@ -810,6 +815,7 @@ function executeChainStrike(memberIdx, chipIndex) {
   }
   assist.refill(1);   // 连携 +1 支援点（ZZZ 循环咬合点：防御花资源、进攻回收资源）
   gainDecibel(300);   // 阶段 D：连携环 +300 喧响（高质量行为积累更快）
+  if (inBattle) battleStats.chains++;   // 阶段 F：连携计入结算
   audio.playChain();
   if (isFinisher) {
     hitFeedback.trigger(
@@ -839,10 +845,12 @@ function onDodgeInput() {
     closeChainQte();
     return;
   }
-  // 弹反优先（阶段 B：消耗 1 支援点；无点时自动落为普通闪避 → 掐准时刻即极限闪避）
-  if (counter.isWarning && assist.canParry) {
-    const r = counter.tryCounter();
-    if (r) {
+    // 弹反优先（阶段 B：消耗 1 支援点；无点时自动落为普通闪避 → 掐准时刻即极限闪避）
+    // 阶段 F：红光不可弹反攻击（counter.parryable=false）只能闪避
+    if (counter.isWarning && counter.parryable && assist.canParry) {
+      const r = counter.tryCounter();
+      if (r) {
+        assist.spend(1);   // 阶段 B：弹反消耗 1 支援点
       // 修：弹反成功不做位移（原代码先置 dodgeRequested 再弹反，导致成功后仍后撤）
       // 阶段 A：弹反惩罚击也吃招式克制乘区（失衡积累与伤害同一口径）
       const relC = styleRelation(getMove(squad.active.id).style, getMove(opponentMember.id).style);
@@ -1000,6 +1008,12 @@ function tick() {
   const battleRunning = inBattle && battle.phase === "playing";
 
   if (battleRunning && !frozen) {
+    // 阶段 F：首领狂暴（回合 3 且血量 <50% → 攻击 CD ×0.6 + 每 3 击一次红光不可弹反）
+    if (battle.round === battle.totalRounds - 1 && !battle.enraged && opponent.hp < opponent.maxHp * 0.5) {
+      battle.enraged = true;
+      screens.toast("对手狂暴！");
+      audio.playChain?.();
+    }
     // 活跃角色移动
     active.move.step({ move: updateMoveInput(), jump: false, dodge: dodgeRequested }, dt);
     dodgeRequested = false;
@@ -1020,14 +1034,16 @@ function tick() {
       opponentMove.pos.y = 0;
     } else {
       opponentMove.step({ move: new THREE.Vector2(0, 0), jump: false, dodge: false }, dt);
-      // 对手攻击前摇 → 弹反窗口
+      // 对手攻击前摇 → 弹反窗口（阶段 F：首领狂暴期每 3 击一次红光不可弹反攻击）
       battle.oppAttackCd -= dt;
       if (battle.oppAttackCd <= 0 && !counter.isWarning && !counter.isPunishing) {
-        battle.oppAttackCd = 4.0 + Math.random() * 2;
-        counter.openWindow();
+        battle.attackCount = (battle.attackCount ?? 0) + 1;
+        const unparryable = battle.enraged && battle.attackCount % 3 === 0;
+        battle.oppAttackCd = battle.enraged ? (4.0 + Math.random() * 2) * 0.6 : 4.0 + Math.random() * 2;
+        counter.openWindow(!unparryable);
         battle.oppAttackWindup = 0.25;
-        // 对手攻击预警：模型红闪 + 音效
-        _flashOpponentRed();
+        // 对手攻击预警：模型闪色（阶段 F：金光=可弹反 / 红光=不可弹反——ZZZ 分级预警）
+        _flashOpponent(unparryable ? 0xff3232 : 0xffc93d);
         audio.playCounter?.();
       }
     }
@@ -1058,6 +1074,7 @@ function tick() {
           const rel = styleRelation(oppMv.style, getMove(active.id).style);
           const dmgToPlayer = Math.round(10 * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
           squad.damageActive(dmgToPlayer);
+          battleStats.damageTaken += dmgToPlayer;   // 阶段 F：受击计入结算
           active.anim.play(ACTION.HIT, 0.22);
           cinematic.onHit("medium");
           counter.expire();   // 显式结束窗口
@@ -1243,6 +1260,7 @@ function tick() {
       canSwap: squad.nextAlive() !== null && (squad.swapCooldown <= 0 || squad.canChain),
       chainReady: squad.canChain,
       counterWarning: counter.isWarning,
+      counterParryable: counter.parryable,   // 阶段 F：金光=可弹反 / 红光=只能闪避
       shellName: active.name,
       shellIndex: squad.activeIndex,
       shellTotal: squad.members.length,
@@ -1279,7 +1297,7 @@ window.addEventListener("resize", () => {
 
 // ---------- 流程控制 ----------
 let inBattle = false;
-let battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
+let battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0, chains: 0, anomalies: 0, damageTaken: 0 };
 // 渲染降频控制（见 tick 末尾）
 let lastRenderScreen = "";
 let renderPhase = 0;
@@ -1319,6 +1337,8 @@ function startBattle(memberIndex) {
   counter.state = "idle";
   stagger.reset();   // 阶段 A：开战清失衡
   assist.reset();    // 阶段 B：支援点回满 3
+  battle.enraged = false;   // 阶段 F：清狂暴
+  battle.attackCount = 0;
   battle.chainCounts = 0;   // 阶段 C：清连携环数与 QTE
   battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
   battle.decibel = 0;       // 阶段 D：开战清喧响
@@ -1326,7 +1346,7 @@ function startBattle(memberIndex) {
   anomaly.reset();          // 阶段 E：清异常积蓄与状态
   battle.weaknessAttr = Object.keys(ATTR)[Math.floor(Math.random() * 5)];   // 阶段 E：本局对手弱点属性
   opponent.hp = opponent.maxHp;
-  battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
+  battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0, chains: 0, anomalies: 0, damageTaken: 0 };
   // 界面切换
   screens.show("battle");
   audio.playBgm("battle");
@@ -1388,6 +1408,8 @@ function advanceRound() {
   battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
   anomaly.reset();          // 阶段 E：换回合清异常积蓄与状态
   battle.weaknessAttr = Object.keys(ATTR)[Math.floor(Math.random() * 5)];   // 阶段 E：新对手重掷弱点
+  battle.enraged = false;   // 阶段 F：清狂暴（新对手重新计时）
+  battle.attackCount = 0;
   chargeT = 0;
   charged = false;
   charging = false;
@@ -1415,8 +1437,12 @@ function endBattle() {
     battle.roundResults.push({ name: opponentMember.name, won: false, move: getMove(opponentMember.id).moveName });
   }
   const wonRounds = battle.roundResults.filter((r) => r.won).length;
-  const score = battleStats.damageDealt + battleStats.maxCombo * 20 + battleStats.counters * 30 + wonRounds * 60;
-  const grade = !win ? "D" : score > 400 ? "S" : score > 250 ? "A" : score > 120 ? "B" : "C";
+  // 阶段 F：时间乘数（ZZZ ×5 起 15s 衰减的网页化：elapsed 0s → ×5，90s → ×2，≥120s → ×1）
+  const timeMult = Math.max(1, Math.min(5, 5 - battleStats.elapsed / 30));
+  const base = battleStats.damageDealt + battleStats.maxCombo * 20 + battleStats.counters * 30
+    + battleStats.chains * 40 + battleStats.anomalies * 30;
+  const score = Math.round(base * timeMult);
+  const grade = !win ? "D" : score > 3000 ? "S" : score > 1800 ? "A" : score > 800 ? "B" : "C";
   const rewards = win
     ? ["经验 ×120", "奶币 ×80", "材料 ×3"]
     : ["经验 ×40", "奶币 ×20"];
@@ -1426,9 +1452,16 @@ function endBattle() {
     stats: {
       "造成伤害": battleStats.damageDealt,
       "最大连击": battleStats.maxCombo,
-      "成功弹反": battleStats.counters,
-      "剩余血量": Math.round(squad.active.hp),
+      "连携·支援": battleStats.chains + battleStats.counters,
+      "受到伤害": battleStats.damageTaken,
     },
+    dims: [
+      { label: "输出", value: Math.min(100, Math.round(battleStats.damageDealt / 6)) },
+      { label: "连击", value: Math.min(100, battleStats.maxCombo * 8) },
+      { label: "支援", value: Math.min(100, battleStats.chains * 15 + battleStats.counters * 20) },
+      { label: "用时", value: Math.round(Math.max(0, Math.min(100, ((5 - timeMult) / 4) * 100))) },
+    ],
+    timeMult,
     rewards,
     rounds: battle.roundResults.map((r) => ({ name: r.name, move: r.move, won: r.won })),
     roundsSummary: `三连战 ${wonRounds}/${battle.totalRounds}`,
@@ -1436,15 +1469,14 @@ function endBattle() {
   audio.playBgm("title");
 }
 
-/** 对手攻击预警：模型红闪（0.15s） */
-function _flashOpponentRed() {
+/** 对手攻击预警：模型闪色（阶段 F：金光 0xffc93d=可弹反 / 红光 0xff3232=不可弹反，ZZZ 分级预警） */
+function _flashOpponent(color) {
   const mats = [];
   opponentGroup.traverse?.((c) => {
     if (c.isMesh && !c.userData.__isOutline && c.material?.emissive) mats.push(c.material);
   });
   for (const m of mats) {
-    // 美术圣经 §6：对手红闪洋红同源 0xff3d8b，禁第三方色
-    m.emissive.setHex(0xff3d8b);
+    m.emissive.setHex(color);
     m.emissiveIntensity = 0.9;
   }
   setTimeout(() => {

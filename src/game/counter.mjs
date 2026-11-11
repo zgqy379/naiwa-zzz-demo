@@ -32,15 +32,18 @@ export class CounterSystem {
     this.consecutive = 0;    // 连续弹反数
     this.totalCounters = 0;  // 总弹反数
     this.lastResult = null;  // 最近结果（供 UI/运镜）
+    this.parryable = true;   // 阶段 F：当前预警是否可弹反（false=红光攻击，只能闪避）
   }
 
   /**
    * 对手即将攻击：开启弹反窗口。
+   * @param {boolean} parryable 是否可弹反（阶段 F：false=红光不可弹反攻击）
    * @returns {boolean} 是否成功开启
    */
-  openWindow() {
+  openWindow(parryable = true) {
     if (this.state === "warning") return false;
     this.state = "warning";
+    this.parryable = parryable;
     this.windowT = COUNTER_TUNING.windowS;
     this.perfectT = COUNTER_TUNING.perfectWindowS;
     return true;

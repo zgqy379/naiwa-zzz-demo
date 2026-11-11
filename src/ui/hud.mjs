@@ -291,10 +291,12 @@ export class Hud {
         this.el["key-swap"].classList.toggle("urgent", !!s.chainReady);
       });
     }
-    // 弹反提示（对手攻击预警时显示）
+    // 弹反提示（对手攻击预警时显示；阶段 F：金光可弹反 / 红光只能闪避）
     if (this.el.counter) {
       this._put("counter", !!s.counterWarning, () => {
         this.el.counter.classList.toggle("show", !!s.counterWarning);
+        this.el.counter.classList.toggle("unparryable", !!s.counterWarning && s.counterParryable === false);
+        this.el.counter.textContent = (s.counterWarning && s.counterParryable === false) ? "⚠ 闪避!" : "⚠ 弹反!";
       });
     }
 

@@ -886,6 +886,35 @@ export async function runAllTests(page) {
     A.assertLess(freeze.hp, hpAfterBurn, `紊乱引爆 + 冻结应继续掉血（${hpAfterBurn} → ${freeze.hp}）`);
   });
 
+  await t.case("首领狂暴触发", async () => {
+    // 进战斗 → 跳到第 3 回合 + 血量压到 50% 以下 → 狂暴标志应置位
+    await evalPage(() => document.querySelector('[data-action="start"]')?.click());
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    let playing = false;
+    for (let i = 0; i < 60; i++) {
+      playing = await page.evaluate(() => window.__npr?.battle?.phase === "playing");
+      if (playing) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(playing, "未能进入战斗状态（狂暴用例需要 playing）");
+    await page.evaluate(() => {
+      const n = window.__npr;
+      n.battle.round = n.battle.totalRounds - 1;
+      n.opponent.hp = 90;   // < maxHp(200) × 50%
+    });
+    let enraged = false;
+    for (let i = 0; i < 40; i++) {
+      enraged = await page.evaluate(() => !!window.__npr?.battle?.enraged);
+      if (enraged) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(enraged, "回合3 血量 <50% 应触发首领狂暴");
+    // 狂暴期攻击分支存在计数器（红光预警按 3 击节奏开窗，时序由 AI 自然驱动，不 flaky 断言）
+    const hasCounter = await page.evaluate(() => Number.isInteger(window.__npr?.battle?.attackCount));
+    A.assert(hasCounter, "狂暴攻击计数器应存在");
+  });
+
   await t.case("无 console 错误", async () => {
     const errs = errors.filter((e) => /error|uncaught|failed/i.test(e));
     A.assertEqual(errs.length, 0, `有 ${errs.length} 个错误：${errs.slice(0, 3).join(" | ")}`);

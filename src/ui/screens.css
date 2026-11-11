@@ -1646,3 +1646,33 @@ html, body, body * {
 body[data-cursor3d="on"], body[data-cursor3d="on"] * {
   cursor: none !important;
 }
+
+/* ===== 阶段 F（深度改造线）：失衡期金色大字 / 红光不可弹反提示 / 结算多维评价条 ===== */
+.sfx-word.gold {
+  color: #ffd93d !important;
+  text-shadow: 0 0 18px rgba(255,217,61,.9), 0 2px 0 rgba(0,0,0,.7);
+}
+.hud-counter.unparryable {
+  color: #ff6a6a !important;
+  border-color: rgba(255,50,50,.85) !important;
+  box-shadow: 0 0 14px rgba(255,50,50,.55);
+}
+.result-dims {
+  display: none; flex-direction: column; gap: 6px;
+  width: 100%; max-width: 420px;
+}
+.result-dims-head {
+  font-size: 12px; font-weight: 800; letter-spacing: 2px;
+  color: rgba(232,240,252,.65);
+}
+.result-dim { display: flex; align-items: center; gap: 8px; }
+.rd-label {
+  width: 40px; font-size: 12px; font-weight: 800;
+  color: rgba(232,240,252,.85);
+}
+.rd-bar {
+  flex: 1; height: 6px;
+  background: rgba(255,255,255,.12);
+  border-radius: 3px; overflow: hidden;
+}
+.rd-fill { height: 100%; background: linear-gradient(90deg, #f5d98a, #ffd93d); }
