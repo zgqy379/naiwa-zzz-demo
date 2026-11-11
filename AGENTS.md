@@ -72,6 +72,33 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-11 18:3x by 收口线（深度复核后的材料校真 · 阶段 0 完成）
+
+- 已做（**本轮全程不碰 `src/`**，故 25/25 E2E 与全部现有截图/视频证据继续有效）：
+  - **三路只读深度核查 + 本人复核**（主流程接线与 WebGL 生命周期 / 测试门禁口径与构建链 / 报告书证据链逐条看图）。关键实测发现：①**4 个 WebGL context 四屏并存、从不 dispose**（`main.mjs:38` + `liquidglass.mjs:135` + `live3d.mjs:28` + `cursor3d.mjs:25`），**实测确认**非推断；②cursor3d 无论指针是否可见都**每帧无条件 render**；③**标题/选人/结算页主 renderer 仍全速渲染 3D**（`main.mjs:730` 无条件 `postfx.render`）；④live3d 在 boot 即下载 16 只 GLB（~5MB），且与 main 各加载一份。
+  - **报告书系统性校真**（§8 单独立项，20 余处）：图 6 / 图 13 图注完全错误 → **如实撤出**并标注待重拍（不以错图充数）；图 5/7/8/11 题注改画面真实内容；「≤8,000 三角面」→ 实测 18,990–19,000 面（3 处）；「单局 90 秒」→ **不限时、单回合单对手**；§九第 7 条视频口径改全页录制；§10.5「16 格色块占位」删除（实为实时 3D，属过度自我贬低）；过期口径（档数 / 霓虹配色 / §10.7 三行 / 行号漂移）批量修正；§十一 连段节奏改三段全量、「与 SHELLS 对齐」改 MOVES↔SQUAD、「移除即缺失」改「回退」；§十二 补界面组第 6 个用例名、截图说明改「13 张带图 / 12 个纯断言」。
+  - **无证据断言补实测**（新增两个只读脚本 + 证据 JSON）：`scripts/measure-runtime.mjs`（四屏 draw call / 三角面 / mesh 数 / **context 数** / heap / console 错误 + Aholo 层 A/B；**实测到真实 AMD GPU 非软件光栅**）与 `scripts/verify-glb.mjs`（18 个 GLB 结构自检全绿，替代无法验证的「glTF-Validator」声明）。→ §4.2「mesh 2107→1062 / draw call 991→551」与 §10.6「总量 188,122」**已改为实测真值**；§10.6「+1 draw call / +29,152 三角面」**经实测确认成立**。
+  - **授权链补齐**：ASSET-LICENSES 主表补登 3 行（两个站酷字体 OFL 1.1 + 背景视频 VIDEO_BG_Title「待验证」），24→27 行；新增 `public/fonts/LICENSES.txt` 随包分发（OFL 第 2 条要求）；THIRD_PARTY_NOTICES 修「零字体文件」失实声明、补登 camera-controls 3.1.2、更正 meshoptimizer 1.2.0→1.3.0、修「10 行 / 仍为 0」两处矛盾口径、标注 §6 表内库本仓一个都没引入、标注 tools/pack 等规划态路径本仓不存在。
+  - **双通道部署**：重建后**入口 JS/CSS 的 sha256 完全未变** → 视频与插图证据不失效；dist 51→52 文件；魔搭 master `356cc68`（hook ACCEPTED → deploy Building → **52/52 可取**、入口与主 JS 与本地逐字节一致）；gh-pages 经 **HTTPS** 提交 `14d8ba6`（SSH deploy key 确认无写权限）→ 两通道同版。
+  - **链接实测**：原 workbuddy 备用链接**已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页、资源全 403）→ 报告书 §十三改用实测可用的 gh-pages。
+- 未做 / 待办：
+  - **阶段 1 证据补强**：真机长时稳定性（12 分钟四屏轮转，帧率曲线 / context / heap）、首屏加载瀑布、真触控复测。
+  - **阶段 2 代码级提升**：2A 性能与上下文生命周期治理（同屏 context ≤2、非战斗屏主 renderer 降频、live3d 懒加载、每帧 DOM 查询消除、移动端降级）；2B 玩法深化（**三连战 + 招式克制 + 必杀技**，制作人已拍板全做）；2C 顺手修 11 项缺陷（`TUNING.roundTotalS` 悬空引用、`battle.timer` 死字段、`hud.canSwap` 无写入方、`#hud-mode/steps` DOM 不存在、输入双监听冗余、`public/portrait/` 3.95MB 死重、**录像脚本 hash 双重硬编码**、`r0safe` 死代码、`dev-loop.mjs` 违反 §4 构建到 dist、`harness` 缺 `assertNotEqual`、`back-title` 选错按钮）。
+  - **阶段 3**：全链重跑（重建 → 推魔搭 → deploy → 重录视频 → **重拍图 6/图 13 + 图 3-5** → 报告书同步）→ **清单 5c 冻结**（分批 commit → tag → 回填 `frozen_tag`/`frozen_commit`）。
+  - **图 6 / 图 13 重拍**：当前为「待补」状态（制作人已拍板重拍）。**重拍必须在阶段 3 之后**——现在拍的是旧构建，阶段 2 改完即成过期证据（§4）。
+  - **制作人本人三件事**（我不动手）：真人冷启动录屏 / 小红书发帖 / 官网提交（含最终回执）。另 `frozen_tag` 之后的提交回执亦归制作人。
+- 待验证：真机长时运行 4 个 WebGL context 的显存/发热（**本轮已实测确认 context 数为 4，但真机长跑未做**）；首页背景视频授权凭证待制作人补齐（若无法补齐，处置为替换为自制/CC0 背景）。
+- 产物与证据路径：`docs/evidence/v3-runtime-metrics-20261111.json`、`docs/evidence/v3-glb-selfcheck-20261111.json`、`scripts/measure-runtime.mjs`、`scripts/verify-glb.mjs`、`public/fonts/LICENSES.txt`（部署后为 `fonts/LICENSES.txt`）、`docs/报告书.md`、`docs/ASSET-LICENSES.md`、`docs/THIRD_PARTY_NOTICES.md`、`docs/submission.json`。
+- 最近构建：`dist/assets/index-Ce5zGDeB.js` @ 2026-11-11（**本轮 18:3x 重建，sha256 前 16 位 c678f49b2f9c6498 —— 与 03:28 登记版完全一致**，987,207 B；`index-BkAXyDc9.css` a4a3d750220811bb 46,870 B）。构建人：收口线。dist 交付文件 51→52（新增 `fonts/LICENSES.txt`）。
+- 已知冲突 / 风险：
+  1. **首页背景视频授权未闭合**：`public/bg/title.mp4`（8.33 MiB，第三方短视频素材，含平台水印与第三方账号标识）已登记为 `VIDEO_BG_Title`，授权如实标「**待验证**」；官网 IP 条款要求第三方内容须有合法授权。**处置方案：若制作人无法补齐凭证，替换为自制/CC0 背景**（届时 §5.3 与 §九第 8 条同步更新，且属 `src/` 外改动，不触发重录）。
+  2. **§十 图 6 / 图 13 为「待补」**：报告书当前 11 张插图，2 个图位空缺待阶段 3 重拍——这是**已如实标注的缺口**，不是伪装。
+  3. **录像脚本 hash 双重硬编码**：`scripts/capture-demo-video.mjs:47-50` 与 `:494-502` 硬编码 `index-Ce5zGDeB.js`，阶段 2 任何 src 改动都会让脚本**立即抛错退出**，必须先改成「读 `dist/index.html` 实际引用的 hash」再进阶段 2。
+  4. **E2E 有 4 条用例绑死在「单对手 + 结算一次」结构**（#5 靠 `__npr.opponent.hp=0` 直接结算、#21 硬断言 `oppHp<200`、#20 读 opponent.hp、#13 用 opponentAnim）→ 阶段 2B 加三连战后 **#5 必红**，需给 `__npr` 加 `battle.round` 让测试可直达终局，且对手 HP 保持 200、结算 stats 保持 4 项。
+  5. **gh-pages 的 SSH 通道无写权限**（deploy key denied），本轮改走 HTTPS 成功；dist 子仓 origin 仍是 SSH 形态，后续若要推 gh-pages 需沿用 HTTPS URL。
+  6. **`npm run dev:loop` 直接构建进 `dist/`**（`tests/dev-loop.mjs:79` 无 `--outDir`），违反 §4「唯一构建权」→ 执行期禁用该脚本，或改为 `.tmp-dist-*` 隔离。
+  7. **`origin/main` 414.4 MB / 970 文件**（`docs/evidence/` 占 249.9 MB，其中 39.3 MB 是同一批参考图的三份拷贝）。`.gitignore` 明写「证据留档，禁止加入忽略」→ **本轮未动**；若要瘦身须先定政策。
+
 ### 交接 2026-11-11 16:2x by 收口线（制作人四项委托：重录/重打/推送/凭据）
 
 - 已做（均制作人本轮明确委托）：
