@@ -251,15 +251,25 @@ export class ScreenManager {
   }
 
   /** 显示结算（含动态数字滚动 + 奖励卡片弹出） */
-  showResult({ win, grade, stats, rewards }) {
+  showResult({ win, grade, stats, rewards, rounds = [], roundsSummary = "" }) {
     const title = document.getElementById("result-title");
     const gradeEl = document.getElementById("result-grade");
     const statsEl = document.getElementById("result-stats");
     const rewardsEl = document.getElementById("result-rewards");
+    const roundsEl = document.getElementById("result-rounds");
 
     if (title) {
       title.textContent = win ? "作战完成" : "作战失败";
       title.className = "result-title " + (win ? "win" : "lose");
+    }
+    // 三连战：逐回合战果（放在标题与统计之间，不占用 .result-stat 的 4 项结构）
+    if (roundsEl) {
+      roundsEl.innerHTML = rounds.length
+        ? `<div class="result-rounds-head">${roundsSummary || "三连战"}</div>` + rounds.map((r) => `
+             <div class="result-round ${r.won ? "won" : "lost"}">${r.name}（${r.move}）${r.won ? "胜" : "负"}</div>
+           `).join("")
+        : "";
+      roundsEl.style.display = rounds.length ? "flex" : "none";
     }
     if (gradeEl) {
       gradeEl.textContent = grade;

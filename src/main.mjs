@@ -24,7 +24,7 @@ import { ProceduralAnim, ACTION } from "./game/animation.mjs";
 import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
 import { Squad, SQUAD } from "./game/squad.mjs";
-import { getMove } from "./game/moves.mjs";
+import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } from "./game/moves.mjs";
 import { InputManager } from "./game/input.mjs";
 import { Cinematic } from "./vfx/cinematic.mjs";
 import { ImpactFX } from "./vfx/impact.mjs";
@@ -151,7 +151,7 @@ let screens = makeFallbackScreens();
       onSetVolume: (v) => audio.setVolume(v),
       // 首次进入选人页时才加载 16 只队员 GLB（约 4.98MB，标题页用不到）
       onShow: (name) => {
-        if (name === "select") { ensureSquadModels(); ensureOpponentModel(); }
+        if (name === "select") ensureSquadModels();
       },
       // 修（UI-3）：设置屏打开时读取当前运行状态回填高亮（getter 惰性求值，mode/steps/quality 声明在后无 TDZ 问题）
       getState: () => ({ mode, steps, quality }),
@@ -276,38 +276,55 @@ opponentMove.solidBoxes = coverSolids;
 
 let opponent = { hp: 200, maxHp: 200 };
 
-// 对手模型同样延迟到「首次进入选人页」再加载（≈190KB，标题页用不到）
-//   与 16 只队员共用同一批加载时机，避免首屏白付这笔带宽。
-let opponentModelRequested = false;
-function ensureOpponentModel() {
-  if (opponentModelRequested) return;
-  opponentModelRequested = true;
-  loader.load("./asset/naiwa_naidan_runtime.glb", (gltf) => {
-  const m = gltf.scene;
-  opponentGroup.add(m);
-  const wrapper = new THREE.Group();
-  wrapper.name = "model-wrapper";
-  const animRoot = new THREE.Group();
-  animRoot.name = "anim-root";
-  const existing = [...opponentGroup.children];
-  for (const c of existing) animRoot.add(c);
-  wrapper.add(animRoot);
-  opponentGroup.add(wrapper);
-  wrapper.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
-  const box = new THREE.Box3().setFromObject(wrapper);
-  const size = box.getSize(new THREE.Vector3());
-  // 对手同样按身高归一化
-  const s = 1.3 / (size.y || 1);
-  wrapper.scale.set(s, s, s);
-  const box2 = new THREE.Box3().setFromObject(wrapper);
-  wrapper.position.y = -box2.min.y;
-  wrapper.userData.__origMats = new Map();
-  wrapper.traverse((c) => { if (c.isMesh) wrapper.userData.__origMats.set(c, c.material); });
-  opponentAnim.inner = animRoot;
-  opponentAnim.baseScale = animRoot.scale.clone();
-  // 敌我分离（圣经 v2 §6）：对手冷白银 rim/描边/饰带，洋红只活在 UI 层（血条/失衡格/预警/受击闪）
-  attachThemeBand(opponentGroup, { color: 0xd8e6f4 });
-  if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.016, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
+/** 当前对手对应的花名册条目（三连战里每回合换一只） */
+let opponentMember = SQUAD[3];   // 默认奶蛋
+/** 对手 GLB 的加载缓存：同一个 URL 只加载一次，换回合时直接复用已加载的场景 */
+const opponentModelCache = new Map();
+
+/**
+ * 加载并换上指定对手的模型（三连战：每回合换一只不同招式族的对手）。
+ * 已加载过的模型走缓存，不重复下载 / 不重复上传 GPU。
+ */
+function loadOpponentModel(memberIndex) {
+  const m = SQUAD[memberIndex];
+  if (!m) return;
+  opponentMember = m;
+
+  const apply = (gltfScene) => {
+    // 清掉旧模型（含旧的主题饰带）
+    while (opponentGroup.children.length) opponentGroup.remove(opponentGroup.children[0]);
+    opponentGroup.add(gltfScene);
+    const wrapper = new THREE.Group();
+    wrapper.name = "model-wrapper";
+    const animRoot = new THREE.Group();
+    animRoot.name = "anim-root";
+    const existing = [...opponentGroup.children];
+    for (const c of existing) animRoot.add(c);
+    wrapper.add(animRoot);
+    opponentGroup.add(wrapper);
+    wrapper.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+    const box = new THREE.Box3().setFromObject(wrapper);
+    const size = box.getSize(new THREE.Vector3());
+    // 对手同样按身高归一化
+    const s = 1.3 / (size.y || 1);
+    wrapper.scale.set(s, s, s);
+    const box2 = new THREE.Box3().setFromObject(wrapper);
+    wrapper.position.y = -box2.min.y;
+    wrapper.userData.__origMats = new Map();
+    wrapper.traverse((c) => { if (c.isMesh) wrapper.userData.__origMats.set(c, c.material); });
+    opponentAnim.inner = animRoot;
+    opponentAnim.baseScale = animRoot.scale.clone();
+    // 敌我分离（圣经 v2 §6）：对手冷白银 rim/描边/饰带，洋红只活在 UI 层（血条/失衡格/预警/受击闪）
+    attachThemeBand(opponentGroup, { color: 0xd8e6f4 });
+    if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.016, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
+  };
+
+  const cached = opponentModelCache.get(m.glb);
+  if (cached) { apply(cached); return; }
+
+  loader.load(m.glb, (gltf) => {
+    opponentModelCache.set(m.glb, gltf.scene);
+    apply(gltf.scene);
   }, undefined, () => {
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 24), new THREE.MeshStandardMaterial({ color: 0x8a3a3a }));
     ball.castShadow = true;
@@ -319,6 +336,15 @@ function ensureOpponentModel() {
     opponentAnim.inner = wrapper;
     opponentAnim.baseScale = wrapper.scale.clone();
   });
+}
+
+/** 预取后续回合的对手模型（后台下载，切回合时零等待） */
+function prefetchOpponentModel(memberIndex) {
+  const m = SQUAD[memberIndex];
+  if (!m || opponentModelCache.has(m.glb)) return;
+  loader.load(m.glb, (gltf) => {
+    opponentModelCache.set(m.glb, gltf.scene);
+  }, undefined, () => { /* 预取失败不影响流程 */ });
 }
 
 // ---------- 战斗系统 ----------
@@ -344,6 +370,11 @@ const battle = {
   // 原 timer: TUNING.roundTotalS 已删除——TUNING 里**没有** roundTotalS 这个键（悬空引用，
   //   赋值结果恒为 undefined），且 battle.timer 全仓无任何读取点；战斗本就是**不限时**模式
   //   （src/game/tuning.mjs:6「以击败对手为唯一胜利条件」），HUD 显示的是 ELAPSED 正计时。
+  // 三连战（2026-11-11 新增）：一局 = 3 个不同招式族的对手接力，打完 3 个才结算
+  round: 0,                 // 当前回合（0 基）
+  totalRounds: 3,           // 总回合数
+  opponentIds: [],          // 本局 3 个对手的花名册下标
+  roundResults: [],         // 每回合结果 [{ name, won, hpLeft }]
   grids: 0,
   comboCount: 0,
   freezeT: 0,
@@ -364,7 +395,27 @@ function spawnParticles(pos, tier) {
   impactFx.hit(new THREE.Vector3(pos.x, 0, pos.z), tier === "ultimate" ? "ultimate" : tier === "heavy" ? "heavy" : tier === "medium" ? "medium" : "light");
 }
 
-function applyDamage(dmg, tier, gridGain = 1) {
+/**
+ * 结算一次命中。
+ * @param {number} dmg 伤害
+ * @param {string} tier light|medium|heavy|ultimate
+ * @param {number} gridGain 失衡格
+ * @param {string|null} relationLabel 招式克制提示词（克制！/抵抗），为空则不显示
+ */
+/**
+ * 命中伤害结算（**唯一计算入口**）：基础伤害 × 角色伤害系数 × 招式冲击强度 × 招式克制倍率。
+ * 命中路径与调试探针（window.__npr.damagePreview）共用本函数，保证「测的就是打的」。
+ * @returns {{dmg:number, rel:"counter"|"neutral"|"resisted"}}
+ */
+function computeHitDamage(base, member, mv, defenderStyle) {
+  const rel = styleRelation(mv.style, defenderStyle);
+  return {
+    dmg: Math.round(base * member.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]),
+    rel,
+  };
+}
+
+function applyDamage(dmg, tier, gridGain = 1, relationLabel = null) {
   opponent.hp = Math.max(0, opponent.hp - dmg);
   battle.grids = Math.min(TUNING.balanceGrids, battle.grids + gridGain);
   cinematic.onHit(tier);
@@ -376,11 +427,12 @@ function applyDamage(dmg, tier, gridGain = 1) {
   battle.freezeT = Math.max(battle.freezeT, hitstopF / TUNING.logicFps);
   opponentAnim.play(ACTION.HIT, 0.22);
   spawnParticles(opponentGroup.position, tier);
-  // 白闪 + 拟声词（绝区零式打击反馈）
+  // 白闪 + 拟声词（绝区零式打击反馈）；有克制关系时用自定义词顶替拟声词
   hitFeedback.trigger(
     new THREE.Vector3(opponentGroup.position.x, 1.2, opponentGroup.position.z),
     tier === "finisher" ? "ultimate" : tier,
-    camera
+    camera,
+    relationLabel
   );
   // 音效 + 统计
   if (tier === "ultimate") audio.playFinisher();
@@ -405,8 +457,21 @@ function applyDamage(dmg, tier, gridGain = 1) {
   }
 }
 
+/**
+ * 攻击键按下。
+ * 交互改为「轻点 = 连段，长按 = 蓄力终结」：
+ *   - 不在连段中：按下**不立即出招**，进入蓄力等待（松手时结算）
+ *   - 在连段中：沿用原有逻辑推进下一段（终结段走带前摇的定时命中）
+ */
 function onAttackInput() {
   if (battle.phase !== "playing") return;
+  if (!combo.isInCombo) {
+    charging = true;
+    chargeT = 0;
+    chargeStartMs = performance.now();
+    charged = false;
+    return;
+  }
   const active = squad.active;
   const mv = getMove(active.id);   // 「换壳即换招」：取本只角色的招式参数
 
@@ -423,6 +488,7 @@ function onAttackInput() {
       range: mv.hitbox.range,
       width: mv.hitbox.width,
       member: active,
+      relation: null,
     };
     combo.cancel();   // 终结技替换第三段判定（防过 hitAt 后 24+30 双重结算）
     return;
@@ -440,7 +506,57 @@ function onAttackInput() {
   }
 }
 
+/** 攻击键松手：结算蓄力（蓄满 → 蓄力终结；未蓄满 → 普通连段起手） */
+function onAttackRelease() {
+  if (battle.phase !== "playing") return;
+  if (!charging) return;
+  charging = false;
+  const wasCharged = charged;
+  chargeT = 0;
+  charged = false;
+  hud.set({ charge: 0, charging: false });
+  if (wasCharged) { ultimateAttack(); return; }
+  // 普通出招（连段第一段）
+  const active = squad.active;
+  const mv = getMove(active.id);
+  combo.setMove(mv);
+  const res = combo.onAttack();
+  if (res.started) {
+    active.anim.play(ACTION.ATTACK_1, mv.comboTiming[0], mv);
+    const dir = new THREE.Vector3().subVectors(opponentGroup.position, active.group.position).normalize();
+    active.move.lunge(dir, mv.anim.strike * 0.8);
+  }
+}
+
+/** 蓄力终结：伤害显著高于普通终结，但前摇更长（可被对手读招弹反） */
+function ultimateAttack() {
+  const active = squad.active;
+  const mv = getMove(active.id);
+  const rel = styleRelation(mv.style, getMove(opponentMember.id).style);
+  battle.finisherPending = {
+    t: mv.anim.windup * 1.6,
+    dmg: Math.round(46 * active.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]),
+    range: mv.hitbox.range + 0.8,
+    width: mv.hitbox.width + 0.6,
+    member: active,
+    relation: rel,
+  };
+  active.anim.play(ACTION.FINISHER, mv.anim.windup * 1.6 + mv.anim.strike + mv.anim.recover);
+  cinematic.onFinisher();
+  cinematic.setFocus(opponentGroup.position);
+  battle.freezeT = Math.max(battle.freezeT, 0.6 * mv.impact.strength);
+  combo.cancel();
+  screens.toast("蓄力终结！");
+}
+
 let dodgeRequested = false;
+
+// 蓄力必杀技（2026-11-11）：轻点空格 = 连段；按住空格 ≥ CHARGE_TIME 后松手 = 蓄力终结
+const CHARGE_TIME = 0.55;
+let charging = false;    // 空格按下后正在等待松手
+let chargeT = 0;         // 已按住时长（秒，墙钟）
+let chargeStartMs = 0;   // 按下时刻（performance.now）
+let charged = false;     // 是否已蓄满
 
 function onDodgeInput() {
   if (battle.phase !== "playing") return;
@@ -498,6 +614,10 @@ const input = new InputManager({
       case "mode": mode = mode === "PBR" ? "NPR" : "PBR"; restyleAll(); break;
       // 数字键直选角色统一由下方旁路监听处理（见 input.mjs 注释），此处不再有 "steps" 分支
     }
+  },
+  // 松手回调（蓄力必杀技在松手时结算）
+  onRelease: (key) => {
+    if (key === " ") onAttackRelease();
   },
 });
 input.attach();
@@ -624,8 +744,12 @@ function tick() {
     if (counter.isWarning && battle.oppAttackWindup > 0) {
       battle.oppAttackWindup -= dt;
       if (battle.oppAttackWindup <= 0 && !active.move.hasIframe) {
-        // 未弹反 → 受击
-        squad.damageActive(10);
+        // 未弹反 → 受击。伤害随对手招式强度浮动，并受招式克制影响
+        //   （对手的风格克当前角色的风格 → 伤害更高；被克 → 更低）
+        const oppMv = getMove(opponentMember.id);
+        const rel = styleRelation(oppMv.style, getMove(active.id).style);
+        const dmgToPlayer = Math.round(10 * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
+        squad.damageActive(dmgToPlayer);
         active.anim.play(ACTION.HIT, 0.22);
         cinematic.onHit("medium");
         counter.expire();   // 显式结束窗口
@@ -646,9 +770,11 @@ function tick() {
       const inWidth = Math.abs(active.group.position.z - opponentGroup.position.z) <= hitWidth / 2;
 
       if (inRange && inWidth) {
-        const dmg = Math.round(hit.damage * active.damageMul * mv.impact.strength);
+        // 招式克制（2026-11-11）：本角色的动作风格 vs 当前对手的动作风格
+        const oppMove = getMove(opponentMember.id);
+        const { dmg, rel } = computeHitDamage(hit.damage, active, mv, oppMove.style);
         battle.hitCount++;   // GAME-6：连段命中数段间递增（先自增再结算，供 applyDamage 内 maxCombo 采样）
-        applyDamage(dmg, hit.finisher ? "ultimate" : hit.shake, hit.gridGain);
+        applyDamage(dmg, hit.finisher ? "ultimate" : hit.shake, hit.gridGain, STYLE_LABEL[rel] || null);
         // GAME-6：原此处 battle.comboCount = combo.comboCount 无条件覆盖已删（同帧抹回连携计数）
         // RENDER-3：原此处重复 impactFx.hit 已删（applyDamage→spawnParticles 已按同位置同档生成一次）
       }
@@ -672,7 +798,9 @@ function tick() {
         battle.finisherPending = null;
         const fInRange = opponentGroup.position.distanceTo(fp.member.group.position) <= fp.range;
         const fInWidth = Math.abs(fp.member.group.position.z - opponentGroup.position.z) <= fp.width / 2;
-        if (fInRange && fInWidth) applyDamage(fp.dmg, "ultimate", 3);
+        if (fInRange && fInWidth) {
+          applyDamage(fp.dmg, "ultimate", 3, fp.relation ? (STYLE_LABEL[fp.relation] || null) : null);
+        }
       }
     }
 
@@ -684,7 +812,11 @@ function tick() {
 
   // 战斗结束判定（不限时，对手 HP 或玩家 HP 归零）
   if (inBattle && battle.phase === "playing" && !frozen) {
-    if (opponent.hp <= 0) endBattle();
+    if (opponent.hp <= 0) {
+      // 三连战：还有回合就换对手继续打，打完 3 个才结算
+      if (battle.round < battle.totalRounds - 1) advanceRound();
+      else endBattle();
+    }
     // 修：玩家 HP 归零也要结束（原只判对手，会导致卡死）
     else if (active.hp <= 0) {
       // 尝试换人（如果还有存活角色）
@@ -733,6 +865,23 @@ function tick() {
   // 命中反馈（白闪衰减）
   hitFeedback.update(rawDt);
 
+  // 蓄力（长按空格）：蓄满后松手发射「蓄力终结」
+  //   蓄力时长用**墙钟时间**（performance.now）而非逐帧累加的 rawDt——
+  //   rawDt 被钳在 0.05s，低帧率机器上「按住 0.55 秒」会被拉长成好几秒。
+  if (charging) {
+    if (!input.keysDown.has(" ")) {
+      // 松手事件漏掉（失焦 / setEnabled 清键）时兜底结算，避免蓄力卡死
+      onAttackRelease();
+    } else {
+      chargeT = (performance.now() - chargeStartMs) / 1000;
+      if (!charged && chargeT >= CHARGE_TIME) {
+        charged = true;
+        audio.playConfirm?.();   // 蓄满提示音
+      }
+      hud.set({ charge: Math.min(1, chargeT / CHARGE_TIME), charging: true });
+    }
+  }
+
   // HUD（仅战斗时更新；不限时，只显示已用时间）
   if (inBattle) {
     battleStats.elapsed = (battleStats.elapsed ?? 0) + rawDt;
@@ -754,6 +903,8 @@ function tick() {
       shellName: active.name,
       shellIndex: squad.activeIndex,
       shellTotal: squad.members.length,
+      round: battle.round + 1,
+      totalRounds: battle.totalRounds,
     });
   }
 
@@ -795,7 +946,6 @@ function startBattle(memberIndex) {
   input.setEnabled(true);   // UI-1：进战斗恢复输入
   // 兜底：正常路径已在「进入选人页」时触发加载；这里再调一次（幂等）防止直接开战时模型未到
   ensureSquadModels();
-  ensureOpponentModel();
   // GAME-2：重置全队 hp/alive（Squad 为模块级单例跨局持久，不重置则选中阵亡角色 0 血开局、全灭判负无法解除）
   for (const m of squad.members) { m.hp = m.maxHp; m.alive = true; }
   // GAME-2：传入索引做范围校验（重置后全员存活；非法/越界回退 0，校验口径参照 squad.swapTo）
@@ -830,8 +980,64 @@ function startBattle(memberIndex) {
   screens.show("battle");
   audio.playBgm("battle");
   audio.playConfirm();
-  hud.set({ shellName: SQUAD[memberIndex].name, shellIndex: memberIndex, shellTotal: SQUAD.length });
+  // 三连战：挑 3 个不同招式族的对手（排除玩家自己那一只），第 1 个上场，后两个后台预取
+  battle.round = 0;
+  battle.roundResults = [];
+  battle.opponentIds = pickOpponentRounds(memberIndex);
+  loadOpponentModel(battle.opponentIds[0]);
+  prefetchOpponentModel(battle.opponentIds[1]);
+  prefetchOpponentModel(battle.opponentIds[2]);
+  opponent.hp = opponent.maxHp;
+  hud.set({
+    shellName: SQUAD[memberIndex].name,
+    shellIndex: memberIndex,
+    shellTotal: SQUAD.length,
+    round: 1,
+    totalRounds: battle.totalRounds,
+    charge: 0,
+  });
   screens.toast(`${SQUAD[memberIndex].name} 出战！`);
+}
+
+/**
+ * 三连战的对手抽签：从 16 只里排除玩家所选那只，随机取 3 个互不相同的下标。
+ * （互不相同即可，不要求招式族互异——招式族差异由「换壳即换招」的招式表本身保证）
+ */
+function pickOpponentRounds(playerIndex) {
+  const pool = SQUAD.map((_, i) => i).filter((i) => i !== playerIndex);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, battle.totalRounds);
+}
+
+/**
+ * 推进到下一回合（三连战）。
+ * 玩家本回合胜利（对手血量归零）时调用；不是最后一回合就换对手继续打。
+ */
+function advanceRound() {
+  battle.roundResults.push({ name: opponentMember.name, won: true, move: getMove(opponentMember.id).moveName });
+  battle.round++;
+  const nextId = battle.opponentIds[battle.round];
+  // 换对手：模型（走缓存，基本瞬时）+ 血量 + 站位 + 弹反/连段状态清零
+  loadOpponentModel(nextId);
+  opponent.hp = opponent.maxHp;
+  opponentMove.pos.set(-2.4, 0, 0);
+  opponentGroup.position.copy(opponentMove.pos);
+  battle.grids = 0;
+  battle.comboCount = 0;
+  battle.hitCount = 0;
+  battle.finisherPending = null;
+  battle.oppAttackCd = 3.0;
+  combo.cancel();
+  counter.state = "idle";
+  chargeT = 0;
+  charged = false;
+  charging = false;
+  hud.set({ charge: 0, charging: false, round: battle.round + 1, totalRounds: battle.totalRounds });
+  const om = getMove(opponentMember.id);
+  screens.toast(`第 ${battle.round + 1} 回合 · ${opponentMember.name}（${om.moveName}）`);
 }
 
 function endBattle() {
@@ -839,9 +1045,20 @@ function endBattle() {
   inBattle = false;
   battle.phase = "settle";
   input.setEnabled(false);   // UI-1：结算界面禁用战斗输入
+  charging = false;
+  chargeT = 0;
+  charged = false;
+  hud.set({ charge: 0, charging: false });
   // 胜利 = 击败对手（不限时）
   const win = opponent.hp <= 0;
-  const score = battleStats.damageDealt + battleStats.maxCombo * 20 + battleStats.counters * 30;
+  // 三连战：把最后一回合也记进结果（若走的是正常推进路径则已记录过，这里只补最后一回合）
+  if (win && battle.roundResults.length === battle.round) {
+    battle.roundResults.push({ name: opponentMember.name, won: true, move: getMove(opponentMember.id).moveName });
+  } else if (!win && battle.roundResults.length === battle.round) {
+    battle.roundResults.push({ name: opponentMember.name, won: false, move: getMove(opponentMember.id).moveName });
+  }
+  const wonRounds = battle.roundResults.filter((r) => r.won).length;
+  const score = battleStats.damageDealt + battleStats.maxCombo * 20 + battleStats.counters * 30 + wonRounds * 60;
   const grade = !win ? "D" : score > 400 ? "S" : score > 250 ? "A" : score > 120 ? "B" : "C";
   const rewards = win
     ? ["经验 ×120", "奶币 ×80", "材料 ×3"]
@@ -856,6 +1073,8 @@ function endBattle() {
       "剩余血量": Math.round(squad.active.hp),
     },
     rewards,
+    rounds: battle.roundResults.map((r) => ({ name: r.name, move: r.move, won: r.won })),
+    roundsSummary: `三连战 ${wonRounds}/${battle.totalRounds}`,
   });
   audio.playBgm("title");
 }
@@ -895,8 +1114,54 @@ window.__npr = {
   get screens() { return screens; },
   // 立绘生成器惰性加载：保持「调用即得 Promise」的对外语义（scripts/render-portraits.mjs 依赖 await）
   makePortrait: (...args) => import("./ui/portrait.mjs").then((m) => m.makePortrait(...args)),
-  // 16 只队员 + 对手模型的延迟加载入口（幂等）：E2E 用例可直接触发，不必先进选人页
-  loadModels: () => { ensureSquadModels(); ensureOpponentModel(); },
+  // 16 只队员模型的延迟加载入口（幂等）：E2E 用例可直接触发，不必先进选人页
+  loadModels: () => { ensureSquadModels(); },
+  // 蓄力状态（调试/测试用）
+  chargeState: () => ({
+    charging, chargeT: +chargeT.toFixed(3), charged,
+    keys: [...input.keysDown],
+    comboInCombo: combo.isInCombo,
+    phase: battle.phase,
+    round: battle.round,
+    inBattle,
+  }),
+  // 双方位置（供测试核对攻击距离）
+  positions: () => ({
+    player: { x: +squad.active.group.position.x.toFixed(3), z: +squad.active.group.position.z.toFixed(3) },
+    opponent: { x: +opponentGroup.position.x.toFixed(3), z: +opponentGroup.position.z.toFixed(3) },
+    dist: +opponentGroup.position.distanceTo(squad.active.group.position).toFixed(3),
+  }),
+  // 调试用：把玩家直接放到指定位置（测试构造「贴身」场景用；宿主 rAF 被节流时无法靠按键走位）
+  teleportPlayer: (x, z = 0) => {
+    const p = squad.active.group.position;
+    p.set(x, p.y, z);
+    squad.active.move.pos.set(x, 0, z);
+    squad.active.move.vel?.set?.(0, 0, 0);
+  },
+  // 招式克制：当前攻防双方的风格与关系（供测试与调试核对）
+  styleInfo: () => {
+    const a = squad.active;
+    const mv = getMove(a.id);
+    const om = getMove(opponentMember.id);
+    const rel = styleRelation(mv.style, om.style);
+    return {
+      playerStyle: mv.style, oppStyle: om.style, rel,
+      mult: STYLE_MULTIPLIER[rel],
+      damageMul: a.damageMul, impactStrength: mv.impact.strength,
+      moveName: mv.moveName, oppMoveName: om.moveName,
+    };
+  },
+  // 伤害预览：与命中路径**同一个**计算函数（computeHitDamage），可验证克制倍率确实生效
+  damagePreview: (base, defenderStyle) => {
+    const a = squad.active;
+    const mv = getMove(a.id);
+    const ds = defenderStyle ?? getMove(opponentMember.id).style;
+    return computeHitDamage(base, a, mv, ds);
+  },
+  // 克制表本身（6 风格两两相克）
+  styleTable: () => ({ counter: { ...STYLE_COUNTER }, mult: { ...STYLE_MULTIPLIER } }),
+  // 任意两风格的关系查询（供测试核对克制表的反对称性）
+  styleRel: (a, b) => styleRelation(a, b),
   modelsRequested: () => squadModelsRequested,
   getBattleStats: () => battleStats,   // 供测试/结算读取
 };

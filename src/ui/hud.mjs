@@ -33,6 +33,12 @@ export class Hud {
       canSwap: true,
       chainReady: false,
       counterWarning: false,
+      // 三连战：当前回合 / 总回合
+      round: 1,
+      totalRounds: 3,
+      // 蓄力必杀技：charge 0~1，charging = 是否正在蓄力
+      charge: 0,
+      charging: false,
       // 当前壳（16 只家族；换壳时由 main.js 写入）
       shellName: "奶蛙",
     };
@@ -53,7 +59,13 @@ export class Hud {
         </div>
         <div class="hud-round">
           <span id="hud-shell">1/16</span>
+          <span class="round-label" id="hud-round">回合 1/3</span>
         </div>
+      </div>
+
+      <div class="hud-charge" id="hud-charge">
+        <div class="charge-fill" id="hud-charge-fill"></div>
+        <span class="charge-text" id="hud-charge-text">蓄力</span>
       </div>
 
       <div class="hud-left">
@@ -79,7 +91,7 @@ export class Hud {
 
       <div class="hud-keys">
         <div class="key" id="hud-key-attack"><kbd>WASD</kbd><span>移动</span></div>
-        <div class="key glow" id="hud-key-charge"><kbd>空格</kbd><span>攻击(连按连段)</span></div>
+        <div class="key glow" id="hud-key-charge"><kbd>空格</kbd><span>攻击(轻点连段·长按蓄力)</span></div>
         <div class="key" id="hud-key-dodge"><kbd>Shift</kbd><span>躲/弹反</span></div>
         <div class="key" id="hud-key-swap"><kbd>Tab</kbd><span>接力</span></div>
       </div>
@@ -97,7 +109,7 @@ export class Hud {
     //   原先仍留在 ids 列表里 → this.el.mode / this.el.steps 恒为 null，_apply 里对应分支
     //   是永不执行的死代码。现已从列表移除，mode/steps 仍可经 window.__npr.getMode()/getSteps() 读取。
     const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "grids", "chain", "counter",
-                 "shell-name", "shell-idx",
+                 "shell-name", "shell-idx", "round", "charge", "charge-fill", "charge-text",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
     for (const id of ids) {
       this.el[id] = this.root.querySelector(`#hud-${id}`);
@@ -211,6 +223,30 @@ export class Hud {
     if (this.el.counter) {
       this._put("counter", !!s.counterWarning, () => {
         this.el.counter.classList.toggle("show", !!s.counterWarning);
+      });
+    }
+
+    // 三连战回合数（第 N 回合 / 共 M 回合）
+    if (this.el.round) {
+      const v = `回合 ${s.round ?? 1}/${s.totalRounds ?? 3}`;
+      this._put("round", v, () => { this.el.round.textContent = v; });
+    }
+
+    // 蓄力条：按住空格时填充，蓄满转「蓄力终结」高亮
+    if (this.el.charge) {
+      const pct = Math.round(Math.max(0, Math.min(1, s.charge ?? 0)) * 100);
+      const on = !!s.charging;
+      // 「显示」与「蓄满」是两个独立的视觉状态，必须各自判脏
+      //   （原先把 full 绑在 show 的脏值判断里 → 蓄满瞬间不会置位）
+      this._put("charge-on", on, () => {
+        this.el.charge.classList.toggle("show", on);
+      });
+      this._put("charge-full", pct >= 100, () => {
+        this.el.charge.classList.toggle("full", pct >= 100);
+      });
+      this._put("charge-pct", pct, () => {
+        if (this.el["charge-fill"]) this.el["charge-fill"].style.width = `${pct}%`;
+        if (this.el["charge-text"]) this.el["charge-text"].textContent = pct >= 100 ? "松手释放" : "蓄力";
       });
     }
   }

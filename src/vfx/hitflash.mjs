@@ -39,8 +39,9 @@ export class HitFeedback {
    * @param {THREE.Vector3} worldPos 命中点世界坐标
    * @param {string} tier light|medium|heavy|ultimate
    * @param {THREE.Camera} camera 用于把世界坐标转屏幕坐标
+   * @param {string|null} label 自定义词（如「克制！」「抵抗」）；为空则随机取拟声词
    */
-  trigger(worldPos, tier = "light", camera = null) {
+  trigger(worldPos, tier = "light", camera = null, label = null) {
     // 1) 白闪
     const flashStrength = { light: 0.15, medium: 0.3, heavy: 0.45, ultimate: 0.7 }[tier] ?? 0.2;
     this._flash(flashStrength, tier === "ultimate" ? 0.12 : 0.06);
@@ -49,7 +50,7 @@ export class HitFeedback {
     if (camera) {
       const screenPos = this._worldToScreen(worldPos, camera);
       if (screenPos) {
-        this._showWord(screenPos.x, screenPos.y, tier);
+        this._showWord(screenPos.x, screenPos.y, tier, label);
       }
     }
   }
@@ -61,13 +62,13 @@ export class HitFeedback {
     this.flashDur = duration;
   }
 
-  /** 拟声词 */
-  _showWord(x, y, tier) {
+  /** 拟声词（label 非空时显示自定义词，如克制关系提示） */
+  _showWord(x, y, tier, label = null) {
     const list = this.words[tier] ?? this.words.light;
-    const text = list[Math.floor(Math.random() * list.length)];
+    const text = label || list[Math.floor(Math.random() * list.length)];
 
     const el = document.createElement("div");
-    el.className = "sfx-word " + tier;
+    el.className = "sfx-word " + tier + (label ? " sfx-relation" : "");
     el.textContent = text;
     // 随机偏移（避免重叠）
     const ox = (Math.random() - 0.5) * 60;

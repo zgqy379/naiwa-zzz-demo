@@ -83,7 +83,11 @@ export class InputManager {
   }
 
   _onKeyUp(e) {
-    this.keysDown.delete(e.key.toLowerCase());
+    const k = e.key.toLowerCase();
+    this.keysDown.delete(k);
+    // 松手事件（2026-11-11 新增）：蓄力必杀技需要在**松手**时结算
+    //   （按住空格蓄力，松开发射；轻点则走普通连段）
+    if (this.enabled) this.o.onRelease?.(k);
   }
 
   /** 每帧更新移动输入 */

@@ -17,7 +17,7 @@
 import { writeFile } from "node:fs/promises";
 // 直接断言真实招式表（唯一数据源 src/game/moves.mjs，无本地手抄副本，防手工同步漂移）；
 // id 对齐基准用花名册 SQUAD（src/game/squad.mjs，自称与主仓 SHELLS 逐条对齐的仓内映照）。
-import { MOVES } from "../src/game/moves.mjs";
+import { MOVES, STYLE_COUNTER, STYLE_MULTIPLIER, styleRelation } from "../src/game/moves.mjs";
 import { SQUAD } from "../src/game/squad.mjs";
 
 const results = [];
@@ -70,6 +70,42 @@ const extra = Object.keys(MOVES).filter((id) => !rosterIds.includes(id));
 const misaligned = [...missing.map((id) => `缺: ${id}`), ...extra.map((id) => `多: ${id}`)];
 check("与主仓 SHELLS 16 条对齐", missing.length === 0 && extra.length === 0,
   misaligned.length ? misaligned.join(", ") : "全部对齐");
+
+// 8. 招式克制表（2026-11-11 新增）：覆盖全部 6 种动作风格
+const moveStyles = [...new Set(Object.values(MOVES).map((m) => m.style))];
+const tableStyles = Object.keys(STYLE_COUNTER);
+check("克制表覆盖全部 6 种动作风格",
+  tableStyles.length === moveStyles.length && moveStyles.every((s) => tableStyles.includes(s)),
+  `招式表风格 ${moveStyles.join("/")}；克制表 ${tableStyles.join("/")}`);
+
+// 9. 克制关系必须是**单环**（每种风格恰好克一种、恰好被一种克，且不存在互克）
+const counterTargets = tableStyles.map((s) => STYLE_COUNTER[s]);
+const counteredBy = tableStyles.filter((s) => counterTargets.includes(s));
+const selfCounter = tableStyles.filter((s) => STYLE_COUNTER[s] === s);
+const mutualPairs = tableStyles.filter((s) => STYLE_COUNTER[STYLE_COUNTER[s]] === s && STYLE_COUNTER[s] !== s);
+check("克制关系为单环（无自克、无互克、全覆盖）",
+  counteredBy.length === tableStyles.length && selfCounter.length === 0 && mutualPairs.length === 0,
+  `被克覆盖 ${counteredBy.length}/${tableStyles.length}；自克 ${selfCounter.join("/") || "无"}；互克 ${mutualPairs.join("/") || "无"}`);
+
+// 10. 克制/平手/被克三档倍率取值正确
+const multOk = STYLE_MULTIPLIER.counter === 1.25 && STYLE_MULTIPLIER.neutral === 1 && STYLE_MULTIPLIER.resisted === 0.85;
+check("克制倍率三档取值正确（1.25 / 1 / 0.85）", multOk,
+  `counter=${STYLE_MULTIPLIER.counter} neutral=${STYLE_MULTIPLIER.neutral} resisted=${STYLE_MULTIPLIER.resisted}`);
+
+// 11. styleRelation 与克制表一致（且反对称）
+let relBad = [];
+for (const a of moveStyles) {
+  for (const b of moveStyles) {
+    const rel = styleRelation(a, b);
+    const expect = a === b ? "neutral"
+      : STYLE_COUNTER[a] === b ? "counter"
+      : STYLE_COUNTER[b] === a ? "resisted"
+      : "neutral";
+    if (rel !== expect) relBad.push(`${a}vs${b}=${rel}(期望${expect})`);
+  }
+}
+check("styleRelation 与克制表一致且反对称", relBad.length === 0,
+  relBad.length ? relBad.slice(0, 4).join(", ") : `${moveStyles.length}×${moveStyles.length} 组合全部一致`);
 
 // 汇总
 const passed = results.filter((r) => r.pass).length;

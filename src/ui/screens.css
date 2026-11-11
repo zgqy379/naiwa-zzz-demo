@@ -256,6 +256,25 @@
 .result-stats {
   display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;
 }
+
+/* 三连战：逐回合战果条（横排三个小卡） */
+.result-rounds {
+  display: flex; gap: 8px; width: 100%; flex-wrap: wrap; justify-content: center;
+}
+.result-rounds-head {
+  width: 100%; text-align: center;
+  font-size: 12px; font-weight: 800; letter-spacing: 3px;
+  color: rgba(245,197,66,.92);
+  text-shadow: 0 1px 3px rgba(0,0,0,.7);
+}
+.result-round {
+  font-size: 11px; padding: 5px 10px; border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.04);
+  color: rgba(226,240,255,.86);
+}
+.result-round.won { border-color: rgba(245,197,66,.45); color: #ffd97a; background: rgba(245,197,66,.10); }
+.result-round.lost { border-color: rgba(255,90,110,.42); color: #ff9fb0; background: rgba(255,90,110,.08); }
 .result-stat {
   background: rgba(255,255,255,.04);
   padding: 12px; border-radius: 8px;

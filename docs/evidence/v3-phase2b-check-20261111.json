@@ -1,0 +1,105 @@
+{
+  "ok": true,
+  "measuredAt": "2026-11-11T14:11:40.443Z",
+  "build": {
+    "entry": "assets/index-C-1cnUxT.js",
+    "bytes": 992844
+  },
+  "errors": [],
+  "shots": {
+    "title": {
+      "file": "v3-phase2b-01-title-20261111.png",
+      "bytes": 1140910
+    },
+    "select": {
+      "file": "v3-phase2b-02-select-20261111.png",
+      "bytes": 1120796
+    },
+    "battle": {
+      "file": "v3-phase2b-03-battle-20261111.png",
+      "bytes": 989804
+    },
+    "charge": {
+      "file": "v3-phase2b-03b-charge-20261111.png",
+      "bytes": 1029349
+    },
+    "result": {
+      "file": "v3-phase2b-04-result-20261111.png",
+      "bytes": 700567
+    }
+  },
+  "titleVideo": {
+    "first": {
+      "found": true,
+      "readyState": 4,
+      "paused": false,
+      "currentTime": 5.26,
+      "muted": false,
+      "w": 1280,
+      "h": 720,
+      "err": null
+    },
+    "second": {
+      "found": true,
+      "readyState": 4,
+      "paused": false,
+      "currentTime": 7.77,
+      "muted": false,
+      "w": 1280,
+      "h": 720,
+      "err": null
+    },
+    "advancing": true
+  },
+  "select": {
+    "found": true,
+    "w": 1242,
+    "h": 886,
+    "cards": 16,
+    "hasData": true
+  },
+  "battle": {
+    "total": 16,
+    "loaded": 16,
+    "placeholders": 0,
+    "sample": [
+      {
+        "name": "奶蛙",
+        "verts": 39760,
+        "meshes": 2,
+        "placeholder": false
+      },
+      {
+        "name": "奶豆",
+        "verts": 30986,
+        "meshes": 2,
+        "placeholder": false
+      },
+      {
+        "name": "小奶蛙",
+        "verts": 38760,
+        "meshes": 2,
+        "placeholder": false
+      }
+    ]
+  },
+  "battleState": {
+    "phase": "playing",
+    "oppHp": 200,
+    "active": "奶蛙",
+    "round": 1,
+    "total": 3
+  },
+  "charge": {
+    "show": true,
+    "full": true,
+    "pct": "100%"
+  },
+  "result": {
+    "grade": "B",
+    "stats": 4,
+    "rewards": 3,
+    "rounds": 3,
+    "roundsHead": "三连战 3/3"
+  }
+}

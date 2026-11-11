@@ -232,15 +232,28 @@ async function main() {
     await waitExpr(cdp, "window.__npr && window.__npr.battle && window.__npr.battle.phase === 'playing'", 20000, "战斗");
     await sleep(6000);
     result.battle = await evalJSON(cdp, MODEL_PROBE);
-    result.battleState = await evalJSON(cdp, "(() => ({ phase: window.__npr.battle.phase, oppHp: window.__npr.opponent.hp, active: window.__npr.squad.active.name }))()");
+    result.battleState = await evalJSON(cdp, "(() => ({ phase: window.__npr.battle.phase, oppHp: window.__npr.opponent.hp, active: window.__npr.squad.active.name, round: window.__npr.battle.round + 1, total: window.__npr.battle.totalRounds }))()");
     shots.battle = { file: `v3-${STAMP}-03-battle-20261111.png`, bytes: await shoot(cdp, path.join(OUT_DIR, `v3-${STAMP}-03-battle-20261111.png`)) };
     log("[3] 战斗页:", JSON.stringify(result.battleState), "loaded=" + result.battle.loaded + "/" + result.battle.total);
 
-    // 4) 结算页
-    await evalJSON(cdp, `(() => { const n = window.__npr; n.opponent.hp = 0; n.endBattle(); })()`);
+    // 3b) 蓄力条：按住空格到蓄满
+    await evalJSON(cdp, `window.__npr.teleportPlayer(-1.0, 0)`);
+    await evalJSON(cdp, `window.dispatchEvent(new KeyboardEvent("keydown", { key: " ", code: "Space", bubbles: true }))`);
+    await sleep(1100);
+    result.charge = await evalJSON(cdp, "(() => { const e=document.getElementById('hud-charge'); const f=document.getElementById('hud-charge-fill'); return { show: e?e.classList.contains('show'):null, full: e?e.classList.contains('full'):null, pct: f?f.style.width:'-' }; })()");
+    shots.charge = { file: `v3-${STAMP}-03b-charge-20261111.png`, bytes: await shoot(cdp, path.join(OUT_DIR, `v3-${STAMP}-03b-charge-20261111.png`)) };
+    log("[3b] 蓄力条:", JSON.stringify(result.charge));
+    await evalJSON(cdp, `window.dispatchEvent(new KeyboardEvent("keyup", { key: " ", code: "Space", bubbles: true }))`);
+    await sleep(1500);
+
+    // 4) 结算页：三连战打完 3 个对手
+    for (let i = 0; i < 3; i++) {
+      await evalJSON(cdp, `(() => { const n = window.__npr; n.opponent.hp = 0; })()`);
+      await sleep(1200);
+    }
     await waitExpr(cdp, "!document.querySelector('#screen-result').classList.contains('hidden')", 15000, "结算页");
     await sleep(2500);
-    result.result = await evalJSON(cdp, "(() => ({ grade: document.getElementById('result-grade')?.textContent, stats: document.querySelectorAll('.result-stat').length, rewards: document.querySelectorAll('.reward-chip').length }))()");
+    result.result = await evalJSON(cdp, "(() => ({ grade: document.getElementById('result-grade')?.textContent, stats: document.querySelectorAll('.result-stat').length, rewards: document.querySelectorAll('.reward-chip').length, rounds: document.querySelectorAll('#result-rounds .result-round').length, roundsHead: document.querySelector('#result-rounds .result-rounds-head')?.textContent }))()");
     shots.result = { file: `v3-${STAMP}-04-result-20261111.png`, bytes: await shoot(cdp, path.join(OUT_DIR, `v3-${STAMP}-04-result-20261111.png`)) };
     log("[4] 结算页:", JSON.stringify(result.result));
 

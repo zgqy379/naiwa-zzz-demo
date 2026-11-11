@@ -132,6 +132,45 @@ html, body {
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
 }
+/* 三连战：回合 pill 内的回合数（与右侧「1/16 家族序号」分行） */
+.hud-round .round-label {
+  display: block;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: rgba(245,197,66,.92);
+  text-shadow: 0 1px 3px rgba(0,0,0,.7);
+  margin-top: 2px;
+}
+
+/* 蓄力条（长按空格蓄力时出现；蓄满转金色并提示松手） */
+.hud-charge {
+  position: absolute; top: 84px; left: 50%;
+  transform: translateX(-50%);
+  width: 168px; height: 16px;
+  border-radius: 10px;
+  background: rgba(12,18,28,.62);
+  border: 1px solid rgba(255,255,255,.30);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
+  opacity: 0; pointer-events: none;
+  transition: opacity .12s ease;
+  overflow: hidden;
+}
+.hud-charge.show { opacity: 1; }
+.hud-charge .charge-fill {
+  position: absolute; inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(150,225,255,.85), rgba(245,197,66,.95));
+  transition: width .05s linear;
+}
+.hud-charge.full .charge-fill {
+  background: linear-gradient(90deg, rgba(245,197,66,1), rgba(255,225,150,1));
+}
+.hud-charge .charge-text {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; letter-spacing: 3px;
+  color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.85);
+}
 
 /* ---------- 血条：玻璃槽 + 斜纹分段 ---------- */
 .hud-left, .hud-right {

@@ -204,6 +204,54 @@ export const MOVES = {
   },
 };
 
+/**
+ * 招式克制轴（2026-11-11 新增）——把「换壳即换招」从参数差异推进到**策略差异**。
+ *
+ * 6 种动作风格组成**一个 6 环**（每种风格恰好克一种、也恰好被一种克，保证反对称）：
+ *   旋转(spin)   克 突刺(thrust) —— 范围广吃直线突进
+ *   突刺(thrust) 克 砸地(slam)   —— 突进抢在砸地前摇里
+ *   砸地(slam)   克 挥击(slash)  —— 砸地吃大挥击
+ *   挥击(slash)  克 啄击(peck)   —— 挥击吃点刺
+ *   啄击(peck)   克 鞭击(lash)   —— 点刺抢在长弧前面
+ *   鞭击(lash)   克 旋转(spin)   —— 长弧缠住大范围旋转
+ *
+ * ⚠ 不设「互克」对（如 peck↔lash 同时互克）——互克会让 styleRelation 的反对称性失效，
+ *   伤害倍率在两个方向同时变成 ×1.25，策略含义消失。
+ */
+export const STYLE_COUNTER = {
+  spin: "thrust",
+  thrust: "slam",
+  slam: "slash",
+  slash: "peck",
+  peck: "lash",
+  lash: "spin",
+};
+
+/** 克制关系的伤害倍率 */
+export const STYLE_MULTIPLIER = {
+  counter: 1.25,   // 克制
+  neutral: 1.0,    // 平手
+  resisted: 0.85,  // 被克
+};
+
+/** 克制关系的中文标签（UI 提示） */
+export const STYLE_LABEL = {
+  counter: "克制！",
+  neutral: "",
+  resisted: "抵抗",
+};
+
+/**
+ * 判定攻方风格对守方风格的关系。
+ * @returns {"counter"|"neutral"|"resisted"}
+ */
+export function styleRelation(attackerStyle, defenderStyle) {
+  if (!attackerStyle || !defenderStyle) return "neutral";
+  if (STYLE_COUNTER[attackerStyle] === defenderStyle) return "counter";
+  if (STYLE_COUNTER[defenderStyle] === attackerStyle) return "resisted";
+  return "neutral";
+}
+
 /** 取角色的招式定义（缺省回退到奶蛙） */
 export function getMove(shellId) {
   return MOVES[shellId] ?? MOVES.shell_naiwa;

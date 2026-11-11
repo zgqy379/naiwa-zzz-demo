@@ -150,7 +150,12 @@ export async function runAllTests(page) {
 
   await t.case("结算界面显示", async () => {
     // 不限时：直接把对手 HP 打空触发结算
-    await evalPage(() => { if (window.__npr?.opponent) window.__npr.opponent.hp = 0; });
+    // 三连战（2026-11-11）：结算在第 3 个对手打空后触发，故先跳到最后一回合
+    await evalPage(() => {
+      const n = window.__npr;
+      if (n?.battle) n.battle.round = n.battle.totalRounds - 1;
+      if (n?.opponent) n.opponent.hp = 0;
+    });
     await page.waitForTimeout(1200);
     const v = await evalPage(() => ({
       visible: !document.getElementById("screen-result")?.classList.contains("hidden"),
@@ -519,6 +524,177 @@ export async function runAllTests(page) {
     await pressKey("n", "KeyN", 78);
     await page.waitForTimeout(400);
   }, { shot: "12-mode-switch" });
+
+  await t.case("三连战回合推进", async () => {
+    // 进战斗（当前可能已在战斗里；用 start/confirm 走一遍确保状态干净）
+    await evalPage(() => document.querySelector('[data-action="start"]')?.click());
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    await page.waitForTimeout(1200);
+    const r0 = await page.evaluate(() => ({
+      round: window.__npr?.battle?.round,
+      total: window.__npr?.battle?.totalRounds,
+      ids: (window.__npr?.battle?.opponentIds || []).length,
+    }));
+    A.assertEqual(r0.total, 3, `总回合数应为 3，实际 ${r0.total}`);
+    A.assertEqual(r0.ids, 3, `本局应抽到 3 个对手，实际 ${r0.ids}`);
+    A.assertEqual(r0.round, 0, "起始回合应为 0");
+
+    // 轮询而非固定等待：ego 宿主里 rAF 可能被节流（帧间隔可达秒级），
+    //   固定 sleep 后立刻读状态会读到「还没推进」的旧值。
+    const waitRound = async (target, timeoutMs = 6000) => {
+      const t0 = Date.now();
+      for (;;) {
+        const r = await page.evaluate(() => ({
+          round: window.__npr?.battle?.round,
+          phase: window.__npr?.battle?.phase,
+          resultHidden: document.getElementById("screen-result")?.classList.contains("hidden"),
+          oppHp: window.__npr?.opponent?.hp,
+        }));
+        if (r.round >= target || r.phase === "settle") return r;
+        if (Date.now() - t0 > timeoutMs) return r;
+        await page.waitForTimeout(150);
+      }
+    };
+
+    // 击败第 1 个对手 → 应进入第 2 回合（**不**直接结算）
+    await page.evaluate(() => { window.__npr.opponent.hp = 0; });
+    const r1 = await waitRound(1);
+    A.assertEqual(r1.round, 1, `击败第 1 个对手后应进入第 2 回合，实际 ${r1.round}`);
+    A.assert(r1.resultHidden, "第 1 回合结束不应直接进结算");
+    A.assertEqual(r1.phase, "playing", "推进回合后应仍在战斗");
+    A.assertGreater(r1.oppHp, 0, "新对手的血量应重置");
+
+    // 再击败一个 → 第 3 回合
+    await page.evaluate(() => { window.__npr.opponent.hp = 0; });
+    const r2 = await waitRound(2);
+    A.assertEqual(r2.round, 2, `击败第 2 个对手后应进入第 3 回合，实际 ${r2.round}`);
+
+    // 击败最后一个 → 结算
+    await page.evaluate(() => { window.__npr.opponent.hp = 0; });
+    let r3 = null;
+    for (let i = 0; i < 60; i++) {
+      r3 = await page.evaluate(() => ({
+        phase: window.__npr?.battle?.phase,
+        resultShown: !document.getElementById("screen-result")?.classList.contains("hidden"),
+        rounds: document.querySelectorAll("#result-rounds .result-round").length,
+      }));
+      if (r3.resultShown) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(r3.resultShown, "打完 3 个对手后应进入结算");
+    A.assertEqual(r3.rounds, 3, `结算页应列出 3 条回合战果，实际 ${r3.rounds}`);
+  }, { shot: "14-three-rounds" });
+
+  await t.case("招式克制关系生效", async () => {
+    // 克制表是纯数据关系：克制 → ×1.25 / 平手 → ×1.0 / 被克 → ×0.85。
+    // 这里用**命中路径同一个**计算函数（window.__npr.damagePreview）核对：
+    //   1) 6 种风格两两相克构成反对称关系（A 克 B 则 B 被 A 克）
+    //   2) 三档倍率取值正确
+    //   3) 预览伤害 = base × 伤害系数 × 冲击强度 × 倍率（舍入一致）
+    const info = await page.evaluate(() => ({
+      styles: Object.keys(window.__npr?.styleTable?.().counter || {}),
+      counter: window.__npr?.styleTable?.().counter || {},
+      mult: window.__npr?.styleTable?.().mult || {},
+      self: window.__npr?.styleInfo?.(),
+    }));
+    A.assertEqual(info.styles.length, 6, `克制轴应有 6 种风格，实际 ${info.styles.length}`);
+    A.assertEqual(info.mult.counter, 1.25, "克制倍率应为 1.25");
+    A.assertEqual(info.mult.neutral, 1, "平手倍率应为 1");
+    A.assertEqual(info.mult.resisted, 0.85, "被克倍率应为 0.85");
+
+    // 反对称性：A 克 B ⟺ B 被 A 克；且不存在自克
+    // 注意：ego 的 page.evaluate **只接受一个参数**，多参会被丢弃 → 用数组打包传入
+    for (const a of info.styles) {
+      const b = info.counter[a];
+      A.assert(b && b !== a, `风格 ${a} 的克制对象非法（${b}）`);
+      A.assert(info.styles.includes(b), `风格 ${a} 克制的 ${b} 不在风格表内`);
+      const rel = await page.evaluate(([x, y]) => window.__npr.styleRel(x, y), [a, b]);
+      A.assertEqual(rel, "counter", `${a} 对 ${b} 应为克制关系`);
+      const rel2 = await page.evaluate(([x, y]) => window.__npr.styleRel(x, y), [b, a]);
+      A.assertEqual(rel2, "resisted", `${b} 对 ${a} 应为被克关系`);
+      const relSelf = await page.evaluate(([x]) => window.__npr.styleRel(x, x), [a]);
+      A.assertEqual(relSelf, "neutral", `${a} 不应克自己`);
+    }
+
+    // 预览伤害公式与手算一致（同一函数、同一取整）
+    if (info.self) {
+      const expect = Math.round(6 * info.self.damageMul * info.self.impactStrength * info.self.mult);
+      const got = await page.evaluate(() => window.__npr.damagePreview(6).dmg);
+      A.assertEqual(got, expect, `预览伤害应为 ${expect}，实际 ${got}`);
+    }
+  });
+
+  await t.case("蓄力必杀技", async () => {
+    // 进战斗并轮询等待真正进入 playing（ego 宿主 rAF 可能被节流，固定 sleep 不可靠）
+    await evalPage(() => {
+      const n = window.__npr;
+      if (n?.battle?.phase !== "playing") document.querySelector('[data-action="start"]')?.click();
+    });
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    let playing = false;
+    for (let i = 0; i < 60; i++) {
+      playing = await page.evaluate(() => window.__npr?.battle?.phase === "playing");
+      if (playing) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(playing, "未能进入战斗状态（蓄力必杀技需要 playing）");
+
+    // 先贴近对手（开局双方相距 4.8，蓄力终结的判定框约 3.0~4.2，太远会落空）。
+    //   不用按键走位：ego 宿主 rAF 被节流时，一帧只推进 0.05s，按住 A 也走不出 0.1 单位。
+    await page.evaluate(() => window.__npr.teleportPlayer(-1.0, 0));
+    await page.waitForTimeout(300);
+    const pos = await page.evaluate(() => window.__npr.positions());
+    A.assertLess(pos.dist, 4.4, `未能贴近对手（当前距离 ${pos.dist}），蓄力终结会落空`);
+
+    // 长按空格 ≥0.55s（墙钟）→ 蓄力条应出现且填满
+    await page.evaluate(() => window.dispatchEvent(new KeyboardEvent("keydown", { key: " ", code: "Space", bubbles: true })));
+    // 轮询等待蓄满（ego 宿主 rAF 可能被节流，不能用固定 sleep 判定）
+    let charging = { shown: false, full: false, pct: "" };
+    for (let i = 0; i < 60; i++) {
+      charging = await page.evaluate(() => {
+        const el = document.getElementById("hud-charge");
+        const fill = document.getElementById("hud-charge-fill");
+        return {
+          shown: !!el && el.classList.contains("show"),
+          full: !!el && el.classList.contains("full"),
+          pct: fill ? fill.style.width : "",
+        };
+      });
+      if (charging.full) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(charging.shown, "长按空格后蓄力条应出现");
+    A.assert(charging.full, `蓄力应填满（实际 ${charging.pct}）`);
+
+    // 松手 → 发出蓄力终结
+    const hpBefore = await page.evaluate(() => window.__npr.opponent.hp);
+    await page.evaluate(() => window.dispatchEvent(new KeyboardEvent("keyup", { key: " ", code: "Space", bubbles: true })));
+    // 轮询观察「蓄力终结已发出」：普通终结伤害 30，蓄力终结 ≈46×系数（>=40），
+    //   且带慢镜前摇（按缩放 dt 推进）——ego 宿主 rAF 被节流时，前摇落地可能要几十秒墙钟，
+    //   故这里断言「已发出（finisherPending 挂上且伤害达标）」而不是「已造成伤害」。
+    let after = { hp: hpBefore, chargeShown: true, pending: null };
+    let maxPendingDmg = 0;
+    for (let i = 0; i < 120; i++) {
+      after = await page.evaluate(() => ({
+        hp: window.__npr.opponent.hp,
+        chargeShown: document.getElementById("hud-charge")?.classList.contains("show"),
+        pending: window.__npr.battle?.finisherPending
+          ? { dmg: window.__npr.battle.finisherPending.dmg, range: window.__npr.battle.finisherPending.range }
+          : null,
+      }));
+      if (after.pending) maxPendingDmg = Math.max(maxPendingDmg, after.pending.dmg);
+      if (after.pending || after.hp < hpBefore) break;
+      await page.waitForTimeout(150);
+    }
+    const fired = !!after.pending || after.hp < hpBefore;
+    A.assert(fired, "松手后应发出蓄力终结（未见 finisherPending 且未造成伤害）");
+    if (maxPendingDmg > 0) {
+      A.assertGreater(maxPendingDmg, 40, `蓄力终结伤害应显著高于普通终结（30），实际 ${maxPendingDmg}`);
+    }
+    A.assert(!after.chargeShown, "松手后蓄力条应收起");
+  }, { shot: "15-charge-ultimate" });
 
   await t.case("无 console 错误", async () => {
     const errs = errors.filter((e) => /error|uncaught|failed/i.test(e));
