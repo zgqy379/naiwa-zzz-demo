@@ -285,6 +285,35 @@ async function waitExpr(expr, timeoutMs, label, everyMs = 150) {
   }
 }
 
+/**
+ * 阶段 G：鸣徽三选一覆盖层处理。
+ *
+ * 为什么必须显式处理：鸣徽在「回合间」开启，battle.womarkOpen = true 会让整个战斗逻辑
+ * 停车（main.mjs:1072 的 battleRunning 门禁），不选卡战斗就一直是暂停态——旧版录像脚本
+ * 没有这一步，回合推进后会拍到「界面不动」的僵局。
+ *
+ * 走真实交互路径：数字键 1 选卡（与玩家操作一致）；键盘没生效时兜底点第一张卡。
+ * @returns {boolean} 本次是否处理了一个鸣徽覆盖层
+ */
+async function handleWomark(cdp) {
+  const open = await evalJSON(cdp, `!!document.querySelector('#womark-overlay.show')`);
+  if (!open) return false;
+  const cards = await evalJSON(cdp, `[...document.querySelectorAll('#womark-overlay .womark-card')].map(c => c.dataset.id)`);
+  log("[womark] 覆盖层开启 候选=" + JSON.stringify(cards));
+  await sleep(900);                       // 让覆盖层完整入画再选卡
+  await pressKey("1", "Digit1", 90);
+  await sleep(500);
+  const still = await evalJSON(cdp, `!!document.querySelector('#womark-overlay.show')`);
+  if (still) {
+    // 兜底：数字键没生效（极少见）→ 直接点第一张卡
+    await evalJSON(cdp, `(() => { const c = document.querySelector('#womark-overlay .womark-card'); if (c) c.click(); return true; })()`);
+    await sleep(400);
+  }
+  const closed = await evalJSON(cdp, `!document.querySelector('#womark-overlay.show')`);
+  log("[womark] 选卡完成 已关闭=" + closed);
+  return true;
+}
+
 // ---------- 主流程 ----------
 async function main() {
   mkdirSync(OUT, { recursive: true });
@@ -430,6 +459,10 @@ async function main() {
     await pressKey(" ", "Space", 80); await sleep(700);
     mark("战斗收尾 countered=" + countered);
 
+    // 阶段 G：上面的连击可能已把对手打空 → 回合间开启鸣徽三选一并暂停战斗。
+    // 必须先把卡选掉，否则后续的蓄力输入会被吸收（onAttackInput 在 womarkOpen 时直接 return）。
+    await handleWomark(cdp);
+
     // ---- 蓄力必杀技（2026-11-11 新增机制）----
     //   按住空格 ≥0.55s 蓄满 → 松手释放蓄力终结（伤害远高于普通终结）
     await evalJSON(cdp, `window.__npr.teleportPlayer(-1.0, 0)`);
@@ -444,12 +477,101 @@ async function main() {
     // ---- 三连战（2026-11-11 新增机制）：连续击败 3 个不同招式族的对手 ----
     for (let round = 1; round <= 3; round++) {
       const before = await evalJSON(cdp, `({ round: window.__npr.battle.round, opp: window.__npr.opponent.hp })`);
+      // 第 3 回合（首领）集中展示深度改造线的新系统：阶段 F 首领狂暴 + 阶段 A 失衡 +
+      // 阶段 C 连携 QTE + 阶段 E 属性异常/紊乱 + 阶段 D 喧响值满极终结。
+      // 放在第 3 回合是因为这些系统的伤害量足以打空对手——放在前两回合会提前结束三连战。
+      if (round === 3) {
+        // 阶段 F：血量压到 50% 以下 → 狂暴（攻击 CD ×0.6 + 每 3 击红光不可弹反）
+        // 首领血量放大到 600：本段要连续演示「紊乱引爆 + 3 环连携 + 喧响满极终结」，
+        // 三者合计伤害 >300，普通 200 血的首领会中途暴毙 → endBattle → inBattle=false →
+        // 数字键与蓄力输入全被拦（连携选不了、终结发不出）。放大血量是录像专用的注入，
+        // 与同段其它 __npr 注入同性质（报告书 §十 5 已如实登记录像为脚本驱动）。
+        await evalJSON(cdp, `(() => { const o = window.__npr.opponent; o.maxHp = 600; o.hp = 240; return o.hp; })()`);
+        await sleep(1700);
+        mark("首领狂暴 enraged=" + JSON.stringify(await evalJSON(cdp, `window.__npr.battle.enraged`)));
+
+        await evalJSON(cdp, `window.__npr.teleportPlayer(-1.0, 0)`);
+        await sleep(400);
+
+        // 演示期间给首领回血：这些系统的伤害量（紊乱引爆 ≈70 + DoT）足以直接打死对手，
+        // 一旦对手死亡 → endBattle() → inBattle=false → 数字键输入被 L979 旁路监听的
+        // `if (!inBattle) return` 拦下（连携 QTE 选不了、蓄力终结也发不出）。
+        // 收尾交给下面的三连战循环统一把血打空。
+        const topUp = async (hp) => {
+          await evalJSON(cdp, `(() => { const o = window.__npr.opponent; if (o.hp < ${hp}) o.hp = ${hp}; return o.hp; })()`);
+        };
+        const TOP = 600;   // 首领放大后的血量上限
+
+        // 阶段 E：属性异常 → 灼烧 DoT（HUD 异常条 + 状态 chip）
+        await evalJSON(cdp, `window.__npr.addAnomaly("fire", 999)`);
+        await sleep(1500);
+        await topUp(TOP);
+        mark("属性异常·灼烧 " + JSON.stringify(await evalJSON(cdp, `window.__npr.anomalyState().status`)));
+        // 阶段 E：紊乱（异类互挂 → 引爆灼烧剩余 + 挂碎冰冻结）
+        await evalJSON(cdp, `window.__npr.addAnomaly("ice", 999)`);
+        await sleep(1400);
+        await topUp(TOP);
+        mark("紊乱引爆 " + JSON.stringify(await evalJSON(cdp, `window.__npr.anomalyState()`)));
+
+        // 阶段 A：打满失衡黄条 → 对手瘫软
+        await evalJSON(cdp, `window.__npr.addDaze(140)`);
+        await sleep(900);
+        mark("失衡 " + JSON.stringify(await evalJSON(cdp, `window.__npr.staggerState()`)));
+
+        // 阶段 C：失衡期开启连携技 QTE（3s 子弹时间 + 数字键选人连打）
+        // 开 QTE 前把首领血量顶满：连携终结带「失衡易伤 ×1.5」与「弱点 ×1.3」，
+        // 单发可达 100+，血量不足会在选环途中把首领打死 → 战斗结束 → 后续数字键被拦。
+        await topUp(TOP);
+        // 连携环数 = 回合档位（第 3 回合 → 3 环）。正常路径由「对手进入失衡」时写入
+        // （applyDamage 里 battle.chainCounts = min(3, round+1)），这里用诊断口直接置位，
+        // 与第 3 回合的真实档位一致。
+        await evalJSON(cdp, `(() => { window.__npr.battle.chainCounts = 3; return true; })()`);
+        await evalJSON(cdp, `window.__npr.debugOpenChain()`);
+        await sleep(700);
+        const qteOpen = await evalJSON(cdp, `!!document.querySelector('#chain-qte.show')`);
+        mark("连携 QTE 开启=" + qteOpen);
+        if (qteOpen) {
+          for (const k of ["1", "2", "3"]) {
+            const qBefore = await evalJSON(cdp, `(() => { const n = window.__npr; const q = n.chainQteState(); return { active: q.active, counts: q.counts, t: q.t, options: q.options, used: q.used, inBattle: n.chargeState().inBattle, phase: n.battle.phase, womark: n.battle.womarkOpen, activeIdx: n.squad.activeIndex }; })()`);
+            await pressKey(k, "Digit" + k, 90);
+            await sleep(850);
+            const qAfter = await evalJSON(cdp, `(() => { const n = window.__npr; const q = n.chainQteState(); return { active: q.active, counts: q.counts, t: q.t, options: q.options, used: q.used, inBattle: n.chargeState().inBattle, phase: n.battle.phase, womark: n.battle.womarkOpen, activeIdx: n.squad.activeIndex }; })()`);
+            mark(`连携选${k} 前=${JSON.stringify(qBefore)} 后=${JSON.stringify(qAfter)}`);
+            // 兜底：合成 keydown 未生效时改用 CDP 原生按键事件再试一次
+            if (qBefore.active && !qAfter.used.length && qAfter.active) {
+              await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: k, code: "Digit" + k, text: k, windowsVirtualKeyCode: 48 + Number(k) });
+              await sleep(120);
+              await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: k, code: "Digit" + k, windowsVirtualKeyCode: 48 + Number(k) });
+              await sleep(500);
+              const qFix = await evalJSON(cdp, `(() => { const q = window.__npr.chainQteState(); return { active: q.active, counts: q.counts, used: q.used, activeIdx: window.__npr.squad.activeIndex }; })()`);
+              mark(`连携选${k} CDP原生兜底 => ${JSON.stringify(qFix)}`);
+            }
+          }
+        }
+        mark("连携结束 " + JSON.stringify(await evalJSON(cdp, `window.__npr.chainQteState()`)));
+
+        // 阶段 D：喧响值拉满 → 蓄力终结升级（×2 伤害 + 2.2s 无敌 + 喧响清零）
+        // 这一击是本段的收尾（伤害 ≈184），允许它终结首领 → 直接进结算。
+        await evalJSON(cdp, `window.__npr.setDecibel(3000)`);
+        await sleep(400);
+        mark("喧响值拉满 " + JSON.stringify(await evalJSON(cdp, `window.__npr.decibelState()`)));
+        await evalJSON(cdp, `window.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', bubbles: true }))`);
+        await sleep(1100);
+        const charge2 = await evalJSON(cdp, `(() => { const e=document.getElementById('hud-charge'); const f=document.getElementById('hud-charge-fill'); const n=window.__npr; return { show: e?e.classList.contains('show'):null, full: e?e.classList.contains('full'):null, pct: f?f.style.width:'-', keys: n.chargeState().keys, decibel: n.decibelState().decibel, inBattle: n.chargeState().inBattle, phase: n.battle.phase }; })()`);
+        mark("喧响满极蓄力条 " + JSON.stringify(charge2));
+        await evalJSON(cdp, `window.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space', bubbles: true }))`);
+        await sleep(1500);
+        mark("喧响满极终结释放 decibel=" + JSON.stringify(await evalJSON(cdp, `window.__npr.decibelState()`)));
+        await sleep(600);
+      }
       // 把当前对手打空 → 推进到下一回合（前两回合）或结算（第三回合）
       await evalJSON(cdp, `(() => { window.__npr.opponent.hp = 0; return true; })()`);
       await sleep(900);
       const after = await evalJSON(cdp, `({ round: window.__npr.battle.round, phase: window.__npr.battle.phase, opp: window.__npr.opponent.hp })`);
       mark(`第 ${round} 个对手被击败 round ${before.round}->${after.round} phase=${after.phase}`);
       if (after.phase === "settle") break;
+      // 阶段 G：回合间开启鸣徽三选一（会暂停战斗）→ 必须选卡才能继续
+      await handleWomark(cdp);
       // 下一回合：展示一下新对手（走近 + 出一段连段）
       await evalJSON(cdp, `window.__npr.teleportPlayer(2.4, 0)`);
       await sleep(200);
@@ -459,6 +581,8 @@ async function main() {
       await pressKey(" ", "Space", 80); await sleep(520);
       await pressKey(" ", "Space", 80); await sleep(700);
       mark("第 " + (round + 1) + " 回合连段");
+      // 回合内的连击可能已把对手打空 → 又一次鸣徽覆盖层
+      await handleWomark(cdp);
     }
 
     // ---- 场景 4：结算（~6s）----

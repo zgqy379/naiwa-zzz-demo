@@ -403,14 +403,21 @@ export async function runAllTests(page) {
   t.group("交互");
 
   await t.case("WASD 移动生效", async () => {
-    // 稳定化（修 flaky）：
+    // 稳定化（修 flaky + 修不严谨）：
     //  1) 把玩家播种到 +X 远端（远离对手 → dist>2.4，对手不进入攻击分支，无顿帧/慢镜干扰）
+    //     ⚠ 播种坐标必须落在场地边界内（movement.mjs bounds.x = 4.5）。原用例播种到 x=6，
+    //       首帧夹紧到 4.5 会凭空产生 1.5 的「假位移」——旧断言即使完全没移动也可能通过，
+    //       判据形同虚设。现播种到 4.4（边界内、仍远离对手）。
     //  2) 轮询等待瞬时战斗状态清零（freezeT/弹反窗口/攻击前摇）
-    //  3) 失败自动重试最多 3 次（渲染停顿会把 clock delta 钳在 0.05s，单次窗口可能只积累几帧位移）
-    await evalPage(() => {
+    //  3) **按住不放 + 轮询位移**（替代「按住 500ms 后一次性采样」）：
+    //     ego 宿主下 rAF 可能被节流到几百毫秒一帧（实测 1.5s 内只推进 1 帧，位移仅 0.12），
+    //     按墙钟时长采样会把「宿主帧饥饿」误判成「移动失效」。改为按住并轮询，
+    //     只要窗口内真的推进过帧就能测到位移；判据（位移 > 0.3 且含屏幕左分量）不变。
+    const SEED_X = 4.4; // 边界内（bounds.x = 4.5）
+    await evalPage((sx) => {
       const mv = window.__npr?.squad?.active?.move;
-      if (mv) { mv.pos.set(6, 0, 0); mv.vel.set(0, 0, 0); }
-    });
+      if (mv) { mv.pos.set(sx, 0, 0); mv.vel.set(0, 0, 0); }
+    }, SEED_X);
     for (let i = 0; i < 20; i++) {
       const st = await evalPage(() => {
         const n = window.__npr;
@@ -419,15 +426,54 @@ export async function runAllTests(page) {
       if (st && st.f <= 0 && st.w === 0 && st.p <= 0) break;
       await page.waitForTimeout(250);
     }
-    let dist = 0, delta = null;
-    for (let attempt = 0; attempt < 3 && dist <= 0.5; attempt++) {
-      const before = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
-      await pressKey("a", "KeyA", 65, 500); // 长按 500ms
-      const after = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
-      delta = { x: after.x - before.x, z: after.z - before.z };
-      dist = Math.hypot(after.x - before.x, after.y - before.y, after.z - before.z);
+    // 参考位置取「安静等待之后」：此时首帧夹紧已发生，不会把夹紧量算成位移
+    const before = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
+    let dist = 0, delta = { x: 0, z: 0 };
+    await evalPage(() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "a", code: "KeyA", bubbles: true })));
+    try {
+      for (let i = 0; i < 24 && dist <= 0.5; i++) {
+        await page.waitForTimeout(250);
+        const after = await evalPage(() => ({ ...window.__npr?.squad?.active?.move?.pos }));
+        delta = { x: after.x - before.x, z: after.z - before.z };
+        dist = Math.hypot(after.x - before.x, after.y - before.y, after.z - before.z);
+      }
+    } finally {
+      // 松开按键放 finally：即使读状态抛错也不会卡住按键
+      await evalPage(() => window.dispatchEvent(new KeyboardEvent("keyup", { key: "a", code: "KeyA", bubbles: true })));
     }
-    A.assertGreater(dist, 0.3, `移动距离过小：${dist.toFixed(2)}`);
+    // 失败时给出状态快照：位移小可能来自「战斗未运行 / 鸣徽暂停 / 连携 QTE 停车 /
+    // rAF 帧饥饿」等不同原因，不带状态的断言无法定位。
+    // 帧计数：独立于游戏循环自挂一个 rAF 探针，用来区分「宿主把 rAF 饿死了」
+    // 与「游戏循环自己挂了」——两者在位移断言上表现完全一样。
+    await evalPage(() => {
+      window.__nprFrames = 0;
+      const c = () => { window.__nprFrames++; requestAnimationFrame(c); };
+      requestAnimationFrame(c);
+    });
+    const e1 = await evalPage(() => +(window.__npr?.battleStats?.elapsed ?? 0).toFixed(3));
+    await page.waitForTimeout(600);
+    const e2 = await evalPage(() => +(window.__npr?.battleStats?.elapsed ?? 0).toFixed(3));
+    const frames = await evalPage(() => window.__nprFrames ?? -1);
+    const mvState = await evalPage(() => {
+      const n = window.__npr;
+      const mv = n?.squad?.active?.move;
+      return {
+        phase: n?.battle?.phase ?? null,
+        inBattle: n?.chargeState?.().inBattle ?? null,
+        womarkOpen: n?.battle?.womarkOpen ?? null,
+        chainQte: n?.battle?.chainQte?.active ?? null,
+        freezeT: +(n?.battle?.freezeT ?? 0).toFixed(3),
+        keys: (n?.chargeState?.().keys ?? []).join(","),
+        speed: +(mv?.walkSpeed ?? 0).toFixed(2),
+        vel: mv ? `${(mv.vel?.x ?? 0).toFixed(2)},${(mv.vel?.z ?? 0).toFixed(2)}` : null,
+        pos: mv ? `${mv.pos?.x.toFixed(2)},${mv.pos?.z.toFixed(2)}` : null,
+        elapsed: +(n?.battleStats?.elapsed ?? 0).toFixed(2),
+      };
+    });
+    A.assertGreater(
+      dist, 0.3,
+      `移动距离过小：${dist.toFixed(2)}｜状态 ${JSON.stringify(mvState)}｜探针帧数(600ms)=${frames}｜elapsed ${e1}→${e2}`
+    );
     // 屏幕方向语义断言（深挖修复 GAME-4）：按 A 的位移必须含「屏幕左」分量——
     // 位移在相机右向量（matrixWorld 第 0 列 = 屏幕右）上的水平投影须为负。机位在 +X 侧含 +Z 侧偏
     // （tuning camera.axis="x"），街道对齐映射下 A=-X 的投影 ≈ -0.50·d；若日后改机位相对映射

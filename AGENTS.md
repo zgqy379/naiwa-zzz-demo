@@ -72,6 +72,31 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-12 03:0x by 收口线（**统一收口：并入阶段 A–G → 重建 → 第四次重录 → 双通道重部署 → 再重指冻结 tag**）
+
+- 已做（**本轮未改 `src/` 任何一行**，只改 `tests/`、`scripts/`、`docs/`；`src/` 自 `fbbcf43` 起未变）：
+  - **并线后的唯一一次统一重建**：`dist/assets/index-C6e6LaWv.js`（1,011,164 B，sha256 前 16 位 `eb060ab7f155e887`）+ CSS `index-BnIDec0l.css`（53,151 B，`e9056643b6d1168b`），dist 交付 **34 个文件**。重建前核对 `src/` 静默 39 分钟、工作区干净、重建 hash 与并行线登记值一致（`eb060ab7f155e887`）→ 确认构建与源码同版。
+  - **双通道部署并验收**：魔搭 master `521d7bc → d44ca9f`、gh-pages `3e3dea5 → f90cc29`；两通道 **34/34 文件 GET/Range 200/206**（魔搭 `index.html` 为 301→根路径 200，属平台行为），入口 / 主 JS / CSS / `bg/title.mp4` / `fonts/LICENSES.txt` **五项关键文件逐字节一致**（`A2EDFF3B33F66DC7` / `EB060AB7F155E887` / `E9056643B6D1168B` / `DA18AB01B02C594A` / `18A6B716E5A31801`），旧构建 `index-BxioTyAg.js` 两通道均 **404 下线**。
+  - **Demo 视频第四次重录**：`docs/demo-video-20261111.mp4`（**84.000 s / 2520 帧 / 32,665,099 B**，sha256 `b531286b…`，零 console 错误、黑帧 0 段），**片中首次完整呈现阶段 A–G 全部新系统**：三段连段 → 接力换人 → 弹反 ×1 → 蓄力终结 → 三连战 0→1→2（每回合之间开**鸣徽三选一**，数字键选卡）→ 第 3 回合**首领狂暴** → **属性异常·灼烧** → **紊乱引爆 + 碎冰冻结** → **失衡黄条打满** → **连携技 QTE 3 环连打**（子弹时间 + 换人 3 次）→ **喧响值拉满 → 喧响满极终结**（喧响清零 + 无敌）→ A 级结算。
+  - **§十 插图与界面实拍按新构建重拍**：7 张（`v3-show4-*` / `v3-npr-*` / `v3-aholo-street-*`）+ 13 张界面流程实拍（`scripts/capture-test-shots.mjs` 自建 CDP 通道）。
+  - **性能取证重测**：战斗屏 **351 draw call / 126,686 三角面**；标题页 **3 个** WebGL context；Aholo 层开/关 A/B 差值 **+5 draw call / +29,200 三角面**；稳定性 30 s 采样 fps 223.5~262.5、heap 27→24 MB、`contextlost` 0 次。
+  - **E2E 红灯定位与修复（本轮最有价值的产出）**：「WASD 移动生效」用例**既 flaky 又不严谨**——它把玩家播种到 x=6，而场地边界 `movement.mjs bounds.x = 4.5`，首帧夹紧会凭空产生 **1.5 的假位移**（旧断言即使完全没移动也可能通过）；且原实现按「按住 500ms 一次性采样」，在 ego 宿主 rAF 被节流时（实测 1.5 s 内只推进 1 帧、位移 0.12）会把**宿主帧饥饿误判成移动失效**。现改为**边界内播种（4.4）+ 按住不放并轮询位移**（判据「位移 > 0.3 且含屏幕左分量」不变、不放宽），并加**状态快照**（phase / inBattle / womarkOpen / chainQte / freezeT / 输入键 / 速度 / 速度向量 / 位置 / 独立 rAF 帧计数 / elapsed 差值）——今后同类红灯可直接定位。修复后 E2E **连续 3 轮 33/33**。
+  - **录像脚本适配新系统**：`scripts/capture-demo-video.mjs` 新增 `handleWomark()`（阶段 G 鸣徽覆盖层会**暂停战斗**，不选卡则后续蓄力输入被吸收 → 旧脚本会拍到僵局）、第 3 回合集中演示新系统、逐键状态快照与 CDP 原生按键兜底。
+- **本轮踩坑记录（留给后来者）**：
+  1. **新系统会改变录像脚本的前提**：鸣徽三选一在回合间开启并**停车整个战斗逻辑**（`main.mjs` 的 `battleRunning` 门禁）；数字键/蓄力输入在 `womarkOpen` 或 `!inBattle` 时被吞。
+  2. **一次「本该成功的输入」可能败在状态而非按键**：连携 QTE 选不了人时，真实原因是**首领被紊乱引爆打死 → `endBattle()` → `inBattle=false` → 数字键被 `if (!inBattle) return` 拦下**；靠逐键前后状态快照（active/counts/options/used/inBattle/phase）才定位到，与「按键没派发出去」表象完全相同。
+  3. **合成 KeyboardEvent 走 `window.dispatchEvent` 是可靠的**（鸣徽选卡、连携选人都靠它），无需退回 CDP 原生按键。
+  4. **PowerShell 5.1 把 UTF-8 `.ps1` 当 ANSI 读** → 中文 here-string 会解析失败；部署脚本必须**纯 ASCII**（`ms-deploy-all.ps1` 已按此写）。
+- 未做 / 待办（**制作人本人**）：官网提交 + 回执（`receipt` 仍空）、小红书发帖（`rednote_url`）、对外视频链接（`video_url`）、`submit_at`；首页背景视频授权凭证（§九第 8 条仍标「待验证」）。
+- 待验证：真机可见窗口下 4 个 WebGL context 的显存/发热（12 分钟四屏轮转 `contextlost` 0 次、heap 无泄漏已实测，真机观感仍待制作人确认）；慢网络下「载入中 N/16」的等待体感（属网络问题而非产品问题）。
+- 产物与证据路径：`docs/demo-video-20261111.mp4`、`docs/naiwa-zero-modelscope-static-20261111.zip`（41 条目 / 13.12 MB）、`docs/evidence/v3-{runtime-metrics,stability,demo-rec,test-shots}-20261111.json`、`docs/evidence/v3-{show4-*,npr-*,aholo-street-*}-20261111.png`、`docs/test-report.json`（33/33）、`docs/test-shots/01-17`。
+- 最近构建：`dist/assets/index-C6e6LaWv.js` @ 2026-11-12 01:42（1,011,164 B，sha256 前 16 位 `eb060ab7f155e887`）+ `index-BnIDec0l.css`（53,151 B，`e9056643b6d1168b`）；dist 交付 **34 个文件**。构建人：收口线。线上：魔搭 master `d44ca9f` / gh-pages `f90cc29`（同版，逐字节一致）。
+- 已知冲突 / 风险：
+  1. **冻结 tag 需再指一次**（本轮结束时 `freeze-2026-11-11-final` 仍指向 `95f74b9`，即第三次重录版本）。本轮统一收口提交完成后必须**强制重指到该提交**并回填 `frozen_commit`。
+  2. **对手攻击前摇 0.25 vs 0.32 调参冲突仍未回改**（记录在 `docs/改动记录-角色线.md` 的 01:5x 行）：数值按 HEAD 基线停在 **0.25**，报告书 §3.3 / §十一 口径与之一致；若要改 0.32 须重新登记后统一调并同步报告书。
+  3. **报告书 §10.5 与 `submission.json` 的 `rec_note` 已如实登记录像的「脚本驱动 + 状态注入」性质**（含首领血量上限放大到 600 这一注入），未把录像当作「真人亲手玩」举证。
+  4. 机器负载与网络波动会影响录像帧率与 GitHub 推送：本轮录像 23.9 fps（此前一次仅 5.2 fps，因 ego 里残留的游戏页全速渲染抢 CPU）；录像前建议先清理残留进程。
+
 ### 交接 2026-11-12 02:1x by 深度改造线（绝区零对标 · 阶段 A-G 全量落地 · **E2E 33/33**）
 
 - 已做（**本轮全程登记后动 `src/`，每阶段独立提交可回滚**）：
@@ -524,9 +549,10 @@ AIGC:
 
 - 弹反系统**已实现**：`src/game/counter.mjs` 为完整逻辑，`src/main.mjs` 已接入 `spawnCrates` / `spawnCover` / `hitTest` / `destroy`；构建产物中含「成功弹反」「spawnCrates」字样。
 - 可破坏箱 / 掩体**已实现**（掩体 AABB 阻挡已接线：`src/main.mjs:250-252` coverSolids → Movement.solidBoxes，`movement.mjs:134` 每帧推出），不属于「计划中」。
-- 线上站点已是 2026-11-12 定版（**第三次重录后的最新构建**）：魔搭 master `521d7bc`，入口 `index-BxioTyAg.js`（993,117 B，sha256 前 16 位 `5ED9CED3D7AEDD33`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/`（gh-pages `3e3dea5`）同版；**34 个交付文件** GET/Range 全部 200/206，入口与主 JS 与本仓 `dist/` 逐字节一致（HEAD 一律 403 不可用作判据）。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。
-- **⚠ 仓库 `src/` 领先于线上构建**：并行线「深度改造线」的阶段 A/B/C（失衡系统 / 极限闪避+支援点 / 连携技 QTE）已入库但**未重建未部署**；线上仍是阶段 A/B/C 之前的 `index-BxioTyAg.js`。最终提交前须做一次**统一重建 + 重录 + 重拍 + 双通道重部署 + 再重指冻结 tag**。
+- 线上站点已是 2026-11-12 定版（**第四次重录后的统一收口构建，已并入阶段 A–G 八个系统**）：魔搭 master `d44ca9f`，入口 `index-C6e6LaWv.js`（1,011,164 B，sha256 前 16 位 `EB060AB7F155E887`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/`（gh-pages `f90cc29`）同版；**34 个交付文件** GET/Range 全部 200/206，入口 / 主 JS / CSS / `bg/title.mp4` / `fonts/LICENSES.txt` **五项关键文件与本仓 `dist/` 逐字节一致**（HEAD 一律 403 不可用作判据；魔搭 `index.html` 为 301→根路径 200）。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。**当前 `src/`、线上构建、Demo 视频、§十 插图、报告书五者同版**。
+- **冻结 tag `freeze-2026-11-11-final` 已被强制重指两次**（`eb074ff` → `95f74b9` → 统一收口提交）：每次重录/统一收口后都要重指并回填 `docs/submission.json` 的 `frozen_commit`。
 - **E2E 截图注意事项**：`tests/harness.mjs` 的截图走 ego 宿主的 `page.cdp("Page.captureScreenshot")`，在该宿主下可能返回**空 data** 并被静默跳过 → `docs/test-shots/` 会停留在旧构建的图。界面流程实拍改由 `scripts/capture-test-shots.mjs`（自建 CDP 通道）产出。
+- **阶段 G 鸣徽三选一会暂停战斗**：`battle.womarkOpen = true` 时 `main.mjs` 的 `battleRunning` 门禁会让整个战斗逻辑停车（攻击 / 闪避 / 数字键选卡以外的输入全被吞）。**任何驱动战斗的脚本（录像 / 自动化）都必须处理 `#womark-overlay`**——不选卡会拍到僵局、且后续蓄力输入被吸收。
 - `visualScale` 已回源码：`src/game/squad.mjs:103` 定义、`src/main.mjs:201` 消费（2026-11-11 审计复核）；「登记与源码不符」段历史记录保留。
 - `submission.json` 已于 2026-11-09 在本仓重建（`docs/submission.json`），完成式字段按「不许预填完成式」口径留空。
 - `dist/` **未**被版本库跟踪：`git ls-files dist` 输出 0 行，`git ls-files --stage | grep ^160000` 输出 0 行，`.gitignore:2` 为 `dist/`（完全忽略）。`dist/` 自带独立 `.git`（gh-pages 用途），产物只在该子仓库内留痕。
