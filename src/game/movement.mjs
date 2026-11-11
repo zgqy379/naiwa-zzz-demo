@@ -64,7 +64,8 @@ export class Movement {
     this.dodgeCooldown = Math.max(0, this.dodgeCooldown - dt);
     if (input.dodge && this.dodgeCooldown <= 0 && this.dodgeT <= 0) {
       this.dodgeT = 0.28;
-      this.dodgeIframeT = 0.32;
+      // 阶段 G：灵闪鸣徽加成（+0.1s/层）
+      this.dodgeIframeT = 0.32 + (this.dodgeIframeBonus ?? 0);
       this.dodgeCooldown = 0.6;
       // 闪避方向 = 当前输入方向（无输入则向后）
       const dir = this._inputDir(input.move);

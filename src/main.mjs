@@ -27,6 +27,7 @@ import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
 import { AssistSystem, ASSIST_TUNING } from "./game/assist.mjs";
 import { AnomalySystem, ANOMALY_TUNING, ATTR } from "./game/anomaly.mjs";
 import { ChainQteOverlay, CHAIN_QTE_WINDOW_S } from "./ui/chainqte.mjs";
+import { WomarkOverlay, WOMARK_POOL } from "./ui/womark.mjs";
 import { Squad, SQUAD } from "./game/squad.mjs";
 import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } from "./game/moves.mjs";
 import { InputManager } from "./game/input.mjs";
@@ -461,8 +462,10 @@ const battle = {
   decibel: 0,             // 阶段 D：喧响值 0-3000（只增不减；[极]=3000 解锁终结技）
   invulnT: 0,             // 阶段 D：喧响终结技释放期间无敌（realDt 计时，覆盖前摇+演出）
   weaknessAttr: null,     // 阶段 E：本回合对手弱点属性（physical|fire|ice|electric|ether）
-  enraged: false,         // 阶段 F：首领狂暴（回合3 且血量 <50%）
+   enraged: false,         // 阶段 F：首领狂暴（回合3 且血量 <50%）
   attackCount: 0,         // 阶段 F：狂暴期攻击计数（每 3 击一次红光不可弹反）
+  womarkOpen: false,      // 阶段 G：鸣徽三选一开启中（战斗暂停旗标，不新增 phase）
+  buffs: {},              // 阶段 G：持有鸣徽 { id: 层数 }
   phase: "idle",        // UI-1：初始非战斗（原 "playing" 使标题/选人界面防线全放行；startBattle 才置 playing）
 };
 
@@ -472,6 +475,8 @@ const impactFx = new ImpactFX(scene);
 const hitFeedback = new HitFeedback();
 // 连携 QTE 覆盖层（阶段 C）：chip 点击 → pickChain（函数声明提升，运行期才被调用）
 const chainOverlay = new ChainQteOverlay((chipIndex) => pickChain(chipIndex));
+// 鸣徽三选一覆盖层（阶段 G）
+const womarkOverlay = new WomarkOverlay((id) => pickWomark(id));
 
 function spawnParticles(pos, tier) {
   impactFx.hit(new THREE.Vector3(pos.x, 0, pos.z), tier === "ultimate" ? "ultimate" : tier === "heavy" ? "heavy" : tier === "medium" ? "medium" : "light");
@@ -497,14 +502,15 @@ function computeHitDamage(base, member, mv, defenderStyle) {
     dmg: Math.round(base * member.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]
       * (stagger.isStaggered ? STAGGER_TUNING.vulnMul : 1)
       * anomaly.etherVulnMul
-      * (member.attr && member.attr === battle.weaknessAttr ? ANOMALY_TUNING.weakDmgMul : 1)),
+      * (member.attr && member.attr === battle.weaknessAttr ? ANOMALY_TUNING.weakDmgMul : 1)
+      * (1 + 0.15 * (battle.buffs.attack ?? 0))),   // 阶段 G：强攻鸣徽 +15%/层
     rel,
   };
 }
 
-/** 阶段 D：喧响值积累（只增不减，上限 3000 = [极]） */
+/** 阶段 D：喧响值积累（只增不减，上限 3000 = [极]；阶段 G 喧响鸣徽 +20%/层） */
 function gainDecibel(n) {
-  battle.decibel = Math.min(3000, battle.decibel + n);
+  battle.decibel = Math.min(3000, battle.decibel + n * (1 + 0.2 * (battle.buffs.decibel ?? 0)));
 }
 
 /** 阶段 E：异常条 HUD 摘要（显示积蓄最高的属性 + 状态 + 弱点） */
@@ -556,13 +562,15 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   const wasStaggered = stagger.isStaggered;
   if (dazeGain > 0) {
     stagger.gain(dazeGain * (squad.active?.gridMul ?? 1)
+      * (1 + 0.2 * (battle.buffs.stagger ?? 0))   // 阶段 G：击破鸣徽
       * (squad.active?.attr && squad.active.attr === battle.weaknessAttr ? ANOMALY_TUNING.weakDazeMul : 1));
   }
   // 阶段 E：异常积蓄（每次玩家命中积累当前角色属性；弱点 ×1.5；DoT 不积累——不走本函数）
   const aAttr = squad.active?.attr;
   if (aAttr) {
     anomaly.gain(aAttr, ANOMALY_TUNING.buildupPerHit
-      * (aAttr === battle.weaknessAttr ? ANOMALY_TUNING.weakDazeMul : 1), squad.active.damageMul ?? 1);
+      * (aAttr === battle.weaknessAttr ? ANOMALY_TUNING.weakDazeMul : 1)
+      * (1 + 0.3 * (battle.buffs.anomaly ?? 0)), squad.active.damageMul ?? 1);   // 阶段 G：异常鸣徽
   }
   // 阶段 E：感电追伤（本命中触发；最多 10 次由 anomaly 内部计数）
   const shockBonus = anomaly.onPlayerHit();
@@ -614,6 +622,8 @@ function doDodgeCounter() {
 
 function onAttackInput() {
   if (battle.phase !== "playing") return;
+  // 阶段 G：鸣徽选择期间输入吸收
+  if (battle.womarkOpen) return;
   // 阶段 C：QTE 期间攻击输入被 QTE 吸收（选环走数字键/点击）
   if (battle.chainQte.active) return;
   // 阶段 B：闪避反击资格期内攻击输入 = 闪避反击（瞬发重击，不进连段）
@@ -808,7 +818,8 @@ function executeChainStrike(memberIdx, chipIndex) {
   battle.freezeT = Math.max(battle.freezeT, isFinisher ? 0.3 : 0.15);
   // 连携命中不做玩家走位判定（QTE 演出契约），但做宽松距离校验防极端位置
   if (opponentGroup.position.distanceTo(m.group.position) <= mv.hitbox.range + 1.6) {
-    const base = (isFinisher ? 36 : 24) * m.damageMul * mv.impact.strength;
+    const base = (isFinisher ? 36 : 24) * m.damageMul * mv.impact.strength
+      * (1 + 0.25 * (battle.buffs.chain ?? 0));   // 阶段 G：连携鸣徽 +25%/层
     const { dmg } = computeHitDamage(base, m, mv, oppStyle);
     battle.hitCount++;
     applyDamage(dmg, "ultimate", 0, null);
@@ -828,6 +839,51 @@ function executeChainStrike(memberIdx, chipIndex) {
   if (isFinisher) closeChainQte();
 }
 
+// ---------- 阶段 G：鸣徽三选一（回合间轻肉鸽） ----------
+let womarkOffers = [];   // 当前候选（数字键按位选择用）
+
+/** 开启鸣徽三选一（advanceRound 调用；战斗经 womarkOpen 旗标暂停） */
+function openWomark() {
+  battle.womarkOpen = true;
+  const pool = [...WOMARK_POOL];
+  const offers = [];
+  for (let i = 0; i < 3 && pool.length; i++) {
+    offers.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+  }
+  womarkOffers = offers;
+  womarkOverlay.show(offers);
+  audio.playConfirm?.();
+}
+
+/** 按下标选中（0-2） */
+function pickWomarkByIndex(i) {
+  const def = womarkOffers[i];
+  if (def) pickWomark(def.id);
+}
+
+/** 选中鸣徽：叠层计数 + 即时效果 + 回战斗 */
+function pickWomark(id) {
+  if (!battle.womarkOpen) return;
+  const def = WOMARK_POOL.find((o) => o.id === id);
+  if (!def) return;
+  battle.buffs[id] = (battle.buffs[id] ?? 0) + 1;
+  // 即时效果
+  if (id === "heal") {
+    for (const m of squad.members) {
+      if (m.alive) m.hp = Math.min(m.maxHp, m.hp + Math.round(m.maxHp * 0.3));
+    }
+  }
+  if (id === "assist") assist.full();
+  if (id === "dodge") {
+    for (const m of squad.members) m.move.dodgeIframeBonus = (m.move.dodgeIframeBonus ?? 0) + 0.1;
+  }
+  if (id === "counter") counter.windowSBonus = (counter.windowSBonus ?? 0) + 0.05;
+  womarkOverlay.hide();
+  battle.womarkOpen = false;
+  screens.toast(`${def.name} ×${battle.buffs[id]}`);
+  audio.playConfirm();
+}
+
 let dodgeRequested = false;
 
 // 蓄力必杀技（2026-11-11）：轻点空格 = 连段；按住空格 ≥ CHARGE_TIME 后松手 = 蓄力终结
@@ -840,6 +896,8 @@ let attackFiredOnPress = false;   // 本次按下是否已经出招（连段分�
 
 function onDodgeInput() {
   if (battle.phase !== "playing") return;
+  // 阶段 G：鸣徽选择期间输入吸收
+  if (battle.womarkOpen) return;
   // 阶段 C：QTE 期间 Shift = 取消连携（ZZZ 1.1 手动取消）
   if (battle.chainQte.active) {
     closeChainQte();
@@ -871,6 +929,8 @@ function onDodgeInput() {
 
 function onSwapInput(index) {
   if (battle.phase !== "playing") return;
+  // 阶段 G：鸣徽选择期间普通换人吸收
+  if (battle.womarkOpen) return;
   // 阶段 C：QTE 期间普通换人被吸收（链式换人由 executeChainStrike 接管）
   if (battle.chainQte.active) return;
   const viaChain = squad.canChain;
@@ -926,6 +986,9 @@ window.addEventListener("keydown", (e) => {
     // 阶段 C：连携 QTE 期间数字键 = 选连携成员（chip 1/2/3）
     if (battle.chainQte.active) {
       pickChain(k === "0" ? 9 : Number(k) - 1);
+    } else if (battle.womarkOpen) {
+      // 阶段 G：鸣徽三选一期间数字键 = 选卡（1/2/3）
+      pickWomarkByIndex(Number(k) - 1);
     } else {
       onSwapInput(k === "0" ? 9 : Number(k) - 1);
     }
@@ -1005,7 +1068,8 @@ function tick() {
   // UI-1/GAME-3：战斗逻辑统一门控——标题/选人/结算界面与 settle 阶段全部停车
   //（原 !frozen 块无 inBattle/phase 守卫：非战斗界面按键驱动不可见角色移动/闪避，
   //  settle 后对手 AI 追击/开弹反窗/windup 到期伤害/连段推进/箱子 hitTest 仍照常运行）
-  const battleRunning = inBattle && battle.phase === "playing";
+  // 阶段 G：鸣徽三选一开启时同停车（womarkOpen 旗标，不新增 phase 以保 E2E 相位断言）
+  const battleRunning = inBattle && battle.phase === "playing" && !battle.womarkOpen;
 
   if (battleRunning && !frozen) {
     // 阶段 F：首领狂暴（回合 3 且血量 <50% → 攻击 CD ×0.6 + 每 3 击一次红光不可弹反）
@@ -1343,6 +1407,8 @@ function startBattle(memberIndex) {
   battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
   battle.decibel = 0;       // 阶段 D：开战清喧响
   battle.invulnT = 0;
+  battle.womarkOpen = false;   // 阶段 G：清鸣徽选择态
+  battle.buffs = {};           // 阶段 G：清鸣徽（肉鸽 buff 只在本局内累积）
   anomaly.reset();          // 阶段 E：清异常积蓄与状态
   battle.weaknessAttr = Object.keys(ATTR)[Math.floor(Math.random() * 5)];   // 阶段 E：本局对手弱点属性
   opponent.hp = opponent.maxHp;
@@ -1416,6 +1482,7 @@ function advanceRound() {
   hud.set({ charge: 0, charging: false, round: battle.round + 1, totalRounds: battle.totalRounds });
   const om = getMove(opponentMember.id);
   screens.toast(`第 ${battle.round + 1} 回合 · ${opponentMember.name}（${om.moveName}）`);
+  openWomark();   // 阶段 G：回合间鸣徽三选一（战斗暂停至选卡完成）
 }
 
 function endBattle() {
@@ -1444,7 +1511,11 @@ function endBattle() {
   const score = Math.round(base * timeMult);
   const grade = !win ? "D" : score > 3000 ? "S" : score > 1800 ? "A" : score > 800 ? "B" : "C";
   const rewards = win
-    ? ["经验 ×120", "奶币 ×80", "材料 ×3"]
+    ? ["经验 ×120", "奶币 ×80", "材料 ×3",
+       ...Object.entries(battle.buffs).map(([id, n]) => {
+         const def = WOMARK_POOL.find((o) => o.id === id);
+         return def ? `${def.name} ×${n}` : null;
+       }).filter(Boolean)]
     : ["经验 ×40", "奶币 ×20"];
   screens.showResult({
     win,
@@ -1526,6 +1597,9 @@ window.__npr = {
     frozenT: +anomaly.frozenT.toFixed(2), weakness: battle.weaknessAttr,
   }),
   addAnomaly: (attr, n) => anomaly.gain(attr, n, squad.active?.damageMul ?? 1),
+  // 阶段 G 调试口：鸣徽状态读取与注入（E2E 用）
+  womarkState: () => ({ open: battle.womarkOpen, buffs: { ...battle.buffs } }),
+  debugOpenWomark: () => openWomark(),
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },

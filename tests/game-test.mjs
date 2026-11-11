@@ -915,6 +915,48 @@ export async function runAllTests(page) {
     A.assert(hasCounter, "狂暴攻击计数器应存在");
   });
 
+  await t.case("鸣徽三选一", async () => {
+    // 进战斗 → 注入开启鸣徽 → 数字键选卡 → 断言 buff 生效并回到战斗
+    await evalPage(() => document.querySelector('[data-action="start"]')?.click());
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    let playing = false;
+    for (let i = 0; i < 60; i++) {
+      playing = await page.evaluate(() => window.__npr?.battle?.phase === "playing");
+      if (playing) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(playing, "未能进入战斗状态（鸣徽用例需要 playing）");
+    await page.evaluate(() => window.__npr.debugOpenWomark());
+    let open = null;
+    for (let i = 0; i < 40; i++) {
+      open = await page.evaluate(() => ({
+        flag: !!window.__npr?.womarkState?.().open,
+        shown: !!document.getElementById("womark-overlay")?.classList.contains("show"),
+      }));
+      if (open.flag && open.shown) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(open.flag, "注入后鸣徽选择应开启");
+    A.assert(open.shown, "鸣徽覆盖层应显示");
+    // 按 2 选第二张卡
+    await pressKey("2", "Digit2", 50);
+    let picked = null;
+    for (let i = 0; i < 40; i++) {
+      picked = await page.evaluate(() => ({
+        flag: !!window.__npr?.womarkState?.().open,
+        buffs: window.__npr?.womarkState?.().buffs ?? {},
+        shown: !!document.getElementById("womark-overlay")?.classList.contains("show"),
+      }));
+      if (!picked.flag) break;
+      await page.waitForTimeout(150);
+    }
+    A.assertEqual(picked.flag, false, "选卡后应回到战斗");
+    A.assert(!picked.shown, "选卡后覆盖层应隐藏");
+    const buffCount = Object.values(picked.buffs).reduce((a, b) => a + b, 0);
+    A.assertEqual(buffCount, 1, `应恰好获得 1 层鸣徽，实际 ${JSON.stringify(picked.buffs)}`);
+  });
+
   await t.case("无 console 错误", async () => {
     const errs = errors.filter((e) => /error|uncaught|failed/i.test(e));
     A.assertEqual(errs.length, 0, `有 ${errs.length} 个错误：${errs.slice(0, 3).join(" | ")}`);

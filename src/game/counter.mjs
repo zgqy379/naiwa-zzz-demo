@@ -44,7 +44,8 @@ export class CounterSystem {
     if (this.state === "warning") return false;
     this.state = "warning";
     this.parryable = parryable;
-    this.windowT = COUNTER_TUNING.windowS;
+    // 阶段 G：招架鸣徽加成（+0.05s/层，运行时由 main 写入 windowSBonus）
+    this.windowT = COUNTER_TUNING.windowS + (this.windowSBonus ?? 0);
     this.perfectT = COUNTER_TUNING.perfectWindowS;
     return true;
   }
