@@ -100,6 +100,11 @@ export class Hud {
           <span class="daze-label" id="hud-daze-label">失衡</span>
           <div class="daze-bar"><div class="daze-fill" id="hud-daze-fill"></div></div>
         </div>
+        <div class="anomaly-wrap" id="hud-anomaly-wrap">
+          <span class="anomaly-weak" id="hud-anomaly-weak"></span>
+          <div class="anomaly-bar"><div class="anomaly-fill" id="hud-anomaly-fill"></div></div>
+          <span class="anomaly-status" id="hud-anomaly-status"></span>
+        </div>
         <div class="chain-chip" id="hud-chain">连携 0/3</div>
       </div>
 
@@ -124,7 +129,7 @@ export class Hud {
     // 注意：#hud-mode / #hud-steps 两个元素在美术圣经重做时已被移除（调参信息移出玩家视野），
     //   原先仍留在 ids 列表里 → this.el.mode / this.el.steps 恒为 null，_apply 里对应分支
     //   是永不执行的死代码。现已从列表移除，mode/steps 仍可经 window.__npr.getMode()/getSteps() 读取。
-    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "daze-fill", "daze-label", "daze-wrap", "assist", "chain", "counter",
+    const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "daze-fill", "daze-label", "daze-wrap", "anomaly-fill", "anomaly-status", "anomaly-weak", "assist", "chain", "counter",
                  "shell-name", "shell-idx", "round", "charge", "charge-fill", "charge-text",
                  "db-fill", "db-level",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
@@ -217,6 +222,27 @@ export class Hud {
     if (this.el["daze-wrap"]) {
       this._put("staggered", !!s.staggered, () => {
         this.el["daze-wrap"].classList.toggle("staggered", !!s.staggered);
+      });
+    }
+
+    // 异常积蓄条 + 状态 + 弱点（阶段 E）
+    if (this.el["anomaly-fill"]) {
+      const pct = Math.round(Math.max(0, Math.min(100, s.anomalyPct ?? 0)));
+      this._put("anomaly-pct", pct, () => {
+        this.el["anomaly-fill"].style.width = `${pct}%`;
+      });
+      this._put("anomaly-css", s.anomalyCss ?? "", () => {
+        this.el["anomaly-fill"].style.background = s.anomalyCss || "rgba(255,255,255,.22)";
+      });
+    }
+    if (this.el["anomaly-status"]) {
+      this._put("anomaly-status", s.anomalyStatus ?? "", () => {
+        this.el["anomaly-status"].textContent = s.anomalyStatus ?? "";
+      });
+    }
+    if (this.el["anomaly-weak"]) {
+      this._put("anomaly-weak", s.anomalyWeak ?? "", () => {
+        this.el["anomaly-weak"].textContent = s.anomalyWeak ?? "";
       });
     }
 

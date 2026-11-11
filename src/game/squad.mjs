@@ -20,22 +20,22 @@
  * 主仓改口径时先改主仓，再同步本表（本 Demo 只读引用，不回写主仓）。
  */
 const FAMILY = [
-  { id: "shell_naiwa", name: "奶蛙", move: "笑波", moveTier: "procedural", color: 0xf5c542, glb: "naiwa_laugh_g1_runtime.glb" },
-  { id: "shell_naidou", name: "奶豆", move: "滚撞", moveTier: "procedural", color: 0xe0b84f, glb: "naiwa_naidou_runtime.glb" },
-  { id: "shell_xiaonaiwa", name: "小奶蛙", move: "分身包围", moveTier: "procedural", color: 0xf8d96b, glb: "naiwa_xiaonaiwa_runtime.glb" },
-  { id: "shell_naidan", name: "奶蛋", move: "蛋滚冲击", moveTier: "procedural", color: 0xfff0c2, glb: "naiwa_naidan_runtime.glb" },
-  { id: "shell_nashu", name: "奶鼠", move: "钻地突袭", moveTier: "clip", color: 0xcfa878, glb: "naiwa_nashu_runtime.glb" },
-  { id: "shell_naigou", name: "奶狗", move: "忠犬飞扑", moveTier: "procedural", color: 0xc98d5a, glb: "naiwa_naigou_runtime.glb" },
-  { id: "shell_naifen", name: "奶粉", move: "撒粉迷障", moveTier: "prop", color: 0xf2d8de, glb: "naiwa_naifen_runtime.glb" },
-  { id: "shell_naiji", name: "奶鸡", move: "啄击三连", moveTier: "procedural", color: 0xf0e0a8, glb: "naiwa_naiji_runtime.glb" },
-  { id: "shell_naimao", name: "奶猫", move: "猫爪挠击", moveTier: "procedural", color: 0xbfc4cc, glb: "naiwa_naimao_runtime.glb" },
-  { id: "shell_naishi", name: "奶屎", move: "螺旋重压", moveTier: "prop", color: 0xb08e5e, glb: "naiwa_naishi_runtime.glb" },
-  { id: "shell_dounai", name: "豆奶", move: "豆浆喷溅", moveTier: "procedural", color: 0xefe8d8, glb: "naiwa_dounai_runtime.glb" },
-  { id: "shell_naitu", name: "奶兔", move: "长耳鞭击", moveTier: "clip", color: 0xf7f1e3, glb: "naiwa_naitu_runtime.glb" },
-  { id: "shell_naiyu", name: "奶鱼", move: "尾鳍横扫", moveTier: "clip", color: 0xa8d8ea, glb: "naiwa_naiyu_runtime.glb" },
-  { id: "shell_naicha", name: "奶茶", move: "热茶泼洒", moveTier: "prop", color: 0xc68a4e, glb: "naiwa_naicha_runtime.glb" },
-  { id: "shell_naiping", name: "奶瓶", move: "摇瓶气泡", moveTier: "prop", color: 0xfdf3e0, glb: "naiwa_naiping_runtime.glb" },
-  { id: "shell_xigema", name: "西格玛奶蛙", move: "硬汉铁拳", moveTier: "procedural", color: 0x9c7a3c, glb: "naiwa_xigema_runtime.glb" },
+  { id: "shell_naiwa", name: "奶蛙", move: "笑波", moveTier: "procedural", color: 0xf5c542, attr: "physical", glb: "naiwa_laugh_g1_runtime.glb" },
+  { id: "shell_naidou", name: "奶豆", move: "滚撞", moveTier: "procedural", color: 0xe0b84f, attr: "ether", glb: "naiwa_naidou_runtime.glb" },
+  { id: "shell_xiaonaiwa", name: "小奶蛙", move: "分身包围", moveTier: "procedural", color: 0xf8d96b, attr: "electric", glb: "naiwa_xiaonaiwa_runtime.glb" },
+  { id: "shell_naidan", name: "奶蛋", move: "蛋滚冲击", moveTier: "procedural", color: 0xfff0c2, attr: "ice", glb: "naiwa_naidan_runtime.glb" },
+  { id: "shell_nashu", name: "奶鼠", move: "钻地突袭", moveTier: "clip", color: 0xcfa878, attr: "electric", glb: "naiwa_nashu_runtime.glb" },
+  { id: "shell_naigou", name: "奶狗", move: "忠犬飞扑", moveTier: "procedural", color: 0xc98d5a, attr: "physical", glb: "naiwa_naigou_runtime.glb" },
+  { id: "shell_naifen", name: "奶粉", move: "撒粉迷障", moveTier: "prop", color: 0xf2d8de, attr: "ether", glb: "naiwa_naifen_runtime.glb" },
+  { id: "shell_naiji", name: "奶鸡", move: "啄击三连", moveTier: "procedural", color: 0xf0e0a8, attr: "fire", glb: "naiwa_naiji_runtime.glb" },
+  { id: "shell_naimao", name: "奶猫", move: "猫爪挠击", moveTier: "procedural", color: 0xbfc4cc, attr: "ether", glb: "naiwa_naimao_runtime.glb" },
+  { id: "shell_naishi", name: "奶屎", move: "螺旋重压", moveTier: "prop", color: 0xb08e5e, attr: "fire", glb: "naiwa_naishi_runtime.glb" },
+  { id: "shell_dounai", name: "豆奶", move: "豆浆喷溅", moveTier: "procedural", color: 0xefe8d8, attr: "ice", glb: "naiwa_dounai_runtime.glb" },
+  { id: "shell_naitu", name: "奶兔", move: "长耳鞭击", moveTier: "clip", color: 0xf7f1e3, attr: "ice", glb: "naiwa_naitu_runtime.glb" },
+  { id: "shell_naiyu", name: "奶鱼", move: "尾鳍横扫", moveTier: "clip", color: 0xa8d8ea, attr: "ice", glb: "naiwa_naiyu_runtime.glb" },
+  { id: "shell_naicha", name: "奶茶", move: "热茶泼洒", moveTier: "prop", color: 0xc68a4e, attr: "fire", glb: "naiwa_naicha_runtime.glb" },
+  { id: "shell_naiping", name: "奶瓶", move: "摇瓶气泡", moveTier: "prop", color: 0xfdf3e0, attr: "electric", glb: "naiwa_naiping_runtime.glb" },
+  { id: "shell_xigema", name: "西格玛奶蛙", move: "硬汉铁拳", moveTier: "procedural", color: 0x9c7a3c, attr: "physical", glb: "naiwa_xigema_runtime.glb" },
 ];
 
 /**

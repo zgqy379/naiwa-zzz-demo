@@ -830,6 +830,62 @@ export async function runAllTests(page) {
     A.assert(fired.invuln > 0, "释放期间应有无敌帧");
   }, { shot: "17-ultimate" });
 
+  await t.case("属性异常与紊乱", async () => {
+    // 进战斗（fresh：对手满血 200，异常总伤害 ≈130 < 200 不会误触发换回合）
+    await evalPage(() => document.querySelector('[data-action="start"]')?.click());
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    let playing = false;
+    for (let i = 0; i < 60; i++) {
+      playing = await page.evaluate(() => window.__npr?.battle?.phase === "playing");
+      if (playing) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(playing, "未能进入战斗状态（异常用例需要 playing）");
+
+    // 弱点属性应是 5 属性之一
+    const weak = await page.evaluate(() => window.__npr?.anomalyState?.().weakness);
+    A.assert(["physical", "fire", "ice", "electric", "ether"].includes(weak), `弱点属性非法：${weak}`);
+
+    // 灼烧：注满火属性 → 状态挂上 + DoT 掉血
+    const hp0 = await page.evaluate(() => window.__npr.opponent.hp);
+    await page.evaluate(() => window.__npr.addAnomaly("fire", 999));
+    let burn = null;
+    for (let i = 0; i < 40; i++) {
+      burn = await page.evaluate(() => ({
+        status: window.__npr?.anomalyState?.().status,
+        hp: window.__npr?.opponent?.hp,
+      }));
+      if (burn.status?.attr === "fire") break;
+      await page.waitForTimeout(150);
+    }
+    A.assertEqual(burn.status?.attr, "fire", `注满火属性后应挂灼烧，实际 ${JSON.stringify(burn.status)}`);
+    // 轮询等 DoT 掉血（1s/跳 × 5×damageMul≈6/跳）
+    let hpAfterBurn = burn.hp;
+    for (let i = 0; i < 20; i++) {
+      await page.waitForTimeout(250);
+      hpAfterBurn = await page.evaluate(() => window.__npr.opponent.hp);
+      if (hpAfterBurn < burn.hp) break;
+    }
+    A.assertLess(hpAfterBurn, burn.hp, `灼烧应造成 DoT 掉血（${burn.hp} → ${hpAfterBurn}）`);
+
+    // 紊乱：再注满冰属性 → 引爆灼烧剩余 + 挂冻结
+    await page.evaluate(() => window.__npr.addAnomaly("ice", 999));
+    let freeze = null;
+    for (let i = 0; i < 40; i++) {
+      freeze = await page.evaluate(() => ({
+        status: window.__npr?.anomalyState?.().status,
+        frozenT: window.__npr?.anomalyState?.().frozenT,
+        hp: window.__npr?.opponent?.hp,
+      }));
+      if (freeze.status?.attr === "ice") break;
+      await page.waitForTimeout(150);
+    }
+    A.assertEqual(freeze.status?.attr, "ice", `异类注满应触发紊乱并挂上碎冰，实际 ${JSON.stringify(freeze.status)}`);
+    A.assertGreater(freeze.frozenT, 0, "碎冰应冻结对手");
+    A.assertLess(freeze.hp, hpAfterBurn, `紊乱引爆 + 冻结应继续掉血（${hpAfterBurn} → ${freeze.hp}）`);
+  });
+
   await t.case("无 console 错误", async () => {
     const errs = errors.filter((e) => /error|uncaught|failed/i.test(e));
     A.assertEqual(errs.length, 0, `有 ${errs.length} 个错误：${errs.slice(0, 3).join(" | ")}`);

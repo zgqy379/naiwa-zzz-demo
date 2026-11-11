@@ -25,6 +25,7 @@ import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
 import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
 import { AssistSystem, ASSIST_TUNING } from "./game/assist.mjs";
+import { AnomalySystem, ANOMALY_TUNING, ATTR } from "./game/anomaly.mjs";
 import { ChainQteOverlay, CHAIN_QTE_WINDOW_S } from "./ui/chainqte.mjs";
 import { Squad, SQUAD } from "./game/squad.mjs";
 import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } from "./game/moves.mjs";
@@ -388,6 +389,39 @@ const counter = new CounterSystem();
 const stagger = new StaggerSystem();
 // 支援系统（阶段 B）：3 格支援点（弹反花 1 / 连携·终结技回）+ 闪避反击资格窗
 const assist = new AssistSystem();
+// 属性异常系统（阶段 E）：积蓄 → 异常状态 → 紊乱引爆（副作用经 hooks 回注 main）
+const anomaly = new AnomalySystem({
+  damage: (dmg, label) => {
+    opponent.hp = Math.max(0, opponent.hp - dmg);
+    if (inBattle) battleStats.damageDealt += dmg;
+    hitFeedback.trigger(
+      new THREE.Vector3(opponentGroup.position.x, 1.2, opponentGroup.position.z),
+      "medium", camera, label ?? null
+    );
+  },
+  daze: (n) => stagger.gain(n),
+  onStatus: (attr, name) => {
+    screens.toast(`${ATTR[attr].name}异常 · ${name}！`);
+    audio.playHit("medium");
+  },
+  onDisorder: (dmg) => {
+    opponent.hp = Math.max(0, opponent.hp - dmg);
+    if (inBattle) battleStats.damageDealt += dmg;
+    screens.toast("紊乱！");
+    hitFeedback.trigger(
+      new THREE.Vector3(opponentGroup.position.x, 1.4, opponentGroup.position.z),
+      "ultimate", camera, "紊乱！"
+    );
+    gainDecibel(200);
+    cinematic.slowmoT = Math.max(cinematic.slowmoT, 0.6);
+  },
+  word: (text) => {
+    hitFeedback.trigger(
+      new THREE.Vector3(opponentGroup.position.x, 1.4, opponentGroup.position.z),
+      "heavy", camera, text
+    );
+  },
+});
 const cinematic = new Cinematic(camera, TUNING);
 // 相机装备（行业标准 camera-controls：碰撞 + 平滑，解决穿墙/镜头不稳）
 const camRig = new CameraRig(camera, canvas);
@@ -425,6 +459,7 @@ const battle = {
   chainQte: { active: false, counts: 0, t: 0, used: [], options: [] }, // 连携 QTE 状态
   decibel: 0,             // 阶段 D：喧响值 0-3000（只增不减；[极]=3000 解锁终结技）
   invulnT: 0,             // 阶段 D：喧响终结技释放期间无敌（realDt 计时，覆盖前摇+演出）
+  weaknessAttr: null,     // 阶段 E：本回合对手弱点属性（physical|fire|ice|electric|ether）
   phase: "idle",        // UI-1：初始非战斗（原 "playing" 使标题/选人界面防线全放行；startBattle 才置 playing）
 };
 
@@ -454,10 +489,12 @@ function spawnParticles(pos, tier) {
 function computeHitDamage(base, member, mv, defenderStyle) {
   const rel = styleRelation(mv.style, defenderStyle);
   return {
-    // 失衡易伤（阶段 A）：眩晕期受伤 ×1.5——与「测的就是打的」口径一致，
-    // damagePreview 走同一函数，未眩晕时 ×1 不影响既有 E2E 断言
+    // 失衡易伤（阶段 A）+ 侵蚀易伤（阶段 E）+ 弱点属性 ×1.3（阶段 E）
+    // ——与「测的就是打的」口径一致，damagePreview 走同一函数，未眩晕/无状态时乘区为 1
     dmg: Math.round(base * member.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]
-      * (stagger.isStaggered ? STAGGER_TUNING.vulnMul : 1)),
+      * (stagger.isStaggered ? STAGGER_TUNING.vulnMul : 1)
+      * anomaly.etherVulnMul
+      * (member.attr && member.attr === battle.weaknessAttr ? ANOMALY_TUNING.weakDmgMul : 1)),
     rel,
   };
 }
@@ -465,6 +502,21 @@ function computeHitDamage(base, member, mv, defenderStyle) {
 /** 阶段 D：喧响值积累（只增不减，上限 3000 = [极]） */
 function gainDecibel(n) {
   battle.decibel = Math.min(3000, battle.decibel + n);
+}
+
+/** 阶段 E：异常条 HUD 摘要（显示积蓄最高的属性 + 状态 + 弱点） */
+function anomalyHud() {
+  let maxK = null, maxPct = 0;
+  for (const k of Object.keys(anomaly.buildup)) {
+    const pct = anomaly.buildup[k] / anomaly.thresholds[k];
+    if (pct > maxPct) { maxPct = pct; maxK = k; }
+  }
+  return {
+    pct: Math.min(100, maxPct * 100),
+    css: maxK ? ATTR[maxK].css : "",
+    status: anomaly.status ? ATTR[anomaly.status.attr].status : "",
+    weak: battle.weaknessAttr ? `弱点·${ATTR[battle.weaknessAttr].name}` : "",
+  };
 }
 
 function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
@@ -495,9 +547,24 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
     battleStats.damageDealt += dmg;
     battleStats.maxCombo = Math.max(battleStats.maxCombo, battle.hitCount);   // GAME-6：最大连击取连段命中数（原读 comboCount 会被命中分支覆盖逻辑抹回 1）
   }
-  // 失衡积累（阶段 A）：伤害事件携带失衡值；克制/弱点乘区已由调用方乘好，这里只乘成员失衡系数
+  // 失衡积累（阶段 A）：伤害事件携带失衡值；克制乘区已由调用方乘好，这里乘成员失衡系数与弱点系数
   const wasStaggered = stagger.isStaggered;
-  if (dazeGain > 0) stagger.gain(dazeGain * (squad.active?.gridMul ?? 1));
+  if (dazeGain > 0) {
+    stagger.gain(dazeGain * (squad.active?.gridMul ?? 1)
+      * (squad.active?.attr && squad.active.attr === battle.weaknessAttr ? ANOMALY_TUNING.weakDazeMul : 1));
+  }
+  // 阶段 E：异常积蓄（每次玩家命中积累当前角色属性；弱点 ×1.5；DoT 不积累——不走本函数）
+  const aAttr = squad.active?.attr;
+  if (aAttr) {
+    anomaly.gain(aAttr, ANOMALY_TUNING.buildupPerHit
+      * (aAttr === battle.weaknessAttr ? ANOMALY_TUNING.weakDazeMul : 1), squad.active.damageMul ?? 1);
+  }
+  // 阶段 E：感电追伤（本命中触发；最多 10 次由 anomaly 内部计数）
+  const shockBonus = anomaly.onPlayerHit();
+  if (shockBonus > 0) {
+    opponent.hp = Math.max(0, opponent.hp - shockBonus);
+    if (inBattle) battleStats.damageDealt += shockBonus;
+  }
   if (!wasStaggered && stagger.isStaggered) {
     // 失衡瞬间（绝区零式）：打断对手当前行动（前摇/弹反窗取消）+ 慢镜 + 横幅
     battle.chainCounts = Math.min(3, battle.round + 1);   // 阶段 C：本段失衡期连携环数 = 回合数档位
@@ -939,10 +1006,10 @@ function tick() {
     // 速度特性
     active.move.walkSpeed = TUNING.playerSpeed * active.speedMul;
 
-    // 对手 AI（阶段 A：失衡期间定身——不追击、不攻击；dist 仍需计算供命中判定）
+    // 对手 AI（阶段 A：失衡期间定身；阶段 E：冻结/硬直同样定身）
     const toPlayer = new THREE.Vector3().subVectors(active.group.position, opponentGroup.position);
     const dist = toPlayer.length();
-    if (stagger.isStaggered) {
+    if (stagger.isStaggered || anomaly.isFrozen) {
       battle.oppAttackWindup = 0;
     } else if (dist > 2.4) {
       // 对手只沿 X 方向追击（保持街道轴线，不乱跑 Z）
@@ -1002,6 +1069,8 @@ function tick() {
     stagger.step(dt);
     // 阶段 B：闪避反击资格窗计时
     assist.step(dt);
+    // 阶段 E：异常衰减 / DoT / 冻结计时
+    anomaly.step(dt);
 
     // 连段推进
     const hit = combo.step(dt);
@@ -1150,6 +1219,7 @@ function tick() {
   // HUD（仅战斗时更新；不限时，只显示已用时间）
   if (inBattle) {
     battleStats.elapsed = (battleStats.elapsed ?? 0) + rawDt;
+    const ah = anomalyHud();   // 阶段 E：异常条摘要（每帧一次）
     hud.set({
       elapsed: battleStats.elapsed,
       hp: active.hp,
@@ -1161,6 +1231,10 @@ function tick() {
       staggered: stagger.isStaggered, // 满条闪烁态
       assist: assist.points,          // 阶段 B：支援点 3 格
       decibel: battle.decibel,        // 阶段 D：喧响值
+      anomalyPct: ah.pct,             // 阶段 E：异常积蓄条（最高属性）
+      anomalyCss: ah.css,
+      anomalyStatus: ah.status,
+      anomalyWeak: ah.weak,
       combo: battle.chainCounts > 0 ? battle.chainCounts : battle.comboCount,   // 阶段 C：有连携环时 chip 显示剩余环数
       canAttack: !frozen,
       canDodge: !frozen,
@@ -1249,6 +1323,8 @@ function startBattle(memberIndex) {
   battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
   battle.decibel = 0;       // 阶段 D：开战清喧响
   battle.invulnT = 0;
+  anomaly.reset();          // 阶段 E：清异常积蓄与状态
+  battle.weaknessAttr = Object.keys(ATTR)[Math.floor(Math.random() * 5)];   // 阶段 E：本局对手弱点属性
   opponent.hp = opponent.maxHp;
   battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
   // 界面切换
@@ -1310,6 +1386,8 @@ function advanceRound() {
   stagger.reset();   // 阶段 A：换回合清失衡（阈值抗性成长随之归零）
   battle.chainCounts = 0;   // 阶段 C：清连携环数与 QTE
   battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
+  anomaly.reset();          // 阶段 E：换回合清异常积蓄与状态
+  battle.weaknessAttr = Object.keys(ATTR)[Math.floor(Math.random() * 5)];   // 阶段 E：新对手重掷弱点
   chargeT = 0;
   charged = false;
   charging = false;
@@ -1409,6 +1487,13 @@ window.__npr = {
   // 阶段 D 调试口：喧响值注入（E2E 用）
   setDecibel: (n) => { battle.decibel = Math.max(0, Math.min(3000, n | 0)); },
   decibelState: () => ({ decibel: battle.decibel, invulnT: +battle.invulnT.toFixed(2) }),
+  // 阶段 E 调试口：异常状态读取与注入（E2E 用）
+  anomalyState: () => ({
+    buildup: { ...anomaly.buildup }, thresholds: { ...anomaly.thresholds },
+    status: anomaly.status ? { attr: anomaly.status.attr, t: +anomaly.status.t.toFixed(1) } : null,
+    frozenT: +anomaly.frozenT.toFixed(2), weakness: battle.weaknessAttr,
+  }),
+  addAnomaly: (attr, n) => anomaly.gain(attr, n, squad.active?.damageMul ?? 1),
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },
