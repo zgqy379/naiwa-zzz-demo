@@ -72,6 +72,22 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-11 14:55 by 收口线（深度复核·第二轮体检）
+
+- 已做：
+  - **报告书全文通读并逐条对代码**（承接 13:52 第一轮交付链体检）：§3.3 弹反参数与 `src/game/counter.mjs` 逐项一致（windowS 0.25 / punishS 1.2 / punishDamage 15 / gridGain 2 / perfectWindowS 0.1 / perfectMul 1.5 / comboBonus 0.3；完美硬直 ×1.3、失败清连击均有对应实现）；§十一 8 个差异维度与 `npm run test:moves` **10/10** 吻合；§十引用的 20 个证据文件全部在盘；ffprobe 复核 demo 视频 52.4s / 30fps / 1572 帧 / 1920×1186；`aholo-street.glb` 603,544 B 与台账一致；§十二 `npm test` / `test:moves` script 口径一致。
+  - **E2E 亲跑**：`node tests/run-e2e.mjs` **25/25**（`docs/test-report.json` @ 2026-11-11T06:32:24Z），`docs/test-shots/01-13` 同步刷新为当前构建实拍。被中断的上一轮曾写 24/25（失败项「换人生效 6→6」），属 11-10 03:45 交接已记录的 tick 饥饿时序类，非代码回归，本轮复跑通过。
+  - **报告书失实修正（§8 单独立项，commit `0822e5c`）**：Vite 7→8.3.6（§2.1 / §13）；「掩体阻挡未接入」过时——`coverSolids()` 已注入 `Movement.solidBoxes`（`src/main.mjs:250-252`）且 `movement.mjs:134` 每帧 `_resolveSolids`（§4.2 / §九5 / §七 / §10.5 改修复后口径）；「箱体判定用对手坐标」过时——`19bd0f2`（11-10 13:42）已改攻击者坐标（§4.2 / §九6）；行号漂移修正（§3.3 474/335→588/417、§4.2 68-69/516→74-75/630）。
+  - 本文件 §7 刷新过时事实（线上构建 / 掩体接线 / visualScale / submission.json）。
+- 未做 / 待办：沿用 13:35 / 13:52 交接（Demo 视频与 §十插图重录、`submission.json` 完成式字段、GitHub 推送、凭据轮换、提交 zip 重打）。
+- 待验证：无新增（真机 4 WebGL context 长时稳定性沿用 13:35 口径）。
+- 产物与证据路径：`docs/test-report.json`（25/25）、`docs/test-shots/01-13*.png`（本轮覆写）、`docs/报告书.md`（失实修正）。
+- 最近构建：不变——`dist/assets/index-Ce5zGDeB.js` @ 2026-11-11 03:28，sha256 前 16 位 `c678f49b2f9c6498`；线上同版（魔搭 master `6316e3b`）。
+- 已知冲突 / 风险（本轮新增）：
+  1. **exec 工具跑 `run-e2e.mjs` 会报「进程树终止未确认」**：runner 的 detached preview（vite preview）无法被工具确认回收，但套件本身已完整跑完并写报告——**判据以 `docs/test-report.json` 的 at/summary 为准，勿把工具报错当套件失败**；每轮会遗留一个无监听、无 outDir 的僵尸 preview 进程（本轮 PID 26892 / 51852 已终止）。
+  2. 本会话沙箱浏览器实例中断后无法重建（browser_instance_unknown），且该模型连接不可视图（screenshot 返回 model_cannot_see_images）；线上 DOM 级复核以 HTTP 200/206 + 哈希比对 + 13:31 ego 实机截图（`docs/evidence/v3-deploy-live-studio-20261111.png`）+ 本地同构建 E2E 25/25 三角佐证，如需新截图须走 ego(lite)。
+  3. 11-10 遗留的 4 个 vite preview 僵尸进程（PID 39596 / 47396 / 39168 / 31480，其中 31480 serve dist）按「不动身份不明进程」口径仍未终止。
+
 ### 交接 2026-11-11 13:52 by 收口线（全仓体检·只读审计）
 
 - 已做：
@@ -389,10 +405,10 @@ AIGC:
 ## 7. 已知事实（勿重复排查）
 
 - 弹反系统**已实现**：`src/game/counter.mjs` 为完整逻辑，`src/main.mjs` 已接入 `spawnCrates` / `spawnCover` / `hitTest` / `destroy`；构建产物中含「成功弹反」「spawnCrates」字样。
-- 可破坏箱 / 掩体**已实现**，不属于「计划中」。
-- 线上站点跑的是旧构建（`index-DQSF8Zod.js`），落后于当前工作区。
-- `docs/改动记录-角色线.md` 中 `visualScale` 已登记但源码缺失（疑并行覆盖），详见该文件「登记与源码不符」段。
-- `submission.json` 仅存在于 `naiwaling`，且指向旧仓库；正式提交前需在 `naiwa-zzz` 内重建。
+- 可破坏箱 / 掩体**已实现**（掩体 AABB 阻挡已接线：`src/main.mjs:250-252` coverSolids → Movement.solidBoxes，`movement.mjs:134` 每帧推出），不属于「计划中」。
+- 线上站点已是 2026-11-11 定版：魔搭 master `6316e3b`，入口 `index-Ce5zGDeB.js`（13:32 部署验收；13:5x / 14:3x 两轮 HTTP 复测 200/206 一致）。
+- `visualScale` 已回源码：`src/game/squad.mjs:103` 定义、`src/main.mjs:201` 消费（2026-11-11 审计复核）；「登记与源码不符」段历史记录保留。
+- `submission.json` 已于 2026-11-09 在本仓重建（`docs/submission.json`），完成式字段按「不许预填完成式」口径留空。
 - `dist/` **未**被版本库跟踪：`git ls-files dist` 输出 0 行，`git ls-files --stage | grep ^160000` 输出 0 行，`.gitignore:2` 为 `dist/`（完全忽略）。`dist/` 自带独立 `.git`（gh-pages 用途），产物只在该子仓库内留痕。
 
 ## 8. 禁止清单
