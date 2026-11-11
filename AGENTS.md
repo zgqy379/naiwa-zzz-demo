@@ -72,6 +72,22 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-11 16:2x by 收口线（制作人四项委托：重录/重打/推送/凭据）
+
+- 已做（均制作人本轮明确委托）：
+  - **Demo 视频重录** ✓：`docs/demo-video-20261111.mp4`，53.733s / 30fps / 1920×1080 / 1612 帧 / 22.9MB；取自登记构建 `dist/assets/index-Ce5zGDeB.js`（线上同版，**未重建、未手改 dist**，§4 合规）。CDP Page.startScreencast 全页合成——DOM HUD、液态玻璃层、live3d 层、3D 光标层、视频背景全部入画（旧版仅 canvas#gl）。场景：首页演示→选人（西格玛）→战斗（三段连段/Tab 接力/闪避/相机环绕/**弹反成功 ×1**）→B 级结算→返回首页；零 console 错误、黑帧检测 0 段。录制脚本 `scripts/capture-demo-video.mjs`（可复现），取证 `docs/evidence/v3-demo-rec-20261111.json`。
+  - **§十过期插图重拍** ✓：图 3/4/5 → `v3-show4-01-naifen / 05-xigema / 00-naiwa-20261111.png`（show3 同款机位，HUD 名逐一核对命中）；图 7–11 本就随 14:32 的 E2E 25/25 复跑刷新。报告书 §8 单独立项更新（commit `81b4786`）。
+  - **魔搭备选包重打** ✓：`docs/naiwa-zero-modelscope-static-20261111.zip`（17.7MB，53 项 = 51 个 dist 登记文件 + 魔搭 master 的 README.md/.gitattributes，**无 .git**）；旧 11-09 包（内含旧构建 index-DlNwcUlO.js）仍在盘，引用它的历史记录以新包为准。
+  - **GitHub 推送**（进行中）：dist 子仓 ✓ 已全部推送（远端 gh-pages = `de07f10`，用 force-with-lease 覆盖了旧的 40 个逐文件部署机提交，旧头 `7dd0289` 可找回）；主仓 main 直连逐提交推送 **9/18**，卡在 `19bd0f28`（独有对象 145MB，直连长上传被掐，8 次重试后台磨）；`~/.gitconfig` 里失效的 7897 代理已删除（直连实测可用；7890 代理对上传会 408）。
+  - **凭据处理** ✓：`dist/.git/config` 的明文 oauth2 已移除，remote URL 清洗为无凭据形态；token 存入 Windows 凭据管理器（GCM），清洗后 dry-run push 与 fetch modelscope master 实测通过；token 副本本就在 `~/.modelscope/credentials/git_token`。**token 本体在魔搭侧的轮换（作废旧 token / 发新 token）仍待制作人**，可由 ego 代办（需确认）。
+- 未做 / 待办：主仓剩余 9 个提交的后台推送收尾；官方提交 / 发帖 / 冻结 tag / submission.json 完成式字段仍归制作人；token 轮换待确认。
+- 产物与证据路径：`docs/demo-video-20261111.mp4`、`docs/evidence/v3-show4-*.png`、`docs/evidence/v3-demo-rec-20261111.json`、`scripts/capture-demo-video.mjs`、`docs/naiwa-zero-modelscope-static-20261111.zip`。
+- 最近构建：不变——`dist/assets/index-Ce5zGDeB.js` @ 2026-11-11 03:28，sha256 前 16 位 `c678f49b2f9c6498`；录像/插图/zip/线上四者同版。
+- 已知冲突 / 风险：
+  1. 主仓剩余提交含大提交（145MB 独有对象），直连长上传不稳定，推送可能需要多轮；若最终无法全部推完，兜底方案是把当前树打成孤儿快照分支保内容。
+  2. 新视频 22.9MB 入库使主仓 pack 增大；报告书旧口径（52.4s/1572 帧）已在 §六保留为历史行，现行口径见 §十三。
+  3. dist 子仓远端 gh-pages 被 force-with-lease 覆盖（预期内，旧头已记录）；魔搭 master 与本地 dist 历史不同源（部署走干净重克隆），dry-run push 报 non-FF 属预期，不代表认证问题。
+
 ### 交接 2026-11-11 14:55 by 收口线（深度复核·第二轮体检）
 
 - 已做：
