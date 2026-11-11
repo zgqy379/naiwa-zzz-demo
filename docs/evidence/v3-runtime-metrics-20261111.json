@@ -1,24 +1,24 @@
 {
   "ok": true,
-  "measuredAt": "2026-11-11T13:04:04.568Z",
+  "measuredAt": "2026-11-11T14:31:04.368Z",
   "build": {
-    "entry": "assets/index-CJ0VMBfL.js",
-    "entryBytes": 987764,
-    "indexBytes": 6256
+    "entry": "assets/index-BIh5kwn5.js",
+    "entryBytes": 992868,
+    "indexBytes": 6316
   },
   "caveat": "draw call / 三角面为场景图谱事实；headless 为 SwiftShader 软件光栅，帧率不代表真机，真机帧率另走 ego 实机通道取证",
   "errors": [],
   "screens": {
     "title": {
       "frame": {
-        "calls": 315,
-        "triangles": 48786,
+        "calls": 0,
+        "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 305,
-        "textures": 54,
+        "geometries": 316,
+        "textures": 55,
         "programs": 23,
-        "frame": 1241
+        "frame": 1411
       },
       "scene": {
         "sceneChildren": 32,
@@ -37,48 +37,31 @@
         "aholoMeshInScene": true
       },
       "context": {
-        "canvasCount": 4,
-        "uniqueWebGLContexts": 4,
-        "canvases": [
+        "appContexts": 3,
+        "appContextList": [
           {
             "id": "gl",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "glass-layer",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
-          },
-          {
-            "id": "live3d-layer",
+            "type": "webgl2",
             "w": 300,
-            "h": 150,
-            "cssW": 1238,
-            "cssH": 884,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "h": 150
           },
           {
             "id": "cursor3d-layer",
-            "w": 160,
-            "h": 160,
-            "cssW": 160,
-            "cssH": 160,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           }
         ],
+        "totalGetContextCalls": 4,
+        "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 29326279,
+        "heapUsed": 21816381,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -89,20 +72,20 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 305,
-        "textures": 54,
+        "geometries": 316,
+        "textures": 55,
         "programs": 23,
-        "frame": 3128
+        "frame": 3604
       },
       "scene": {
         "sceneChildren": 32,
-        "meshes": 788,
+        "meshes": 785,
         "instanced": 123,
         "points": 0,
         "lines": 0,
         "sprites": 28,
-        "visibleMeshes": 788,
-        "uniqueGeometries": 770,
+        "visibleMeshes": 785,
+        "uniqueGeometries": 768,
         "aholo": {
           "loaded": true,
           "triangles": 29152,
@@ -111,62 +94,51 @@
         "aholoMeshInScene": true
       },
       "context": {
-        "canvasCount": 4,
-        "uniqueWebGLContexts": 4,
-        "canvases": [
+        "appContexts": 4,
+        "appContextList": [
           {
             "id": "gl",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "glass-layer",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
-          },
-          {
-            "id": "live3d-layer",
-            "w": 1238,
-            "h": 884,
-            "cssW": 1238,
-            "cssH": 884,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "cursor3d-layer",
-            "w": 160,
-            "h": 160,
-            "cssW": 160,
-            "cssH": 160,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
+          },
+          {
+            "id": "live3d-layer",
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           }
         ],
+        "totalGetContextCalls": 6,
+        "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 39752995,
+        "heapUsed": 37818877,
         "heapLimit": 4395630592,
         "dpr": 1
       }
     },
     "battle": {
       "frame": {
-        "calls": 341,
-        "triangles": 126566,
+        "calls": 343,
+        "triangles": 126590,
         "points": 0,
         "lines": 0,
-        "geometries": 349,
-        "textures": 62,
+        "geometries": 354,
+        "textures": 63,
         "programs": 26,
-        "frame": 11322
+        "frame": 11798
       },
       "scene": {
         "sceneChildren": 32,
@@ -185,62 +157,51 @@
         "aholoMeshInScene": true
       },
       "context": {
-        "canvasCount": 4,
-        "uniqueWebGLContexts": 4,
-        "canvases": [
+        "appContexts": 4,
+        "appContextList": [
           {
             "id": "gl",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "glass-layer",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
-          },
-          {
-            "id": "live3d-layer",
-            "w": 1238,
-            "h": 884,
-            "cssW": 1238,
-            "cssH": 884,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "cursor3d-layer",
-            "w": 160,
-            "h": 160,
-            "cssW": 160,
-            "cssH": 160,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
+          },
+          {
+            "id": "live3d-layer",
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           }
         ],
+        "totalGetContextCalls": 7,
+        "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 40369912,
+        "heapUsed": 38715126,
         "heapLimit": 4395630592,
         "dpr": 1
       }
     },
     "result": {
       "frame": {
-        "calls": 335,
-        "triangles": 48986,
+        "calls": 337,
+        "triangles": 49010,
         "points": 0,
         "lines": 0,
-        "geometries": 349,
-        "textures": 62,
+        "geometries": 354,
+        "textures": 63,
         "programs": 26,
-        "frame": 13957
+        "frame": 14450
       },
       "scene": {
         "sceneChildren": 32,
@@ -259,48 +220,37 @@
         "aholoMeshInScene": true
       },
       "context": {
-        "canvasCount": 4,
-        "uniqueWebGLContexts": 4,
-        "canvases": [
+        "appContexts": 4,
+        "appContextList": [
           {
             "id": "gl",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "glass-layer",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
-          },
-          {
-            "id": "live3d-layer",
-            "w": 1238,
-            "h": 884,
-            "cssW": 1238,
-            "cssH": 884,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "cursor3d-layer",
-            "w": 160,
-            "h": 160,
-            "cssW": 160,
-            "cssH": 160,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
+          },
+          {
+            "id": "live3d-layer",
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           }
         ],
+        "totalGetContextCalls": 8,
+        "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 34854509,
+        "heapUsed": 47055512,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -311,10 +261,10 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 349,
-        "textures": 62,
+        "geometries": 354,
+        "textures": 63,
         "programs": 26,
-        "frame": 14790
+        "frame": 15300
       },
       "scene": {
         "sceneChildren": 32,
@@ -333,48 +283,37 @@
         "aholoMeshInScene": true
       },
       "context": {
-        "canvasCount": 4,
-        "uniqueWebGLContexts": 4,
-        "canvases": [
+        "appContexts": 4,
+        "appContextList": [
           {
             "id": "gl",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "glass-layer",
-            "w": 1920,
-            "h": 1080,
-            "cssW": 1920,
-            "cssH": 1080,
-            "hasCtx": true,
-            "kind": "webgl2"
-          },
-          {
-            "id": "live3d-layer",
-            "w": 1238,
-            "h": 884,
-            "cssW": 1238,
-            "cssH": 884,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           },
           {
             "id": "cursor3d-layer",
-            "w": 160,
-            "h": 160,
-            "cssW": 160,
-            "cssH": 160,
-            "hasCtx": true,
-            "kind": "webgl2"
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
+          },
+          {
+            "id": "live3d-layer",
+            "type": "webgl2",
+            "w": 300,
+            "h": 150
           }
         ],
+        "totalGetContextCalls": 9,
+        "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 42069029,
+        "heapUsed": 41406444,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -382,18 +321,18 @@
   },
   "aholoLayerAB": {
     "on": {
-      "calls": 341,
-      "triangles": 126566,
+      "calls": 343,
+      "triangles": 126590,
       "points": 0,
       "lines": 0,
-      "geometries": 349,
-      "textures": 62,
+      "geometries": 354,
+      "textures": 63,
       "programs": 26,
-      "frame": 11322
+      "frame": 11798
     },
     "off": {
-      "calls": 340,
-      "triangles": 97414
+      "calls": 342,
+      "triangles": 97438
     }
   }
 }

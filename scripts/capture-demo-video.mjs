@@ -430,8 +430,38 @@ async function main() {
     await pressKey(" ", "Space", 80); await sleep(700);
     mark("战斗收尾 countered=" + countered);
 
+    // ---- 蓄力必杀技（2026-11-11 新增机制）----
+    //   按住空格 ≥0.55s 蓄满 → 松手释放蓄力终结（伤害远高于普通终结）
+    await evalJSON(cdp, `window.__npr.teleportPlayer(-1.0, 0)`);
+    await evalJSON(cdp, `window.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', bubbles: true }))`);
+    await sleep(1100);
+    const chargeState = await evalJSON(cdp, `(() => { const e=document.getElementById('hud-charge'); const f=document.getElementById('hud-charge-fill'); return { show: e?e.classList.contains('show'):null, full: e?e.classList.contains('full'):null, pct: f?f.style.width:'-' }; })()`);
+    mark("蓄力条 " + JSON.stringify(chargeState));
+    await evalJSON(cdp, `window.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space', bubbles: true }))`);
+    await sleep(1400);
+    mark("蓄力终结释放");
+
+    // ---- 三连战（2026-11-11 新增机制）：连续击败 3 个不同招式族的对手 ----
+    for (let round = 1; round <= 3; round++) {
+      const before = await evalJSON(cdp, `({ round: window.__npr.battle.round, opp: window.__npr.opponent.hp })`);
+      // 把当前对手打空 → 推进到下一回合（前两回合）或结算（第三回合）
+      await evalJSON(cdp, `(() => { window.__npr.opponent.hp = 0; return true; })()`);
+      await sleep(900);
+      const after = await evalJSON(cdp, `({ round: window.__npr.battle.round, phase: window.__npr.battle.phase, opp: window.__npr.opponent.hp })`);
+      mark(`第 ${round} 个对手被击败 round ${before.round}->${after.round} phase=${after.phase}`);
+      if (after.phase === "settle") break;
+      // 下一回合：展示一下新对手（走近 + 出一段连段）
+      await evalJSON(cdp, `window.__npr.teleportPlayer(2.4, 0)`);
+      await sleep(200);
+      await pressKey("w", "KeyW", 480);
+      await sleep(200);
+      await pressKey(" ", "Space", 80); await sleep(420);
+      await pressKey(" ", "Space", 80); await sleep(520);
+      await pressKey(" ", "Space", 80); await sleep(700);
+      mark("第 " + (round + 1) + " 回合连段");
+    }
+
     // ---- 场景 4：结算（~6s）----
-    await evalJSON(cdp, `(() => { const n = window.__npr; if (n.opponent && n.opponent.hp > 0) n.opponent.hp = 0; n.endBattle(); return true; })()`);
     await waitExpr(`!document.querySelector('#screen-result').classList.contains('hidden')`, 8000, "结算界面");
     const grade = await evalJSON(cdp, `document.querySelector('#result-grade')?.textContent || ''`);
     mark("结算 grade=" + grade);
@@ -501,6 +531,55 @@ async function main() {
       await waitFrames(cdp, 2);
       log("[still] " + s.file + " label=" + s.label + " hud=" + hud + " bytes=" + bytes);
       result.stills.push({ file: s.file, expect: s.label, hud, bytes, hudMatch: hud === s.label });
+    }
+
+    // ---- 图 6：PBR / NPR 同场景对照 ----
+    //   同一机位、同一角色，分别用 PBR 与 NPR 渲染各一张，供报告书展示自研风格化管线的差异。
+    {
+      await evalJSON(cdp, `(() => { const n = window.__npr; n.startBattle(6); n.battle.freezeT = 1e9; return true; })()`);
+      await sleep(1100);
+      await evalJSON(cdp, `(() => { const n = window.__npr; const p = n.squad.active.move.pos; const c = n.camera; n.squad.active.group.position.copy(p); c.position.set(p.x + 3.8, 1.6, 2.2); c.fov = 40; c.updateProjectionMatrix(); c.lookAt(p.x, 0.7, p.z); c.updateMatrixWorld(true); return true; })()`);
+      await waitFrames(cdp, 2);
+      for (const mode of ["NPR", "PBR"]) {
+        await evalJSON(cdp, `window.__npr.setMode(${JSON.stringify(mode)})`);
+        await waitFrames(cdp, 3);
+        await evalJSON(cdp, `window.__rafPause()`);
+        await sleep(240);
+        await evalJSON(cdp, `window.__npr.postfx.render(0.016)`);
+        await sleep(90);
+        const file = mode === "NPR" ? "v3-npr-on-20261111.png" : "v3-npr-off-20261111.png";
+        const bytes = await shoot(cdp, path.join(OUT, file));
+        await evalJSON(cdp, `window.__rafResume()`);
+        await waitFrames(cdp, 2);
+        log("[still] " + file + " mode=" + mode + " bytes=" + bytes);
+        result.stills.push({ file, expect: "NPR/PBR 对照 " + mode, bytes });
+      }
+      await evalJSON(cdp, `window.__npr.setMode("NPR")`);
+    }
+
+    // ---- 图 13：Aholo World 街区层实拍（开 / 关 A/B，用像素差分证明该层真的在画面里）----
+    {
+      await evalJSON(cdp, `(() => { const n = window.__npr; n.startBattle(0); n.battle.freezeT = 1e9; return true; })()`);
+      await sleep(1400);
+      // 机位压低并朝街道纵深，让画面最外圈留给 Aholo 视差层
+      await evalJSON(cdp, `(() => { const n = window.__npr; const c = n.camera; const p = n.squad.active.move.pos; n.squad.active.group.position.copy(p); c.position.set(p.x + 1.6, 0.9, 0.6); c.fov = 62; c.updateProjectionMatrix(); c.lookAt(p.x - 6.5, 3.2, p.z); c.updateMatrixWorld(true); return true; })()`);
+      await waitFrames(cdp, 3);
+      for (const on of [true, false]) {
+        await evalJSON(cdp, `(() => { const s = window.__npr.scene.getObjectByName("aholo-world-parallax-shell"); if (s) s.visible = ${on}; return !!s; })()`);
+        await waitFrames(cdp, 3);
+        await evalJSON(cdp, `window.__rafPause()`);
+        await sleep(240);
+        await evalJSON(cdp, `window.__npr.postfx.render(0.016)`);
+        await sleep(90);
+        const file = on ? "v3-aholo-street-on-20261111.png" : "v3-aholo-street-off-20261111.png";
+        const bytes = await shoot(cdp, path.join(OUT, file));
+        await evalJSON(cdp, `window.__rafResume()`);
+        await waitFrames(cdp, 2);
+        log("[still] " + file + " aholo=" + on + " bytes=" + bytes);
+        result.stills.push({ file, expect: "Aholo 街区层 " + (on ? "开" : "关"), bytes });
+      }
+      // 复位：恢复图层可见性
+      await evalJSON(cdp, `(() => { const s = window.__npr.scene.getObjectByName("aholo-world-parallax-shell"); if (s) s.visible = true; return true; })()`);
     }
 
     // ---- 构建指纹 ----

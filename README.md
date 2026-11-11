@@ -14,7 +14,7 @@
 - **提交用在线 Demo**：https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo —— 魔搭 **Static** 创空间，2026-11-09 23:41 起 Running；站点读远端 **`master` 分支**（保留 `README.md` 平台元数据），部署版本口径见 `docs/submission.json` 的 `demo_url_note`。当前首页已改版为视频背景 + WebGL 液态玻璃，不再是静态 3D 立绘。
 - **备用直达链接**：`https://zgqy379.github.io/naiwa-zzz-demo/` —— 直连 Demo 无 iframe 壳，2026-11-11 复测 51/51 文件可取且与本地 `dist/` 逐字节一致，与魔搭部署**同版**。（原 workbuddy 地址已失效：只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全部 403，不再使用。）
 - gh-pages 通道 2026-11-09 起曾停用，**2026-11-11 复测已恢复可用**（即上一行的备用地址）；`deploy-api.ps1` 闸门保留（放行需 `NAIWA_DEPLOY_OK=1`，别用 `gh api` / `git push` 绕过）。
-- Demo 视频 `docs/demo-video-20261111.mp4` **现行提交版**（53.733 秒 / 30fps / 1920×1080 / 1612 帧 / 22,856,519 B，2026-11-11 重录）；采用 CDP 全页合成录制，DOM HUD、液态玻璃层、实时 3D 选人、3D 光标与视频背景全部入画，取自登记构建 `index-Ce5zGDeB.js`（与线上同版）。数值与 `docs/submission.json` 的 `rec_duration/rec_bytes/rec_sha256` 一致（sha256 `3b489441…01db17`）。旧 `demo-video-32s.mp4`（52.4s，改版前）与 `demo-video-hd.mp4`（8.1s）只作迭代对比，不再交付。
+- Demo 视频 `docs/demo-video-20261111.mp4` **现行提交版**（63.600 秒 / 30fps / 1920×1080 / 1908 帧 / 28,571,670 B，2026-11-11 第二次重录）；采用 CDP 全页合成录制，DOM HUD、液态玻璃层、实时 3D 选人、3D 光标与视频背景全部入画，取自登记构建 `index-BIh5kwn5.js`（与线上同版）；片中演示三段连段 / 接力换人 / 弹反成功 ×1 / **蓄力必杀技** / **三连战回合推进**。数值与 `docs/submission.json` 的 `rec_duration/rec_bytes/rec_sha256` 一致（sha256 `0de83bbb…8bdd09`）。旧 `demo-video-32s.mp4`（52.4s，改版前）与 `demo-video-hd.mp4`（8.1s）只作迭代对比，不再交付。
 - **第三方素材许可**：随包字体为 SIL Open Font License 1.1（站酷快乐体 / 站酷庆科黄油体），许可全文见 `public/fonts/LICENSES.txt`；逐条素材授权登记见 `docs/ASSET-LICENSES.md`。
 - HUD 脏玻璃参数 `docs/evidence/hud-glass-spec-20261109.md`；搬玻璃代码时连 `keepStandardBackdropFilter()` 插件一起带过去。
 - 共享热点 `src/main.mjs` 改动先登记 `docs/改动记录-角色线.md`（展示线已有此约定）。

@@ -460,20 +460,23 @@ function applyDamage(dmg, tier, gridGain = 1, relationLabel = null) {
 /**
  * 攻击键按下。
  * 交互改为「轻点 = 连段，长按 = 蓄力终结」：
- *   - 不在连段中：按下**不立即出招**，进入蓄力等待（松手时结算）
- *   - 在连段中：沿用原有逻辑推进下一段（终结段走带前摇的定时命中）
+ *   - 任何时候按下都**开始计时蓄力**（松手时结算）
+ *   - 不在连段中：按下**不立即出招**，等松手才打第一段（或发蓄力终结）
+ *   - 在连段中：沿用原有逻辑立即推进下一段（终结段走带前摇的定时命中），
+ *     同时蓄力继续计时——按住不放即可在连段后追加一记蓄力终结
  */
 function onAttackInput() {
   if (battle.phase !== "playing") return;
-  if (!combo.isInCombo) {
-    charging = true;
-    chargeT = 0;
-    chargeStartMs = performance.now();
-    charged = false;
-    return;
-  }
+  charging = true;
+  chargeT = 0;
+  chargeStartMs = performance.now();
+  charged = false;
+  attackFiredOnPress = false;
+  if (!combo.isInCombo) return;   // 不在连段中 → 等松手结算
+
   const active = squad.active;
   const mv = getMove(active.id);   // 「换壳即换招」：取本只角色的招式参数
+  attackFiredOnPress = true;
 
   // 终结技（GAME-7：原为任意距离瞬发，绕过普通段 inRange/inWidth 判定与 hitAt 进度门；
   // 改为带前摇的定时命中——前摇到点后按本角色判定框做距离/宽度判定再结算）
@@ -512,10 +515,13 @@ function onAttackRelease() {
   if (!charging) return;
   charging = false;
   const wasCharged = charged;
+  const firedOnPress = attackFiredOnPress;
   chargeT = 0;
   charged = false;
+  attackFiredOnPress = false;
   hud.set({ charge: 0, charging: false });
   if (wasCharged) { ultimateAttack(); return; }
+  if (firedOnPress) return;   // 已在按下时推进了连段，松手不再补刀
   // 普通出招（连段第一段）
   const active = squad.active;
   const mv = getMove(active.id);
@@ -557,6 +563,7 @@ let charging = false;    // 空格按下后正在等待松手
 let chargeT = 0;         // 已按住时长（秒，墙钟）
 let chargeStartMs = 0;   // 按下时刻（performance.now）
 let charged = false;     // 是否已蓄满
+let attackFiredOnPress = false;   // 本次按下是否已经出招（连段分支）
 
 function onDodgeInput() {
   if (battle.phase !== "playing") return;

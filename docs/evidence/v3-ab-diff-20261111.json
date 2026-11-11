@@ -1,0 +1,34 @@
+{
+    "checkedAt":  "2026-11-11T22:30:44.8580498+08:00",
+    "tool":  "scripts/shot-diff.py（自研像素差分，阈值 8/255）",
+    "pairs":  [
+                  {
+                      "name":  "NPR/PBR 同机位对照",
+                      "on":  "docs/evidence/v3-npr-on-20261111.png",
+                      "off":  "docs/evidence/v3-npr-off-20261111.png",
+                      "changedRatioPct":  9.314,
+                      "meanDiff":  4.772,
+                      "maxDiff":  196,
+                      "changedBox":  {
+                                         "x0":  0.0,
+                                         "x1":  0.9995,
+                                         "y0":  0.0287,
+                                         "y1":  0.9889
+                                     }
+                  },
+                  {
+                      "name":  "Aholo World 视差层 开/关",
+                      "on":  "docs/evidence/v3-aholo-street-on-20261111.png",
+                      "off":  "docs/evidence/v3-aholo-street-off-20261111.png",
+                      "changedRatioPct":  7.159,
+                      "meanDiff":  2.756,
+                      "maxDiff":  99,
+                      "changedBox":  {
+                                         "x0":  0.0,
+                                         "x1":  0.9995,
+                                         "y0":  0.0139,
+                                         "y1":  0.9991
+                                     }
+                  }
+              ]
+}

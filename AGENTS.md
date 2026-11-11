@@ -449,7 +449,8 @@ AIGC:
 
 - 弹反系统**已实现**：`src/game/counter.mjs` 为完整逻辑，`src/main.mjs` 已接入 `spawnCrates` / `spawnCover` / `hitTest` / `destroy`；构建产物中含「成功弹反」「spawnCrates」字样。
 - 可破坏箱 / 掩体**已实现**（掩体 AABB 阻挡已接线：`src/main.mjs:250-252` coverSolids → Movement.solidBoxes，`movement.mjs:134` 每帧推出），不属于「计划中」。
-- 线上站点已是 2026-11-11 定版：魔搭 master `6316e3b`，入口 `index-Ce5zGDeB.js`（13:32 部署验收；13:5x / 14:3x 两轮 HTTP 复测 200/206 一致）。
+- 线上站点已是 2026-11-11 定版（**第二次重录后的最新构建**）：魔搭 master `9bf2025`，入口 `index-BIh5kwn5.js`（992,835 B，sha256 前 16 位 `DAB2B035DD436ABA`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/` 同版；**34 个交付文件** GET/Range 全部 200/206，入口与主 JS 与本仓 `dist/` 逐字节一致（HEAD 一律 403 不可用作判据）。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。
+- **E2E 截图注意事项**：`tests/harness.mjs` 的截图走 ego 宿主的 `page.cdp("Page.captureScreenshot")`，在该宿主下会返回**空 data** 并被静默跳过 → `docs/test-shots/` 会停留在旧构建的图。界面流程实拍改由 `scripts/capture-test-shots.mjs`（自建 CDP 通道）产出，13 张均为当前构建版本。
 - `visualScale` 已回源码：`src/game/squad.mjs:103` 定义、`src/main.mjs:201` 消费（2026-11-11 审计复核）；「登记与源码不符」段历史记录保留。
 - `submission.json` 已于 2026-11-09 在本仓重建（`docs/submission.json`），完成式字段按「不许预填完成式」口径留空。
 - `dist/` **未**被版本库跟踪：`git ls-files dist` 输出 0 行，`git ls-files --stage | grep ^160000` 输出 0 行，`.gitignore:2` 为 `dist/`（完全忽略）。`dist/` 自带独立 `.git`（gh-pages 用途），产物只在该子仓库内留痕。
