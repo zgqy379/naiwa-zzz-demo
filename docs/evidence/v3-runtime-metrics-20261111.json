@@ -1,0 +1,399 @@
+{
+  "ok": true,
+  "measuredAt": "2026-11-11T12:00:50.466Z",
+  "build": {
+    "entry": "assets/index-Ce5zGDeB.js",
+    "entryBytes": 987207,
+    "indexBytes": 6256
+  },
+  "caveat": "draw call / 三角面为场景图谱事实；headless 为 SwiftShader 软件光栅，帧率不代表真机，真机帧率另走 ego 实机通道取证",
+  "errors": [],
+  "screens": {
+    "title": {
+      "frame": {
+        "calls": 315,
+        "triangles": 48786,
+        "points": 0,
+        "lines": 0,
+        "geometries": 322,
+        "textures": 56,
+        "programs": 23,
+        "frame": 6154
+      },
+      "scene": {
+        "sceneChildren": 32,
+        "meshes": 788,
+        "instanced": 123,
+        "points": 0,
+        "lines": 0,
+        "sprites": 28,
+        "visibleMeshes": 788,
+        "uniqueGeometries": 770,
+        "aholo": {
+          "loaded": true,
+          "triangles": 29152,
+          "error": null
+        },
+        "aholoMeshInScene": true
+      },
+      "context": {
+        "canvasCount": 4,
+        "uniqueWebGLContexts": 4,
+        "canvases": [
+          {
+            "id": "gl",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "glass-layer",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "live3d-layer",
+            "w": 1288,
+            "h": 919,
+            "cssW": 1238,
+            "cssH": 884,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "cursor3d-layer",
+            "w": 160,
+            "h": 160,
+            "cssW": 160,
+            "cssH": 160,
+            "hasCtx": true,
+            "kind": "webgl2"
+          }
+        ],
+        "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "heapUsed": 41765014,
+        "heapLimit": 4395630592,
+        "dpr": 1
+      }
+    },
+    "select": {
+      "frame": {
+        "calls": 315,
+        "triangles": 48786,
+        "points": 0,
+        "lines": 0,
+        "geometries": 322,
+        "textures": 56,
+        "programs": 23,
+        "frame": 10404
+      },
+      "scene": {
+        "sceneChildren": 32,
+        "meshes": 788,
+        "instanced": 123,
+        "points": 0,
+        "lines": 0,
+        "sprites": 28,
+        "visibleMeshes": 788,
+        "uniqueGeometries": 770,
+        "aholo": {
+          "loaded": true,
+          "triangles": 29152,
+          "error": null
+        },
+        "aholoMeshInScene": true
+      },
+      "context": {
+        "canvasCount": 4,
+        "uniqueWebGLContexts": 4,
+        "canvases": [
+          {
+            "id": "gl",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "glass-layer",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "live3d-layer",
+            "w": 1288,
+            "h": 919,
+            "cssW": 1238,
+            "cssH": 884,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "cursor3d-layer",
+            "w": 160,
+            "h": 160,
+            "cssW": 160,
+            "cssH": 160,
+            "hasCtx": true,
+            "kind": "webgl2"
+          }
+        ],
+        "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "heapUsed": 42709588,
+        "heapLimit": 4395630592,
+        "dpr": 1
+      }
+    },
+    "battle": {
+      "frame": {
+        "calls": 344,
+        "triangles": 126602,
+        "points": 0,
+        "lines": 0,
+        "geometries": 361,
+        "textures": 64,
+        "programs": 26,
+        "frame": 14858
+      },
+      "scene": {
+        "sceneChildren": 32,
+        "meshes": 788,
+        "instanced": 123,
+        "points": 0,
+        "lines": 0,
+        "sprites": 28,
+        "visibleMeshes": 788,
+        "uniqueGeometries": 770,
+        "aholo": {
+          "loaded": true,
+          "triangles": 29152,
+          "error": null
+        },
+        "aholoMeshInScene": true
+      },
+      "context": {
+        "canvasCount": 4,
+        "uniqueWebGLContexts": 4,
+        "canvases": [
+          {
+            "id": "gl",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "glass-layer",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "live3d-layer",
+            "w": 1288,
+            "h": 919,
+            "cssW": 1238,
+            "cssH": 884,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "cursor3d-layer",
+            "w": 160,
+            "h": 160,
+            "cssW": 160,
+            "cssH": 160,
+            "hasCtx": true,
+            "kind": "webgl2"
+          }
+        ],
+        "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "heapUsed": 41395587,
+        "heapLimit": 4395630592,
+        "dpr": 1
+      }
+    },
+    "result": {
+      "frame": {
+        "calls": 338,
+        "triangles": 49022,
+        "points": 0,
+        "lines": 0,
+        "geometries": 361,
+        "textures": 64,
+        "programs": 26,
+        "frame": 18428
+      },
+      "scene": {
+        "sceneChildren": 32,
+        "meshes": 788,
+        "instanced": 123,
+        "points": 0,
+        "lines": 0,
+        "sprites": 28,
+        "visibleMeshes": 788,
+        "uniqueGeometries": 770,
+        "aholo": {
+          "loaded": true,
+          "triangles": 29152,
+          "error": null
+        },
+        "aholoMeshInScene": true
+      },
+      "context": {
+        "canvasCount": 4,
+        "uniqueWebGLContexts": 4,
+        "canvases": [
+          {
+            "id": "gl",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "glass-layer",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "live3d-layer",
+            "w": 1288,
+            "h": 919,
+            "cssW": 1238,
+            "cssH": 884,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "cursor3d-layer",
+            "w": 160,
+            "h": 160,
+            "cssW": 160,
+            "cssH": 160,
+            "hasCtx": true,
+            "kind": "webgl2"
+          }
+        ],
+        "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "heapUsed": 42850356,
+        "heapLimit": 4395630592,
+        "dpr": 1
+      }
+    },
+    "title_returned": {
+      "frame": {
+        "calls": 338,
+        "triangles": 49022,
+        "points": 0,
+        "lines": 0,
+        "geometries": 361,
+        "textures": 64,
+        "programs": 26,
+        "frame": 22287
+      },
+      "scene": {
+        "sceneChildren": 32,
+        "meshes": 788,
+        "instanced": 123,
+        "points": 0,
+        "lines": 0,
+        "sprites": 28,
+        "visibleMeshes": 788,
+        "uniqueGeometries": 770,
+        "aholo": {
+          "loaded": true,
+          "triangles": 29152,
+          "error": null
+        },
+        "aholoMeshInScene": true
+      },
+      "context": {
+        "canvasCount": 4,
+        "uniqueWebGLContexts": 4,
+        "canvases": [
+          {
+            "id": "gl",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "glass-layer",
+            "w": 1920,
+            "h": 1080,
+            "cssW": 1920,
+            "cssH": 1080,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "live3d-layer",
+            "w": 1288,
+            "h": 919,
+            "cssW": 1238,
+            "cssH": 884,
+            "hasCtx": true,
+            "kind": "webgl2"
+          },
+          {
+            "id": "cursor3d-layer",
+            "w": 160,
+            "h": 160,
+            "cssW": 160,
+            "cssH": 160,
+            "hasCtx": true,
+            "kind": "webgl2"
+          }
+        ],
+        "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "heapUsed": 46400968,
+        "heapLimit": 4395630592,
+        "dpr": 1
+      }
+    }
+  },
+  "aholoLayerAB": {
+    "on": {
+      "calls": 344,
+      "triangles": 126602,
+      "points": 0,
+      "lines": 0,
+      "geometries": 361,
+      "textures": 64,
+      "programs": 26,
+      "frame": 14858
+    },
+    "off": {
+      "calls": 343,
+      "triangles": 97450
+    }
+  }
+}
