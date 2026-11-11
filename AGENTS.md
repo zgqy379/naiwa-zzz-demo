@@ -72,6 +72,24 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-11 13:52 by 收口线（全仓体检·只读审计）
+
+- 已做：
+  - **只读体检**（不构建、不部署、不改 `src/`、不写 `dist/`）：主仓 HEAD `de1f8ce` / 工作区 0 脏项；dist 子仓 HEAD `de07f10` / `git fsck` exit=0 / 0 脏项；`npm run lint` exit=0、`src`+`tests` 41 个 `.mjs` `node --check` 全过。
+  - **产物链核验**：`dist/index.html` 引用 `index-Ce5zGDeB.js` 自洽；该文件 sha256 前 16 位 `C678F49B2F9C6498` 与 03:35 登记一致；dist 共 51 文件；`public/bg` 与 `dist/bg` 的 `title.mp4` 同为 8,735,749 B。03:28 构建之后 `src/` 零改动（后续提交仅动 public 视频、docs），线上内容 == 当前代码。
+  - **线上复测**（GET/Range，HEAD 一律 403 不用）：ms.show 入口 200 且引用 `index-Ce5zGDeB.js`；主 JS 206；`bg/title.mp4` 206 且 Content-Range 总长 8,735,749 B（确系压缩版）；创空间页 200。
+  - 闸门 `deploy-api.ps1` 默认 `DEPLOY-BLOCKED` 未变；18080/5274/5319/5299/4173/5173 无残留监听；最近 30 分钟无并行线写入，工作区安静。
+- 未做 / 待办：维持 13:35 交接全部待办（Demo 视频与 §十插图重录/重拍、`submission.json` 完成式字段、GitHub 推送、凭据轮换、官网提交/发帖/冻结 tag 均归制作人）。
+- 待验证：真机长时间运行 4 个 WebGL context 的稳定性（沿用 13:35 口径）。
+- 产物与证据路径：无新产物；本条为审计交接。
+- 最近构建：`dist/assets/index-Ce5zGDeB.js` @ 2026-11-11 03:28（13:21 复检哈希不变），sha256 前 16 位 `c678f49b2f9c6498`。构建人：收口线。
+- 已知冲突 / 风险（本轮新发现，按优先级）：
+  1. **旧提交包过期隐患**：`docs/naiwa-zero-modelscope-static.zip`（11-09 23:16 打包，3.78 MB）内含旧构建 `index-DlNwcUlO.js`，与现役线上（`index-Ce5zGDeB.js`）不一致；`submission.json` 的 `source_zip_url` 填写前必须用当前构建重新打包，禁止直接上传该旧包。
+  2. **GitHub 通道仍断**：`git ls-remote` 经 127.0.0.1:7897 代理连接失败（exit 128）；主仓至少 5 个提交（`01f54bc..de1f8ce`，本地无 origin/main 跟踪基准）与 dist 子仓 2 个提交仅存本地单盘，无异地备份。
+  3. **临时残留 16 项未清**：`.ego-tmp-lux-*.mjs` ×15（11-10 13:3x Lux3D 探针，共 18.7 KB）+ `.tmp-dist-visual`（11-11 03:09，52 文件 22.8 MB）；均被 `.gitignore` 忽略、不影响提交与构建，按「不动身份不明产物」口径本轮未删，待负责人确认后清理。
+  4. **台账笔误**：`index-Ce5zGDeB.js` 登记体积 987,200 B（本文件 03:35 交接 / `deploy-acceptance-20261111.json` / 改动记录 03:38 行），磁盘实测 987,207 B；sha256 一致故不影响交付与线上一致性，历史登记不回改，仅此记录。
+  5. `docs/改动记录-角色线.md` 存在 4 组完全重复行（01:30 / 01:50 / 03:32 / 13:35 各两条），系追加类命令重复执行所致，不影响事实，仅台账噪音，未动。
+
 ### 交接 2026-11-11 13:35 by 收口线（部署上线 + 线上验收）
 
 - 已做：
