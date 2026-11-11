@@ -423,6 +423,8 @@ const battle = {
   finisherPending: null, // GAME-7：终结技定时命中 { t, dmg, range, width, member }
   chainCounts: 0,         // 阶段 C：本段失衡期剩余连携环数（回合1/2/3 → 1/2/3 环，精英/首领档）
   chainQte: { active: false, counts: 0, t: 0, used: [], options: [] }, // 连携 QTE 状态
+  decibel: 0,             // 阶段 D：喧响值 0-3000（只增不减；[极]=3000 解锁终结技）
+  invulnT: 0,             // 阶段 D：喧响终结技释放期间无敌（realDt 计时，覆盖前摇+演出）
   phase: "idle",        // UI-1：初始非战斗（原 "playing" 使标题/选人界面防线全放行；startBattle 才置 playing）
 };
 
@@ -460,9 +462,16 @@ function computeHitDamage(base, member, mv, defenderStyle) {
   };
 }
 
+/** 阶段 D：喧响值积累（只增不减，上限 3000 = [极]） */
+function gainDecibel(n) {
+  battle.decibel = Math.min(3000, battle.decibel + n);
+}
+
 function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   opponent.hp = Math.max(0, opponent.hp - dmg);
   cinematic.onHit(tier);
+  // 阶段 D：命中按档积累喧响（高质量行为在各自路径额外加）
+  gainDecibel({ light: 40, medium: 60, heavy: 90, ultimate: 150 }[tier] ?? 40);
   // 顿帧：读 TUNING.hitstopF（修：原代码写死固定值，忽略调参）
   const hitstopF = tier === "ultimate" ? TUNING.hitstopFFinisher
     : tier === "heavy" ? TUNING.hitstopFHeavy
@@ -521,6 +530,7 @@ function doDodgeCounter() {
     const { dmg } = computeHitDamage(18 * active.damageMul * mv.impact.strength, active, mv, oppStyle);
     battle.hitCount++;
     applyDamage(dmg, "heavy", STAGGER_TUNING.gains.dodgeCounter * (rel === "counter" ? 1.25 : 1), rel === "counter" ? STYLE_LABEL.counter : null);
+    gainDecibel(120);   // 阶段 D：闪避反击 +120 喧响
     // 阶段 C：闪避反击也是重击级命中 → 可触发连携 QTE
     tryOpenChainQte();
   }
@@ -609,26 +619,38 @@ function onAttackRelease() {
   }
 }
 
-/** 蓄力终结：伤害显著高于普通终结，但前摇更长（可被对手读招弹反） */
+/**
+ * 蓄力终结 / 喧响终结技（阶段 D）：喧响满 [极]（3000）时升级为终结技——
+ *   伤害 ×2（92 基数）+ 全程无敌 + 慢镜 1.4s + 消耗全部喧响 + 回满 3 支援点；
+ * 未满 [极] 行为与冻结版完全一致（蓄力终结）。
+ */
 function ultimateAttack() {
   const active = squad.active;
   const mv = getMove(active.id);
   const rel = styleRelation(mv.style, getMove(opponentMember.id).style);
+  const isUlt = battle.decibel >= 3000;
+  if (isUlt) {
+    battle.decibel = 0;      // 消耗全部喧响（ZZZ：释放后清零重新积攒）
+    assist.full();           // 回满 3 支援点（ZZZ：终结技 +3 支援点）
+    battle.invulnT = 2.2;    // 释放期间无敌（realDt 计时，覆盖慢镜下的前摇+演出）
+    cinematic.slowmoT = Math.max(cinematic.slowmoT, 1.4);
+  }
   battle.finisherPending = {
-    t: mv.anim.windup * 1.6,
-    dmg: Math.round(46 * active.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]),
+    t: mv.anim.windup * (isUlt ? 2.0 : 1.6),
+    dmg: Math.round((isUlt ? 92 : 46) * active.damageMul * mv.impact.strength * STYLE_MULTIPLIER[rel]),
     range: mv.hitbox.range + 0.8,
     width: mv.hitbox.width + 0.6,
     member: active,
     relation: rel,
-    charged: true,   // 蓄力终结：失衡积累取 charged 档
+    charged: true,   // 蓄力/喧响终结：失衡积累取 charged 档
+    isUlt,
   };
-  active.anim.play(ACTION.FINISHER, mv.anim.windup * 1.6 + mv.anim.strike + mv.anim.recover);
+  active.anim.play(ACTION.FINISHER, mv.anim.windup * (isUlt ? 2.0 : 1.6) + mv.anim.strike + mv.anim.recover);
   cinematic.onFinisher();
   cinematic.setFocus(opponentGroup.position);
-  battle.freezeT = Math.max(battle.freezeT, 0.6 * mv.impact.strength);
+  battle.freezeT = Math.max(battle.freezeT, (isUlt ? 0.8 : 0.6) * mv.impact.strength);
   combo.cancel();
-  screens.toast("蓄力终结！");
+  screens.toast(isUlt ? "喧响终结技！" : "蓄力终结！");
 }
 
 // ---------- 阶段 C：连携技 QTE（绝区零式爆发窗口） ----------
@@ -720,6 +742,7 @@ function executeChainStrike(memberIdx, chipIndex) {
     applyDamage(dmg, "ultimate", 0, null);
   }
   assist.refill(1);   // 连携 +1 支援点（ZZZ 循环咬合点：防御花资源、进攻回收资源）
+  gainDecibel(300);   // 阶段 D：连携环 +300 喧响（高质量行为积累更快）
   audio.playChain();
   if (isFinisher) {
     hitFeedback.trigger(
@@ -757,6 +780,7 @@ function onDodgeInput() {
       // 阶段 A：弹反惩罚击也吃招式克制乘区（失衡积累与伤害同一口径）
       const relC = styleRelation(getMove(squad.active.id).style, getMove(opponentMember.id).style);
       applyDamage(r.damage, "heavy", STAGGER_TUNING.gains.counter * (relC === "counter" ? 1.25 : 1));
+      gainDecibel(200);   // 阶段 D：弹反成功 +200 喧响
       cinematic.onHit("heavy");
       cinematic.setFocus(opponentGroup.position);
       audio.playCounter();
@@ -896,6 +920,7 @@ function tick() {
   requestAnimationFrame(tick);
   const rawDt = Math.min(clock.getDelta(), 0.05);
   battle.freezeT = Math.max(0, battle.freezeT - rawDt);
+  battle.invulnT = Math.max(0, battle.invulnT - rawDt);   // 阶段 D：ULt 无敌帧计时（realDt）
   const frozen = battle.freezeT > 0;
   // 顿帧期间锁 timeScale=1（修：原慢镜会折扣顿帧的感知时长）
   const timeScale = frozen ? 1.0 : cinematic.timeScale;
@@ -953,8 +978,12 @@ function tick() {
             new THREE.Vector3(active.group.position.x, 1.2, active.group.position.z),
             "heavy", camera, "极限闪避！"
           );
+          gainDecibel(150);   // 阶段 D：极限闪避 +150 喧响
           audio.playCounter();
           counter.expire();   // 攻击已落空，结束弹反窗
+        } else if (battle.invulnT > 0) {
+          // 阶段 D：喧响终结技无敌帧中——攻击直接落空
+          counter.expire();
         } else {
           // 未弹反未闪避 → 受击。伤害随对手招式强度浮动，并受招式克制影响
           //   （对手的风格克当前角色的风格 → 伤害更高；被克 → 更低）
@@ -1005,6 +1034,7 @@ function tick() {
       for (const c of crates) {
         props.destroy(c);
         spawnParticles(c.position, "light");
+        gainDecibel(20);   // 阶段 D：破坏可破坏物 +20 喧响（ZZZ：攻击可破坏物积累）
       }
     }
 
@@ -1130,6 +1160,7 @@ function tick() {
       daze: stagger.pct * 100,        // 阶段 A：失衡黄条（0~100）
       staggered: stagger.isStaggered, // 满条闪烁态
       assist: assist.points,          // 阶段 B：支援点 3 格
+      decibel: battle.decibel,        // 阶段 D：喧响值
       combo: battle.chainCounts > 0 ? battle.chainCounts : battle.comboCount,   // 阶段 C：有连携环时 chip 显示剩余环数
       canAttack: !frozen,
       canDodge: !frozen,
@@ -1216,6 +1247,8 @@ function startBattle(memberIndex) {
   assist.reset();    // 阶段 B：支援点回满 3
   battle.chainCounts = 0;   // 阶段 C：清连携环数与 QTE
   battle.chainQte = { active: false, counts: 0, t: 0, used: [], options: [] };
+  battle.decibel = 0;       // 阶段 D：开战清喧响
+  battle.invulnT = 0;
   opponent.hp = opponent.maxHp;
   battleStats = { maxCombo: 0, hits: 0, counters: 0, damageDealt: 0, elapsed: 0 };
   // 界面切换
@@ -1373,6 +1406,9 @@ window.__npr = {
     chainCounts: battle.chainCounts,
   }),
   debugOpenChain: () => { battle.chainCounts = Math.max(1, battle.chainCounts); tryOpenChainQte(); },
+  // 阶段 D 调试口：喧响值注入（E2E 用）
+  setDecibel: (n) => { battle.decibel = Math.max(0, Math.min(3000, n | 0)); },
+  decibelState: () => ({ decibel: battle.decibel, invulnT: +battle.invulnT.toFixed(2) }),
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },

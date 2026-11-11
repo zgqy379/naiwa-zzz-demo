@@ -70,6 +70,16 @@ export class Hud {
         <span class="charge-text" id="hud-charge-text">蓄力</span>
       </div>
 
+      <div class="hud-decibel" id="hud-decibel">
+        <span class="db-cap">喧响</span>
+        <div class="db-track">
+          <div class="db-fill" id="hud-db-fill"></div>
+          <span class="db-notch" style="left:33.3%"></span>
+          <span class="db-notch" style="left:66.6%"></span>
+        </div>
+        <span class="db-level" id="hud-db-level"></span>
+      </div>
+
       <div class="hud-left">
         <div class="bar-label">我方 <span class="bar-num" id="hud-hp-num">100</span></div>
         <div class="bar hp-bar"><div class="bar-fill" id="hud-hp" style="width:100%"></div></div>
@@ -116,6 +126,7 @@ export class Hud {
     //   是永不执行的死代码。现已从列表移除，mode/steps 仍可经 window.__npr.getMode()/getSteps() 读取。
     const ids = ["elapsed", "shell", "hp", "opp", "hp-num", "opp-num", "daze-fill", "daze-label", "daze-wrap", "assist", "chain", "counter",
                  "shell-name", "shell-idx", "round", "charge", "charge-fill", "charge-text",
+                 "db-fill", "db-level",
                  "key-attack", "key-charge", "key-dodge", "key-swap"];
     for (const id of ids) {
       this.el[id] = this.root.querySelector(`#hud-${id}`);
@@ -217,6 +228,22 @@ export class Hud {
           c.classList.toggle("on", i < n);
         });
       });
+    }
+
+    // 喧响值（阶段 D：0-3000 三段 [喧]/[特]/[极]，满极解锁终结技）
+    if (this.el["db-fill"]) {
+      const pct = Math.round(Math.max(0, Math.min(3000, s.decibel ?? 0)) / 30);
+      this._put("db-pct", pct, () => {
+        this.el["db-fill"].style.width = `${pct}%`;
+      });
+    }
+    if (this.el["db-level"]) {
+      const v = s.decibel ?? 0;
+      const lvl = v >= 3000 ? "极" : v >= 2000 ? "特" : v >= 1000 ? "喧" : "";
+      this._put("db-level", lvl, () => { this.el["db-level"].textContent = lvl; });
+      // 满极态：喧响条变彩闪烁（与失衡满条同一语言）
+      const wrap = this.el["db-level"].parentElement;
+      if (wrap) this._put("db-maxed", v >= 3000, () => wrap.classList.toggle("maxed", v >= 3000));
     }
 
     // 按键发光（绝区零式引导）

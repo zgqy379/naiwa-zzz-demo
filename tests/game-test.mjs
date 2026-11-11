@@ -776,6 +776,60 @@ export async function runAllTests(page) {
     A.assert(!closed.shown, "QTE 关闭后覆盖层应隐藏");
   }, { shot: "16-chain-qte" });
 
+  await t.case("喧响值与终结技", async () => {
+    // 进战斗
+    await evalPage(() => document.querySelector('[data-action="start"]')?.click());
+    await page.waitForTimeout(400);
+    await evalPage(() => document.querySelector('[data-action="confirm"]')?.click());
+    let playing = false;
+    for (let i = 0; i < 60; i++) {
+      playing = await page.evaluate(() => window.__npr?.battle?.phase === "playing");
+      if (playing) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(playing, "未能进入战斗状态（喧响终结技需要 playing）");
+    // 贴近对手
+    await page.evaluate(() => window.__npr.teleportPlayer(-1.0, 0));
+    await page.waitForTimeout(300);
+    // 注入：喧响满 [极] + 清空支援点（验证回满）
+    await page.evaluate(() => {
+      window.__npr.setDecibel(3000);
+      window.__npr.setAssist(0);
+    });
+    // 长按空格 → 蓄满 → 松手 = 喧响终结技
+    await page.evaluate(() => window.dispatchEvent(new KeyboardEvent("keydown", { key: " ", code: "Space", bubbles: true })));
+    let charging = false;
+    for (let i = 0; i < 60; i++) {
+      charging = await page.evaluate(() => !!document.getElementById("hud-charge")?.classList.contains("full"));
+      if (charging) break;
+      await page.waitForTimeout(150);
+    }
+    A.assert(charging, "长按空格后蓄力条应填满");
+    await page.evaluate(() => window.dispatchEvent(new KeyboardEvent("keyup", { key: " ", code: "Space", bubbles: true })));
+    // 断言：发出的是喧响终结技（dmg ≥ 80：92×damageMul×冲击×克制，最低 92×0.8×0.6×0.85 ≈ 38？
+    //   不会——最低档角色 damageMul 0.8 / 冲击 0.6 → 92×0.8×0.6×0.85 ≈ 37.5，但站立位是玩家自选的
+    //   任意成员；本用例不换人（奶蛙 1.2/1.0）→ 92×1.2×1.0×[0.85..1.25] ≈ 94~138，断言 >80 稳）
+    let fired = null;
+    for (let i = 0; i < 120; i++) {
+      fired = await page.evaluate(() => ({
+        pending: window.__npr.battle?.finisherPending
+          ? { dmg: window.__npr.battle.finisherPending.dmg, isUlt: !!window.__npr.battle.finisherPending.isUlt }
+          : null,
+        decibel: window.__npr.decibelState?.().decibel ?? -1,
+        points: window.__npr.assistState?.().points ?? -1,
+        invuln: window.__npr.decibelState?.().invulnT ?? 0,
+      }));
+      if (fired.pending) break;
+      await page.waitForTimeout(150);
+    }
+    A.assertTruthy(fired.pending, "松手后应发出终结技");
+    A.assert(fired.pending.isUlt, "喧响满 [极] 时应发出喧响终结技（isUlt）");
+    A.assertGreater(fired.pending.dmg, 80, `喧响终结技伤害应 ≥ 2× 蓄力终结（实际 ${fired.pending.dmg}）`);
+    A.assertEqual(fired.decibel, 0, "释放后喧响应清零");
+    A.assertEqual(fired.points, 3, "释放后支援点应回满 3");
+    A.assert(fired.invuln > 0, "释放期间应有无敌帧");
+  }, { shot: "17-ultimate" });
+
   await t.case("无 console 错误", async () => {
     const errs = errors.filter((e) => /error|uncaught|failed/i.test(e));
     A.assertEqual(errs.length, 0, `有 ${errs.length} 个错误：${errs.slice(0, 3).join(" | ")}`);

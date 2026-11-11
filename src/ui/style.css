@@ -281,6 +281,37 @@ html, body {
 .chain-countdown { width: 220px; height: 4px; background: rgba(255,255,255,.15); }
 .chain-countdown-fill { height: 100%; width: 100%; background: #ffd93d; }
 
+/* 喧响值槽（阶段 D：0-3000 三段，[极] 解锁终结技） */
+.hud-decibel {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 8px;
+}
+.db-cap {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  color: rgba(232,240,252,.65);
+}
+.db-track {
+  position: relative; width: 120px; height: 8px;
+  background: rgba(255,255,255,.10);
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,.18);
+  overflow: hidden;
+}
+.db-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #d8e6f4, #ffd93d);
+  transition: width .15s ease-out;
+}
+.db-notch {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: rgba(255,255,255,.35);
+}
+.db-level {
+  font-size: 11px; font-weight: 900; letter-spacing: 1px;
+  color: #ffd93d;
+}
+.hud-decibel.maxed .db-fill { animation: dazeHue .6s linear infinite; }
+
 .chain-chip {
   display: inline-block; margin-top: 9px;
   font-size: 12px; font-weight: 800;
