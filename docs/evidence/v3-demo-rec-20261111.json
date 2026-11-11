@@ -1,0 +1,120 @@
+{
+  "ok": true,
+  "errors": [],
+  "timeline": [
+    {
+      "t": 5.523,
+      "ev": "首页就绪 video={\"ready\":4,\"paused\":false,\"w\":1280,\"h\":720}"
+    },
+    {
+      "t": 5.526,
+      "ev": "screencast 开始"
+    },
+    {
+      "t": 17.088,
+      "ev": "首页演示完成，点击开始作战"
+    },
+    {
+      "t": 19.748,
+      "ev": "选人界面就绪"
+    },
+    {
+      "t": 30.454,
+      "ev": "选人演示完成，点击出战（西格玛）"
+    },
+    {
+      "t": 32.473,
+      "ev": "战斗开始 active=西格玛奶蛙"
+    },
+    {
+      "t": 35.693,
+      "ev": "连段完成"
+    },
+    {
+      "t": 38.822,
+      "ev": "侧移 + 二轮攻击"
+    },
+    {
+      "t": 41.529,
+      "ev": "接力换人 active=奶蛙"
+    },
+    {
+      "t": 43.798,
+      "ev": "移动 + 攻击 + 闪避"
+    },
+    {
+      "t": 46.271,
+      "ev": "相机环绕"
+    },
+    {
+      "t": 49.722,
+      "ev": "弹反尝试 {\"state\":\"success\",\"total\":1}"
+    },
+    {
+      "t": 52.717,
+      "ev": "战斗收尾 countered=true"
+    },
+    {
+      "t": 52.738,
+      "ev": "结算 grade=B"
+    },
+    {
+      "t": 59.841,
+      "ev": "返回首页，停止录制"
+    }
+  ],
+  "frames": 1861,
+  "cdpPort": 9809,
+  "titleVideo": {
+    "ready": 4,
+    "paused": false,
+    "w": 1280,
+    "h": 720
+  },
+  "counter": {
+    "state": "success",
+    "total": 1
+  },
+  "grade": "B",
+  "counterAttempted": true,
+  "spanSeconds": 54.21,
+  "avgFps": 34.3,
+  "stills": [
+    {
+      "file": "v3-show4-01-naifen-20261111.png",
+      "expect": "奶粉",
+      "hud": "奶粉",
+      "bytes": 965141,
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show4-05-xigema-20261111.png",
+      "expect": "西格玛奶蛙",
+      "hud": "西格玛奶蛙",
+      "bytes": 942456,
+      "hudMatch": true
+    },
+    {
+      "file": "v3-show4-00-naiwa-20261111.png",
+      "expect": "奶蛙（开局默认机位）",
+      "hud": "奶蛙",
+      "bytes": 949575,
+      "hudMatch": false
+    }
+  ],
+  "build": {
+    "entry": "assets/index-Ce5zGDeB.js",
+    "bytes": 987207,
+    "sha256_16": "c678f49b2f9c6498",
+    "servedIndexBytes": 6256,
+    "bgVideoBytes": 8735749,
+    "mtime": "2026-11-11T05:21:03.714Z"
+  },
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 1
+  },
+  "method": "CDP Page.startScreencast(jpeg q85) 全页合成 → ffmpeg concat 30fps H.264（DOM HUD / glass-layer / live3d-layer / cursor3d-layer / 视频背景全部入画）",
+  "finishedAt": "2026-11-11T07:20:01.827Z"
+}
