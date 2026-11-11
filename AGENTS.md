@@ -72,6 +72,22 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-11 13:35 by 收口线（部署上线 + 线上验收）
+
+- 已做：
+  - **部署完成**：魔搭 `master` `31f7c579` → `6316e3b`（pre-receive `ACCEPTED`），随后 `POST /openapi/v1/studios/.../deploy` 触发构建，观测到 `Building → Deploying →` 静态页 200。平台元数据 `README.md`（`sdk: static` / `app_file: index.html`）与 `.gitattributes` 已保留。
+  - **魔搭硬限制**：pre-receive hook 拒绝单个非 LFS 文件 ≥10 MiB。原 `bg/title.mp4` 11.03 MiB 被拒；二次转码 CRF33 / 1280×720 / AAC64k mono → 8.33 MiB（同帧 PSNR 35.08 dB、实机正常播放）。**必须在干净历史里重克隆后一次提交**：旧分支历史里只要还留过 11.5 MiB blob，push 仍会被拒。
+  - **OpenAPI 认证**：`~/.modelscope/credentials/cookies` 是 **pickle 序列化的 RequestsCookieJar**，须 `pickle.loads` 后用 `HTTPCookieProcessor`；`git_token` / `session` 均不能当 Bearer（401）。
+  - **线上验收**：入口 `index.html` 200 且引用 `index-Ce5zGDeB.js`；51/51 交付文件 GET/Range 全 200/206（**HEAD 一律 403，不可用 HEAD 判断资源**）；创空间 iframe 实机截图 `docs/evidence/v3-deploy-live-studio-20261111.png` 显示新版首页。明细 `docs/evidence/deploy-acceptance-20261111.json`。
+  - 本地提交：主仓 `01f54bc`（报告书单独立项）/ `1836f08` / `742ba89`；dist 子仓 `e5f3a14` / `de07f10`。
+- 未做 / 待办：
+  - **GitHub 推送被网络阻塞**：`~/.gitconfig` 的 github 专用代理 `127.0.0.1:7897` 与环境变量代理 `61677` 均失效，直连 `github.com` 被 reset，SSH deploy key 无写权限。代理恢复后执行 `git push origin main`，dist 子仓另推 `gh-pages`。
+  - 魔搭 `gh-pages` 备份分支因历史含旧大 blob 被拒，可不管（现役是 `master`）。
+  - **Demo 视频与 §十插图仍为过期证据**（录于 11-10 00:42），冻结前须重录/重拍；`submission.json` 完成式字段留空；官网提交、发帖、冻结 tag、凭据轮换由制作人本人执行。
+- 已知冲突 / 风险：
+  - 4 个 WebGL context 并存，真机长时间运行稳定性仍待观察。
+  - 压缩后的首页视频有二次转码损失（PSNR 35 dB），若在实机上被察觉，可考虑换更干净的素材或改走 LFS。
+
 ### 交接 2026-11-11 03:35 by 收口线（全面测试审查 + 修复 + 定版构建）
 
 - 已做：
