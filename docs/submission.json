@@ -21,6 +21,6 @@
   "rec_note": "2026-11-11 第三次重录（制作人委托收口线执行）：取自登记构建 dist/assets/index-BxioTyAg.js（与线上魔搭 master 521d7bc 同版，未重建、未手改 dist）。CDP Page.startScreencast 全页合成录制——DOM HUD、液态玻璃层、live3d 实时 3D 层、3D 光标层与首页视频背景全部入画 → ffmpeg concat 30fps H.264（CRF20 / yuv420p / faststart）。场景时间线：首页（视频背景 + 液态玻璃按钮 + 3D 光标跟随）→ 选人（实时 3D 卡片，选中西格玛奶蛙）→ 战斗（三段连段 / Tab 接力换人 / 闪避 / 相机环绕 / 弹反成功 x1 / 蓄力必杀技）→ 三连战 3 个不同招式族对手接力（回合 0→1→2）→ S 级结算（含逐回合战果条）→ 返回首页；全程零 console 错误、黑帧检测 0 段（blackdetect >=0.2s 无命中）。本次同时修掉「慢网络下选人页卡片空白」问题：16 只角色 GLB 改为首页视频就绪后后台预取（触发三选一：视频就绪 / 视频报错 / 2.5s 兜底），选人页加「载入中 N/16」提示。旧版 demo-video-32s.mp4（52.4s，录于 11-10 00:42 首页整体改版前）保留作迭代对比。",
   "rec_method": "CDP Page.startScreencast 全页合成录制（jpeg q85，1920×1080@1x）→ ffmpeg concat 30fps H.264（libx264 CRF20 / yuv420p / +faststart）；页面由本地静态服务读取 dist/ 登记构建（未重建）",
   "rec_driver": "scripts/capture-demo-video.mjs（headless Chrome + CDP over WebSocket；场景经 window.__npr 公开 API、页面 KeyboardEvent 与 DOM click 驱动，非真人手操）；录制取证 docs/evidence/v3-demo-rec-20261111.json",
-  "frozen_commit": "eb074ffef92ec11f36c93465ac807e9d466775a3",
+  "frozen_commit": "95f74b98ea205bcc13369cc218ec49be0f1d522e",
   "team_id_verified": "2026-11-07 官网「我的参赛→我的团队」复核：团队编号 3FO4K4VY3D07（必胜客的汉堡最好吃，队长诸葛青云），证据 docs/evidence/hackathon_team_verify_2026-11-07.png；2026-11-09 报告书抬头同口径。"
 }

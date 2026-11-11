@@ -72,6 +72,31 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-12 02:0x by 收口线（第三次重录 · 冻结 tag 重指 · **并行线并行施工中**）
+
+- 已做（**本轮只动材料与文档，未改 `src/`**——`src/` 侧的模型预取与载入提示已由「深度改造线」代为登记并随 `e4b9fd6` 入库）：
+  - **实机（真实浏览器）复现并修掉「选人页卡片长时间空白」**：本轮用 ego(lite) 真实浏览器打线上地址，抓到两件事——①**部分 Chromium 构建不带 H.264**，`<video>` 直接报错不触发 `canplaythrough`，原先只挂该事件的模型预取永不执行；②预取改挂到三选一触发（**视频就绪 / 视频报错 / 2.5s 兜底**），并在选人页加「载入中 N/16」提示（`screens._setLive3dLoading` + live3d 进度回调）。
+  - **第三次重录 + 全套材料按新构建同步**：Demo 视频 **71.933 s / 2158 帧 / 28,801,300 B**（sha256 `21dee4e3…`，零 console 错误、黑帧 0 段）；§十 13 张插图与界面流程实拍重拍；报告书 §4.2 / §6 / §10.5 / §10.6 / §13 与 `submission.json` 全部同步为实测值。
+  - **双通道部署到新构建**：`index-BxioTyAg.js`（993,117 B，sha256 `5ED9CED3D7AEDD33`）/ CSS `index-DPssEEd-.css`；魔搭 master **`521d7bc`**（34/34 文件 200/206，入口与主 JS 与本地 `dist/` **逐字节一致**）、gh-pages **`3e3dea5`**（同样逐字节一致）；旧构建已 404 下线。
+  - **冻结 tag 重指**：`freeze-2026-11-11-final` 由 `eb074ff`（第二次重录版本）**强制重指到 `95f74b9`**（第三次重录 + 最终材料），并同步回填 `frozen_commit`。
+  - **仓库卫生**：清理 8 个 E2E 遗留的 vite preview 僵尸进程；dist 子仓关掉 CRLF 归一化（`core.autocrlf=false`），使「线上字节 == 本地工作树字节」成立。
+- 未做 / 待办（**制作人本人**）：
+  - 官网提交 + 回执（`receipt` 仍空）、小红书发帖（`rednote_url`）、对外视频链接（`video_url`）、`submit_at`。
+  - 首页背景视频授权凭证（§九第 8 条仍标「待验证」）。
+- **⚠ 并行线状态（本轮最重要的交接信息）**：
+  - 仓库里有**「深度改造线」在并行施工**，已提交：`fa35c97`（绝区零机制研究 + 深度改造方案）、`235f36f`（**阶段 A 失衡系统**：黄条积累 / 眩晕 6s 易伤×1.5 / ACTION.STAGGER / HUD 失衡条）、`cd3a054`（**阶段 B 极限闪避 + 支援点经济**：攻击落地 iframe 重叠判定 / 闪避反击 / 3 金格支援点 / 无点弹反降级）、`043ab56`（**阶段 C 连携技 QTE**：失衡期重击触发 3s 子弹时间选人连打 / 链式换人贴位 / +1 支援点 / 连携终结演出，E2E 29/29）。
+  - **线上部署的是 `index-BxioTyAg.js`（= 阶段 A/B/C 之前的状态）**；并行线的阶段 A/B/C **尚未重建、尚未部署**。因此 **仓库 `src/` 已领先于线上构建**，最终提交前必须做一次**统一重建 + 重录 + 重拍 + 双通道重部署 + 再重指冻结 tag**。
+  - 本轮的 `docs/test-shots/01-16` 与 `docs/test-report.json`（29 例）**是并行线 E2E 跑出来的**（含 `16-chain-qte.png`），按文件归属**未由本线提交**，留待其自行提交。
+- 待验证：真机可见窗口下 4 个 WebGL context 的显存/发热（已实测 12 分钟长跑 `contextlost` 0 次、heap 无泄漏，但**真机可见窗口**的观感与发热仍待制作人确认）；慢网络下「载入中 N/16」的等待体感（ego 走 GitHub Pages 实测：应用本身 boot 需 ~14s、单个 GLB 下载 9~16s，属**网络**而非产品问题）。
+- 产物与证据路径：`docs/demo-video-20261111.mp4`、`docs/naiwa-zero-modelscope-static-20261111.zip`（36 项 / 13.12 MB）、`docs/evidence/v3-{runtime-metrics,stability,demo-rec,test-shots,ab-diff}-20261111.json`、`docs/evidence/v3-{show4-*,npr-*,aholo-street-*}-20261111.png`、`docs/evidence/portrait-static/`、`scripts/{measure-runtime,measure-stability,capture-test-shots,capture-phase2-check,verify-deployed,verify-glb}.*`、`scripts/shot-diff.py`。
+- 最近构建：`dist/assets/index-BxioTyAg.js` @ 2026-11-12 00:5x（993,117 B，sha256 前 16 位 `5ed9ced3d7aedd33`）+ `index-DPssEEd-.css`（48,583 B，`8c8e59fe83f50584`）；dist 交付 **34 个文件**。构建人：收口线。线上：魔搭 master `521d7bc` / gh-pages `3e3dea5`（同版，逐字节一致）。
+- 已知冲突 / 风险：
+  1. **冻结 tag 已被强制重指一次**（`eb074ff` → `95f74b9`）：原因是第一次冻结时点比最终重录早一版。并行线收工后**还需再重指一次**（到含阶段 A/B/C 的统一重建提交）。
+  2. **仓库 src 领先于线上构建**（阶段 A/B/C 未部署），见上。
+  3. **`dist/` 与 `src/` 的版本对应关系现在有两层**：线上 = `index-BxioTyAg.js`；`src/` HEAD = 含阶段 A/B/C。任何一次重建都会改变线上构建 hash，届时视频与插图需同步重录重拍。
+  4. **本机到 GitHub Pages 的网络在 11-12 00:20 前后严重变慢**（单个 331 KB GLB 需 9~16s，早日 <1s）；同期 GitHub 出现不可达窗口。**这会同时拖慢 E2E 与录像**，录像前建议先确认网络与机器负载（ego 的后台标签页会被 Chrome 节流定时器与媒体预载）。
+  5. **ego 的 `page.evaluate` 只接受一个参数**；`page.cdp("Page.bringToFront")` 是让后台标签页正常跑定时器/媒体的关键手段。`task.handOff()` 之后该空间控制权归用户，**不可自行收回**（需用户明确说「continue」才 `takeOverTaskSpace`）。
+
 ### 交接 2026-11-11 23:4x by 收口线（阶段 0-3 全程收口 · **冻结版已打**）
 
 - 已做（**本轮为完整交付轮**：材料校真 → 性能治理 → 玩法深化 → 全链重跑 → 冻结）：
@@ -472,8 +497,9 @@ AIGC:
 
 - 弹反系统**已实现**：`src/game/counter.mjs` 为完整逻辑，`src/main.mjs` 已接入 `spawnCrates` / `spawnCover` / `hitTest` / `destroy`；构建产物中含「成功弹反」「spawnCrates」字样。
 - 可破坏箱 / 掩体**已实现**（掩体 AABB 阻挡已接线：`src/main.mjs:250-252` coverSolids → Movement.solidBoxes，`movement.mjs:134` 每帧推出），不属于「计划中」。
-- 线上站点已是 2026-11-11 定版（**第二次重录后的最新构建**）：魔搭 master `9bf2025`，入口 `index-BIh5kwn5.js`（992,835 B，sha256 前 16 位 `DAB2B035DD436ABA`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/` 同版；**34 个交付文件** GET/Range 全部 200/206，入口与主 JS 与本仓 `dist/` 逐字节一致（HEAD 一律 403 不可用作判据）。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。
-- **E2E 截图注意事项**：`tests/harness.mjs` 的截图走 ego 宿主的 `page.cdp("Page.captureScreenshot")`，在该宿主下会返回**空 data** 并被静默跳过 → `docs/test-shots/` 会停留在旧构建的图。界面流程实拍改由 `scripts/capture-test-shots.mjs`（自建 CDP 通道）产出，13 张均为当前构建版本。
+- 线上站点已是 2026-11-12 定版（**第三次重录后的最新构建**）：魔搭 master `521d7bc`，入口 `index-BxioTyAg.js`（993,117 B，sha256 前 16 位 `5ED9CED3D7AEDD33`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/`（gh-pages `3e3dea5`）同版；**34 个交付文件** GET/Range 全部 200/206，入口与主 JS 与本仓 `dist/` 逐字节一致（HEAD 一律 403 不可用作判据）。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。
+- **⚠ 仓库 `src/` 领先于线上构建**：并行线「深度改造线」的阶段 A/B/C（失衡系统 / 极限闪避+支援点 / 连携技 QTE）已入库但**未重建未部署**；线上仍是阶段 A/B/C 之前的 `index-BxioTyAg.js`。最终提交前须做一次**统一重建 + 重录 + 重拍 + 双通道重部署 + 再重指冻结 tag**。
+- **E2E 截图注意事项**：`tests/harness.mjs` 的截图走 ego 宿主的 `page.cdp("Page.captureScreenshot")`，在该宿主下可能返回**空 data** 并被静默跳过 → `docs/test-shots/` 会停留在旧构建的图。界面流程实拍改由 `scripts/capture-test-shots.mjs`（自建 CDP 通道）产出。
 - `visualScale` 已回源码：`src/game/squad.mjs:103` 定义、`src/main.mjs:201` 消费（2026-11-11 审计复核）；「登记与源码不符」段历史记录保留。
 - `submission.json` 已于 2026-11-09 在本仓重建（`docs/submission.json`），完成式字段按「不许预填完成式」口径留空。
 - `dist/` **未**被版本库跟踪：`git ls-files dist` 输出 0 行，`git ls-files --stage | grep ^160000` 输出 0 行，`.gitignore:2` 为 `dist/`（完全忽略）。`dist/` 自带独立 `.git`（gh-pages 用途），产物只在该子仓库内留痕。
