@@ -79,8 +79,8 @@ AIGC:
   - **§十过期插图重拍** ✓：图 3/4/5 → `v3-show4-01-naifen / 05-xigema / 00-naiwa-20261111.png`（show3 同款机位，HUD 名逐一核对命中）；图 7–11 本就随 14:32 的 E2E 25/25 复跑刷新。报告书 §8 单独立项更新（commit `81b4786`）。
   - **魔搭备选包重打** ✓：`docs/naiwa-zero-modelscope-static-20261111.zip`（17.7MB，53 项 = 51 个 dist 登记文件 + 魔搭 master 的 README.md/.gitattributes，**无 .git**）；旧 11-09 包（内含旧构建 index-DlNwcUlO.js）仍在盘，引用它的历史记录以新包为准。
   - **GitHub 推送** ✓ 全部完成：dist 子仓 ✓ 已全部推送（远端 gh-pages = `de07f10`，用 force-with-lease 覆盖了旧的 40 个逐文件部署机提交，旧头 `7dd0289` 可找回）；主仓 main 全部推完（远端 = 本地 HEAD 6d75136，DONE-ALL ok=13 total=13，upstream=origin/main；145MB 大提交经 8 次重试）；`~/.gitconfig` 里失效的 7897 代理已删除（直连实测可用；7890 代理对上传会 408）。
-  - **凭据处理** ✓：`dist/.git/config` 的明文 oauth2 已移除，remote URL 清洗为无凭据形态；token 存入 Windows 凭据管理器（GCM），清洗后 dry-run push 与 fetch modelscope master 实测通过；token 副本本就在 `~/.modelscope/credentials/git_token`。**token 本体在魔搭侧的轮换（作废旧 token / 发新 token）仍待制作人**，可由 ego 代办（需确认）。
-- 未做 / 待办：主仓剩余 9 个提交的后台推送收尾；官方提交 / 发帖 / 冻结 tag / submission.json 完成式字段仍归制作人；token 轮换待确认。
+  - **凭据处理** ✓：`dist/.git/config` 的明文 oauth2 已移除，remote URL 清洗为无凭据形态；token 存入 Windows 凭据管理器（GCM），清洗后 dry-run push 与 fetch modelscope master 实测通过。**魔搭侧轮换已于 2026-11-11 经 ego 真实浏览器完成**（用户本机登录后操作）：新建控制台令牌 `naiwa-zzz-deploy`（写权限 / 长期有效），本地 git_token 文件与 GCM 两个条目均已换装，新令牌 push --dry-run 实测通过且已出现在令牌列表（4/10）；旧 20/36 位两把为 SDK/工具所建「幽灵令牌」——控制台列表不可见、UI 无法吊销，其值已从本地磁盘全部清除（git_token 覆盖 / GCM 覆盖 / 临时文件删除 / dist/.git/config 清洗），如需彻底作废建议修改账号密码或联系魔搭平台。
+- 未做 / 待办：官方提交 / 发帖 / 冻结 tag / submission.json 完成式字段仍归制作人。（主仓后台推送已全部完成 DONE-ALL 13/13；魔搭令牌轮换已完成，详见上方凭据处理条）
 - 产物与证据路径：`docs/demo-video-20261111.mp4`、`docs/evidence/v3-show4-*.png`、`docs/evidence/v3-demo-rec-20261111.json`、`scripts/capture-demo-video.mjs`、`docs/naiwa-zero-modelscope-static-20261111.zip`。
 - 最近构建：不变——`dist/assets/index-Ce5zGDeB.js` @ 2026-11-11 03:28，sha256 前 16 位 `c678f49b2f9c6498`；录像/插图/zip/线上四者同版。
 - 已知冲突 / 风险：
@@ -95,7 +95,7 @@ AIGC:
   - **E2E 亲跑**：`node tests/run-e2e.mjs` **25/25**（`docs/test-report.json` @ 2026-11-11T06:32:24Z），`docs/test-shots/01-13` 同步刷新为当前构建实拍。被中断的上一轮曾写 24/25（失败项「换人生效 6→6」），属 11-10 03:45 交接已记录的 tick 饥饿时序类，非代码回归，本轮复跑通过。
   - **报告书失实修正（§8 单独立项，commit `0822e5c`）**：Vite 7→8.3.6（§2.1 / §13）；「掩体阻挡未接入」过时——`coverSolids()` 已注入 `Movement.solidBoxes`（`src/main.mjs:250-252`）且 `movement.mjs:134` 每帧 `_resolveSolids`（§4.2 / §九5 / §七 / §10.5 改修复后口径）；「箱体判定用对手坐标」过时——`19bd0f2`（11-10 13:42）已改攻击者坐标（§4.2 / §九6）；行号漂移修正（§3.3 474/335→588/417、§4.2 68-69/516→74-75/630）。
   - 本文件 §7 刷新过时事实（线上构建 / 掩体接线 / visualScale / submission.json）。
-- 未做 / 待办：官方提交 / 发帖 / 冻结 tag / submission.json 完成式字段仍归制作人；token 轮换待确认。
+- 未做 / 待办：官方提交 / 发帖 / 冻结 tag / submission.json 完成式字段仍归制作人。（token 轮换已于 2026-11-11 完成，见 16:2x 交接）
 - 待验证：无新增（真机 4 WebGL context 长时稳定性沿用 13:35 口径）。
 - 产物与证据路径：`docs/test-report.json`（25/25）、`docs/test-shots/01-13*.png`（本轮覆写）、`docs/报告书.md`（失实修正）。
 - 最近构建：不变——`dist/assets/index-Ce5zGDeB.js` @ 2026-11-11 03:28，sha256 前 16 位 `c678f49b2f9c6498`；线上同版（魔搭 master `6316e3b`）。
