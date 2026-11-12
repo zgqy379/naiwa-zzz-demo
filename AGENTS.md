@@ -72,6 +72,38 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-12 13:5x by 收口线（**官网提交第 5 版** · 三处死链/错链全部更正）
+
+- 已做（**真实浏览器 ego 驱动赛事站表单**，用户确认后执行提交）：
+  - **复核发现 11-05 的第 4 版提交有三处失效链接**（这是本轮最重要的发现）：
+    1. **Demo 链接是死链**：`modelscope.cn/studios/zgqy379/guangchang3d` → 魔搭返回 `{"ErrorCode":"DomainNameNotFound","ErrorMessage":"domain name 'studio-changd-d-mpygchtsds.cn-beijing-vpc.fcapp.run' does not exist"}`，**评审点进去是 404**；
+    2. **源码链接指向的不是我们的作品**：`github.com/zgqy379/guangchang` 实为**另一个项目**「逛厂 GuǎngChǎng · 参数空间化 3D 求职招聘平台」（public，11-05 后无更新）；
+    3. **社交媒体链接已 404**：`xiaohongshu.com/explore/6aec5119…` → 「当前笔记暂时无法浏览」。
+    → 也就是说，线上挂着的第 4 版里，评委点到的 Demo 是死的、源码是别人的项目。
+  - **新报告书 PDF**：新增 `scripts/build-report-pdf.mjs`（marked → 打印样式 HTML → Chrome headless `--print-to-pdf`；A4 / 中文字体 / 表格边框 / 章节分页 / 图不跨页），产出 `docs/report.pdf`（**29 页 / 13 张插图全内嵌 / 中文可检索 / 16,173,847 B**，sha256 前 16 位 `8a0404afd6808d48`）；`marked` 新增为 devDependency（仅本脚本使用）。
+  - **表单更新并提交**（`https://www.aholo3d.cn/hackathon/my` →「我的参赛 → 我的作品」）：
+    - Demo / 视频链接 → `https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo`（实测 200）
+    - 项目报告书 → 上传新 PDF（平台落盘 `https://holo-cos.aholo3d.cn/public/NL2UQ3AKTK2RYAABAAAAADY8.pdf`，**与本仓 `docs/report.pdf` 逐字节一致**）
+    - 项目源代码 → `https://github.com/zgqy379/naiwa-zzz-demo/tree/main`（仓库 public；**默认分支是 `gh-pages`（构建产物），所以提交链接必须指到 `/tree/main` 才是源码**）
+    - 社交媒体发布链接 → **清空**（原链 404，留着只会让评委点死链）
+    - 生态合作设备/技术使用情况 → 无（该栏选项是 INSTA360 / DEEP_ROBOTICS / WORKBUDDY 等**生态合作设备**，与「用 Aholo Lux3D 完成」是另一个必勾项，无需改）
+    - 应用赛道 → 游戏应用奖、空间设计应用奖（不变）
+    - 两个必勾确认：「使用 Aholo Lux3D 完成」+「参赛作品提交须知」——**须知勾选框不随草稿持久化，必须在提交瞬间勾**
+  - **提交产出**：`第 5 版 · 提交于 11 月 12 日 13:31`，状态「已提交 · 作品已进入资格与完整性审核」；平台提示「评审以 11 月 19 日 19:00 前最后一次成功提交的版本为准」。回执已回填 `docs/submission.json` 的 `submit_at` / `receipt` / `video_url`。
+- **踩坑记录（表单自动化）**：
+  1. **文本输入框不随自动保存持久化**：React 受控输入框要用「原生 value setter + `input` 事件」写入，写完还必须**显式点「保存草稿」**才会落库（只等自动保存无效，重载后回弹旧值）；**文件上传与 radio/checkbox 则会随自动保存落库**。
+  2. **隐藏的 file input 用 `DOM.setFileInputFiles` 可直接喂**（nodeId 由 `DOM.getDocument` → `DOM.querySelector` 取），不需要点「上传」按钮触发原生文件选择框。
+  3. **task space 的页数预算是 8**：反复 `newPage()` 会撞预算上限，脚本里要先关掉多余页再复用其中一个。
+- 未做 / 待办（**制作人本人**）：
+  - **小红书发帖**（加分项「社交媒体发布链接」本轮空缺）：本机 ego 的小红书**未登录**（无 `web_session` cookie），不能代发。发完把链接给我，我在 11-19 19:00 前**补一次提交**即可（表单允许多次提交，以后一次为准）。
+  - 首页背景视频授权凭证（§九第 8 条仍标「待验证」）。
+  - 提交后**保持 Demo / 报告书 / 源码链接在结果公布前持续有效**（平台原话提醒）。
+- 产物与证据路径：`docs/report.pdf`（提交用报告书）、`docs/evidence/v3-hackathon-submit-20261112.png`（提交后卡片实拍）、`v3-hackathon-submit-result-20261112.json`（提交前后字段快照）、`v3-hackathon-draft-20261112.png`、`scripts/build-report-pdf.mjs`。
+- 已知冲突 / 风险：
+  1. **`docs/report.pdf` 是 15.4 MB 的二进制产物**，随本仓入库（仓库体积继续增长，AGENTS §7 已记「证据留档，禁止加入忽略」的口径）。
+  2. **报告书与提交版 PDF 之间存在一天内的口径差**：PDF 由 `docs/报告书.md` 在 13:2x 生成，提交于 13:31；若之后再改报告书需**重新生成 PDF 并补一次提交**，否则官网上的报告书与仓库里的 markdown 会不一致。
+  3. **视频的公开直链在本机下载不稳定**（`raw.githubusercontent.com` 时通时断，完整下载多次截断），但仓库内 blob 经 git 权威核对为 **32,665,099 B**（与本地一致），Range 请求（206）正常——属本机到 GitHub 的网络窗口，非发布问题。
+
 ### 交接 2026-11-12 03:0x by 收口线（**统一收口：并入阶段 A–G → 重建 → 第四次重录 → 双通道重部署 → 再重指冻结 tag**）
 
 - 已做（**本轮未改 `src/` 任何一行**，只改 `tests/`、`scripts/`、`docs/`；`src/` 自 `fbbcf43` 起未变）：

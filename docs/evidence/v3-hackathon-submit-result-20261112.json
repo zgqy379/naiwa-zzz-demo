@@ -1,0 +1,98 @@
+{
+  "before": {
+    "demoLink": "https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo",
+    "repoLink": "https://github.com/zgqy379/naiwa-zzz-demo/tree/main",
+    "social": "",
+    "lux": true,
+    "notice": false,
+    "reportSize": "15.4 MB",
+    "radios": {
+      "dv": [
+        true,
+        false
+      ],
+      "reportMode": [
+        false,
+        true
+      ],
+      "repoMode": [
+        true,
+        false
+      ]
+    },
+    "checks": [
+      "NONE=true",
+      "INSTA360=false",
+      "DEEP_ROBOTICS=false",
+      "WORKBUDDY=false",
+      "NONE=false",
+      "GAME=true",
+      "SPATIAL_DESIGN=true",
+      "FILM=false",
+      "PRINT_3D=false",
+      "EMBODIED_AI=false",
+      "on=true",
+      "on=false"
+    ]
+  },
+  "clicked": "clicked",
+  "after": {
+    "version": "第 5 版 · 提交于 11 月 12 日 13:31",
+    "links": [
+      "https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo",
+      "https://holo-cos.aholo3d.cn/public/NL2UQ3AKTK2RYAABAAAAADY8.pdf",
+      "https://github.com/zgqy379/naiwa-zzz-demo/tree/main"
+    ],
+    "statuses": [
+      "已提交"
+    ]
+  },
+  "final": {
+    "demoLink": "https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo",
+    "repoLink": "https://github.com/zgqy379/naiwa-zzz-demo/tree/main",
+    "social": "",
+    "lux": true,
+    "notice": false,
+    "reportSize": "15.4 MB",
+    "radios": {
+      "dv": [
+        true,
+        false
+      ],
+      "reportMode": [
+        false,
+        true
+      ],
+      "repoMode": [
+        true,
+        false
+      ]
+    },
+    "checks": [
+      "NONE=true",
+      "INSTA360=false",
+      "DEEP_ROBOTICS=false",
+      "WORKBUDDY=false",
+      "NONE=false",
+      "GAME=true",
+      "SPATIAL_DESIGN=true",
+      "FILM=false",
+      "PRINT_3D=false",
+      "EMBODIED_AI=false",
+      "on=true",
+      "on=false"
+    ]
+  },
+  "log": [
+    "card BEFORE => {\"version\":\"第 4 版 · 提交于 11 月 5 日 21:55\",\"links\":[\"https://modelscope.cn/studios/zgqy379/guangchang3d\",\"https://holo-cos.aholo3d.cn/public/report.pdf\",\"https://www.xiaohongshu.com/explore/6aec5119000000000602cd58\",\"https://github.com/zgqy379/guangchang\"],\"statuses\":[\"已提交\"]}",
+    "edit opened = true",
+    "form BEFORE => {\n \"demoLink\": \"https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\",\n \"repoLink\": \"https://github.com/zgqy379/naiwa-zzz-demo/tree/main\",\n \"social\": \"\",\n \"lux\": true,\n \"notice\": false,\n \"reportSize\": \"15.4 MB\",\n \"radios\": {\n  \"dv\": [\n   true,\n   false\n  ],\n  \"reportMode\": [\n   false,\n   true\n  ],\n  \"repoMode\": [\n   true,\n   false\n  ]\n },\n \"checks\": [\n  \"NONE=true\",\n  \"INSTA360=false\",\n  \"DEEP_ROBOTICS=false\",\n  \"WORKBUDDY=false\",\n  \"NONE=false\",\n  \"GAME=true\",\n  \"SPATIAL_DESIGN=true\",\n  \"FILM=false\",\n  \"PRINT_3D=false\",\n  \"EMBODIED_AI=false\",\n  \"on=true\",\n  \"on=false\"\n ]\n}",
+    "notice checked = true",
+    "lux checked = true",
+    "shot(before submit) => C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/G0-before-submit.png",
+    "submit => clicked",
+    "card AFTER => {\"version\":\"第 5 版 · 提交于 11 月 12 日 13:31\",\"links\":[\"https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\",\"https://holo-cos.aholo3d.cn/public/NL2UQ3AKTK2RYAABAAAAADY8.pdf\",\"https://github.com/zgqy379/naiwa-zzz-demo/tree/main\"],\"statuses\":[\"已提交\"]}",
+    "shot(after submit) => C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/G1-after-submit.png",
+    "form AFTER => {\n \"demoLink\": \"https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\",\n \"repoLink\": \"https://github.com/zgqy379/naiwa-zzz-demo/tree/main\",\n \"social\": \"\",\n \"lux\": true,\n \"notice\": false,\n \"reportSize\": \"15.4 MB\",\n \"radios\": {\n  \"dv\": [\n   true,\n   false\n  ],\n  \"reportMode\": [\n   false,\n   true\n  ],\n  \"repoMode\": [\n   true,\n   false\n  ]\n },\n \"checks\": [\n  \"NONE=true\",\n  \"INSTA360=false\",\n  \"DEEP_ROBOTICS=false\",\n  \"WORKBUDDY=false\",\n  \"NONE=false\",\n  \"GAME=true\",\n  \"SPATIAL_DESIGN=true\",\n  \"FILM=false\",\n  \"PRINT_3D=false\",\n  \"EMBODIED_AI=false\",\n  \"on=true\",\n  \"on=false\"\n ]\n}"
+  ]
+}
