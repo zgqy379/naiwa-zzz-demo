@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "measuredAt": "2026-11-12T13:38:36.803Z",
+  "measuredAt": "2026-11-12T15:50:34.629Z",
   "build": {
     "entry": "assets/index-CLZViSiW.js",
     "entryBytes": 1024950
@@ -11,43 +11,47 @@
   ],
   "errors": [],
   "waterfall": {
-    "wallMs": 9963,
+    "wallMs": 9173,
     "paint": [
       {
         "name": "first-paint",
-        "t": 964
+        "t": 636
       },
       {
         "name": "first-contentful-paint",
-        "t": 964
+        "t": 636
       }
     ],
     "navigation": {
-      "domContentLoaded": 1739,
-      "load": 8582,
-      "responseEnd": 33,
+      "domContentLoaded": 1056,
+      "load": 1810,
+      "responseEnd": 22,
       "transferSize": 6796,
       "encodedBodySize": 6496,
       "decodedBodySize": 6496
     },
-    "requestCount": 108,
-    "totalEncodedBytes": 13924041,
+    "requestCount": 106,
+    "totalEncodedBytes": 13848975,
     "byType": [
       {
         "type": "Fetch",
-        "bytes": 12767300
+        "bytes": 12476934
       },
       {
         "type": "Script",
         "bytes": 1048166
       },
       {
-        "type": "Stylesheet",
-        "bytes": 53363
+        "type": "Media",
+        "bytes": 196547
       },
       {
         "type": "Image",
-        "bytes": 47234
+        "bytes": 65987
+      },
+      {
+        "type": "Stylesheet",
+        "bytes": 53363
       },
       {
         "type": "Document",
@@ -56,10 +60,6 @@
       {
         "type": "Font",
         "bytes": 1270
-      },
-      {
-        "type": "Media",
-        "bytes": 0
       }
     ],
     "requests": [
@@ -68,7 +68,7 @@
         "type": "Document",
         "status": 200,
         "bytes": 6708,
-        "ms": 30,
+        "ms": 20,
         "failed": null
       },
       {
@@ -76,7 +76,7 @@
         "type": "Script",
         "status": 200,
         "bytes": 1025171,
-        "ms": 39,
+        "ms": 27,
         "failed": null
       },
       {
@@ -84,23 +84,23 @@
         "type": "Stylesheet",
         "status": 200,
         "bytes": 53363,
-        "ms": 12,
+        "ms": 9,
         "failed": null
       },
       {
         "url": "/bg/title-poster.jpg",
         "type": "Image",
         "status": 200,
-        "bytes": 39035,
-        "ms": 16,
+        "bytes": 57788,
+        "ms": 11,
         "failed": null
       },
       {
         "url": "/bg/title.mp4",
         "type": "Media",
         "status": 206,
-        "bytes": 0,
-        "ms": null,
+        "bytes": 196547,
+        "ms": 10,
         "failed": null
       },
       {
@@ -108,7 +108,7 @@
         "type": "Image",
         "status": 200,
         "bytes": 8199,
-        "ms": 19,
+        "ms": 5,
         "failed": null
       },
       {
@@ -116,7 +116,7 @@
         "type": "Font",
         "status": 200,
         "bytes": 1270,
-        "ms": 15,
+        "ms": 5,
         "failed": null
       },
       {
@@ -124,7 +124,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 603751,
-        "ms": 16,
+        "ms": 11,
         "failed": null
       },
       {
@@ -132,7 +132,7 @@
         "type": "Script",
         "status": 200,
         "bytes": 8399,
-        "ms": 10,
+        "ms": 5,
         "failed": null
       },
       {
@@ -140,7 +140,7 @@
         "type": "Script",
         "status": 200,
         "bytes": 7034,
-        "ms": 10,
+        "ms": 5,
         "failed": null
       },
       {
@@ -148,7 +148,7 @@
         "type": "Script",
         "status": 200,
         "bytes": 2730,
-        "ms": 7,
+        "ms": 4,
         "failed": null
       },
       {
@@ -156,39 +156,7 @@
         "type": "Script",
         "status": 200,
         "bytes": 4832,
-        "ms": 7,
-        "failed": null
-      },
-      {
-        "url": "/asset/naiwa_hand_cursor.glb",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 795323,
-        "ms": 17,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/c77e7325-acd0-411c-9e8f-bbc5ff8d91ce",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/299ff241-a3b7-4290-b554-d2721f7c51e5",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/3950cb60-4666-41e6-a9ce-3e0f3407b5ee",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 3,
+        "ms": 4,
         "failed": null
       },
       {
@@ -196,7 +164,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 1132196,
-        "ms": 64,
+        "ms": 84,
         "failed": null
       },
       {
@@ -204,7 +172,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 1118712,
-        "ms": 74,
+        "ms": 90,
         "failed": null
       },
       {
@@ -212,7 +180,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 448383,
-        "ms": 41,
+        "ms": 35,
         "failed": null
       },
       {
@@ -220,7 +188,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 438791,
-        "ms": 44,
+        "ms": 62,
         "failed": null
       },
       {
@@ -228,7 +196,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 464823,
-        "ms": 48,
+        "ms": 71,
         "failed": null
       },
       {
@@ -236,7 +204,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 427971,
-        "ms": 71,
+        "ms": 67,
         "failed": null
       },
       {
@@ -244,7 +212,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 571347,
-        "ms": 80,
+        "ms": 95,
         "failed": null
       },
       {
@@ -252,7 +220,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 472171,
-        "ms": 79,
+        "ms": 119,
         "failed": null
       },
       {
@@ -260,7 +228,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 422919,
-        "ms": 93,
+        "ms": 118,
         "failed": null
       },
       {
@@ -268,7 +236,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 462347,
-        "ms": 104,
+        "ms": 126,
         "failed": null
       },
       {
@@ -276,7 +244,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 524391,
-        "ms": 110,
+        "ms": 138,
         "failed": null
       },
       {
@@ -284,7 +252,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 508223,
-        "ms": 117,
+        "ms": 152,
         "failed": null
       },
       {
@@ -292,7 +260,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 450147,
-        "ms": 115,
+        "ms": 140,
         "failed": null
       },
       {
@@ -300,7 +268,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 456903,
-        "ms": 127,
+        "ms": 163,
         "failed": null
       },
       {
@@ -308,7 +276,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 467843,
-        "ms": 143,
+        "ms": 168,
         "failed": null
       },
       {
@@ -316,7 +284,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 488059,
-        "ms": 148,
+        "ms": 177,
         "failed": null
       },
       {
@@ -324,7 +292,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 425103,
-        "ms": 149,
+        "ms": 181,
         "failed": null
       },
       {
@@ -332,11 +300,115 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 469919,
-        "ms": 150,
+        "ms": 181,
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/f0461b7c-42e4-4b96-93b5-e48e9d1ed6b9",
+        "url": "/asset/naiwa_hand_cursor.glb",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 795323,
+        "ms": 25,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/bd9e9fdb-42af-49ea-8205-9372f01ca7f6",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/36c32fd0-0cca-43e3-8869-a31b6251a5b1",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/a4997737-4bb1-4369-870b-e477286f1ca8",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/d67e2ea9-5ba4-45d5-ab59-708dce8b21ba",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/cc10aadb-0f62-46d1-8b73-eb8942938324",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/91ec3166-1aa7-4b32-ab84-6572be96e14a",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/350cff52-5e5b-4603-b9c0-7f91ac019b0d",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/c0d1658c-d481-47be-91a6-063123e24430",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/79c5b7e9-d925-4d97-983d-53e586303d14",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/4b5d1368-f681-4528-9d72-71a16893428c",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/af8159c4-5956-4aac-af10-d453bb29a72d",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/b3492748-df82-4304-b0bf-a1b60b54fcf3",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/82c5acc7-3adc-4e2c-9e0c-453ca43f453a",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -344,7 +416,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/b8a0a685-63cb-48b2-8951-62a75ab7ed22",
+        "url": "blob:http://127.0.0.1:5290/c9e56f26-3940-4058-bbd2-842fdae5cb1b",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -352,7 +424,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/41892327-9ada-4c90-b7b1-df5b94ac72b0",
+        "url": "blob:http://127.0.0.1:5290/6a7bb7b7-06e7-4f2e-b4b5-145de63dded2",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -360,7 +432,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/7125ee11-82d4-44bc-92d0-cbf1c0b7360d",
+        "url": "blob:http://127.0.0.1:5290/bcc97511-daa4-4a56-9c58-16ad3ba50c90",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -368,7 +440,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/4cc63393-099f-46d7-bd9a-4e46455ead51",
+        "url": "blob:http://127.0.0.1:5290/cedd2922-7016-4cbc-8389-b91dac27c5f1",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -376,7 +448,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/d5ba9ee6-854c-4025-b90a-be123d0ce74a",
+        "url": "blob:http://127.0.0.1:5290/1b27c66e-0c2b-4ac4-8a34-af6b97188692",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -384,7 +456,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/3820a1a8-930c-4239-be6d-aeb7ee79af47",
+        "url": "blob:http://127.0.0.1:5290/257c9753-2e51-44d7-8593-36851a0c8324",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -392,7 +464,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/ba828051-11c7-4495-abb7-221abe8a07df",
+        "url": "blob:http://127.0.0.1:5290/02386493-932f-4647-a7c2-adf9490a21d3",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -400,7 +472,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/be4e4eef-988b-42f0-8394-06cd29745da6",
+        "url": "blob:http://127.0.0.1:5290/130dffc6-8c73-4f36-a415-496ca478e1f5",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -408,7 +480,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/7701f96d-ebc2-4a50-9539-a98b72aa7245",
+        "url": "blob:http://127.0.0.1:5290/aaf8abd0-40e5-49d8-9595-df3b8c41969e",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -416,7 +488,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/04439b19-7342-463b-a611-c225471ebcce",
+        "url": "blob:http://127.0.0.1:5290/50764a74-5f93-45b2-a1f1-bb4a3157c1d8",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -424,7 +496,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/9239d0b7-1b9b-4b14-949e-5c21d6287265",
+        "url": "blob:http://127.0.0.1:5290/6ca93d5a-9eb2-40d1-9049-df4dbfae8156",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -432,7 +504,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/a02c78e5-9236-4922-9609-af9cee34dac6",
+        "url": "blob:http://127.0.0.1:5290/72e047f2-a999-4fbd-b263-9fa092f8f50f",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -440,7 +512,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/b5dd1794-9e98-422a-951c-ebf66baa03c2",
+        "url": "blob:http://127.0.0.1:5290/975545f0-c5ad-4d72-866c-de43c4c042bf",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -448,7 +520,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/3e7e308a-3f30-4a6f-a871-e6ff9d513a44",
+        "url": "blob:http://127.0.0.1:5290/c79332df-0e78-4004-bf76-a1cf1c54d1f1",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -456,7 +528,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/10581767-effb-4943-b2d9-888611e8c923",
+        "url": "blob:http://127.0.0.1:5290/81467c03-120e-44a2-9715-e70ae766f6ac",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -464,23 +536,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/14c9505e-179d-4e97-a388-649df7f65690",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 2,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/1696568e-6c1c-49b3-b741-0f518aa07eda",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 3,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/801b1306-8304-43a7-bf62-2c2ad798d6a7",
+        "url": "blob:http://127.0.0.1:5290/fb9cd589-f44f-4c1b-8233-d39c007b6f2f",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -488,15 +544,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/0d88288d-fa5b-443c-8f02-efd1a731e983",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 2,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/28f6d73d-0522-4a53-acf0-c7561b31a683",
+        "url": "blob:http://127.0.0.1:5290/448ef6af-b033-460b-9053-d09d82da6228",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -504,7 +552,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/f6c4a9c1-37bb-4124-8310-aa2a6164921a",
+        "url": "blob:http://127.0.0.1:5290/c747676b-7561-4e81-ae15-da8dfbe787f6",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -512,7 +560,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/645dc784-0ca8-4ec9-adbc-2554f87d2905",
+        "url": "blob:http://127.0.0.1:5290/28bff498-84c8-47ea-b5cb-1d9d263a2480",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -520,15 +568,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/cc6acd12-65d8-430a-92e1-7a7cd785d922",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 2,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/bdea8f5b-3f79-4ec8-b16c-15bc9f4e7f3b",
+        "url": "blob:http://127.0.0.1:5290/aa6a9fe8-6ddc-42f0-9bcb-37e6b81f2cde",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -536,7 +576,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/e5a8799c-dd49-4e74-8f77-cc9948bc449a",
+        "url": "blob:http://127.0.0.1:5290/83e18b5d-9cf4-4c17-9efc-4b4fc71b67ba",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -544,59 +584,11 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/b3e27404-f3b8-4c69-a9a2-8864d1941072",
+        "url": "blob:http://127.0.0.1:5290/6e3e230f-46fd-4b14-b7b0-5dfa6073df97",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
         "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/b6a70200-65ce-4098-b946-0c18a4b23613",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/e78b9520-ea01-426c-9f04-d0d5c8cb7d72",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/b1625a54-c4db-4276-922c-92862c74c207",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/a69ef065-b726-4ab7-8144-386488fa0039",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 2,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/69517049-fd7e-4b31-997f-7149feab8d0e",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 2,
-        "failed": null
-      },
-      {
-        "url": "/asset/naiwa_spatula.glb",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 136143,
-        "ms": 7,
         "failed": null
       },
       {
@@ -604,7 +596,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 154223,
-        "ms": 8,
+        "ms": 6,
         "failed": null
       },
       {
@@ -612,31 +604,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 196479,
-        "ms": 8,
-        "failed": null
-      },
-      {
-        "url": "/asset/naiwa_drumstick.glb",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 194047,
-        "ms": 10,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/e08ce4f0-dcc2-43ae-87a9-356e653c2201",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/622f1510-c562-469c-a9ac-e8d85298b282",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 3,
+        "ms": 5,
         "failed": null
       },
       {
@@ -644,7 +612,15 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 136143,
-        "ms": 8,
+        "ms": 5,
+        "failed": null
+      },
+      {
+        "url": "/asset/naiwa_drumstick.glb",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 194047,
+        "ms": 5,
         "failed": null
       },
       {
@@ -652,39 +628,7 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 203759,
-        "ms": 9,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/1c754766-8654-4347-9ea8-6a09a0c279d2",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/5258a873-8f7c-4720-aad4-be85f9425f82",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "/asset/naiwa_mug.glb",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 140675,
-        "ms": 9,
-        "failed": null
-      },
-      {
-        "url": "/asset/naiwa_teacup.glb",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 164807,
-        "ms": 13,
+        "ms": 5,
         "failed": null
       },
       {
@@ -692,35 +636,27 @@
         "type": "Fetch",
         "status": 200,
         "bytes": 137479,
-        "ms": 10,
+        "ms": 5,
         "failed": null
       },
       {
-        "url": "/asset/naiwa_rollingpin.glb",
+        "url": "/asset/naiwa_mug.glb",
         "type": "Fetch",
         "status": 200,
-        "bytes": 154223,
-        "ms": 7,
+        "bytes": 140675,
+        "ms": 5,
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/d293de7f-b10d-48be-b731-844305034685",
+        "url": "/asset/naiwa_teacup.glb",
         "type": "Fetch",
         "status": 200,
-        "bytes": 0,
-        "ms": 1,
+        "bytes": 164807,
+        "ms": 5,
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/14a33ef4-ae3a-46a6-bd06-83c55d635c52",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 1,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/8ad82f7b-3dda-449a-bd33-ce5e4aa801b6",
+        "url": "blob:http://127.0.0.1:5290/f5d10bb4-ef4d-4ced-ab92-5fb91faa8730",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -728,31 +664,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/bf01e656-d091-4949-a74f-463b1c9257be",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 3,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/bc0133b1-b0b1-4067-a0d0-01709c4dbae1",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 3,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/50846853-11d8-4a52-b69d-943fe5f44b7f",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 3,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/317c5c8b-2229-4175-93e1-3cd1a6630820",
+        "url": "blob:http://127.0.0.1:5290/4eda7c13-0eb6-4152-beb4-87f164245b9f",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -760,7 +672,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/f017d53d-68a9-48b5-a32b-5b53db9bb738",
+        "url": "blob:http://127.0.0.1:5290/a9986c62-2e48-46ea-8cfa-711c9dda56e3",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -768,7 +680,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/3d72a5b1-32df-48cd-aeee-da97098e197f",
+        "url": "blob:http://127.0.0.1:5290/1f00e76d-82db-4d29-908a-022c2d81d859",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -776,7 +688,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/1af0cad7-7434-4fbd-9cc8-f736039798ba",
+        "url": "blob:http://127.0.0.1:5290/811e2358-3354-4c97-824e-1198fed88070",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -784,7 +696,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/5fe937bb-7651-4017-9124-824e661a513d",
+        "url": "blob:http://127.0.0.1:5290/a10fce46-0bea-4cad-83a3-6ab4ecb4c210",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -792,7 +704,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/58a63601-cc75-4b15-927d-de346950e8d3",
+        "url": "blob:http://127.0.0.1:5290/c13a066a-3aa9-4185-8ae6-4adb637f1819",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -800,7 +712,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/115d198f-709a-4dff-9dc6-360a2bec9b2f",
+        "url": "blob:http://127.0.0.1:5290/4839cf0c-3b77-440d-89a3-d08095e5a801",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -808,7 +720,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/2b45f5ce-8887-4371-9a66-88358fc398b6",
+        "url": "blob:http://127.0.0.1:5290/2034b873-522a-40e7-b7ec-bbc826881ce6",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -816,7 +728,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/98dd0ccd-c7ea-4156-8eea-489fe01aebdd",
+        "url": "blob:http://127.0.0.1:5290/cdcd4dac-464f-44eb-aa3a-94ad34bc0d70",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -824,7 +736,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/fa15fa79-df17-4228-acb5-36ad2ea76073",
+        "url": "blob:http://127.0.0.1:5290/a613610b-de95-4e3f-bf63-414b935fbfc8",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -832,7 +744,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/05630fe0-ca52-42d0-93e8-61199e29020a",
+        "url": "blob:http://127.0.0.1:5290/8614e9e7-c7d1-4274-b401-0f7a9a9a4948",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -840,7 +752,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/c7e7e396-3a74-4c2f-a098-5cecc0c24d44",
+        "url": "blob:http://127.0.0.1:5290/4874e5e9-4868-442f-9e95-120751eb299a",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -848,7 +760,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/14d15f73-2413-4706-9105-5b78333c656b",
+        "url": "blob:http://127.0.0.1:5290/99d4dcab-46fb-48a7-a183-30064a4a3d54",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -856,7 +768,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/d1979d0e-d905-4bcd-a50f-e467f1e9cf8c",
+        "url": "blob:http://127.0.0.1:5290/09205a4c-2872-4e98-9fb0-e8910806a5b1",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -864,7 +776,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/9dd447c2-db2c-47a7-818b-c6004d27848d",
+        "url": "blob:http://127.0.0.1:5290/d8bc242e-c9fb-4a6d-839e-9d4f6d84a784",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -872,7 +784,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/ff1fe641-f67b-4f29-bcc6-35a55f8ac23e",
+        "url": "blob:http://127.0.0.1:5290/08356c7a-b265-4f37-84b1-5d483bfa7650",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -880,7 +792,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/bd03c54b-4b6f-454f-91d9-4253775d51c6",
+        "url": "blob:http://127.0.0.1:5290/474e753d-7f8d-49dc-bbea-0f3ee6944abd",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -888,7 +800,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/4cf908fb-eb00-46db-93e5-5707ae49c319",
+        "url": "blob:http://127.0.0.1:5290/31c2d80b-e7b8-46c5-867c-6ea4a897ff89",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -896,7 +808,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/feb73b0b-1531-4129-a78d-997f29b927f8",
+        "url": "blob:http://127.0.0.1:5290/856e3e4c-b6cc-4d95-9e66-8ba7b7697677",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -904,15 +816,7 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/5d1d8228-8dd0-4729-96b0-d7ae28e5d04b",
-        "type": "Fetch",
-        "status": 200,
-        "bytes": 0,
-        "ms": 2,
-        "failed": null
-      },
-      {
-        "url": "blob:http://127.0.0.1:5290/8e8c2462-5d0f-447f-89f1-f182cd17928c",
+        "url": "blob:http://127.0.0.1:5290/18241fb8-b02a-4432-b9e5-393a6190c37e",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -920,7 +824,87 @@
         "failed": null
       },
       {
-        "url": "blob:http://127.0.0.1:5290/57e2ca81-10e7-42ce-9869-bdf13044c203",
+        "url": "blob:http://127.0.0.1:5290/05a15efb-9efa-4ed8-bbf9-9c05f4d0c310",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/63958f40-1f00-4a40-a4b1-6715c0c92dec",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/c3254e14-7fe2-4daf-b5e8-2ef22af190b2",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/f0d52557-1e55-405b-8693-6d3d3a01f992",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/d5fa2623-b474-4315-81bd-11fa7f4a5ce2",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/6dc9316b-d827-422a-9407-38250ba02e3f",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/a6084a30-408b-49ad-bd89-2547519bf0d3",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/7d6ca6c3-d04a-4977-8581-7f4877c3c3ab",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/f5826785-0636-4e33-9f18-a3f074f78189",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/3e71e98c-f68c-4e8c-b6d8-e6f4519543e3",
+        "type": "Fetch",
+        "status": 200,
+        "bytes": 0,
+        "ms": 1,
+        "failed": null
+      },
+      {
+        "url": "blob:http://127.0.0.1:5290/662322cc-13ba-4f95-92d0-b4d3c720286f",
         "type": "Fetch",
         "status": 200,
         "bytes": 0,
@@ -930,284 +914,258 @@
     ]
   },
   "stability": {
-    "runMs": 40274,
-    "sampleCount": 20,
+    "runMs": 36178,
+    "sampleCount": 18,
     "screensVisited": [
       "screen-title"
     ],
     "fps": {
-      "min": 234,
-      "max": 295.5,
-      "avgFirstHalf": 258.3,
-      "avgSecondHalf": 271.2
+      "min": 358.5,
+      "max": 361.5,
+      "avgFirstHalf": 360.9,
+      "avgSecondHalf": 360.5
     },
     "contextLostEvents": 0,
     "maxContexts": 3,
     "heap": {
-      "firstMB": 50,
+      "firstMB": 52,
       "lastMB": 35,
-      "maxMB": 56
+      "maxMB": 57
     },
     "samples": [
       {
-        "t": 1794490727935,
+        "t": 1794498644516,
         "frames": 0,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 52787499,
+        "heap": 54323749,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 4,
+        "elapsedMs": 3,
         "fps": 0
       },
       {
-        "t": 1794490729965,
-        "frames": 483,
+        "t": 1794498646527,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 58313079,
+        "heap": 59809173,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 2034,
-        "fps": 241.5
+        "elapsedMs": 2014,
+        "fps": 361.5
       },
       {
-        "t": 1794490731975,
-        "frames": 504,
+        "t": 1794498648541,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 46084763,
+        "heap": 38976249,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 4044,
-        "fps": 252
+        "elapsedMs": 4027,
+        "fps": 361.5
       },
       {
-        "t": 1794490733992,
-        "frames": 468,
+        "t": 1794498650547,
+        "frames": 720,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 49892851,
+        "heap": 44306001,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 6061,
-        "fps": 234
+        "elapsedMs": 6033,
+        "fps": 360
       },
       {
-        "t": 1794490736007,
-        "frames": 534,
+        "t": 1794498652560,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 53822171,
+        "heap": 36644205,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 8077,
-        "fps": 267
+        "elapsedMs": 8047,
+        "fps": 361.5
       },
       {
-        "t": 1794490738027,
-        "frames": 543,
+        "t": 1794498654567,
+        "frames": 717,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 57832395,
+        "heap": 41812981,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 10096,
-        "fps": 271.5
+        "elapsedMs": 10053,
+        "fps": 358.5
       },
       {
-        "t": 1794490740034,
-        "frames": 564,
+        "t": 1794498656583,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 40045456,
+        "heap": 47219109,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 12103,
-        "fps": 282
+        "elapsedMs": 12069,
+        "fps": 361.5
       },
       {
-        "t": 1794490742041,
-        "frames": 519,
+        "t": 1794498658591,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 43923916,
+        "heap": 38755364,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 14110,
-        "fps": 259.5
+        "elapsedMs": 14078,
+        "fps": 361.5
       },
       {
-        "t": 1794490744065,
-        "frames": 504,
+        "t": 1794498660604,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 47652308,
+        "heap": 44050672,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 16134,
-        "fps": 252
+        "elapsedMs": 16090,
+        "fps": 361.5
       },
       {
-        "t": 1794490746072,
-        "frames": 531,
+        "t": 1794498662617,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 38309848,
+        "heap": 36178276,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 18140,
-        "fps": 265.5
+        "elapsedMs": 18103,
+        "fps": 361.5
       },
       {
-        "t": 1794490748080,
-        "frames": 528,
+        "t": 1794498664623,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 42145780,
+        "heap": 41441708,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 20148,
-        "fps": 264
+        "elapsedMs": 20110,
+        "fps": 361.5
       },
       {
-        "t": 1794490750087,
-        "frames": 477,
+        "t": 1794498666631,
+        "frames": 717,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 36878220,
+        "heap": 36105612,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 22156,
-        "fps": 238.5
+        "elapsedMs": 22117,
+        "fps": 358.5
       },
       {
-        "t": 1794490752106,
-        "frames": 525,
+        "t": 1794498668638,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 37564444,
+        "heap": 36704552,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 24175,
-        "fps": 262.5
+        "elapsedMs": 24125,
+        "fps": 361.5
       },
       {
-        "t": 1794490754114,
-        "frames": 540,
+        "t": 1794498670645,
+        "frames": 720,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 36804628,
+        "heap": 36486112,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 26183,
-        "fps": 270
+        "elapsedMs": 26131,
+        "fps": 360
       },
       {
-        "t": 1794490756136,
-        "frames": 567,
+        "t": 1794498672659,
+        "frames": 720,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 36304448,
+        "heap": 36263992,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 28205,
-        "fps": 283.5
+        "elapsedMs": 28146,
+        "fps": 360
       },
       {
-        "t": 1794490758143,
-        "frames": 564,
+        "t": 1794498674674,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 37252952,
+        "heap": 36833140,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 30211,
-        "fps": 282
+        "elapsedMs": 30160,
+        "fps": 361.5
       },
       {
-        "t": 1794490760147,
-        "frames": 591,
+        "t": 1794498676679,
+        "frames": 717,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 36890376,
+        "heap": 36676224,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 32216,
-        "fps": 295.5
+        "elapsedMs": 32165,
+        "fps": 358.5
       },
       {
-        "t": 1794490762165,
-        "frames": 555,
+        "t": 1794498678689,
+        "frames": 723,
         "ctx": 3,
         "canvases": 4,
         "screen": "screen-title",
-        "heap": 37805500,
+        "heap": 36461024,
         "lost": 0,
         "errs": 0,
         "phase": "idle",
-        "elapsedMs": 34234,
-        "fps": 277.5
-      },
-      {
-        "t": 1794490764189,
-        "frames": 540,
-        "ctx": 3,
-        "canvases": 4,
-        "screen": "screen-title",
-        "heap": 36232932,
-        "lost": 0,
-        "errs": 0,
-        "phase": "idle",
-        "elapsedMs": 36257,
-        "fps": 270
-      },
-      {
-        "t": 1794490766192,
-        "frames": 537,
-        "ctx": 3,
-        "canvases": 4,
-        "screen": "screen-title",
-        "heap": 36931884,
-        "lost": 0,
-        "errs": 0,
-        "phase": "idle",
-        "elapsedMs": 38261,
-        "fps": 268.5
+        "elapsedMs": 34175,
+        "fps": 361.5
       }
     ]
   },
