@@ -20,10 +20,16 @@ const picks = process.argv.slice(2).length ? process.argv.slice(2) : ["shell_nai
 const targets = roster.characters.filter((c) => picks.includes(c.id));
 
 // 从 git 取出旧版（静态）模型
+// 注意：**不能用 HEAD** —— 新资产已经在最近一次提交里入���，HEAD 取到的是新版。
+// 这里默认取 `HEAD~1`（即新资产入库前的那一版），可用 --rev 指定其它提交。
+const REV = process.argv.includes("--rev")
+  ? process.argv[process.argv.indexOf("--rev") + 1]
+  : "HEAD~1";
+console.log(`旧版取自 git ${REV}`);
 for (const c of targets) {
   const out = path.join(TMP, "old_" + c.id + ".glb");
   try {
-    const buf = execSync(`git show HEAD:public/asset/${c.glb}`, { cwd: ROOT, maxBuffer: 64 * 1024 * 1024 });
+    const buf = execSync(`git show ${REV}:public/asset/${c.glb}`, { cwd: ROOT, maxBuffer: 64 * 1024 * 1024 });
     writeFileSync(out, buf);
     c._old = out;
     c._new = path.join(ROOT, "public", "asset", c.glb);
@@ -41,6 +47,27 @@ const server = createServer((req, res) => {
   const b = readFileSync(f);
   res.writeHead(200, { "content-type": MIME[path.extname(f)] || "application/octet-stream", "content-length": b.length });
   res.end(b);
+});
+// three.js 资源路由（缺这一段会导致页面全黑：模块 404 → 渲染器没建起来）
+const origHandler = server.listeners("request")[0];
+server.removeAllListeners("request");
+server.on("request", (req, res) => {
+  const u = decodeURIComponent((req.url || "/").split("?")[0]);
+  if (u.startsWith("/three/addons/")) {
+    const p = path.join(ROOT, "node_modules", "three", "examples", "jsm", u.slice("/three/addons/".length));
+    if (!existsSync(p)) { res.writeHead(404); res.end("nf " + p); return; }
+    const b = readFileSync(p);
+    res.writeHead(200, { "content-type": path.extname(p) === ".js" ? "application/javascript" : "application/octet-stream", "content-length": b.length });
+    res.end(b); return;
+  }
+  if (u.startsWith("/three/")) {
+    const p = path.join(ROOT, "node_modules", "three", "build", u.slice("/three/".length));
+    if (!existsSync(p)) { res.writeHead(404); res.end("nf " + p); return; }
+    const b = readFileSync(p);
+    res.writeHead(200, { "content-type": path.extname(p) === ".js" ? "application/javascript" : "application/octet-stream", "content-length": b.length });
+    res.end(b); return;
+  }
+  origHandler(req, res);
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const port = server.address().port;
@@ -90,8 +117,8 @@ for (const row of rows) {
       const ctr = box.getCenter(new THREE.Vector3());
       root2.position.sub(ctr); root2.position.y += size.y / 2;
       const h = Math.max(size.y, 0.001);
-      cam.position.set(h * 0.9, h * 0.6, h * 1.7);
-      cam.lookAt(0, h * 0.1, 0);
+      cam.position.set(h * 0.95, h * 0.55, h * 2.35);
+      cam.lookAt(0, h * 0.52, 0);
       if (gltf.animations?.length) {
         const mixer = new THREE.AnimationMixer(root2);
         const clip = gltf.animations.find(x => x.name === "Sword_Regular_A") || gltf.animations[0];

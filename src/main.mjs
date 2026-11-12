@@ -35,6 +35,7 @@ import { getMove, styleRelation, STYLE_MULTIPLIER, STYLE_LABEL, STYLE_COUNTER } 
 import { InputManager } from "./game/input.mjs";
 import { Cinematic } from "./vfx/cinematic.mjs";
 import { ImpactFX } from "./vfx/impact.mjs";
+import { WeaponTrail } from "./vfx/weapontrail.mjs";
 import { CameraRig } from "./vfx/camerarig.mjs";
 import { makeShadowBlob, updateShadowBlob } from "./vfx/shadowblob.mjs";
 import { HitFeedback } from "./vfx/hitflash.mjs";
@@ -100,6 +101,7 @@ if (liteMode) postfx.setLowQuality();
 const audio = new AudioSystem();
 const initAudio = () => {
   audio.init();
+  audio.loadSamples();   // 自有采样异步加载；缺文件时自动回退实时合成
   audio.startAmbient();
   audio.playBgm("title");
 };
@@ -570,6 +572,8 @@ const battle = {
 
 // 打击特效（冲击波 + 火花 + 弧光斩击，圣经 v2 §7；奶滴/奶花已删）
 const impactFx = new ImpactFX(scene);
+// 武器挥动拖尾：只吃 activeWeaponTip() 的世界坐标，不碰角色蒙皮
+const weaponTrail = new WeaponTrail(scene, camera);
 // 命中反馈（白闪 + 拟声词）
 const hitFeedback = new HitFeedback();
 // 连携 QTE 覆盖层（阶段 C）：chip 点击 → pickChain（函数声明提升，运行期才被调用）
@@ -630,6 +634,8 @@ function anomalyHud() {
 function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   opponent.hp = Math.max(0, opponent.hp - dmg);
   cinematic.onHit(tier);
+  // 命中瞬间一层极轻的径向色散，0.18s 衰减；终结/必杀稍强
+  postfx.pulseChromatic(tier === "ultimate" || tier === "finisher" ? 0.02 : 0.01, 0.18);
   // 阶段 D：命中按档积累喧响（高质量行为在各自路径额外加）
   gainDecibel({ light: 40, medium: 60, heavy: 90, ultimate: 150 }[tier] ?? 40);
   // 顿帧：读 TUNING.hitstopF（修：原代码写死固定值，忽略调参）
@@ -743,6 +749,7 @@ function onAttackInput() {
   charging = true;
   chargeT = 0;
   chargeStartMs = performance.now();
+  audio.playWhoosh();    // 挥击风声（攻击起手，缺采样时静默）
   charged = false;
   attackFiredOnPress = false;
   if (!combo.isInCombo) return;   // 不在连段中 → 等松手结算
@@ -1458,6 +1465,10 @@ function tick() {
     renderPhase = 0;   // 切屏：下一帧就渲染
   }
   renderPhase++;
+  // 武器挥动拖尾：连段 / 终结演出期间才记录武器尖端轨迹，收招即清空
+  weaponTrail.setActive(inBattle && (combo.isInCombo || cinematic.slowmoT > 0));
+  weaponTrail.push(activeWeaponTip());
+  weaponTrail.update(rawDt);
   if (renderPhase % renderEvery === 0) postfx.render(rawDt);
 }
 

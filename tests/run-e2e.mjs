@@ -72,6 +72,9 @@ async function main() {
   // 上一轮的 detached preview 可能仍握着 .tmp-dist-e2e 的文件句柄，Windows 上
   // 直接清空 outDir 会偶发 EPERM/EBUSY。先清理 + 失败重试一次，并把完整日志打出来，
   // 避免只截 500 字符把真正的错误藏起来。
+  // 必须先杀掉上一轮 detached preview：它握着 TMP_OUT 里的文件句柄，
+  // Windows 上不释放句柄，cleanupTmp 删不掉被锁文件，prepare-out-dir 会连续失败。
+  await killPort();
   log(`构建生产版本（--outDir ${TMP_OUT}）...`);
   await cleanupTmp();
   let build = await run(`node node_modules/vite/bin/vite.js build --outDir ${TMP_OUT}`);

@@ -20,6 +20,10 @@ export class AudioSystem {
     this.bgmNodes = null;
     this.currentBgm = null;
     this.enabled = true;
+    // 自有离线采样（scripts/gen-audio-samples.py 生成）；缺文件时静默回退实时合成
+    this.samples = new Map();
+    this._samplesLoaded = false;
+    this._bgmBase = 0.35;
   }
 
   /** 初始化（需用户交互后调用） */
@@ -36,7 +40,7 @@ export class AudioSystem {
     this.masterGain.connect(this.ctx.destination);
 
     this.bgmGain = this.ctx.createGain();
-    this.bgmGain.gain.value = 0.35;
+    this.bgmGain.gain.value = this._bgmBase;
     this.bgmGain.connect(this.masterGain);
 
     this.sfxGain = this.ctx.createGain();
@@ -47,6 +51,61 @@ export class AudioSystem {
   /** 恢复 AudioContext（浏览器自动暂停后） */
   resume() {
     if (this.ctx?.state === "suspended") this.ctx.resume();
+  }
+
+  /**
+   * 异步加载自有离线采样（public/audio/*.wav，由 scripts/gen-audio-samples.py 生成）。
+   * 文件缺失 / 解码失败一律静默跳过 → 运行时自动回退实时合成，不破坏既有行为。
+   */
+  async loadSamples() {
+    if (!this.ctx || this._samplesLoaded) return;
+    const files = {
+      hitLight: "./audio/hit_light.wav",
+      hitHeavy: "./audio/hit_heavy.wav",
+      clash: "./audio/clash_metal.wav",
+      whoosh: "./audio/whoosh.wav",
+    };
+    await Promise.all(Object.entries(files).map(async ([key, url]) => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const buf = await this.ctx.decodeAudioData(await res.arrayBuffer());
+        this.samples.set(key, buf);
+      } catch { /* 保持合成回退 */ }
+    }));
+    this._samplesLoaded = true;
+  }
+
+  /** 播放一段采样；返回 false 表示没有采样，调用方应回退合成 */
+  _playSample(key, { gain = 1, rate = 1 } = {}) {
+    const buf = this.samples.get(key);
+    if (!buf || !this.ctx) return false;
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    src.playbackRate.value = rate;
+    const g = this.ctx.createGain();
+    g.gain.value = gain;
+    src.connect(g).connect(this.sfxGain);
+    src.start();
+    return true;
+  }
+
+  /** BGM 动态压混：命中瞬间压低，让打击 / 金属音透出来，随后回升 */
+  duckBgm(amount = 0.6, dur = 0.22) {
+    if (!this.ctx || !this.bgmGain) return;
+    const t = this.ctx.currentTime;
+    const g = this.bgmGain.gain;
+    g.cancelScheduledValues(t);
+    g.setValueAtTime(g.value, t);
+    g.linearRampToValueAtTime(this._bgmBase * amount, t + 0.02);
+    g.linearRampToValueAtTime(this._bgmBase, t + dur);
+  }
+
+  /** 挥击风声（攻击起手；没有采样时静默） */
+  playWhoosh() {
+    if (!this.ctx || !this.enabled) return;
+    this.resume();
+    this._playSample("whoosh", { gain: 0.5, rate: 0.95 + Math.random() * 0.12 });
   }
 
   setVolume(v) {
@@ -223,6 +282,13 @@ export class AudioSystem {
   playHit(tier = "light") {
     if (!this.ctx || !this.enabled) return;
     this.resume();
+    // 采样优先：离线渲染的打击音波形更厚；缺文件时下面照旧走实时三层合成
+    this.duckBgm(tier === "ultimate" ? 0.42 : 0.62, 0.2);
+    const heavy = tier === "heavy" || tier === "ultimate" || tier === "finisher";
+    if (this._playSample(heavy ? "hitHeavy" : "hitLight", {
+      gain: 0.85,
+      rate: tier === "ultimate" ? 0.82 : heavy ? 0.94 : 1,
+    })) return;
     const t = this.ctx.currentTime;
     const cfg = {
       light:    { freq: 800,  dur: 0.08, vol: 0.3,  type: "square" },
@@ -283,6 +349,12 @@ export class AudioSystem {
   playClash(tier = "medium") {
     if (!this.ctx || !this.enabled) return;
     this.resume();
+    // 采样优先：8 列非谐波泛音 + 混响尾巴，比实时 3~5 个正弦更接近金属相交
+    this.duckBgm(0.65, 0.18);
+    if (this._playSample("clash", {
+      gain: 0.8,
+      rate: tier === "ultimate" ? 0.8 : tier === "heavy" ? 0.9 : 1,
+    })) return;
     const t = this.ctx.currentTime;
     const cfg = {
       light:    { base: 2600, dur: 0.22, vol: 0.26, ratios: [1, 1.51, 2.13] },

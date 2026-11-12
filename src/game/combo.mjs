@@ -11,6 +11,13 @@
  */
 import { ACTION } from "./animation.mjs";
 
+/**
+ * 命中取消窗口：动作进度到这里之后，若命中已结算且有缓冲输入，
+ * 就取消收势直接接下一段（绝区零式 hit cancel）。
+ * 只缩短动作尾巴，不改 hitAt / 伤害 / 判定范围。
+ */
+const CANCEL_FROM = 0.72;
+
 /** 连段段定义 */
 const STAGES = [
   {
@@ -84,6 +91,16 @@ export class ComboSystem {
         gridGain: stage.gridGain,
         finisher: this.stageIndex === STAGES.length - 1,
       };
+    }
+
+    // 命中取消窗口（2026-11-12）：命中已结算、且缓冲里有下一段输入时，
+    // 段后半段即可取消收势接续。hitEvent 照常返回，伤害与命中帧不变。
+    if (this.hasHit && this.bufferAttack && this.stageIndex < STAGES.length - 1
+        && progress >= CANCEL_FROM) {
+      this.bufferAttack = false;
+      this.bufferT = 0;
+      this._startStage(this.stageIndex + 1);
+      return hitEvent;
     }
 
     // 段结束

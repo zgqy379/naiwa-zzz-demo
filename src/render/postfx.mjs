@@ -29,6 +29,7 @@ const ColorGradeShader = {
     uVignette: { value: 0.10 },  // 暗角强度（圣经 v2 §3：0.12→0.10）
     uWarmMix: { value: 0.16 },   // 暖高光混合系数（圣经 v2 §3：0.20→0.16，暖高光减弱）
     uCoolMix: { value: 0.14 },   // 冷阴影加色系数（圣经 v2 §3：0.08→0.14，冷调主导）
+    uChromatic: { value: 0 },    // 命中脉冲：径向 RGB 色散强度，默认 0（无额外采样）
   },
   vertexShader: /* glsl */ `
     varying vec2 vUv;
@@ -47,11 +48,20 @@ const ColorGradeShader = {
     uniform float uVignette;
     uniform float uWarmMix;
     uniform float uCoolMix;
+    uniform float uChromatic;
     varying vec2 vUv;
 
     void main() {
       vec4 color = texture2D(tDiffuse, vUv);
       vec3 c = color.rgb;
+
+      // 命中瞬间的径向色散：R/B 沿画面中心方向微量错开，制造镜头冲击感。
+      // uChromatic 常态为 0，分支不触发时不产生额外采样开销。
+      if (uChromatic > 0.0001) {
+        vec2 dir = (vUv - 0.5) * uChromatic;
+        c.r = texture2D(tDiffuse, vUv + dir).r;
+        c.b = texture2D(tDiffuse, vUv - dir).b;
+      }
 
       // 1) 分离高光/阴影（按亮度）
       float lum = dot(c, vec3(0.299, 0.587, 0.114));
@@ -127,10 +137,31 @@ export class PostFX {
     // 5) 输出（色彩空间转换）
     this.output = new OutputPass();
     this.composer.addPass(this.output);
+
+    // 命中色散脉冲状态（默认恒 0，不产生任何视觉/性能影响）
+    this._chromaticT = 0;
+    this._chromaticDur = 0;
+    this._chromaticPeak = 0;
+  }
+
+  /** 命中瞬间径向色散脉冲：0.18s 平方衰减，峰值很轻不糊画面 */
+  pulseChromatic(peak = 0.012, dur = 0.18) {
+    this._chromaticPeak = peak;
+    this._chromaticDur = dur;
+    this._chromaticT = dur;
+    this.grade.material.uniforms.uChromatic.value = peak;
   }
 
   /** 每帧渲染 */
   render(dt) {
+    // 脉冲衰减放在 enabled 判断之前，保证低配/lite 模式下也能归零
+    if (this._chromaticT > 0) {
+      this._chromaticT = Math.max(0, this._chromaticT - dt);
+      const k = this._chromaticDur > 0 ? this._chromaticT / this._chromaticDur : 0;
+      this.grade.material.uniforms.uChromatic.value = this._chromaticPeak * k * k;
+    } else if (this.grade.material.uniforms.uChromatic.value !== 0) {
+      this.grade.material.uniforms.uChromatic.value = 0;
+    }
     if (!this.enabled) {
       this.renderer.render(this.scene, this.camera);
       return;

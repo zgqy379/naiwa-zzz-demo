@@ -54,6 +54,9 @@ export class ClipDriver {
     }
     this.current = null;
     this.currentAction = null;
+    // 交叉融合状态：淡出中的旧动作 + 剩余融合时间，避免 stopAllAction 的硬切
+    this._fading = null;
+    this._fadeLeft = 0;
   }
 
   /** 该动作是否有可用片段 */
@@ -94,14 +97,46 @@ export class ClipDriver {
     let ts = 1;
     if (dur && dur > 0.01 && clip.duration > 0.01) ts = clip.duration / dur;
     if (opts.speed) ts *= opts.speed;
-    this.mixer.stopAllAction();
+    // 交叉融合（2026-11-12）：原来 stopAllAction() + 60ms 淡入是硬切，
+    // 攻击→受击→待机之间会看到瞬移般的姿态跳变。改为旧动作淡出、新动作淡入，
+    // 融合结束后再停旧动作；片段时长缩放与命中帧不变。
+    const fade = Math.max(0.02, opts.fade ?? 0.1);
     const a = this.mixer.clipAction(clip);
-    a.reset();
-    a.enabled = true;
-    a.setEffectiveTimeScale(ts);
-    a.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1);
-    a.clampWhenFinished = !loop;
-    a.fadeIn(opts.fade ?? 0.06).play();
+    const prev = this.current;
+
+    const setup = () => {
+      a.reset();
+      a.enabled = true;
+      a.setEffectiveTimeScale(ts);
+      a.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1);
+      a.clampWhenFinished = !loop;
+      a.setEffectiveWeight(1);
+      a.play();
+    };
+
+    // 上一轮还在淡出的动作先收干净，避免多层权重叠加
+    if (this._fading) {
+      this._fading.stop();
+      this._fading = null;
+      this._fadeLeft = 0;
+    }
+
+    if (prev === a) {
+      // 同一片段重播（连段同段再次触发）：直接从头播，不做自融合
+      setup();
+    } else {
+      setup();
+      if (prev && prev.isRunning()) {
+        prev.crossFadeTo(a, fade, false);
+        this._fading = prev;
+        this._fadeLeft = fade;
+      } else {
+        // 旧动作已停（含 clampWhenFinished 停在末帧）：先停干净再淡入
+        if (prev) prev.stop();
+        a.setEffectiveWeight(0);
+        a.fadeIn(fade);
+      }
+    }
     this.current = a;
     this.currentAction = action;
     return true;
@@ -110,6 +145,14 @@ export class ClipDriver {
   /** 每帧推进 */
   update(dt) {
     if (this.mixer) this.mixer.update(dt);
+    // 融合结束后彻底停掉旧动作，避免 0 权重的动作常驻占用 mixer
+    if (this._fading) {
+      this._fadeLeft -= dt;
+      if (this._fadeLeft <= 0) {
+        this._fading.stop();
+        this._fading = null;
+      }
+    }
   }
 
   /** 当前动作是否已播完（非循环） */

@@ -90,7 +90,9 @@ export class Cinematic {
     // ---- 环绕运镜 ----
     if (this.orbitT > 0) {
       this.orbitT -= dt;
-      const p = 1 - this.orbitT / this.orbitDur;
+      const raw = Math.max(0, 1 - this.orbitT / this.orbitDur);
+      // easeInOutCubic：起手缓、中段快、收势稳，比线性环绕更像分镜调度
+      const p = raw < 0.5 ? 4 * raw * raw * raw : 1 - Math.pow(-2 * raw + 2, 3) / 2;
       this.orbitAngle = p * Math.PI * 0.6; // 环绕 108°
     } else {
       this.orbitAngle *= 0.9;
@@ -103,7 +105,9 @@ export class Cinematic {
     let zoomK = 0;
     if (this.zoomT > 0) {
       this.zoomT -= dt;
-      zoomK = Math.sin((1 - this.zoomT / this.zoomDur) * Math.PI); // 0→1→0
+      // 快起慢落：0.18 内拉满、余下缓退，冲击感比对称 sin 更接近动作游戏
+      const pz = 1 - this.zoomT / this.zoomDur;
+      zoomK = pz < 0.18 ? pz / 0.18 : Math.pow(1 - (pz - 0.18) / 0.82, 1.6);
     }
 
     // ---- 抖动 ----
@@ -161,10 +165,13 @@ export class Cinematic {
       targetPos.z = followPos.z - dx * s + dz * c;
     }
 
-    // 拉近（向目标推）
+    // 拉近（向目标推）：只在水平面收距离，不压低机位。
+    // 基础机位仅 1.6m，若按完整三维方向推，命中特写会把相机压到角色脚边，
+    // 既难看又会撞「相机高度 > 0.5」的回归判据。
     if (zoomK > 0) {
-      const dir = new THREE.Vector3().subVectors(followPos, targetPos).normalize();
-      targetPos.addScaledVector(dir, zoomK * 1.2);
+      const dir = new THREE.Vector3().subVectors(followPos, targetPos);
+      dir.y = 0;
+      if (dir.lengthSq() > 1e-8) targetPos.addScaledVector(dir.normalize(), zoomK * 1.2);
     }
 
     // 平滑跟随（修：阻尼系数从 0.14 降到 0.08，更稳）
@@ -198,7 +205,8 @@ export class Cinematic {
     let zoomK = 0;
     if (this.zoomT > 0) {
       this.zoomT -= dt;
-      zoomK = Math.sin((1 - this.zoomT / this.zoomDur) * Math.PI);
+      const pz = 1 - this.zoomT / this.zoomDur;
+      zoomK = pz < 0.18 ? pz / 0.18 : Math.pow(1 - (pz - 0.18) / 0.82, 1.6);
     }
     // 环绕偏移（连携/终结）
     let side = 0;
