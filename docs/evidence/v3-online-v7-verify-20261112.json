@@ -1,0 +1,23 @@
+{
+  "probe": [
+    "./asset/naiwa_laugh_g1_runtime.glb => 200 5020B",
+    "./asset/naiwa_anim_lib.glb => 200 5004B",
+    "./asset/naiwa_anim_lib2.glb => 200 5006B",
+    "./asset/naiwa_spatula.glb => 200 5002B",
+    "./audio/whoosh.wav => 200 4988B"
+  ],
+  "errs": [],
+  "cdpMsgs": [],
+  "log": [
+    "=== 状态 ===",
+    "  {\"done\":5,\"results\":[\"./asset/naiwa_laugh_g1_runtime.glb => 200 5020B\",\"./asset/naiwa_anim_lib.glb => 200 5004B\",\"./asset/naiwa_anim_lib2.glb => 200 5006B\",\"./asset/naiwa_spatula.glb => 200 5002B\",\"./audio/whoosh.wav => 200 4988B\"],\"app\":false,\"hasClips\":false,\"clipCount\":0,\"memberGlb\":null,\"memberScene\":false,\"modelsRequested\":null,\"live3dReady\":false}",
+    "=== 资源探测 ===",
+    "  ./asset/naiwa_laugh_g1_runtime.glb => 200 5020B",
+    "  ./asset/naiwa_anim_lib.glb => 200 5004B",
+    "  ./asset/naiwa_anim_lib2.glb => 200 5006B",
+    "  ./asset/naiwa_spatula.glb => 200 5002B",
+    "  ./audio/whoosh.wav => 200 4988B",
+    "=== console 错误 ===",
+    "=== 网络失败 ==="
+  ]
+}

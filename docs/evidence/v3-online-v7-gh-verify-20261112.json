@@ -1,0 +1,39 @@
+{
+  "entry": {
+    "scripts": [
+      "https://zgqy379.github.io/naiwa-zzz-demo/assets/index-CLZViSiW.js"
+    ],
+    "app": true,
+    "screen": "title"
+  },
+  "state": {
+    "app": true,
+    "screen": "battle",
+    "phase": "playing",
+    "active": "奶蛙",
+    "hasClips": false,
+    "clipCount": 0,
+    "clipNames": [],
+    "animAction": "idle",
+    "clipAction": null,
+    "hud": {
+      "phase": true,
+      "stagger": true
+    }
+  },
+  "hit": {
+    "animAction": "attack1",
+    "clipAction": null,
+    "oppHp": 200,
+    "weaponTip": null
+  },
+  "log": [
+    "  app 就绪（2s）",
+    "=== 线上入口 ===",
+    "  {\"scripts\":[\"https://zgqy379.github.io/naiwa-zzz-demo/assets/index-CLZViSiW.js\"],\"app\":true,\"screen\":\"title\"}",
+    "=== 线上战斗态 ===",
+    "  {\"app\":true,\"screen\":\"battle\",\"phase\":\"playing\",\"active\":\"奶蛙\",\"hasClips\":false,\"clipCount\":0,\"clipNames\":[],\"animAction\":\"idle\",\"clipAction\":null,\"hud\":{\"phase\":true,\"stagger\":true}}",
+    "=== 线上攻击帧 ===",
+    "  {\"animAction\":\"attack1\",\"clipAction\":null,\"oppHp\":200,\"weaponTip\":null}"
+  ]
+}
