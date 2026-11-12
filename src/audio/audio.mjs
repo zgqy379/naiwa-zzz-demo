@@ -272,9 +272,60 @@ export class AudioSystem {
     ns.start(t);
   }
 
-  /** 弹反音 */
-  playCounter() {
+  /**
+   * 武器相撞音（金属 clang）—— 2026-11-12 重做。
+   *
+   * 做法：一组**失谐的高频正弦泛音列**（金属板的非谐波列）+ 一段带通噪声瞬态，
+   * 快速衰减。与通用打击音（低频冲击 + 中频方波）区分开：这里没有「肉感」，
+   * 只有「金属」——这是武器相交该有的声音。
+   * @param {string} tier light|medium|heavy|ultimate
+   */
+  playClash(tier = "medium") {
     if (!this.ctx || !this.enabled) return;
+    this.resume();
+    const t = this.ctx.currentTime;
+    const cfg = {
+      light:    { base: 2600, dur: 0.22, vol: 0.26, ratios: [1, 1.51, 2.13] },
+      medium:   { base: 2000, dur: 0.32, vol: 0.32, ratios: [1, 1.48, 2.21, 2.94] },
+      heavy:    { base: 1450, dur: 0.45, vol: 0.38, ratios: [1, 1.52, 2.18, 2.9, 3.6] },
+      ultimate: { base: 1100, dur: 0.62, vol: 0.44, ratios: [1, 1.55, 2.24, 3.1, 4.2] },
+    }[tier] ?? { base: 2000, dur: 0.3, vol: 0.3, ratios: [1, 1.5, 2.2] };
+
+    // 1) 金属泛音列（每列独立失谐 + 快速衰减）
+    cfg.ratios.forEach((r, i) => {
+      const osc = this.ctx.createOscillator();
+      const g = this.ctx.createGain();
+      osc.type = "sine";
+      const f = cfg.base * r * (1 + (Math.random() - 0.5) * 0.02);
+      osc.frequency.setValueAtTime(f, t);
+      osc.frequency.exponentialRampToValueAtTime(f * 0.94, t + cfg.dur);
+      const amp = cfg.vol * Math.pow(0.62, i);
+      g.gain.setValueAtTime(amp, t);
+      g.gain.exponentialRampToValueAtTime(0.0008, t + cfg.dur * (1 - i * 0.13));
+      osc.connect(g).connect(this.sfxGain);
+      osc.start(t);
+      osc.stop(t + cfg.dur + 0.02);
+    });
+
+    // 2) 带通噪声瞬态（金属刮擦的「擦」声）
+    const nb = this.ctx.createBuffer(1, Math.floor(this.ctx.sampleRate * 0.09), this.ctx.sampleRate);
+    const nd = nb.getChannelData(0);
+    for (let i = 0; i < nd.length; i++) nd[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / nd.length, 3);
+    const ns = this.ctx.createBufferSource();
+    ns.buffer = nb;
+    const bp = this.ctx.createBiquadFilter();
+    bp.type = "bandpass";
+    bp.frequency.value = cfg.base * 1.4;
+    bp.Q.value = 3.2;
+    const ng = this.ctx.createGain();
+    ng.gain.setValueAtTime(cfg.vol * 0.5, t);
+    ng.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+    ns.connect(bp).connect(ng).connect(this.sfxGain);
+    ns.start(t);
+  }
+
+  /** 弹反音 */
+  playCounter() {    if (!this.ctx || !this.enabled) return;
     this.resume();
     const t = this.ctx.currentTime;
     for (let i = 0; i < 3; i++) {

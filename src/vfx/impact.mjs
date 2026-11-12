@@ -144,12 +144,12 @@ export class SparkParticles {
     this.pool = [];
   }
 
-  spawn(pos, { count = 12 } = {}) {
+  spawn(pos, { count = 12, color = 0xffb04a, color2 = 0xff7a30, yBase = null, ySpread = null, speed = 1 } = {}) {
     for (let i = 0; i < count; i++) {
-      const color = Math.random() < 0.5 ? 0xffb04a : 0xff7a30;
+      const c = Math.random() < 0.5 ? color : color2;
       const size = 0.03 + Math.random() * 0.03;   // 0.03–0.06m
       const mat = new THREE.SpriteMaterial({
-        map: sparkTexture(color),
+        map: sparkTexture(c),
         transparent: true,
         opacity: 1,
         blending: THREE.AdditiveBlending,
@@ -157,15 +157,17 @@ export class SparkParticles {
       });
       const p = new THREE.Sprite(mat);
       p.position.copy(pos);
-      p.position.y += 0.5 + Math.random() * 0.9;  // 命中体干高度散布（入参为地面点）
+      // 命中体干高度散布（入参为地面点）；相撞特效传 yBase=0 且 ySpread=0（点在武器处）
+      p.position.y += yBase != null ? yBase : 0.5 + Math.random() * 0.9;
+      if (ySpread != null) p.position.y += Math.random() * ySpread;
       p.userData = {
         t: 0,
         duration: 0.35 + Math.random() * 0.25,    // 0.35–0.6s
         seed: i * 1.7 + Math.random(),            // 闪烁相位
         vel: new THREE.Vector3(
-          (Math.random() - 0.5) * 4.4,            // 水平 ±2.2 m/s
-          1.5 + Math.random() * 2.5,              // 垂直 1.5–4 m/s
-          (Math.random() - 0.5) * 4.4
+          (Math.random() - 0.5) * 4.4 * speed,    // 水平 ±2.2 m/s
+          (1.5 + Math.random() * 2.5) * speed,    // 垂直 1.5–4 m/s
+          (Math.random() - 0.5) * 4.4 * speed
         ),
         baseOpacity: 0.9,
         baseScale: size * 3,                      // 贴图含尾迹留白，×3 补回可视尺寸
@@ -296,5 +298,30 @@ export class ImpactFX {
     this.shockwave.update(dt);
     this.sparks.update(dt);
     this.slash.update(dt);
+  }
+
+  /**
+   * 武器相撞特效（2026-11-12 重做）。
+   *
+   * 与通用命中冲击波的区别：
+   *  - 颜色走**金属冷白/暖金**（普通命中是橙红），火花更密、更亮；
+   *  - 环更薄更快（金属弹开的余韵短促）；
+   *  - 触发点由调用方给出（**武器打击端的世界坐标**），不是地面点。
+   * @param {THREE.Vector3} pos 武器相撞点
+   * @param {string} tier light|medium|heavy|ultimate
+   */
+  clash(pos, tier = "medium") {
+    const cfg = {
+      light:    { color: 0xdff0ff, c2: 0x9fd8ff, r: 0.85, sparks: 16, dur: 0.2 },
+      medium:   { color: 0xffe9b0, c2: 0xffc46a, r: 1.25, sparks: 24, dur: 0.24 },
+      heavy:    { color: 0xffd27a, c2: 0xff9a3a, r: 1.75, sparks: 32, dur: 0.3 },
+      ultimate: { color: 0xfff4d6, c2: 0xffc0e0, r: 2.3, sparks: 42, dur: 0.38 },
+    }[tier] ?? { color: 0xdff0ff, c2: 0x9fd8ff, r: 1.0, sparks: 20, dur: 0.24 };
+    this.shockwave.spawn(pos, { color: cfg.color, maxRadius: cfg.r, duration: cfg.dur, width: 0.12 });
+    this.sparks.spawn(pos, {
+      count: cfg.sparks, color: cfg.color, color2: cfg.c2,
+      yBase: 0, ySpread: 0.12, speed: 1.35,
+    });
+    this.slash.spawn(pos, { outerR: cfg.r * 0.75 });
   }
 }

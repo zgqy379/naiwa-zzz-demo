@@ -127,9 +127,17 @@ export async function runAllTests(page) {
   }, { shot: "02-select" });
 
   await t.case("切换角色更新展示台", async () => {
+    // 采样方式从「固定 400ms 后读一次」改为轮询（判据不变）：
+    // 2026-11-12 资产换成 16 只蒙皮角色 + 2 个共享动画库后，选人页主线程要解析
+    // 约 9.2MB 的 GLB 并为 16 只角色建骨架/驱动，原来的固定 400ms 会在事件循环
+    // 仍被占满时就读到旧名字（实测偶发读到「奶蛙」）。这里轮询到名字变化为止。
     await evalPage(() => document.querySelectorAll(".char-card")[5]?.click());
-    await page.waitForTimeout(400);
-    const name = await evalPage(() => document.getElementById("showcase-name")?.textContent);
+    let name = null;
+    for (let i = 0; i < 40; i++) {
+      name = await evalPage(() => document.getElementById("showcase-name")?.textContent);
+      if (name === "奶狗") break;
+      await page.waitForTimeout(250);
+    }
     A.assertEqual(name, "奶狗", `展示台应显示奶狗，实际 ${name}`);
   }, { shot: "03-select-switch" });
 
@@ -358,7 +366,11 @@ export async function runAllTests(page) {
       return size;
     });
     A.assertTruthy(v, "无贴图");
-    A.assertEqual(v.w, 1024, `贴图宽度应为 1024，实际 ${v.w}`);
+    // 贴图分辨率口径 2026-11-12 更新：角色换成「蒙皮 + 52 关节 + 共享动画库」后，
+    // 运行时 GLB 的贴图规格从 1024 收到 512（整只角色 ~440KB，16 只合计 7.2MB）。
+    // 判据仍是「贴图真的加载了、且不是 1×1 占位」。
+    A.assertGreater(v.w, 256, `贴图宽度应 ≥256，实际 ${v.w}`);
+    A.assertEqual(v.w, 512, `贴图宽度应为 512，实际 ${v.w}`);
   });
 
   await t.case("Bloom 后处理启用", async () => {
@@ -907,8 +919,12 @@ export async function runAllTests(page) {
     }
     A.assertEqual(burn.status?.attr, "fire", `注满火属性后应挂灼烧，实际 ${JSON.stringify(burn.status)}`);
     // 轮询等 DoT 掉血（1s/跳 × 5×damageMul≈6/跳）
+    // 采样窗口 20×250ms(5s) → 48×250ms(12s)，**判据不变**：
+    //   战斗循环的 dt 被钳在 50ms/帧（main.mjs `Math.min(clock.getDelta(), 0.05)`），
+    //   宿主掉帧时「游戏内 1 秒」会被拉长到数秒墙钟 —— 2026-11-12 角色换成
+    //   16 只蒙皮模型 + 2 个共享动画库后战斗屏更重，5 秒窗口卡在边界偶发读不到跳伤。
     let hpAfterBurn = burn.hp;
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 48; i++) {
       await page.waitForTimeout(250);
       hpAfterBurn = await page.evaluate(() => window.__npr.opponent.hp);
       if (hpAfterBurn < burn.hp) break;

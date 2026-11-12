@@ -21,6 +21,8 @@ import { initTitleFX } from "./ui/titlefx.mjs";
 import { AudioSystem } from "./audio/audio.mjs";
 import { Movement } from "./game/movement.mjs";
 import { ProceduralAnim, ACTION } from "./game/animation.mjs";
+import { ClipDriver } from "./game/clips.mjs";
+import { attachWeapon, weaponTipWorld, WEAPON_SPECS } from "./game/weapon.mjs";
 import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
 import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
@@ -237,9 +239,96 @@ for (const member of squad.members) {
  * 幂等：重复调用只会生效一次。
  */
 let squadModelsRequested = false;
+// ---------- 武器（道具）----------
+// 官方生成的静态道具，挂在角色的右手骨骼（mixamorig:RightHand）上，随官方动作真实挥动。
+// 没有武器时命中反馈自动回退到原来的通用冲击波 + 打击音（不影响旧资产）。
+const weaponCache = new Map();   // file → gltf.scene
+const memberWeapon = new Map();  // member.id → { hand, tip }
+
+/** 给角色挂武器（异步；失败静默——没武器不影响战斗） */
+function attachWeaponFor(member) {
+  const spec = WEAPON_SPECS[member.id];
+  if (!spec || memberWeapon.has(member.id) || !member.scene) return;
+  const url = `./asset/${spec.file}`;
+  const apply = (scene) => {
+    if (!scene || !member.scene) return;
+    const rig = attachWeapon(member.scene, scene, spec);
+    if (rig) memberWeapon.set(member.id, rig);
+  };
+  const cached = weaponCache.get(url);
+  if (cached) { apply(cached.clone ? cached.clone(true) : cached); return; }
+  loader.load(url, (gltf) => {
+    weaponCache.set(url, gltf.scene);
+    apply(gltf.scene);
+  }, undefined, () => { /* 道具缺失：保持无武器 */ });
+}
+
+/** 当前攻击方（玩家）的武器打击端世界坐标；没有武器返回 null */
+function activeWeaponTip() {
+  const m = squad.active;
+  const rig = m ? memberWeapon.get(m.id) : null;
+  if (!rig) return null;
+  return weaponTipWorld(rig);
+}
+
+// ---------- 共享官方动画库 ----------
+// 官方自动绑骨产出的是标准 Mixamo 人形骨架（52 关节，含手指骨），且**跨角色关节名/顺序/层级
+// 完全一致**（实测见 scripts/lux3d/compare-skeletons.mjs）。因此可以把官方动作片段单独打成
+// 「动画库」GLB，由 16 只角色共用 —— 比每人各带一份片段省约 4 MB 传输，
+// 而且以后加动作片段只需要重做这一个库（6 积分/片段，16 只同时受益）。
+// 分两个库：库 A = 战斗动作（Idle/Walk/Jog/Sword A,B,C/Combo/Hit/Roll/Death）；
+//           库 B = 演出动作（重剑连招/剑击收势/勾拳收势/躺卧起身/坐下/起身/盾击/刺拳/法术发射）。
+const ANIM_LIB_URLS = ["./asset/naiwa_anim_lib.glb", "./asset/naiwa_anim_lib2.glb"];
+let sharedClips = null;
+let animLibRequested = false;
+
+/** 给一个动画层接上驱动：优先用角色自带片段，其次用共享库，都没有就留在程序化层 */
+function attachClipDriver(anim, scene, ownClips) {
+  if (ownClips && ownClips.length) {
+    anim.setClips(new ClipDriver({ root: scene, clips: ownClips }));
+    return "own";
+  }
+  if (sharedClips && sharedClips.length) {
+    anim.setClips(new ClipDriver({ root: scene, clips: sharedClips }));
+    return "shared";
+  }
+  anim.setClips(null);
+  return "none";
+}
+
+/** 两个库都到齐后，把共享片段接到所有已加载的角色与对手上 */
+function applySharedClips() {
+  if (!sharedClips || !sharedClips.length) return;
+  for (const m of squad.members) {
+    if (m.scene && m.anim && !m.anim.hasClips) attachClipDriver(m.anim, m.scene, null);
+  }
+  if (opponentScene && opponentAnim && !opponentAnim.hasClips) attachClipDriver(opponentAnim, opponentScene, null);
+  // 选人页的实时 3D 卡片同样用共享片段（卡片里的角色会真的在做待机动作）
+  try { screens?.live3d?.setSharedClips?.(sharedClips); } catch { /* 界面层未就绪 */ }
+}
+
+function ensureAnimLibrary() {
+  if (animLibRequested) return;
+  animLibRequested = true;
+  const collected = [];
+  let pending = ANIM_LIB_URLS.length;
+  const done = () => {
+    if (--pending > 0) return;
+    sharedClips = collected;
+    applySharedClips();
+  };
+  for (const url of ANIM_LIB_URLS) {
+    loader.load(url, (gltf) => {
+      collected.push(...(gltf.animations || []));
+      done();
+    }, undefined, done);
+  }
+}
+
 function ensureSquadModels() {
   if (squadModelsRequested) return;
   squadModelsRequested = true;
+  ensureAnimLibrary();
   for (const member of squad.members) {
     loader.load(member.glb, (gltf) => {
       const m = gltf.scene;
@@ -273,11 +362,17 @@ function ensureSquadModels() {
       // 动画层用 anim-root（修：原用 wrapper 会被每帧 position.set(0,0,0) 覆盖贴地偏移）
       member.anim.inner = animRoot;
       member.anim.baseScale = animRoot.scale.clone();
+      // 官方骨骼动画（Lux3D 自动绑骨 + 动画重定向产出的 skin + 多段 clip）：
+      // 优先角色自带片段；没有则用共享动画库（骨架跨角色一致，可直接驱动）。
+      member.scene = m;
+      attachClipDriver(member.anim, m, gltf.animations);
+      // 武器挂手骨（官方绑骨带完整手骨）
+      attachWeaponFor(member);
       // 主题色饰带（圣经 A1 可读性）：玩家按 SQUAD member.color
       attachThemeBand(g, { color: member.color });
       // 展示层重染（roster-audit-20261110 差距#1）：奶猫/奶鱼/奶粉传 tintColor（member.tintColor
       // 为 null 时 applyNpr 走无 tint 路径，其余 13 只零行为变化）
-      if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.016, tintColor: member.tintColor });   // 圣经 v2 §2 描边 0.022→0.016
+      if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.020, tintColor: member.tintColor });   // 圣经 v2 §2 描边 0.022→0.016
     }, undefined, () => {
       // 加载失败：保留占位球（不再另建一个）
     });
@@ -293,6 +388,7 @@ function syncActiveVisibility() {
 const opponentGroup = new THREE.Group();
 opponentGroup.name = "opponent";
 scene.add(opponentGroup);
+let opponentScene = null;   // 对手模型的 gltf 根（共享动画库接入用）
 
 // 假阴影（角色脚下接触阴影，解决 NPR 阴影不明显）
 const playerShadow = makeShadowBlob(1.0);
@@ -326,7 +422,7 @@ function loadOpponentModel(memberIndex) {
   if (!m) return;
   opponentMember = m;
 
-  const apply = (gltfScene) => {
+  const apply = (gltfScene, animations) => {
     // 清掉旧模型（含旧的主题饰带）
     while (opponentGroup.children.length) opponentGroup.remove(opponentGroup.children[0]);
     opponentGroup.add(gltfScene);
@@ -350,17 +446,20 @@ function loadOpponentModel(memberIndex) {
     wrapper.traverse((c) => { if (c.isMesh) wrapper.userData.__origMats.set(c, c.material); });
     opponentAnim.inner = animRoot;
     opponentAnim.baseScale = animRoot.scale.clone();
+    // 官方骨骼动画（对手同样支持：自带片段优先，其次共享动画库）
+    opponentScene = gltfScene;
+    attachClipDriver(opponentAnim, gltfScene, animations);
     // 敌我分离（圣经 v2 §6）：对手冷白银 rim/描边/饰带，洋红只活在 UI 层（血条/失衡格/预警/受击闪）
     attachThemeBand(opponentGroup, { color: 0xd8e6f4 });
-    if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.016, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
+    if (mode === "NPR") applyNpr(wrapper, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.020, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
   };
 
   const cached = opponentModelCache.get(m.glb);
-  if (cached) { apply(cached); return; }
+  if (cached) { apply(cached.scene, cached.animations); return; }
 
   loader.load(m.glb, (gltf) => {
-    opponentModelCache.set(m.glb, gltf.scene);
-    apply(gltf.scene);
+    opponentModelCache.set(m.glb, { scene: gltf.scene, animations: gltf.animations });
+    apply(gltf.scene, gltf.animations);
   }, undefined, () => {
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 24), new THREE.MeshStandardMaterial({ color: 0x8a3a3a }));
     ball.castShadow = true;
@@ -379,7 +478,7 @@ function prefetchOpponentModel(memberIndex) {
   const m = SQUAD[memberIndex];
   if (!m || opponentModelCache.has(m.glb)) return;
   loader.load(m.glb, (gltf) => {
-    opponentModelCache.set(m.glb, gltf.scene);
+    opponentModelCache.set(m.glb, { scene: gltf.scene, animations: gltf.animations });
   }, undefined, () => { /* 预取失败不影响流程 */ });
 }
 
@@ -541,6 +640,15 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   battle.freezeT = Math.max(battle.freezeT, hitstopF / TUNING.logicFps);
   opponentAnim.play(ACTION.HIT, 0.22);
   spawnParticles(opponentGroup.position, tier);
+  // 武器相撞：攻击方的武器打击端世界坐标（若无武器则回退到对手体干位置）
+  // —— 有了手骨与武器，命中反馈才出现在「刀尖碰到东西」的位置，而不是脚边的地面。
+  const attackerTip = activeWeaponTip();
+  const clashPos = attackerTip
+    ? attackerTip
+    : new THREE.Vector3(opponentGroup.position.x, 1.0, opponentGroup.position.z);
+  if (attackerTip) {
+    impactFx.clash(clashPos, tier === "ultimate" || tier === "finisher" ? "ultimate" : tier);
+  }
   // 白闪 + 拟声词（绝区零式打击反馈）；有克制关系时用自定义词顶替拟声词
   //   阶段 F：失衡期命中 → 金色大字（易伤窗口的视觉强化）
   hitFeedback.trigger(
@@ -552,6 +660,7 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   );
   // 音效 + 统计
   if (tier === "ultimate") audio.playFinisher();
+  else if (attackerTip) audio.playClash(tier);   // 有武器 → 金属相撞音
   else audio.playHit(tier);
   if (inBattle) {
     battleStats.hits++;
@@ -1012,7 +1121,7 @@ function restyleAll() {
       mesh.material = mat;
     });
     w.traverse((c) => { if (c.isMesh) { c.userData.__npr = false; c.userData.__isOutline = false; } });
-    if (mode === "NPR") applyNpr(w, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.016, tintColor: m.tintColor });   // 圣经 v2 §2 描边 0.022→0.016（含 restyle 换壳路径重染）
+    if (mode === "NPR") applyNpr(w, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.020, tintColor: m.tintColor });   // 圣经 v2 §2 描边 0.022→0.016（含 restyle 换壳路径重染）
   }
   const ow = opponentGroup.getObjectByName("model-wrapper");
   if (ow) {
@@ -1024,7 +1133,7 @@ function restyleAll() {
       mesh.material = mat;
     });
     ow.traverse((c) => { if (c.isMesh) { c.userData.__npr = false; c.userData.__isOutline = false; } });
-    if (mode === "NPR") applyNpr(ow, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.016, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
+    if (mode === "NPR") applyNpr(ow, { ...NPR_PRESET, steps, ...FACTION_RIM.foe }, { width: 0.020, color: FACTION_RIM.foe.outlineColor });   // 圣经 v2 §2 描边 0.022→0.016
   }
   // 模式/档数不再写入 HUD：#hud-mode / #hud-steps 元素已随美术圣经重做移除，
   //   数值仍可经 window.__npr.getMode()/getSteps() 读取（见 §4.1 色调分离档数）
@@ -1654,6 +1763,8 @@ window.__npr = {
   // 任意两风格的关系查询（供测试核对克制表的反对称性）
   styleRel: (a, b) => styleRelation(a, b),
   modelsRequested: () => squadModelsRequested,
+  /** 武器打击端世界坐标（调试/测试用；无武器返回 null） */
+  __weaponTip: () => activeWeaponTip(),
   getBattleStats: () => battleStats,   // 供测试/结算读取
 };
 

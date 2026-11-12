@@ -1,0 +1,123 @@
+{
+  "_note": "奶蛙零 16 只家族角色的官方生图提示词。硬约束：①必须 T-pose（双臂水平张开成 T 字），否则官方自动绑骨会报 MODEL_NOT_RIGGABLE；②全身入镜、纯色背景，避免遮挡；③风格统一为『潮酷街头 + 卡通渲染』。每个角色的辨识特征（耳型/头饰/尾部/配件）写在 distinctive 里，靠剪影区分。",
+  "_pose": "standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground",
+  "_tail": "three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands",
+  "_style": "cartoon",
+  "_version": "G1",
+  "_faces": 30000,
+  "_actions": "Idle_Loop,Walk_Loop,Jog_Fwd_Loop,Sword_Regular_A,Sword_Regular_B,Sword_Regular_C,Sword_Regular_Combo,Hit_Chest,Roll,Death01",
+  "characters": [
+    {
+      "id": "shell_naiwa",
+      "name": "奶蛙",
+      "glb": "naiwa_laugh_g1_runtime.glb",
+      "distinctive": "bright yellow-green skin, wide pear-shaped body, huge round bulging orange eyes, a small cheerful smile, wearing a mustard-yellow cropped bomber jacket over a white tee, beige cargo pants, chunky orange-and-white sneakers, a small gold chain necklace",
+      "prompt": "A cartoon anthropomorphic frog character with bright yellow-green skin and a wide pear-shaped body, huge round bulging orange eyes and a small cheerful smile, wearing a mustard-yellow cropped bomber jacket over a white tee, beige cargo pants and chunky orange-and-white sneakers, with a small gold chain necklace, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naidou",
+      "name": "奶豆",
+      "glb": "naiwa_naidou_runtime.glb",
+      "distinctive": "warm golden-tan skin, very round chubby bean-shaped body, small eyes, wearing an oversized sage-green hoodie with the sleeves too long, olive cargo shorts, white mid-top sneakers",
+      "prompt": "A cartoon anthropomorphic frog character with warm golden-tan skin and a very round chubby bean-shaped body, small friendly eyes, wearing an oversized sage-green hoodie with sleeves that are too long, olive cargo shorts and white mid-top sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_xiaonaiwa",
+      "name": "小奶蛙",
+      "glb": "naiwa_xiaonaiwa_runtime.glb",
+      "distinctive": "pale butter-yellow skin, small chibi proportions with a big head and short limbs, big glossy black eyes, wearing a tiny mint-green windbreaker, yellow shorts, tiny red sneakers, a mint pacifier on a string",
+      "prompt": "A cartoon anthropomorphic frog character with pale butter-yellow skin, small chibi proportions with a big head and short limbs, big glossy black eyes, wearing a tiny mint-green windbreaker, yellow shorts and tiny red sneakers, with a mint pacifier on a string around the neck, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naidan",
+      "name": "奶蛋",
+      "glb": "naiwa_naidan_runtime.glb",
+      "distinctive": "pure white and cream egg-shaped body, smooth shell-like skin with a faint yellow blush, small dot eyes, wearing a tiny mustard-yellow apron over a white shirt, brown shorts, tiny pink sneakers",
+      "prompt": "A cartoon anthropomorphic frog character with a pure white and cream egg-shaped body, smooth shell-like skin with a faint yellow blush and small dot eyes, wearing a tiny mustard-yellow apron over a white shirt, brown shorts and tiny pink sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_nashu",
+      "name": "奶鼠",
+      "glb": "naiwa_nashu_runtime.glb",
+      "distinctive": "warm taupe-brown fur, big round mouse ears, long thin tail, sharp buck teeth, wearing a brown leather jacket, dark grey joggers, brown boots",
+      "prompt": "A cartoon anthropomorphic frog character with warm taupe-brown fur, big round mouse ears, a long thin tail, sharp buck teeth, wearing a brown leather jacket, dark grey joggers and brown boots, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naigou",
+      "name": "奶狗",
+      "glb": "naiwa_naigou_runtime.glb",
+      "distinctive": "warm caramel-tan fur, floppy dog ears, a stubby tail, one raised eyebrow, wearing a red plaid shirt open over a white tank top, blue jeans, white sneakers",
+      "prompt": "A cartoon anthropomorphic frog character with warm caramel-tan fur, floppy dog ears and a stubby tail, one raised eyebrow, wearing a red plaid shirt open over a white tank top, blue jeans and white sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naifen",
+      "name": "奶粉",
+      "glb": "naiwa_naifen_runtime.glb",
+      "distinctive": "soft pink-and-white body, smooth baby-powder pink skin, big round eyes, wearing a tiny white nurse cap and a pale pink apron dress, white socks and pink shoes",
+      "prompt": "A cartoon anthropomorphic frog character with a soft pink-and-white body, smooth baby-powder pink skin and big round eyes, wearing a tiny white nurse cap and a pale pink apron dress, white socks and pink shoes, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naiji",
+      "name": "奶鸡",
+      "glb": "naiwa_naiji_runtime.glb",
+      "distinctive": "warm cream-and-yellow plumage-like skin, a bright red comb on top of the head, a small orange beak, thin legs, wearing a tiny denim vest, yellow shorts, orange sneakers",
+      "prompt": "A cartoon anthropomorphic frog character with warm cream-and-yellow plumage-like skin, a bright red comb on top of the head, a small orange beak and thin legs, wearing a tiny denim vest, yellow shorts and orange sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naimao",
+      "name": "奶猫",
+      "glb": "naiwa_naimao_runtime.glb",
+      "distinctive": "cool light grey and white fur, pointy cat ears, long striped tail, narrow amber eyes, small whiskers, wearing a cropped black leather jacket, white tee, black skinny jeans, black boots",
+      "prompt": "A cartoon anthropomorphic frog character with cool light grey and white fur, pointy cat ears, a long striped tail, narrow amber eyes and small whiskers, wearing a cropped black leather jacket over a white tee, black skinny jeans and black boots, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naishi",
+      "name": "奶屎",
+      "glb": "naiwa_naishi_runtime.glb",
+      "distinctive": "muddy olive-brown skin, lumpy irregular surface, a swirly spiral pattern on the head, mischievous grin, wearing a torn dark-green poncho, brown cargo shorts, muddy boots",
+      "prompt": "A cartoon anthropomorphic frog character with muddy olive-brown skin and a lumpy irregular surface, a swirly spiral pattern on top of the head and a mischievous grin, wearing a torn dark-green poncho, brown cargo shorts and muddy boots, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_dounai",
+      "name": "豆奶",
+      "glb": "naiwa_dounai_runtime.glb",
+      "distinctive": "creamy off-white skin with a soft soy-milk tone, plump round body, small sleepy eyes, wearing a cream apron over a pale blue shirt, white shorts, white sneakers",
+      "prompt": "A cartoon anthropomorphic frog character with creamy off-white skin in a soft soy-milk tone, a plump round body and small sleepy eyes, wearing a cream apron over a pale blue shirt, white shorts and white sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naitu",
+      "name": "奶兔",
+      "glb": "naiwa_naitu_runtime.glb",
+      "distinctive": "snow-white fur, very long upright rabbit ears, pink inner ears, a round cotton tail, wearing a lavender oversized hoodie, grey shorts, white high-top sneakers",
+      "prompt": "A cartoon anthropomorphic frog character with snow-white fur, very long upright rabbit ears with pink inner ears, a round cotton tail, wearing a lavender oversized hoodie, grey shorts and white high-top sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naiyu",
+      "name": "奶鱼",
+      "glb": "naiwa_naiyu_runtime.glb",
+      "distinctive": "cool pale blue skin with a glossy wet sheen, large translucent blue fins on both sides of the head, a wide flat fish tail, big round eyes, wearing a tiny sailor collar, blue shorts, blue sneakers",
+      "prompt": "A cartoon anthropopathic frog character with cool pale blue skin and a glossy wet sheen, large translucent blue fins on both sides of the head, a wide flat fish tail and big round eyes, wearing a tiny sailor collar, blue shorts and blue sneakers, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naicha",
+      "name": "奶茶",
+      "glb": "naiwa_naicha_runtime.glb",
+      "distinctive": "milky tea brown skin, a round teapot-shaped head with a small spout and a round handle on top, sleepy eyes, wearing a burgundy apron with a tiny tea-cup motif, brown shorts, tan boots",
+      "prompt": "A cartoon anthropomorphic frog character with milky tea brown skin, a round teapot-shaped head with a small spout and a round handle on top, sleepy eyes, wearing a burgundy apron with a tiny teacup motif, brown shorts and tan boots, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_naiping",
+      "name": "奶瓶",
+      "glb": "naiwa_naiping_runtime.glb",
+      "distinctive": "warm cream skin, a round baby-bottle-shaped head with a silver nipple and a measurement scale on the side, big eyes, wearing a tiny mint-blue overall, white socks, tiny green shoes",
+      "prompt": "A cartoon anthropomorphic frog character with warm cream skin, a round baby-bottle-shaped head with a silver nipple and a measurement scale printed on the side, big eyes, wearing a tiny mint-blue overall, white socks and tiny green shoes, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    },
+    {
+      "id": "shell_xigema",
+      "name": "西格玛奶蛙",
+      "glb": "naiwa_xigema_runtime.glb",
+      "distinctive": "deep olive-brown tough skin, a square heavy jaw, thick arms, a scar over one eye, wearing a battered black tank top, grey cargo pants, heavy black combat boots, a red bandana on the forearm",
+      "prompt": "A cartoon anthropomorphic frog character with deep olive-brown tough skin, a square heavy jaw, thick muscular arms and a scar over one eye, wearing a battered black tank top, grey cargo pants, heavy black combat boots and a red bandana tied around the forearm, standing upright on two legs, full body T-pose, both arms stretched straight out horizontally to the sides in a perfect T shape, palms facing down, legs slightly apart, feet flat on the ground, three-quarter front view, clean solid light grey background, stylized cartoon 3D render, high quality PBR material, full body visible, no props in hands"
+    }
+  ]
+}

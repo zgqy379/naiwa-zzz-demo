@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-11T18:45:45.798Z",
+  "at": "2026-11-12T11:41:58.282Z",
   "summary": {
     "total": 33,
     "passed": 33,
@@ -18,7 +18,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/01-title.png",
-          "duration": 3398
+          "duration": 2372
         },
         {
           "group": "界面",
@@ -26,7 +26,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/02-select.png",
-          "duration": 7374
+          "duration": 5795
         },
         {
           "group": "界面",
@@ -34,7 +34,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/03-select-switch.png",
-          "duration": 3557
+          "duration": 1525
         },
         {
           "group": "界面",
@@ -42,7 +42,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/04-battle.png",
-          "duration": 3876
+          "duration": 3186
         },
         {
           "group": "界面",
@@ -50,7 +50,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/05-result.png",
-          "duration": 3482
+          "duration": 3442
         },
         {
           "group": "界面",
@@ -58,7 +58,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/06-back-title.png",
-          "duration": 4053
+          "duration": 2047
         }
       ]
     },
@@ -73,7 +73,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 539
+          "duration": 526
         },
         {
           "group": "角色",
@@ -81,7 +81,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/07-swap.png",
-          "duration": 4654
+          "duration": 3678
         },
         {
           "group": "角色",
@@ -89,7 +89,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 12
+          "duration": 4
         }
       ]
     },
@@ -104,7 +104,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 6
+          "duration": 5
         },
         {
           "group": "动画",
@@ -112,7 +112,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/08-move.png",
-          "duration": 3069
+          "duration": 1420
         },
         {
           "group": "动画",
@@ -120,7 +120,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/09-attack.png",
-          "duration": 7311
+          "duration": 5359
         },
         {
           "group": "动画",
@@ -128,7 +128,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 402
+          "duration": 13
         }
       ]
     },
@@ -143,7 +143,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 23
+          "duration": 3
         },
         {
           "group": "画面",
@@ -151,7 +151,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 6
+          "duration": 3
         },
         {
           "group": "画面",
@@ -159,7 +159,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 5
+          "duration": 12
         },
         {
           "group": "画面",
@@ -167,7 +167,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 7
+          "duration": 5
         },
         {
           "group": "画面",
@@ -175,7 +175,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 6
+          "duration": 3
         }
       ]
     },
@@ -190,7 +190,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/13-move-a.png",
-          "duration": 5218
+          "duration": 2960
         },
         {
           "group": "交互",
@@ -198,7 +198,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/10-attack.png",
-          "duration": 3670
+          "duration": 3017
         },
         {
           "group": "交互",
@@ -206,7 +206,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/11-combo.png",
-          "duration": 4677
+          "duration": 3849
         },
         {
           "group": "交互",
@@ -214,7 +214,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 975
+          "duration": 993
         },
         {
           "group": "交互",
@@ -222,7 +222,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 597
+          "duration": 601
         },
         {
           "group": "交互",
@@ -230,7 +230,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/12-mode-switch.png",
-          "duration": 3990
+          "duration": 2994
         },
         {
           "group": "交互",
@@ -238,7 +238,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/14-three-rounds.png",
-          "duration": 4252
+          "duration": 5415
         },
         {
           "group": "交互",
@@ -246,7 +246,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 105
+          "duration": 160
         },
         {
           "group": "交互",
@@ -254,7 +254,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/15-charge-ultimate.png",
-          "duration": 4173
+          "duration": 3571
         },
         {
           "group": "交互",
@@ -262,7 +262,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/16-chain-qte.png",
-          "duration": 3463
+          "duration": 2139
         },
         {
           "group": "交互",
@@ -270,7 +270,7 @@
           "status": "pass",
           "error": null,
           "shot": "E:/naiwa-zzz/docs/test-shots/17-ultimate.png",
-          "duration": 4002
+          "duration": 2780
         },
         {
           "group": "交互",
@@ -278,7 +278,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 811
+          "duration": 1291
         },
         {
           "group": "交互",
@@ -286,7 +286,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 512
+          "duration": 737
         },
         {
           "group": "交互",
@@ -294,7 +294,7 @@
           "status": "pass",
           "error": null,
           "shot": null,
-          "duration": 558
+          "duration": 849
         },
         {
           "group": "交互",
@@ -314,7 +314,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/01-title.png",
-      "duration": 3398
+      "duration": 2372
     },
     {
       "group": "界面",
@@ -322,7 +322,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/02-select.png",
-      "duration": 7374
+      "duration": 5795
     },
     {
       "group": "界面",
@@ -330,7 +330,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/03-select-switch.png",
-      "duration": 3557
+      "duration": 1525
     },
     {
       "group": "界面",
@@ -338,7 +338,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/04-battle.png",
-      "duration": 3876
+      "duration": 3186
     },
     {
       "group": "界面",
@@ -346,7 +346,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/05-result.png",
-      "duration": 3482
+      "duration": 3442
     },
     {
       "group": "界面",
@@ -354,7 +354,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/06-back-title.png",
-      "duration": 4053
+      "duration": 2047
     },
     {
       "group": "角色",
@@ -362,7 +362,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 539
+      "duration": 526
     },
     {
       "group": "角色",
@@ -370,7 +370,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/07-swap.png",
-      "duration": 4654
+      "duration": 3678
     },
     {
       "group": "角色",
@@ -378,7 +378,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 12
+      "duration": 4
     },
     {
       "group": "动画",
@@ -386,7 +386,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 6
+      "duration": 5
     },
     {
       "group": "动画",
@@ -394,7 +394,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/08-move.png",
-      "duration": 3069
+      "duration": 1420
     },
     {
       "group": "动画",
@@ -402,7 +402,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/09-attack.png",
-      "duration": 7311
+      "duration": 5359
     },
     {
       "group": "动画",
@@ -410,7 +410,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 402
+      "duration": 13
     },
     {
       "group": "画面",
@@ -418,7 +418,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 23
+      "duration": 3
     },
     {
       "group": "画面",
@@ -426,7 +426,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 6
+      "duration": 3
     },
     {
       "group": "画面",
@@ -434,7 +434,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 5
+      "duration": 12
     },
     {
       "group": "画面",
@@ -442,7 +442,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 7
+      "duration": 5
     },
     {
       "group": "画面",
@@ -450,7 +450,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 6
+      "duration": 3
     },
     {
       "group": "交互",
@@ -458,7 +458,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/13-move-a.png",
-      "duration": 5218
+      "duration": 2960
     },
     {
       "group": "交互",
@@ -466,7 +466,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/10-attack.png",
-      "duration": 3670
+      "duration": 3017
     },
     {
       "group": "交互",
@@ -474,7 +474,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/11-combo.png",
-      "duration": 4677
+      "duration": 3849
     },
     {
       "group": "交互",
@@ -482,7 +482,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 975
+      "duration": 993
     },
     {
       "group": "交互",
@@ -490,7 +490,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 597
+      "duration": 601
     },
     {
       "group": "交互",
@@ -498,7 +498,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/12-mode-switch.png",
-      "duration": 3990
+      "duration": 2994
     },
     {
       "group": "交互",
@@ -506,7 +506,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/14-three-rounds.png",
-      "duration": 4252
+      "duration": 5415
     },
     {
       "group": "交互",
@@ -514,7 +514,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 105
+      "duration": 160
     },
     {
       "group": "交互",
@@ -522,7 +522,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/15-charge-ultimate.png",
-      "duration": 4173
+      "duration": 3571
     },
     {
       "group": "交互",
@@ -530,7 +530,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/16-chain-qte.png",
-      "duration": 3463
+      "duration": 2139
     },
     {
       "group": "交互",
@@ -538,7 +538,7 @@
       "status": "pass",
       "error": null,
       "shot": "E:/naiwa-zzz/docs/test-shots/17-ultimate.png",
-      "duration": 4002
+      "duration": 2780
     },
     {
       "group": "交互",
@@ -546,7 +546,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 811
+      "duration": 1291
     },
     {
       "group": "交互",
@@ -554,7 +554,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 512
+      "duration": 737
     },
     {
       "group": "交互",
@@ -562,7 +562,7 @@
       "status": "pass",
       "error": null,
       "shot": null,
-      "duration": 558
+      "duration": 849
     },
     {
       "group": "交互",

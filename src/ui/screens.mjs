@@ -192,7 +192,10 @@ export class ScreenManager {
       card.addEventListener("click", () => {
         this.selectedIndex = i;
         list.querySelectorAll(".char-card").forEach((c, j) => c.classList.toggle("active", j === i));
-        this.live3d?.setSelected?.(i);
+        // 3D 层失败不能连带 UI 不更新（2026-11-12：蒙皮模型的展示台克隆在部分宿主里
+        // 会在建驱动时抛错，曾导致展示台名字停在上一只角色）
+        try { this.live3d?.setSelected?.(i); }
+        catch (e) { window.__live3dErr = String(e && e.message ? e.message : e); console.warn("[screens] live3d.setSelected 失败", e); }
         this._updateShowcase(m);
       });
       list.appendChild(card);

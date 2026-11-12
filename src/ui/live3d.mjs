@@ -15,6 +15,9 @@ import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
 import { SQUAD } from "../game/squad.mjs";
 
+/** 共享官方动画库的片段（角色文件不带片段时，驱动全体卡片；骨架跨角色一致） */
+let sharedClips = null;
+
 /**
  * @returns {{ensure:()=>Promise<any>, setSelected:(i:number)=>void}}
  *
@@ -24,10 +27,17 @@ import { SQUAD } from "../game/squad.mjs";
  *   是这批只在战斗时需要的角色模型）。进选人页后与战斗共用同一批 URL，命中 HTTP 缓存。
  *   模型未到齐时通过 onProgress 回报进度，由界面层显示「载入中…」。
  */
-export async function initLive3DCards(onProgress) {
+export async function initLive3DCards(onProgress, opts = {}) {
   let api = null;            // 已建好的内部 API
   let initializing = null;   // 正在进行的初始化 Promise
   let pendingIndex = 0;      // 初始化前的选择（记住，等建好再套用）
+
+  /** 共享官方动画库的片段（角色文件本身不带片段时用；骨架跨角色一致，可直接驱动） */
+  function setSharedClips(clips) {
+    sharedClips = clips || null;
+    api?.setSharedClips?.(sharedClips);
+  }
+  sharedClips = opts.sharedClips || null;
 
   async function ensure() {
     if (api) return api;
@@ -50,6 +60,10 @@ export async function initLive3DCards(onProgress) {
     setSelected(i) {
       pendingIndex = i;
       api?.setSelected(i);
+    },
+    setSharedClips(clips) {
+      sharedClips = clips || null;
+      api?.setSharedClips?.(sharedClips);
     },
   };
 }
@@ -113,10 +127,14 @@ async function build(onProgress) {
       group.add(root);
       e.scaleUnit = 1 / Math.max(size.y, 0.001);  // 每 1 像素高度对应的缩放
       e.group = group;
+      e.root = root;
       scene.add(group);
-      if (gltf.animations?.length) {
+      // 动画：优先角色自带片段；没有则等共享动画库（骨架跨角色一致，可直接驱动）
+      const clips = gltf.animations?.length ? gltf.animations : sharedClips;
+      if (clips?.length) {
         e.mixer = new THREE.AnimationMixer(root);
-        e.mixer.clipAction(gltf.animations[0]).play();
+        const idle = clips.find((c) => c.name === "Idle_Loop") || clips[0];
+        e.mixer.clipAction(idle).play();
       }
     } catch (err) {
       console.warn("[live3d] GLB 加载失败", e.m.glb, err?.message);
@@ -126,6 +144,59 @@ async function build(onProgress) {
 
   let selected = 0;
   let showcase = null;
+  let showcaseMixer = null;      // 展示台角色的驱动（播登场动作）
+  let showcaseAction = null;     // 当前片段
+  const ENTRANCE_CLIPS = ["Sword_Heavy_Combo", "Sword_Regular_Combo", "LayToIdle", "Idle_No_Loop"];
+
+  /** 共享动画库到达 → 给还没驱动的卡片补上官方待机动作（骨架跨角色一致，可直接驱动） */
+  function setSharedClipsInner(clips) {
+    if (!clips?.length) return;
+    for (const e of entries) {
+      if (!e.root || e.mixer) continue;
+      e.mixer = new THREE.AnimationMixer(e.root);
+      const idle = clips.find((c) => c.name === "Idle_Loop") || clips[0];
+      e.mixer.clipAction(idle).play();
+    }
+  }
+
+  /**
+   * 选人页的「登场动作」：选中一只时，展示台上的角色先打一段官方登场片段
+   * （重剑连招 / 躺卧起身），播完回到待机——比原来只做缓慢转身更像动作游戏。
+   */
+  function playEntrance(root) {
+    try {
+      if (!root || !sharedClips?.length) return;
+      // 换角色时展示台是**新的克隆**，mixer 需要换根：three.js 的 AnimationMixer 没有
+      // setRoot()，正确做法是 uncacheRoot(旧根) 后新建 mixer（或用 clipAction(clip, 新根)）。
+      if (showcaseMixer) {
+        showcaseMixer.stopAllAction();
+        showcaseMixer.uncacheRoot(showcaseMixer.getRoot());
+        showcaseMixer = null;
+      }
+      const mixer = new THREE.AnimationMixer(root);
+      showcaseMixer = mixer;
+      mixer.stopAllAction();
+      const name = ENTRANCE_CLIPS.find((n) => sharedClips.some((c) => c.name === n));
+      const clip = name ? sharedClips.find((c) => c.name === name) : sharedClips[0];
+      if (!clip) return;
+      const a = mixer.clipAction(clip);
+      a.reset();
+      a.setLoop(THREE.LoopOnce, 1);
+      a.clampWhenFinished = true;
+      a.fadeIn(0.08).play();
+      showcaseAction = clip.name;
+      // 播完回到待机
+      mixer.addEventListener("finished", (e) => {
+        if (e.action !== showcaseAction) return;
+        const idle = sharedClips.find((c) => c.name === "Idle_Loop");
+        if (idle) { mixer.clipAction(idle).reset().fadeIn(0.25).play(); showcaseAction = "Idle_Loop"; }
+      });
+    } catch (err) {
+      // 登场动作失败不影响选人页（模型照常展示）
+      window.__live3dErr = String(err && err.stack ? err.stack : err);
+      console.warn("[live3d] 登场动作失败", err);
+    }
+  }
 
   function setSelected(i) {
     selected = i;
@@ -142,6 +213,8 @@ async function build(onProgress) {
       showcase = src.group.clone(true);
     }
     scene.add(showcase);
+    // 登场动作：选中角色时展示台播一段官方片段（重剑连招 / 躺卧起身），播完回待机
+    playEntrance(showcase);
   }
   setSelected(0);
 
@@ -229,6 +302,7 @@ async function build(onProgress) {
       e.group.rotation.y = Math.sin(t * 0.7 + e.phase) * 0.42;
       e.mixer?.update(dt);
     }
+    showcaseMixer?.update(dt);   // 展示台角色的登场动作
 
     const art = artEl;
     if (showcase && art) {
@@ -254,5 +328,5 @@ async function build(onProgress) {
   }
   startLoop();
 
-  return { setSelected };
+  return { setSelected, setSharedClips: (clips) => setSharedClipsInner(clips) };
 }

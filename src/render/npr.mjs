@@ -13,6 +13,7 @@
  * 所用「半兰伯特/色调分离/rim light」均为图形学公共技术语汇。
  */
 import * as THREE from "three";
+import { worldToLocal } from "../core/scale.mjs";
 
 /** 风格化参数预设（可全局调，不改代码） */
 export const NPR_PRESET = {
@@ -292,11 +293,29 @@ export function makeOutlineMaterial(opts = {}) {
       uColor: { value: color },
       uWidth: { value: opts.width ?? NPR_PRESET.outlineWidth },
     },
+    // 蒙皮支持（2026-11-12 重做）：角色改为官方绑骨模型后，描边壳必须与本体
+    // 一起被骨骼驱动，否则壳会停在绑定姿势（张开双臂的 T-pose）而本体在动，
+    // 视觉上就是一个巨大的黑色剪影。
+    // three.js 对 ShaderMaterial 会在 object.isSkinnedMesh 时自动提供
+    // bindMatrix/boneTexture uniform 与 USE_SKINNING define，
+    // 这里只需把官方的 skinning chunk 拼进顶点着色器。
     vertexShader: /* glsl */ `
       uniform float uWidth;
+      #include <common>
+      #include <skinning_pars_vertex>
       void main() {
-        // 沿法线外扩（世界空间）
-        vec3 pos = position + normalize(normal) * uWidth;
+        // begin_vertex 声明 transformed（position 的副本）；必须先有它，
+        // 否则蒙皮 chunk 里的 transformed 会是未声明标识符 → 着色器编译失败 → 描边整个不画。
+        #include <begin_vertex>
+        // 法线同样要蒙皮：官方自动绑骨把网格缩到骨骼空间（实测只有 1/6.17），
+        // 若沿用**绑定姿势**的法线方向去外扩，位移量会相对角色高度被放大 6 倍
+        // → 描边壳直接吞掉角色（画面上一坨黑色巨块）。
+        #include <beginnormal_vertex>
+        #include <skinbase_vertex>
+        #include <skinning_vertex>
+        #include <skinnormal_vertex>
+        // transformed 已是蒙皮后的位置；沿蒙皮后的法线外扩出描边壳
+        vec3 pos = transformed + normalize(objectNormal) * uWidth;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }
     `,
@@ -368,11 +387,31 @@ export function applyNpr(root, preset = {}, outlineOpts = {}) {
     }
 
     // 描边壳：共享 geometry 引用（不额外占内存）
-    const outline = new THREE.Mesh(child.geometry, makeOutlineMaterial({ color: outColor, width }));
+    // 蒙皮模型（官方绑骨角色）：壳必须是 SkinnedMesh 且**与本体同级**——
+    //   ① 作为 SkinnedMesh 共享同一 skeleton/bindMatrix，才会跟着骨骼变形；
+    //   ② 不能作为 SkinnedMesh 的子节点（子节点会继承蒙皮后的矩阵，形状被放大数倍）。
+    //
+    // 宽度单位（2026-11-12 修正）：`width` 现在是**世界单位（米）**，
+    // 需按「模型局部单位 ≠ 世界单位」的系数换算（官方绑骨把网格缩到骨骼空间，
+    // 实测系数 0.16~2.1 且逐角色不同）—— 否则同一份 width 在不同角色身上
+    // 粗细相差 6 倍，奶蛙会被描边壳整个吞掉。
+    const localWidth = worldToLocal(width, child);
+    let outline;
+    if (child.isSkinnedMesh && child.skeleton) {
+      outline = new THREE.SkinnedMesh(child.geometry, makeOutlineMaterial({ color: outColor, width: localWidth }));
+      outline.bind(child.skeleton, child.bindMatrix);
+      outline.position.copy(child.position);
+      outline.quaternion.copy(child.quaternion);
+      outline.scale.copy(child.scale);
+      outline.frustumCulled = false;
+      child.parent.add(outline);
+    } else {
+      outline = new THREE.Mesh(child.geometry, makeOutlineMaterial({ color: outColor, width: localWidth }));
+      child.add(outline);
+    }
     outline.userData.__isOutline = true;
     outline.userData.__npr = true; // 标记，避免重复处理
     outline.raycast = () => {}; // 描边不参与拾取
-    child.add(outline);
     outlineMeshes.push(outline);
   }
 

@@ -1,71 +1,71 @@
 {
-  "shotAt": "2026-11-11T19:16:37.560Z",
-  "build": "assets/index-C6e6LaWv.js",
+  "shotAt": "2026-11-12T11:49:07.800Z",
+  "build": "assets/index-CP5WV8oE.js",
   "shots": [
     {
       "file": "docs/test-shots/01-title.png",
       "label": "主界面（视频背景 + 液态玻璃三按钮）",
-      "bytes": 1180323
+      "bytes": 1221063
     },
     {
       "file": "docs/test-shots/02-select.png",
       "label": "选人界面（16 名成员 + 实时 3D 卡片）",
-      "bytes": 1120925
+      "bytes": 1104269
     },
     {
       "file": "docs/test-shots/03-select-switch.png",
       "label": "切换到「奶狗」后的选中态与属性面板",
-      "bytes": 1103849
+      "bytes": 1105592
     },
     {
       "file": "docs/test-shots/04-battle.png",
       "label": "战斗界面（奶狗 · 回合 1/3）",
-      "bytes": 945949
+      "bytes": 935514
     },
     {
       "file": "docs/test-shots/05-result.png",
       "label": "结算界面（评级 + 三连战逐回合战果）",
-      "bytes": 180696
+      "bytes": 180852
     },
     {
       "file": "docs/test-shots/06-back-title.png",
       "label": "返回主界面",
-      "bytes": 309211
+      "bytes": 261833
     },
     {
       "file": "docs/test-shots/07-swap.png",
       "label": "Tab 接力换人后（连携演出）",
-      "bytes": 501235
+      "bytes": 490376
     },
     {
       "file": "docs/test-shots/08-move.png",
       "label": "按 W 前压移动中",
-      "bytes": 454197
+      "bytes": 471794
     },
     {
       "file": "docs/test-shots/09-attack.png",
       "label": "空格攻击起手（第一段）",
-      "bytes": 484041
+      "bytes": 505327
     },
     {
       "file": "docs/test-shots/10-attack.png",
       "label": "连段第二段命中",
-      "bytes": 467519
+      "bytes": 515055
     },
     {
       "file": "docs/test-shots/11-combo.png",
       "label": "三段连段冲击瞬间",
-      "bytes": 473983
+      "bytes": 502028
     },
     {
       "file": "docs/test-shots/12-mode-switch.png",
       "label": "N 键切换渲染风格（PBR）",
-      "bytes": 496244
+      "bytes": 474241
     },
     {
       "file": "docs/test-shots/13-move-a.png",
       "label": "按 A 向相机左方移动",
-      "bytes": 486593
+      "bytes": 452768
     }
   ]
 }

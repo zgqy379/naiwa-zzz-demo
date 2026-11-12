@@ -3,144 +3,144 @@
   "errors": [],
   "timeline": [
     {
-      "t": 9.217,
+      "t": 9.592,
       "ev": "首页就绪 video={\"ready\":4,\"paused\":false,\"w\":1280,\"h\":720}"
     },
     {
-      "t": 9.226,
+      "t": 9.609,
       "ev": "screencast 开始"
     },
     {
-      "t": 20.749,
+      "t": 21.53,
       "ev": "首页演示完成，点击开始作战"
     },
     {
-      "t": 22.923,
+      "t": 23.98,
       "ev": "选人界面就绪"
     },
     {
-      "t": 34.872,
+      "t": 37.221,
       "ev": "选人演示完成，点击出战（西格玛）"
     },
     {
-      "t": 37.184,
+      "t": 39.307,
       "ev": "战斗开始 active=西格玛奶蛙"
     },
     {
-      "t": 40.727,
+      "t": 42.666,
       "ev": "连段完成"
     },
     {
-      "t": 43.964,
+      "t": 45.876,
       "ev": "侧移 + 二轮攻击"
     },
     {
-      "t": 46.689,
+      "t": 48.635,
       "ev": "接力换人 active=奶蛙"
     },
     {
-      "t": 48.959,
+      "t": 50.885,
       "ev": "移动 + 攻击 + 闪避"
     },
     {
-      "t": 51.701,
+      "t": 53.618,
       "ev": "相机环绕"
     },
     {
-      "t": 55.734,
+      "t": 55.755,
       "ev": "弹反尝试 {\"state\":\"success\",\"total\":1}"
     },
     {
-      "t": 58.67,
+      "t": 58.776,
       "ev": "战斗收尾 countered=true"
     },
     {
-      "t": 59.8,
+      "t": 59.955,
       "ev": "蓄力条 {\"show\":true,\"full\":true,\"pct\":\"100%\"}"
     },
     {
-      "t": 61.234,
+      "t": 61.408,
       "ev": "蓄力终结释放"
     },
     {
-      "t": 62.177,
+      "t": 62.341,
       "ev": "第 1 个对手被击败 round 0->1 phase=playing"
     },
     {
-      "t": 66.868,
+      "t": 66.963,
       "ev": "第 2 回合连段"
     },
     {
-      "t": 67.807,
+      "t": 67.932,
       "ev": "第 2 个对手被击败 round 1->2 phase=playing"
     },
     {
-      "t": 72.525,
+      "t": 72.56,
       "ev": "第 3 回合连段"
     },
     {
-      "t": 74.285,
+      "t": 74.351,
       "ev": "首领狂暴 enraged=true"
     },
     {
-      "t": 76.239,
+      "t": 76.342,
       "ev": "属性异常·灼烧 {\"attr\":\"fire\",\"t\":9.6}"
     },
     {
-      "t": 77.659,
-      "ev": "紊乱引爆 {\"buildup\":{\"physical\":0,\"fire\":0,\"ice\":0,\"electric\":0,\"ether\":0},\"thresholds\":{\"physical\":100,\"fire\":125,\"ice\":125,\"electric\":100,\"ether\":100},\"status\":{\"attr\":\"ice\",\"t\":9.6},\"frozenT\":1.09,\"weakness\":\"electric\"}"
+      "t": 77.781,
+      "ev": "紊乱引爆 {\"buildup\":{\"physical\":0,\"fire\":0,\"ice\":0,\"electric\":0,\"ether\":0},\"thresholds\":{\"physical\":100,\"fire\":125,\"ice\":125,\"electric\":100,\"ether\":100},\"status\":{\"attr\":\"ice\",\"t\":9.6},\"frozenT\":1.13,\"weakness\":\"fire\"}"
     },
     {
-      "t": 78.629,
-      "ev": "失衡 {\"value\":100,\"threshold\":100,\"state\":\"staggered\",\"timer\":5.73,\"staggered\":true}"
+      "t": 78.691,
+      "ev": "失衡 {\"value\":100,\"threshold\":100,\"state\":\"staggered\",\"timer\":5.75,\"staggered\":true}"
     },
     {
-      "t": 79.342,
+      "t": 79.431,
       "ev": "连携 QTE 开启=true"
     },
     {
-      "t": 80.655,
-      "ev": "连携选1 前={\"active\":true,\"counts\":3,\"t\":2.37,\"options\":[1,2,3],\"used\":[],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":0} 后={\"active\":true,\"counts\":2,\"t\":1.46,\"options\":[1,2,3],\"used\":[1],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":1}"
+      "t": 80.894,
+      "ev": "连携选1 前={\"active\":true,\"counts\":3,\"t\":2.38,\"options\":[1,2,3],\"used\":[],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":0} 后={\"active\":true,\"counts\":2,\"t\":1.58,\"options\":[1,2,3],\"used\":[1],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":1}"
     },
     {
-      "t": 81.873,
-      "ev": "连携选2 前={\"active\":true,\"counts\":2,\"t\":1.41,\"options\":[1,2,3],\"used\":[1],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":1} 后={\"active\":true,\"counts\":1,\"t\":0.43,\"options\":[1,2,3],\"used\":[1,2],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":2}"
+      "t": 82.434,
+      "ev": "连携选2 前={\"active\":true,\"counts\":2,\"t\":1.53,\"options\":[1,2,3],\"used\":[1],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":1} 后={\"active\":true,\"counts\":1,\"t\":0.57,\"options\":[1,2,3],\"used\":[1,2],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":2}"
     },
     {
-      "t": 83.049,
-      "ev": "连携选3 前={\"active\":true,\"counts\":1,\"t\":0.43,\"options\":[1,2,3],\"used\":[1,2],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":2} 后={\"active\":false,\"counts\":0,\"t\":0.43,\"options\":[],\"used\":[1,2,3],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":3}"
+      "t": 83.667,
+      "ev": "连携选3 前={\"active\":true,\"counts\":1,\"t\":0.57,\"options\":[1,2,3],\"used\":[1,2],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":2} 后={\"active\":false,\"counts\":0,\"t\":0.57,\"options\":[],\"used\":[1,2,3],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":3}"
     },
     {
-      "t": 83.052,
-      "ev": "连携结束 {\"active\":false,\"counts\":0,\"t\":0.43,\"options\":[],\"used\":[1,2,3],\"chainCounts\":3}"
+      "t": 83.67,
+      "ev": "连携结束 {\"active\":false,\"counts\":0,\"t\":0.57,\"options\":[],\"used\":[1,2,3],\"chainCounts\":3}"
     },
     {
-      "t": 83.487,
+      "t": 84.122,
       "ev": "喧响值拉满 {\"decibel\":3000,\"invulnT\":0}"
     },
     {
-      "t": 84.634,
+      "t": 85.23,
       "ev": "喧响满极蓄力条 {\"show\":true,\"full\":true,\"pct\":\"100%\",\"keys\":[\" \"],\"decibel\":3000,\"inBattle\":true,\"phase\":\"playing\"}"
     },
     {
-      "t": 86.18,
-      "ev": "喧响满极终结释放 decibel={\"decibel\":0,\"invulnT\":0.81}"
+      "t": 86.78,
+      "ev": "喧响满极终结释放 decibel={\"decibel\":0,\"invulnT\":0.86}"
     },
     {
-      "t": 87.716,
+      "t": 88.312,
       "ev": "第 3 个对手被击败 round 2->2 phase=settle"
     },
     {
-      "t": 87.719,
+      "t": 88.344,
       "ev": "结算 grade=A"
     },
     {
-      "t": 94.97,
+      "t": 95.533,
       "ev": "返回首页，停止录制"
     }
   ],
-  "frames": 2044,
-  "cdpPort": 9812,
+  "frames": 1907,
+  "cdpPort": 9856,
   "titleVideo": {
     "ready": 4,
     "paused": false,
@@ -153,58 +153,58 @@
   },
   "grade": "A",
   "counterAttempted": true,
-  "spanSeconds": 85.42,
-  "avgFps": 23.9,
+  "spanSeconds": 85.82,
+  "avgFps": 22.2,
   "stills": [
     {
       "file": "v3-show4-01-naifen-20261111.png",
       "expect": "奶粉",
       "hud": "奶粉",
-      "bytes": 1061289,
+      "bytes": 957489,
       "hudMatch": true
     },
     {
       "file": "v3-show4-05-xigema-20261111.png",
       "expect": "西格玛奶蛙",
       "hud": "西格玛奶蛙",
-      "bytes": 992142,
+      "bytes": 985862,
       "hudMatch": true
     },
     {
       "file": "v3-show4-00-naiwa-20261111.png",
       "expect": "奶蛙（开局默认机位）",
       "hud": "奶蛙",
-      "bytes": 982098,
+      "bytes": 955683,
       "hudMatch": false
     },
     {
       "file": "v3-npr-on-20261111.png",
       "expect": "NPR/PBR 对照 NPR",
-      "bytes": 1005440
+      "bytes": 958414
     },
     {
       "file": "v3-npr-off-20261111.png",
       "expect": "NPR/PBR 对照 PBR",
-      "bytes": 975066
+      "bytes": 935139
     },
     {
       "file": "v3-aholo-street-on-20261111.png",
       "expect": "Aholo 街区层 开",
-      "bytes": 993417
+      "bytes": 994281
     },
     {
       "file": "v3-aholo-street-off-20261111.png",
       "expect": "Aholo 街区层 关",
-      "bytes": 956132
+      "bytes": 958803
     }
   ],
   "build": {
-    "entry": "assets/index-C6e6LaWv.js",
-    "bytes": 1011164,
-    "sha256_16": "eb060ab7f155e887",
+    "entry": "assets/index-CP5WV8oE.js",
+    "bytes": 1019574,
+    "sha256_16": "8f8836d0ae2b55d5",
     "servedIndexBytes": 6459,
     "bgVideoBytes": 8735749,
-    "mtime": "2026-11-11T18:19:10.977Z"
+    "mtime": "2026-11-12T11:42:16.825Z"
   },
   "viewport": {
     "width": 1920,
@@ -212,5 +212,5 @@
     "dpr": 1
   },
   "method": "CDP Page.startScreencast(jpeg q85) 全页合成 → ffmpeg concat 30fps H.264（DOM HUD / glass-layer / live3d-layer / cursor3d-layer / 视频背景全部入画）",
-  "finishedAt": "2026-11-11T19:13:45.820Z"
+  "finishedAt": "2026-11-12T11:44:34.304Z"
 }

@@ -50,6 +50,9 @@ export class ProceduralAnim {
       || o.modelRoot.getObjectByName("model-wrapper")
       || o.modelRoot;
 
+    // 官方骨骼片段驱动（有则优先，见 src/game/clips.mjs）；没有则走程序化伪造
+    this.clips = null;
+
     // 动作状态
     this.action = ACTION.IDLE;
     this.actionT = 0;
@@ -65,6 +68,17 @@ export class ProceduralAnim {
     // 基础缩放（记录，供挤压拉伸用）
     this.baseScale = this.inner.scale.clone();
   }
+
+  /**
+   * 接入官方骨骼片段驱动。
+   * @param {object} driver src/game/clips.mjs 的 ClipDriver
+   */
+  setClips(driver) {
+    this.clips = driver || null;
+  }
+
+  /** 是否有真实骨骼动画可用（UI/HUD 可据此显示「真动画」标记） */
+  get hasClips() { return !!this.clips; }
 
   /**
    * 触发一个动作
@@ -83,6 +97,8 @@ export class ProceduralAnim {
       this.moveLean = move.anim?.lean ?? 0.5;
       this.moveSquash = move.anim?.squash ?? 0.8;
     }
+    // 官方骨骼片段：优先用真实动作；无对应片段则回退程序化
+    if (this.clips && this.clips.play(action, this.actionDur)) return;
   }
 
   /** 每帧推进（渲染帧 dt） */
@@ -99,6 +115,21 @@ export class ProceduralAnim {
       }
     } else {
       this.action = this.movement.isMoving ? ACTION.MOVE : ACTION.IDLE;
+    }
+
+    // 有官方骨骼片段：只推进 mixer，不再写根节点变换（否则会覆盖骨骼动画的整体位移）
+    if (this.clips) {
+      this.clips.update(dt);
+      // 循环动作（idle/move）常驻播放；一次性动作结束后回到 idle/move 片段
+      if (this.action !== ACTION.IDLE && this.action !== ACTION.MOVE) {
+        if (this.actionT >= this.actionDur) {
+          const idleOrMove = this.movement.isMoving ? ACTION.MOVE : ACTION.IDLE;
+          this.clips.play(idleOrMove, null, { loop: true, fade: 0.12 });
+        }
+      } else if (this.clips.currentAction !== this.action) {
+        this.clips.play(this.action, null, { loop: true, fade: 0.12 });
+      }
+      return;
     }
 
     // 先重置

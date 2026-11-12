@@ -1,0 +1,19 @@
+﻿{
+  "label": "Aholo World 视差层 开/关（2026-11-12 第六版构建）",
+  "a": "docs/evidence/v3-aholo-street-on-20261111.png",
+  "b": "docs/evidence/v3-aholo-street-off-20261111.png",
+  "shape": [
+    1920,
+    1080
+  ],
+  "changedPixels": 60937,
+  "changedRatioPct": 2.939,
+  "meanDiff": 1.073,
+  "maxDiff": 65,
+  "changedBox": {
+    "x0": 0.0,
+    "x1": 0.9995,
+    "y0": 0.0241,
+    "y1": 0.9991
+  }
+}
