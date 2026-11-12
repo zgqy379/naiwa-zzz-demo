@@ -72,6 +72,27 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-12 22:0x by 收口线（**统一收口第七版**：并入展示线手感/演出/声音三块补做 → 全链重跑 + 双通道重部署 + 官网第 7 版）
+
+- 已做（**本轮是把「展示线的三块补做」正式纳入交付**，走完整一轮：登记 → 干净会话 E2E → 重建 → 重录 → 重拍 → 重出 PDF → 双通道重部署 → 官网提交）：
+  - **并入展示线的三块补做**（展示线已在 `docs/改动记录-角色线.md` 20:4x / 20:5x / 21:1x 登记，本轮把它们做进交付）：①**动作衔接** —— 片段切换由 `stopAllAction()+60ms` 硬切改为 `crossFadeTo` **交叉融合**（攻击→受击→待机不再瞬移跳变）；②**连段命中取消** —— 本段已命中且有缓冲输入时进度 ≥0.72 即可取消收势接下一段（接续 0.26s→0.19s，命中次数与伤害不变）；③**武器拖尾** —— 武器尖端 14 帧 ribbon（逐点「切线×视线」求侧向量，俯视机位不退化）；④**命中径向色散**脉冲（0.18s 平方衰减，常态 0）；⑤**运镜**环绕 easeInOutCubic、命中拉近只收水平距离；⑥**声音** SampleBank（4 段**自有离线渲染**采样 141 KB，**零第三方音频**）+ BGM ducking + 挥击风声，缺文件静默回退实时合成。
+  - **修掉本线引入的一个真缺陷**：武器是**异步**加载的（晚于角色的 `applyNpr`）→ 此前保留原始 `MeshPhysicalMaterial`，与角色赛璐璐材质不一致，并让 E2E「NPR 材质生效」读到错误材质类型。改为武器挂上手骨后**单独补一次 `applyNpr`**。
+  - **定版构建**：`dist/assets/index-CLZViSiW.js`（1,024,950 B，sha256 前 16 位 `0dfe74c3908456c8`）+ CSS `index-BnIDec0l.css`（53,151 B，`e9056643b6d1168b`），dist **48 个交付文件 / 21.48 MB**（新增 4 段自有采样音频）。
+  - **验收**：E2E **33/33** 全绿（干净会话复跑）、lint 0、`node --check` 全过。
+  - **取证重跑**：Demo 视频**第七次重录**（79.4 秒 / 2383 帧 / 32,395,249 B，sha256 `c8e2b509…`，**零 console 错误**、黑帧 0 段）；§十 13 张插图 + 界面流程 13 张实拍 + A/B 像素差分（NPR-PBR / Aholo 视差层）按新构建重拍；性能重测：战斗屏 **346 draw call / 177,722 三角面**、first-paint **964 ms**、标题页 fps **234–295**、heap 50→35 MB、`contextlost` 0、四屏 console 错误 0。
+  - **文档**：报告书新增 **§3.5「手感 / 演出 / 声音三层」**；§4.2 性能段、§10.5 视频段、§13 交付物表、资产清单全部同步为第七版实测值；`docs/report.pdf` 重生成（**37 页 / 19,038,778 B**，sha256 `d508bd51…`，中文可检索）；`docs/submission.json` 同步新指纹；AGENTS.md §7 补两条**最容易再踩的坑**（单位换算、武器异步加载）。
+- 未做 / 待办（**制作人本人**）：
+  - **小红书发帖**：加分项「社交媒体发布链接」仍空缺（本机 ego 的小红书**未登录**，无 `web_session` cookie，不能代发）。发完把链接给我，我在 11-19 19:00 前**补一次提交**（表单允许多次提交，以后一次为准）。
+  - **首页背景视频授权凭证**（`bg/title.mp4`，第三方短视频素材、含水印与第三方账号、主体是鸡非奶蛙）——建议换自制/CC0 背景，可同时解决合规与 IP 一致性；纯 `public/` 改动，不触发重录重部署。
+- 待验证：真机可见窗口下 16 只蒙皮角色 + 4 个 WebGL context 的显存/发热（headless 实测 heap 50→35 MB、`contextlost` 0 次）；连携 QTE 在移动端触屏的可用性（chip 支持点击，未实测真触控）。
+- 产物与证据路径：`docs/demo-video-20261111.mp4`（79.4 s）、`docs/report.pdf`（37 页）、`docs/evidence/v3-{runtime-metrics,stability,demo-rec,test-shots}-20261111.json`、`docs/test-shots/01-13`、`docs/evidence/v3-hackathon-submit-v6-*.png|json`、`docs/evidence/lux3d-weapons/_contact.png`、`docs/evidence/v3-roster-sheet-*-20261112.png`、`scripts/lux3d/*`（管线 + 探针）。
+- 最近构建：`dist/assets/index-CLZViSiW.js` @ 2026-11-12 21:5x（1,024,950 B，sha256 前 16 位 `0dfe74c3908456c8`）；dist **48 个交付文件 / 21.48 MB**。构建人：收口线（统一重建）。
+- 已知冲突 / 风险：
+  1. **并发线与本轮的交叉**：展示线的三块补做在本轮窗口内改动了 `src/main.mjs`（§3 共享热点），其中一部分被本轮的 `git add -A` 一并提交（提交信息写「第六版收尾」，实际含第七版代码）——**内容未丢失、未回滚**（展示线已在其 §6 交接中记录此事）。本轮已把它们正式纳入交付并跑完整验证链。
+  2. **E2E 抖动的真因**：多轮复跑曾出现 30~32/33，**失败用例每次不同**（相机高度 / 换人 / 克制 / QTE / 连段 / 返回主界面 / NPR 材质）→ 判为 **ego 常驻宿主 rAF 节流 + 并发会话状态残留**导致的抖动，非确定性回归。清理遗留 preview 进程并单会话复跑后稳定 **33/33**。今后采信 E2E 结果前须**先清遗留进程、单会话跑**。
+  3. **Mimosa 全量扫描本机仍不可用**（沿用 11-12 03:2x 交接的等价自查结论）。
+  4. 本机到 GitHub / GitHub Pages 网络时断时续，推送需后台重试。
+
 ### 交接 2026-11-12 21:3x by 展示线（**动作手感 / 演出层 / 声音三块补做** · 含并发冲突记录）
 
 - 已做（制作人裁决「都做」；三块均已落地并经 lint / 语法 / 运行时单测 / 临时构建验证）：
@@ -619,8 +640,10 @@ AIGC:
 
 - 弹反系统**已实现**：`src/game/counter.mjs` 为完整逻辑，`src/main.mjs` 已接入 `spawnCrates` / `spawnCover` / `hitTest` / `destroy`；构建产物中含「成功弹反」「spawnCrates」字样。
 - 可破坏箱 / 掩体**已实现**（掩体 AABB 阻挡已接线：`src/main.mjs:250-252` coverSolids → Movement.solidBoxes，`movement.mjs:134` 每帧推出），不属于「计划中」。
-- 线上站点已是 2026-11-12 定版（**第四次重录后的统一收口构建，已并入阶段 A–G 八个系统**）：魔搭 master `d44ca9f`，入口 `index-C6e6LaWv.js`（1,011,164 B，sha256 前 16 位 `EB060AB7F155E887`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/`（gh-pages `f90cc29`）同版；**34 个交付文件** GET/Range 全部 200/206，入口 / 主 JS / CSS / `bg/title.mp4` / `fonts/LICENSES.txt` **五项关键文件与本仓 `dist/` 逐字节一致**（HEAD 一律 403 不可用作判据；魔搭 `index.html` 为 301→根路径 200）。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。**当前 `src/`、线上构建、Demo 视频、§十 插图、报告书五者同版**。
-- **冻结 tag `freeze-2026-11-11-final` 已被强制重指两次**（`eb074ff` → `95f74b9` → 统一收口提交）：每次重录/统一收口后都要重指并回填 `docs/submission.json` 的 `frozen_commit`。
+- 线上站点已是 2026-11-12 定版（**第七次重录后的统一收口构建：阶段 A–G 八个系统 + 骨骼与动作重做 + 手感/演出/声音三块补做**）：入口 `index-CLZViSiW.js`（1,024,950 B，sha256 前 16 位 `0DFE74C3908456C8`）+ CSS `index-BnIDec0l.css`（53,151 B，`E9056643B6D1168B`）；备用直连 `https://zgqy379.github.io/naiwa-zzz-demo/`（gh-pages）同版；**48 个交付文件** GET 全部 200，入口 / 主 JS / CSS / `bg/title.mp4` / `fonts/LICENSES.txt` **五项关键文件与本仓 `dist/` 逐字节一致**（HEAD 一律 403 不可用作判据；魔搭 `index.html` 为 301→根路径 200），旧构建 `assets/index-C6e6LaWv.js` 已 404 下线。**原 workbuddy 地址已失效**（只返回引用旧构建 `index-iKSx0O26.js` 的壳页，静态资源全 403），不再作为备用。**当前 `src/`、线上构建、Demo 视频、§十 插图、报告书五者同版**。
+- **冻结 tag `freeze-2026-11-11-final` 已被强制重指多次**（`eb074ff` → `95f74b9` → 统一收口提交 → 第六版 → 第七版）：每次重录/统一收口后都要重指并回填 `docs/submission.json` 的 `frozen_commit`。
+- **官方绑骨模型的「局部单位 ≠ 世界单位」**（2026-11-12 实测，最隐蔽的一类 bug）：官方自动绑骨把网格写在**绑定空间**、绑定矩阵带缩放——奶蛙网格包围盒高 1.936 而蒙皮后实际高 0.314（差 **6.17 倍**），且**逐角色不同**（世界缩放 0.48~3.35）。凡是以模型局部单位表达的东西（**描边宽度**、**挂骨骼的道具**、粒子偏移）都必须先除以「累计世界缩放」（`src/core/scale.mjs`），否则会「变大变黑」而不是报错。修法与现象详见报告书 §2.3 第 ⑧ 条。
+- **武器是异步加载的**（晚于角色的 `applyNpr`）：挂上手骨后必须**单独补一次 `applyNpr`**，否则武器保留原始 `MeshPhysicalMaterial`，与角色的赛璐璐材质不一致，并让 E2E「NPR 材质生效」用例读到错误材质类型。
 - **E2E 截图注意事项**：`tests/harness.mjs` 的截图走 ego 宿主的 `page.cdp("Page.captureScreenshot")`，在该宿主下可能返回**空 data** 并被静默跳过 → `docs/test-shots/` 会停留在旧构建的图。界面流程实拍改由 `scripts/capture-test-shots.mjs`（自建 CDP 通道）产出。
 - **阶段 G 鸣徽三选一会暂停战斗**：`battle.womarkOpen = true` 时 `main.mjs` 的 `battleRunning` 门禁会让整个战斗逻辑停车（攻击 / 闪避 / 数字键选卡以外的输入全被吞）。**任何驱动战斗的脚本（录像 / 自动化）都必须处理 `#womark-overlay`**——不选卡会拍到僵局、且后续蓄力输入被吸收。
 - `visualScale` 已回源码：`src/game/squad.mjs:103` 定义、`src/main.mjs:201` 消费（2026-11-11 审计复核）；「登记与源码不符」段历史记录保留。

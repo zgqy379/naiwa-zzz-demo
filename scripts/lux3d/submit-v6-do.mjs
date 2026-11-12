@@ -63,8 +63,24 @@ async function main() {
   if (!node.nodeId) note("✗ 找不到 file input");
   else {
     await p.cdp("DOM.setFileInputFiles", { files: [PDF], nodeId: node.nodeId });
-    note("PDF 已喂入");
-    await new Promise((r) => setTimeout(r, 3500));
+    note("PDF 已喂入，等待上传完成…");
+    // 轮询等上传结束（页面会显示「上传中 xx%」，完成后只余文件名与大小）
+    let uploaded = false;
+    for (let i = 0; i < 60; i++) {
+      await new Promise((r) => setTimeout(r, 2000));
+      const st = await p.evaluate(`(() => {
+        const t = document.body.innerText || "";
+        const m = t.match(/report\\.pdf[^\\n]{0,40}/);
+        return { line: m ? m[0] : "", uploading: /\\u4e0a\\u4f20\\u4e2d/.test(t) };
+      })()`);
+      if (i % 5 === 0) note(`  上传状态: ${st.line} (uploading=${st.uploading})`);
+      if (!st.uploading && /report\\.pdf/.test(st.line) && /MB/.test(st.line)) {
+        note(`  ✓ 上传完成: ${st.line}`);
+        uploaded = true;
+        break;
+      }
+    }
+    if (!uploaded) note("  ⚠ 未确认上传完成（仍继续，提交时平台会校验）");
   }
 
   // ③ 勾确认框（须知框不持久化，提交瞬间必须勾）

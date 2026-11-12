@@ -1,0 +1,64 @@
+{
+  "pre": {
+    "dv": [
+      "link*",
+      "videoFile"
+    ],
+    "reportMode": [
+      "link",
+      "file*"
+    ],
+    "repoMode": [
+      "link*",
+      "file"
+    ],
+    "link": "https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo",
+    "social": "",
+    "repo": "https://github.com/zgqy379/naiwa-zzz-demo/tree/main",
+    "lux": true,
+    "notice": true,
+    "tracks": [
+      "GAME=ON",
+      "SPATIAL_DESIGN=ON"
+    ],
+    "fileText": "report.pdf",
+    "body": "关于比赛\n赛程细则\n奖项与评审\n开放工具\nFAQ\n我的参赛\n中\nEN\n我的参赛\n← 返回赛事介绍\n作品提交\n\n完成创作，让想法成为真实作品\n\n✓ 01\n我的积分\n✓ 02\n我的团队\n✓ 03\n我的选题\n04\n我的作品\n05\n作品评审\n06\n结果公示 · 作品展示\n我的作品\n提交你的作品\n\n推荐提交魔搭创空间链接\n\n必交项\n已完成 4/4\n完整 Demo / 宣传视频二选一\n\n可直接体验或运行的作品链接，或包含真实运行画面的 Demo 视频（链接或上传）。\n\nDemo / 视频链接\n上传视频文件\n任选一种方式提交即可\n项目报告书\n\n上传 PDF/PPT 或填写报告链接，需包含过程截图、关键资产迭代对比或关键效果截图；请确保链接可供评审访问。\n\n报告链接\n上传文件\n任选一种方式提交即可\nreport.pdf\n18.2 MB\n更换\n移除\n生态合作设备/技术使用情况\n\n可多选。未使用请选择「无」；勾选「无」后其他选项不可选，取消「无」后才能再选。\n\n无\n应用赛道\n\n可多选。选择 1～3 项希望参评的应用奖。未参评请选择「无」；勾选「无」后其他选项不可选，取消「无」后才能再选。\n\n游戏应用奖、空间设计应用奖\n加分项\n选填，提交后可获得额外加分\n社交媒体发布链接\n\n发布至小红书并带 #Aholo黑客松。每件作品仅可登记一个链接。\n\n项目源代码\n\n项目链接或代码压缩包。\n\n填写链接\n上传压缩包\n任选一种方式提交即可\n我确认作品使用 Aholo Lux3D 完成，且可运行、可演示\n我已阅读并同意《群核科技 Aholo 全球 3D AI 黑客松参赛作品提交须知》，确认所提交的作品和信息真实、完整，并同意按公布的赛事规则参与资格审核、评审及结果公示。\n提交新版本\n保存草稿\n取消\n草稿已保存 · 11 月 12 日 22:08\n\n截止前可多次提交，评审以 11 月 19 日 19:00 前最后一次成功提交的版本为准。\n\n赛事\n关于比赛\n赛程细则\n奖项与评审\n开放工具\nFAQ\n工具\nAholo Lux3D\nAholo\nAholo API\nLuxReal\n联系\n加入赛事社群\n© 2026 Aholo · Manycore Tech\n保留所有权利"
+  },
+  "post": {
+    "dv": [],
+    "reportMode": [],
+    "repoMode": [],
+    "link": "(no-el)",
+    "social": "(no-el)",
+    "repo": "(no-el)",
+    "lux": null,
+    "notice": null,
+    "tracks": [],
+    "fileText": "report.pdf · 18.2 MB",
+    "body": "关于比赛\n赛程细则\n奖项与评审\n开放工具\nFAQ\n我的参赛\n中\nEN\n我的参赛\n← 返回赛事介绍\n作品提交\n\n完成创作，让想法成为真实作品\n\n✓ 01\n我的积分\n✓ 02\n我的团队\n✓ 03\n我的选题\n04\n我的作品\n05\n作品评审\n06\n结果公示 · 作品展示\n我的作品\n已提交\n奶蛙零 · 奶家族谱 × 潮酷演出的 3D AI 连携短局\n第 7 版 · 提交于 11 月 12 日 22:25\n修改提交\n\n作品已进入资格与完整性审核。请确保 Demo、视频和其他链接在结果公布前持续有效。\n\nDemo / 视频链接\nhttps://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\n项目报告书\nreport.pdf · 18.2 MB\n生态合作设备/技术使用情况\n无\n应用赛道\n游戏应用奖、空间设计应用奖\n项目源代码\nhttps://github.com/zgqy379/naiwa-zzz-demo/tree/main\n\n截止前可多次提交，评审以 11 月 19 日 19:00 前最后一次成功提交的版本为准。\n\n赛事\n关于比赛\n赛程细则\n奖项与评审\n开放工具\nFAQ\n工具\nAholo Lux3D\nAholo\nAholo API\nLuxReal\n联系\n加入赛事社群\n© 2026 Aholo · Manycore Tech\n保留所有权利\n作品已提交"
+  },
+  "log": [
+    "链接 = {\"link\":\"https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\",\"repo\":\"https://github.com/zgqy379/naiwa-zzz-demo/tree/main\",\"social\":\"\"}",
+    "PDF 已喂入，等待上传完成…",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  上传状态: report.pdf (uploading=false)",
+    "  ⚠ 未确认上传完成（仍继续，提交时平台会校验）",
+    "确认框 = {\"lux\":true,\"notice\":true}",
+    "=== 提交前状态 ===",
+    "{\n \"dv\": [\n  \"link*\",\n  \"videoFile\"\n ],\n \"reportMode\": [\n  \"link\",\n  \"file*\"\n ],\n \"repoMode\": [\n  \"link*\",\n  \"file\"\n ],\n \"link\": \"https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\",\n \"social\": \"\",\n \"repo\": \"https://github.com/zgqy379/naiwa-zzz-demo/tree/main\",\n \"lux\": true,\n \"notice\": true,\n \"tracks\": [\n  \"GAME=ON\",\n  \"SPATIAL_DESIGN=ON\"\n ],\n \"fileText\": \"report.pdf\",\n \"body\": \"关于比赛\\n赛程细则\\n奖项与评审\\n开放工具\\nFAQ\\n我的参赛\\n中\\nEN\\n我的参赛\\n← 返回赛事介绍\\n作品提交\\n\\n完成创作，让想法成为真实作品\\n\\n✓ 01\\n我的积分\\n✓ 02\\n我的团队\\n✓ 03\\n我的选题\\n04\\n我的作品\\n05\\n作品评审\\n06\\n结果公示 · 作品展示\\n我的作品\\n提交你的作品\\n\\n推荐提交魔搭创空间链接\\n\\n必交项\\n已完成 4/4\\n完整 Demo / 宣传视频二选一\\n\\n可直接体验或运行的作品链接，或包含真实运行画面的 Demo 视频（链接或上传）。\\n\\nDemo / 视频链接\\n上传视频文件\\n任选一种方式提交即可\\n项目报告书\\n\\n上传 PDF/PPT 或填写报告链接，需包含过程截图、关键资产迭代对比或关键效果截图；请确保链接可供评审访问。\\n\\n报告链接\\n上传文件\\n任选一种方式提交即可\\nreport.pdf\\n18.2 MB\\n更换\\n移除\\n生态合作设备/技术使用情况\\n\\n可多选。未使用请选择「无」；勾选「无」后其他选项不可选，取消「无」后才能再选。\\n\\n无\\n应用赛道\\n\\n可多选。选择 1～3 项希望参评的应用奖。未参评请选择「无」；勾选「无」后其他选项不可选，取消「无」后才能再选。\\n\\n游戏应用奖、空间设计应用奖\\n加分项\\n选填，提交后可获得额外加分\\n社交媒体发布链接\\n\\n发布至小红书并带 #Aholo黑客松。每件作品仅可登记一个链接。\\n\\n项目源代码\\n\\n项目链接或代码压缩包。\\n\\n填写链接\\n上传压缩包\\n任选一种方式提交即可\\n我确认作品使用 Aholo Lux3D 完成，且可运行、可演示\\n我已阅读并同意《群核科技 Aholo 全球 3D AI 黑客松参赛作品提交须知》，确认所提交的作品和信息真实、完整，并同意按公布的赛事规则参与资格审核、评审及结果公示。\\n提交新版本\\n保存草稿\\n取消\\n草稿已保存 · 11 月 12 日 22:08\\n\\n截止前可多次提交，评审以 11 月 19 日 19:00 前最后一次成功提交的版本为准。\\n\\n赛事\\n关于比赛\\n赛程细则\\n奖项与评审\\n开放工具\\nFAQ\\n工具\\nAholo Lux3D\\nAholo\\nAholo API\\nLuxReal\\n联系\\n加入赛事社群\\n© 2026 Aholo · Manycore Tech\\n保留所有权利\"\n}",
+    ">>> 点击「提交新版本」",
+    "点击结果 = clicked",
+    "=== 提交后状态 ===",
+    "{\n \"dv\": [],\n \"reportMode\": [],\n \"repoMode\": [],\n \"link\": \"(no-el)\",\n \"social\": \"(no-el)\",\n \"repo\": \"(no-el)\",\n \"lux\": null,\n \"notice\": null,\n \"tracks\": [],\n \"fileText\": \"report.pdf · 18.2 MB\",\n \"body\": \"关于比赛\\n赛程细则\\n奖项与评审\\n开放工具\\nFAQ\\n我的参赛\\n中\\nEN\\n我的参赛\\n← 返回赛事介绍\\n作品提交\\n\\n完成创作，让想法成为真实作品\\n\\n✓ 01\\n我的积分\\n✓ 02\\n我的团队\\n✓ 03\\n我的选题\\n04\\n我的作品\\n05\\n作品评审\\n06\\n结果公示 · 作品展示\\n我的作品\\n已提交\\n奶蛙零 · 奶家族谱 × 潮酷演出的 3D AI 连携短局\\n第 7 版 · 提交于 11 月 12 日 22:25\\n修改提交\\n\\n作品已进入资格与完整性审核。请确保 Demo、视频和其他链接在结果公布前持续有效。\\n\\nDemo / 视频链接\\nhttps://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo\\n项目报告书\\nreport.pdf · 18.2 MB\\n生态合作设备/技术使用情况\\n无\\n应用赛道\\n游戏应用奖、空间设计应用奖\\n项目源代码\\nhttps://github.com/zgqy379/naiwa-zzz-demo/tree/main\\n\\n截止前可多次提交，评审以 11 月 19 日 19:00 前最后一次成功提交的版本为准。\\n\\n赛事\\n关于比赛\\n赛程细则\\n奖项与评审\\n开放工具\\nFAQ\\n工具\\nAholo Lux3D\\nAholo\\nAholo API\\nLuxReal\\n联系\\n加入赛事社群\\n© 2026 Aholo · Manycore Tech\\n保留所有权利\\n作品已提交\"\n}"
+  ]
+}
