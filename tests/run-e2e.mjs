@@ -37,6 +37,9 @@ async function killPort() {
     const out = execSync(`netstat -ano | findstr :${PORT}`, { encoding: "utf8", shell: true });
     const pids = new Set();
     for (const line of out.split("\n")) {
+      // 只杀 LISTENING 的服务端；ESTABLISHED 那一行末尾是客户端 PID
+      // （很可能是 ego 宿主），误杀会让后续用例随机失败。
+      if (!/LISTENING/i.test(line)) continue;
       const m = line.trim().match(/(\d+)$/);
       if (m) pids.add(m[1]);
     }

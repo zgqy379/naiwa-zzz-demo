@@ -255,7 +255,14 @@ function attachWeaponFor(member) {
   const apply = (scene) => {
     if (!scene || !member.scene) return;
     const rig = attachWeapon(member.scene, scene, spec);
-    if (rig) memberWeapon.set(member.id, rig);
+    if (!rig) return;
+    memberWeapon.set(member.id, rig);
+    // 武器是**异步**加载的（晚于角色的 applyNpr），所以这里要单独补一次 NPR：
+    // 否则武器保留原始 MeshPhysicalMaterial，与角色的赛璐璐材质不一致
+    // （也会让 E2E「NPR 材质生效」用例读到错误的材质类型）。
+    if (mode === "NPR") {
+      applyNpr(scene, { ...NPR_PRESET, steps, ...FACTION_RIM.ally }, { width: 0.010, color: FACTION_RIM.ally.outlineColor });
+    }
   };
   const cached = weaponCache.get(url);
   if (cached) { apply(cached.clone ? cached.clone(true) : cached); return; }
