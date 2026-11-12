@@ -1,0 +1,111 @@
+{
+  "results": [
+    {
+      "target": "魔搭(ms.show, 提交用)",
+      "url": "https://zgqy379-naiwa-zero-demo.ms.show/?t=1794457371825&__theme=dark&backend_url=/",
+      "boot": {
+        "hasApp": false,
+        "screen": null,
+        "entry": "et_f.js,baxiaCommon.js,awsc.js,index.js,index.js,jquery.min.js,aplus_v2.js,mini-login-embedder-min.js,AliyunCaptcha.js,modelscope-fe.json,js?id=G-K9CSTSKFC5,?random=1794457379645&cv=11&fst=1794457379645&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je6ba1v9194054171za208zd9194054171xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938469~118897920~118897930~119381663~119860443~120213116~120385423~120412528~120420414~120469145~120469153~121191155~121246026~121246034~123329125~124025272~124170881&u_w=1707&u_h=1067&url=https%3A%2F%2Fwww.modelscope.cn%2Fstudios%2Fzgqy379%2Fnaiwa-zero-demo%3Fmode%3Dfull%26app_path%3D%252F%253Ft%253D1794457371825%2526__theme%253Ddark%2526backend_url%253D%252F&rcb=12&frm=0&tiba=naiwa-zero-demo%20-%20ModelScope%20%E9%AD%94%E6%90%AD%E7%A4%BE%E5%8C%BA&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=1266367030.1793119107&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.74%7CGoogle%2520Chrome%3B156.0.8078.74&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=4,umi.js,font_3466851_vx9zm2v1h9q.js,font_5122478_qy44jmi96aq.js,font_4508348_ao4gpor921g.js,font_4923299_ff1vsn4irn8.js,font_4508348_ao4gpor921g.js,font_3466851_7gyt5n9n7t7.js",
+        "hudDaze": null,
+        "hudDecibel": null,
+        "hudAssist": null,
+        "hudAnomaly": null,
+        "hudCharge": null,
+        "phase": null,
+        "round": null,
+        "totalRounds": null,
+        "assistPoints": null,
+        "decibel": null,
+        "weakness": null,
+        "video": null,
+        "modelsRequested": null,
+        "loadedModels": 0
+      },
+      "battle": {
+        "hasApp": false,
+        "screen": null,
+        "entry": "et_f.js,baxiaCommon.js,awsc.js,index.js,index.js,jquery.min.js,aplus_v2.js,mini-login-embedder-min.js,AliyunCaptcha.js,modelscope-fe.json,js?id=G-K9CSTSKFC5,?random=1794457379645&cv=11&fst=1794457379645&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je6ba1v9194054171za208zd9194054171xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938469~118897920~118897930~119381663~119860443~120213116~120385423~120412528~120420414~120469145~120469153~121191155~121246026~121246034~123329125~124025272~124170881&u_w=1707&u_h=1067&url=https%3A%2F%2Fwww.modelscope.cn%2Fstudios%2Fzgqy379%2Fnaiwa-zero-demo%3Fmode%3Dfull%26app_path%3D%252F%253Ft%253D1794457371825%2526__theme%253Ddark%2526backend_url%253D%252F&rcb=12&frm=0&tiba=naiwa-zero-demo%20-%20ModelScope%20%E9%AD%94%E6%90%AD%E7%A4%BE%E5%8C%BA&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=1266367030.1793119107&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.74%7CGoogle%2520Chrome%3B156.0.8078.74&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=4,umi.js,font_3466851_vx9zm2v1h9q.js,font_5122478_qy44jmi96aq.js,font_4508348_ao4gpor921g.js,font_4923299_ff1vsn4irn8.js,font_4508348_ao4gpor921g.js,font_3466851_7gyt5n9n7t7.js",
+        "hudDaze": null,
+        "hudDecibel": null,
+        "hudAssist": null,
+        "hudAnomaly": null,
+        "hudCharge": null,
+        "phase": null,
+        "round": null,
+        "totalRounds": null,
+        "assistPoints": null,
+        "decibel": null,
+        "weakness": null,
+        "video": null,
+        "modelsRequested": null,
+        "loadedModels": 0
+      }
+    },
+    {
+      "target": "gh-pages(备用直连)",
+      "url": "https://zgqy379.github.io/naiwa-zzz-demo/?t=1794457371825",
+      "boot": {
+        "hasApp": true,
+        "screen": "title",
+        "entry": "index-C6e6LaWv.js",
+        "hudDaze": true,
+        "hudDecibel": true,
+        "hudAssist": true,
+        "hudAnomaly": true,
+        "hudCharge": true,
+        "phase": "idle",
+        "round": 0,
+        "totalRounds": 3,
+        "assistPoints": 3,
+        "decibel": 0,
+        "weakness": null,
+        "video": {
+          "rs": 0,
+          "paused": false,
+          "err": null
+        },
+        "modelsRequested": true,
+        "loadedModels": 0
+      },
+      "battle": {
+        "hasApp": true,
+        "screen": "battle",
+        "entry": "index-C6e6LaWv.js",
+        "hudDaze": true,
+        "hudDecibel": true,
+        "hudAssist": true,
+        "hudAnomaly": true,
+        "hudCharge": true,
+        "phase": "playing",
+        "round": 0,
+        "totalRounds": 3,
+        "assistPoints": 3,
+        "decibel": 0,
+        "weakness": "electric",
+        "video": {
+          "rs": 0,
+          "paused": true,
+          "err": null
+        },
+        "modelsRequested": true,
+        "loadedModels": 0
+      }
+    }
+  ],
+  "log": [
+    "spaceId=39",
+    "",
+    "########## 魔搭(ms.show, 提交用) ##########",
+    "boot  => {\"hasApp\":false,\"screen\":null,\"entry\":\"et_f.js,baxiaCommon.js,awsc.js,index.js,index.js,jquery.min.js,aplus_v2.js,mini-login-embedder-min.js,AliyunCaptcha.js,modelscope-fe.json,js?id=G-K9CSTSKFC5,?random=1794457379645&cv=11&fst=1794457379645&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je6ba1v9194054171za208zd9194054171xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938469~118897920~118897930~119381663~119860443~120213116~120385423~120412528~120420414~120469145~120469153~121191155~121246026~121246034~123329125~124025272~124170881&u_w=1707&u_h=1067&url=https%3A%2F%2Fwww.modelscope.cn%2Fstudios%2Fzgqy379%2Fnaiwa-zero-demo%3Fmode%3Dfull%26app_path%3D%252F%253Ft%253D1794457371825%2526__theme%253Ddark%2526backend_url%253D%252F&rcb=12&frm=0&tiba=naiwa-zero-demo%20-%20ModelScope%20%E9%AD%94%E6%90%AD%E7%A4%BE%E5%8C%BA&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=1266367030.1793119107&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.74%7CGoogle%2520Chrome%3B156.0.8078.74&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=4,umi.js,font_3466851_vx9zm2v1h9q.js,font_5122478_qy44jmi96aq.js,font_4508348_ao4gpor921g.js,font_4923299_ff1vsn4irn8.js,font_4508348_ao4gpor921g.js,font_3466851_7gyt5n9n7t7.js\",\"hudDaze\":null,\"hudDecibel\":null,\"hudAssist\":null,\"hudAnomaly\":null,\"hudCharge\":null,\"phase\":null,\"round\":null,\"totalRounds\":null,\"assistPoints\":null,\"decibel\":null,\"weakness\":null,\"video\":null,\"modelsRequested\":null,\"loadedModels\":0}",
+    "shot  => C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/92-verify-ms-title.png",
+    "battle=> {\"hasApp\":false,\"screen\":null,\"entry\":\"et_f.js,baxiaCommon.js,awsc.js,index.js,index.js,jquery.min.js,aplus_v2.js,mini-login-embedder-min.js,AliyunCaptcha.js,modelscope-fe.json,js?id=G-K9CSTSKFC5,?random=1794457379645&cv=11&fst=1794457379645&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je6ba1v9194054171za208zd9194054171xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938469~118897920~118897930~119381663~119860443~120213116~120385423~120412528~120420414~120469145~120469153~121191155~121246026~121246034~123329125~124025272~124170881&u_w=1707&u_h=1067&url=https%3A%2F%2Fwww.modelscope.cn%2Fstudios%2Fzgqy379%2Fnaiwa-zero-demo%3Fmode%3Dfull%26app_path%3D%252F%253Ft%253D1794457371825%2526__theme%253Ddark%2526backend_url%253D%252F&rcb=12&frm=0&tiba=naiwa-zero-demo%20-%20ModelScope%20%E9%AD%94%E6%90%AD%E7%A4%BE%E5%8C%BA&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=1266367030.1793119107&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.74%7CGoogle%2520Chrome%3B156.0.8078.74&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=4,umi.js,font_3466851_vx9zm2v1h9q.js,font_5122478_qy44jmi96aq.js,font_4508348_ao4gpor921g.js,font_4923299_ff1vsn4irn8.js,font_4508348_ao4gpor921g.js,font_3466851_7gyt5n9n7t7.js\",\"hudDaze\":null,\"hudDecibel\":null,\"hudAssist\":null,\"hudAnomaly\":null,\"hudCharge\":null,\"phase\":null,\"round\":null,\"totalRounds\":null,\"assistPoints\":null,\"decibel\":null,\"weakness\":null,\"video\":null,\"modelsRequested\":null,\"loadedModels\":0}",
+    "shot  => C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/93-verify-ms-battle.png",
+    "",
+    "########## gh-pages(备用直连) ##########",
+    "boot  => {\"hasApp\":true,\"screen\":\"title\",\"entry\":\"index-C6e6LaWv.js\",\"hudDaze\":true,\"hudDecibel\":true,\"hudAssist\":true,\"hudAnomaly\":true,\"hudCharge\":true,\"phase\":\"idle\",\"round\":0,\"totalRounds\":3,\"assistPoints\":3,\"decibel\":0,\"weakness\":null,\"video\":{\"rs\":0,\"paused\":false,\"err\":null},\"modelsRequested\":true,\"loadedModels\":0}",
+    "shot  => C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/92-verify-gh-title.png",
+    "battle=> {\"hasApp\":true,\"screen\":\"battle\",\"entry\":\"index-C6e6LaWv.js\",\"hudDaze\":true,\"hudDecibel\":true,\"hudAssist\":true,\"hudAnomaly\":true,\"hudCharge\":true,\"phase\":\"playing\",\"round\":0,\"totalRounds\":3,\"assistPoints\":3,\"decibel\":0,\"weakness\":\"electric\",\"video\":{\"rs\":0,\"paused\":true,\"err\":null},\"modelsRequested\":true,\"loadedModels\":0}",
+    "shot  => C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/93-verify-gh-battle.png"
+  ]
+}

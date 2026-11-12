@@ -1,0 +1,27 @@
+{
+  "studio": "https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo",
+  "iframes": [
+    {
+      "src": "https://zgqy379-naiwa-zero-demo.ms.show/?t=1794457539974&__theme=light&studio_token=13243de6-409c-474d-9ff1-550c5601b047&backend_url=/",
+      "w": 1511,
+      "h": 844
+    },
+    {
+      "src": "https://g.alicdn.com/platform/xdomain-storage/0.2.4/frame.html#%7B%22options%22%3A%7B%22emulateSession%22%3Atrue%2C%22pageTransitionTimeout%22%3A2000%2C%22sessionTimeout%22%3A86400000%7D%2C%22url%22%3A%22https%3A%2F%2Fwww.modelscope.cn%2Fstudios%2Fzgqy379%2Fnaiwa-zero-demo%22%2C%22navigationTime%22%3A1794457528452%7D",
+      "w": 0,
+      "h": 0
+    }
+  ],
+  "box": {
+    "x": 2,
+    "y": 64,
+    "w": 1511,
+    "h": 844
+  },
+  "shot": "C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/97-ms-studio-iframe.png",
+  "log": [
+    "iframes = [{\"src\":\"https://zgqy379-naiwa-zero-demo.ms.show/?t=1794457539974&__theme=light&studio_token=13243de6-409c-474d-9ff1-550c5601b047&backend_url=/\",\"w\":1511,\"h\":844},{\"src\":\"https://g.alicdn.com/platform/xdomain-storage/0.2.4/frame.html#%7B%22options%22%3A%7B%22emulateSession%22%3Atrue%2C%22pageTransitionTimeout%22%3A2000%2C%22sessionTimeout%22%3A86400000%7D%2C%22url%22%3A%22https%3A%2F%2Fwww.modelscope.cn%2Fstudios%2Fzgqy379%2Fnaiwa-zero-demo%22%2C%22navigationTime%22%3A1794457528452%7D\",\"w\":0,\"h\":0}]",
+    "screenshot = C:/Users/dqy/AppData/Local/Temp/opencode/naiwa-audit-20261111/shots/97-ms-studio-iframe.png",
+    "iframe rect = {\"x\":2,\"y\":64,\"w\":1511,\"h\":844}"
+  ]
+}
