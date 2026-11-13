@@ -152,10 +152,17 @@ async function buildCharacter(c) {
   }
 
   // ③ 动画重定向（10 个官方动作合并）
+  // 注意（2026-11-13）：官方绑骨对任何角色都产出**同一套关节名/顺序/层级**，
+  // 所以动画片段只需做**一份共享动画库**（任意一只绑好的角色即可驱动全部 16 只）。
+  // 默认跳过本步（--with-anim 才做），把 6 积分/动作省下来；共享库由
+  // scripts/lux3d/build-animlib.mjs 从任意一只的 anim.glb 构建。
   const actions = roster._actions.split(",").map((s) => s.trim()).filter(Boolean);
   const animKey = key + ":anim";
   let anim = st[animKey];
-  if (!anim?.glb || !existsSync(anim.glb)) {
+  const withAnim = argv.includes("--with-anim");
+  if (!withAnim) {
+    console.log(`[${c.id}] ③ 动画：跳过（共享动画库模式，--with-anim 可启用）`);
+  } else if (!anim?.glb || !existsSync(anim.glb)) {
     console.log(`[${c.id}] ③ 动画重定向（${actions.length} 个官方动作）`);
     const taskid = await createTaskWithRetry("/lux3d/v1/animations/retarget/task/create", {
       rigModelUrl: rig.url, animationIds: actions,
@@ -175,10 +182,14 @@ async function buildCharacter(c) {
   }
 
   // ④ 定版化（改名 + 压缩 + 落盘）
-  console.log(`[${c.id}] ④ 定版化 → public/asset/${c.glb}`);
+  // 共享动画库模式下没有 per-character 的 anim.glb → 用**绑骨后的 rigged.glb** 定版化
+  // （角色运行时文件本来就只需要「网格 + 蒙皮 + 骨架」，动画片段由共享库提供）。
+  const finalizeSrc = anim?.glb && existsSync(anim.glb) ? anim.glb : rig.glb;
+  console.log(`[${c.id}] ④ 定版化 → public/asset/${c.glb}（源 ${path.basename(finalizeSrc)}）`);
   execFileSync("node", [
     path.join(ROOT, "scripts", "lux3d", "finalize.mjs"),
-    "--in", anim.glb, "--out", out, "--actions", actions.join(","),
+    "--in", finalizeSrc, "--out", out, "--actions", actions.join(","),
+    "--no-animations",
   ], { stdio: "inherit", cwd: ROOT });
 
   writeOneState(key, { final: out });

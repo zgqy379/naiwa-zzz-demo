@@ -131,6 +131,11 @@ async function build(onProgress) {
       scene.add(group);
       // 动画：优先角色自带片段；没有则等共享动画库（骨架跨角色一致，可直接驱动）
       const clips = gltf.animations?.length ? gltf.animations : sharedClips;
+      // 2026-11-13：官方 retarget 产出的骨架 rest 姿态与绑骨产出**不同**，
+      // 共享动画库套到别的角色上会「躺倒」。现在每只角色的运行时 GLB 里都带了
+      // **按自己骨架校正过**的片段（scripts/lux3d/apply-rest-correction.mjs），
+      // 因此卡片与展示台一律优先用角色自带片段。
+      e.clips = gltf.animations?.length ? gltf.animations : null;
       if (clips?.length) {
         e.mixer = new THREE.AnimationMixer(root);
         const idle = clips.find((c) => c.name === "Idle_Loop") || clips[0];
@@ -146,7 +151,7 @@ async function build(onProgress) {
   let showcase = null;
   let showcaseMixer = null;      // 展示台角色的驱动（播登场动作）
   let showcaseAction = null;     // 当前片段
-  const ENTRANCE_CLIPS = ["Sword_Heavy_Combo", "Sword_Regular_Combo", "LayToIdle", "Idle_No_Loop"];
+  const ENTRANCE_CLIPS = ["Sword_Regular_Combo", "Sword_Heavy_Combo", "Sword_Regular_A", "Idle_Loop"];
 
   /** 共享动画库到达 → 给还没驱动的卡片补上官方待机动作（骨架跨角色一致，可直接驱动） */
   function setSharedClipsInner(clips) {
@@ -163,9 +168,12 @@ async function build(onProgress) {
    * 选人页的「登场动作」：选中一只时，展示台上的角色先打一段官方登场片段
    * （重剑连招 / 躺卧起身），播完回到待机——比原来只做缓慢转身更像动作游戏。
    */
-  function playEntrance(root) {
+  function playEntrance(root, ownClips) {
     try {
-      if (!root || !sharedClips?.length) return;
+      // 登场动作用**该角色自己的**片段（按它自己的骨架校正过），
+      // 共享库只在角色没有自带片段时兜底。
+      const pool = (ownClips && ownClips.length) ? ownClips : sharedClips;
+      if (!root || !pool?.length) return;
       // 换角色时展示台是**新的克隆**，mixer 需要换根：three.js 的 AnimationMixer 没有
       // setRoot()，正确做法是 uncacheRoot(旧根) 后新建 mixer（或用 clipAction(clip, 新根)）。
       if (showcaseMixer) {
@@ -176,8 +184,8 @@ async function build(onProgress) {
       const mixer = new THREE.AnimationMixer(root);
       showcaseMixer = mixer;
       mixer.stopAllAction();
-      const name = ENTRANCE_CLIPS.find((n) => sharedClips.some((c) => c.name === n));
-      const clip = name ? sharedClips.find((c) => c.name === name) : sharedClips[0];
+      const name = ENTRANCE_CLIPS.find((n) => pool.some((c) => c.name === n));
+      const clip = name ? pool.find((c) => c.name === name) : pool[0];
       if (!clip) return;
       const a = mixer.clipAction(clip);
       a.reset();
@@ -188,7 +196,7 @@ async function build(onProgress) {
       // 播完回到待机
       mixer.addEventListener("finished", (e) => {
         if (e.action !== showcaseAction) return;
-        const idle = sharedClips.find((c) => c.name === "Idle_Loop");
+        const idle = pool.find((c) => c.name === "Idle_Loop");
         if (idle) { mixer.clipAction(idle).reset().fadeIn(0.25).play(); showcaseAction = "Idle_Loop"; }
       });
     } catch (err) {
@@ -213,8 +221,8 @@ async function build(onProgress) {
       showcase = src.group.clone(true);
     }
     scene.add(showcase);
-    // 登场动作：选中角色时展示台播一段官方片段（重剑连招 / 躺卧起身），播完回待机
-    playEntrance(showcase);
+    // 登场动作：选中角色时展示台播一段官方片段（该角色自己的片段），播完回待机
+    playEntrance(showcase, src.clips);
   }
   setSelected(0);
 

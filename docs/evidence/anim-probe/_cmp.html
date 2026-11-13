@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;background:#14161c;color:#dde3ef;font:13px/1.4 monospace}
+.row{display:flex;gap:10px;padding:10px}
+figure{margin:0}figcaption{padding:4px}
+canvas{display:block;background:#1b1e26;border:1px solid #2c3242;border-radius:6px}
+</style>
+<script type="importmap">{"imports":{"three":"/three/three.module.js","three/addons/":"/three/addons/"}}</script>
+</head><body><div class="row" id="row"></div>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+const loader = new GLTFLoader();
+loader.setMeshoptDecoder(MeshoptDecoder);
+const row = document.getElementById("row");
+const CASES = [{"label":"奶豆 · 不播动画（绑定姿势）","char":"/asset/naiwa_naidou_runtime.glb","lib":null},{"label":"奶豆 · 播共享库 Idle_Loop","char":"/asset/naiwa_naidou_runtime.glb","lib":"/asset/naiwa_anim_lib.glb"},{"label":"奶蛙 · 不播动画","char":"/asset/naiwa_laugh_g1_runtime.glb","lib":null},{"label":"奶蛙 · 播共享库 Idle_Loop（库源角色）","char":"/asset/naiwa_laugh_g1_runtime.glb","lib":"/asset/naiwa_anim_lib.glb"},{"label":"奶兔 · 不播动画","char":"/asset/naiwa_naitu_runtime.glb","lib":null},{"label":"奶兔 · 播共享库 Idle_Loop","char":"/asset/naiwa_naitu_runtime.glb","lib":"/asset/naiwa_anim_lib.glb"}];
+window.__done = 0;
+for (const c of CASES) {
+  const fig = document.createElement("figure");
+  const cv = document.createElement("canvas"); cv.width = 420; cv.height = 560;
+  const cap = document.createElement("figcaption"); cap.textContent = c.label;
+  fig.appendChild(cv); fig.appendChild(cap); row.appendChild(fig);
+  const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+  r.setSize(420, 560, false);
+  const sc = new THREE.Scene(); sc.background = new THREE.Color(0x1b1e26);
+  sc.add(new THREE.HemisphereLight(0xbfd4ff, 0x2a2f3a, 2.3));
+  const k = new THREE.DirectionalLight(0xffffff, 2.2); k.position.set(3,5,4); sc.add(k);
+  const cam = new THREE.PerspectiveCamera(35, 420/560, 0.05, 100);
+  loader.load(c.char, (gltf) => {
+    const root = gltf.scene; sc.add(root);
+    const box = new THREE.Box3().setFromObject(root);
+    const size = box.getSize(new THREE.Vector3());
+    const ctr = box.getCenter(new THREE.Vector3());
+    const h = Math.max(size.y, 0.001);
+    cam.position.set(h*0.8, h*0.55, h*2.2); cam.lookAt(0, h*0.45, 0);
+    let mixer = null;
+    if (c.lib) {
+      loader.load(c.lib, (lib) => {
+        const clip = (lib.animations||[]).find(x => x.name === "Idle_Loop") || lib.animations[0];
+        mixer = new THREE.AnimationMixer(root);
+        const a = mixer.clipAction(clip); a.reset(); a.setLoop(THREE.LoopRepeat, Infinity); a.play();
+        mixer.setTime(clip.duration * 0.35);
+        r.render(sc, cam);
+        window.__done++;
+      });
+    } else {
+      r.render(sc, cam);
+      window.__done++;
+    }
+  });
+}
+</script></body></html>

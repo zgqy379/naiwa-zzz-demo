@@ -62,24 +62,15 @@ loader.setMeshoptDecoder(MeshoptDecoder);
 const members = __MEMBERS__;
 const clipName = __CLIP__;
 const grid = document.getElementById("grid");
-let loaded = 0, libClips = [];
-// 先取共享动画库
-loader.load("/asset/naiwa_anim_lib.glb", (g) => {
-  libClips = g.animations || [];
-  loader.load("/asset/naiwa_anim_lib2.glb", (g2) => {
-    libClips = libClips.concat(g2.animations || []);
-    build();
-  });
-});
+let loaded = 0;
 function build() {
-  const clip = libClips.find(c => c.name === clipName) || libClips.find(c => c.name === "Idle_Loop") || libClips[0];
   for (const m of members) {
     const d = document.createElement("div"); d.className = "cell";
     const cv = document.createElement("canvas"); cv.width = 400; cv.height = 520;
     const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = m.name;
     const no = document.createElement("div"); no.className = "no"; no.textContent = m.id;
     d.appendChild(cv); d.appendChild(nm); d.appendChild(no); grid.appendChild(d);
-    const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+    const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true, preserveDrawingBuffer: true });
     r.setSize(400, 520, false);
     const sc = new THREE.Scene(); sc.background = new THREE.Color(0x171a21);
     sc.add(new THREE.HemisphereLight(0xbfd4ff, 0x2a2f3a, 2.2));
@@ -92,16 +83,25 @@ function build() {
       const ctr = box.getCenter(new THREE.Vector3());
       root.position.sub(ctr); root.position.y += size.y / 2;
       const h = Math.max(size.y, 0.001);
-      cam.position.set(h * 0.8, h * 0.62, h * 2.15); cam.lookAt(0, h * 0.5, 0);
-      const mixer = new THREE.AnimationMixer(root);
-      const a = mixer.clipAction(clip); a.reset(); a.setLoop(THREE.LoopRepeat, Infinity); a.play();
-      mixer.setTime(clip.duration * 0.42);
+      // 奶蛙是矮胖体型：按**最大边**取景，否则头会被切掉
+      const span = Math.max(size.y, size.x, 0.001);
+      cam.position.set(span * 0.85, span * 0.62, span * 2.6); cam.lookAt(0, h * 0.5, 0);
+      // 2026-11-13：每只角色的运行时 GLB 里都带**按自己骨架校正过**的片段
+      // （官方 retarget 把片段烘焙成源角色骨架的绝对旋转，跨角色直接套用会躺倒）。
+      const clips = gltf.animations || [];
+      const clip = clips.find(c => c.name === clipName) || clips.find(c => c.name === "Idle_Loop") || clips[0];
+      if (clip) {
+        const mixer = new THREE.AnimationMixer(root);
+        const a = mixer.clipAction(clip); a.reset(); a.setLoop(THREE.LoopRepeat, Infinity); a.play();
+        mixer.setTime(clip.duration * 0.42);
+      }
       r.render(sc, cam);
       loaded++;
       window.__loaded = loaded;
     }, undefined, () => { r.render(sc, cam); loaded++; window.__loaded = loaded; });
   }
 }
+build();
 </script>
 </body></html>`;
 

@@ -201,7 +201,17 @@ function kickModelPrefetch() {
   const fire = () => {
     if (fired) return;
     fired = true;
-    setTimeout(() => { ensureSquadModels(); }, 300);
+    // 2026-11-13：16 只角色文件因带上「按自己骨架校正过的动画片段」而变大
+    // （合计 7.15 MB → 9.6 MB），若在首屏绘制前就开始下载+反序列化，
+    // 会把 first-paint 从 636 ms 拖到 3 s。改为**首屏画完之后、浏览器空闲时**再预取，
+    // 选人页本来也会触发 ensureSquadModels()（onShow('select')），不影响可用性。
+    setTimeout(() => {
+      if (typeof requestIdleCallback === "function") {
+        requestIdleCallback(() => ensureSquadModels(), { timeout: 5000 });
+      } else {
+        setTimeout(() => ensureSquadModels(), 1200);
+      }
+    }, 1500);
   };
   if (v) {
     if (v.readyState >= 3) fire();
@@ -280,14 +290,15 @@ function activeWeaponTip() {
   return weaponTipWorld(rig);
 }
 
-// ---------- 共享官方动画库 ----------
-// 官方自动绑骨产出的是标准 Mixamo 人形骨架（52 关节，含手指骨），且**跨角色关节名/顺序/层级
-// 完全一致**（实测见 scripts/lux3d/compare-skeletons.mjs）。因此可以把官方动作片段单独打成
-// 「动画库」GLB，由 16 只角色共用 —— 比每人各带一份片段省约 4 MB 传输，
-// 而且以后加动作片段只需要重做这一个库（6 积分/片段，16 只同时受益）。
-// 分两个库：库 A = 战斗动作（Idle/Walk/Jog/Sword A,B,C/Combo/Hit/Roll/Death）；
-//           库 B = 演出动作（重剑连招/剑击收势/勾拳收势/躺卧起身/坐下/起身/盾击/刺拳/法术发射）。
-const ANIM_LIB_URLS = ["./asset/naiwa_anim_lib.glb", "./asset/naiwa_anim_lib2.glb"];
+// ---------- 共享官方动画库（仅作兜底） ----------
+// 2026-11-13 更新（实测修正）：官方「动画重定向」会把片段烘焙成**源角色骨架的绝对局部旋转**，
+// 而官方 retarget 产出（anim.glb）的骨架 rest 姿态与「自动绑骨」产出（rigged.glb）**并不相同**
+// （实测：Hips 位移差 0.08、躯干角差 2~5°、手指角差最多 73°）→ 共享库套到别的角色上会「躺倒」。
+// 因此现在**每只角色的运行时 GLB 里都带了自己骨架校正过的片段**
+// （scripts/lux3d/apply-rest-correction.mjs，世界空间 delta 法重定向，零额外 API 积分）。
+// 这个共享库只作为「角色自身片段缺失时」的兜底。
+// 库 A = 战斗动作（Idle/Walk/Jog/Sword A,B,C/Combo/Hit/Roll/Death）；库 B（演出动作）已不再需要。
+const ANIM_LIB_URLS = ["./asset/naiwa_anim_lib.glb"];
 let sharedClips = null;
 let animLibRequested = false;
 
