@@ -15,8 +15,9 @@ import { ACTION } from "./animation.mjs";
  * 命中取消窗口：动作进度到这里之后，若命中已结算且有缓冲输入，
  * 就取消收势直接接下一段（绝区零式 hit cancel）。
  * 只缩短动作尾巴，不改 hitAt / 伤害 / 判定范围。
+ * 2026-11-13：0.72 → 0.68（取消更早，连段更跟手）。
  */
-const CANCEL_FROM = 0.72;
+const CANCEL_FROM = 0.68;
 
 /** 连段段定义 */
 const STAGES = [
@@ -25,7 +26,7 @@ const STAGES = [
     name: "轻击",
     hitAt: 0.45,        // 命中时机（动作进度 0~1）
     range: 2.2,
-    damage: 6,
+    damage: 9,          // 2026-11-13：6 → 9（对 160 HP 约 7 击解决）
     hitstopF: 2,
     shake: "light",
     lunge: 0.6,
@@ -36,7 +37,7 @@ const STAGES = [
     name: "重击",
     hitAt: 0.5,
     range: 2.4,
-    damage: 12,
+    damage: 16,         // 12 → 16
     hitstopF: 3,
     shake: "medium",
     lunge: 0.9,
@@ -47,7 +48,7 @@ const STAGES = [
     name: "终结",
     hitAt: 0.55,
     range: 2.8,
-    damage: 24,
+    damage: 30,         // 24 → 30
     hitstopF: 4,
     shake: "heavy",
     lunge: 1.4,

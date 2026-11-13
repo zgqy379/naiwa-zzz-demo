@@ -425,7 +425,22 @@ export async function runAllTests(page) {
     //     ego 宿主下 rAF 可能被节流到几百毫秒一帧（实测 1.5s 内只推进 1 帧，位移仅 0.12），
     //     按墙钟时长采样会把「宿主帧饥饿」误判成「移动失效」。改为按住并轮询，
     //     只要窗口内真的推进过帧就能测到位移；判据（位移 > 0.3 且含屏幕左分量）不变。
-    const SEED_X = 4.4; // 边界内（bounds.x = 4.5）
+    await evalPage(() => {
+        const n = window.__npr;
+        if (!n) return;
+        // 2026-11-13 战斗手感 v1：对手改为**主动进攻**，玩家可能在测量窗口内被打进
+        // 受击硬直（受击动画的根节点位移会污染「屏幕左分量」的投影）。
+        // 因此测量前：冻结对手 AI + 血量拉满 + 等受击动作结束（判据不变）。
+        n.debugNoOpponentAI = true;
+        const a = n.squad.active;
+        if (a) a.hp = a.maxHp;
+      });
+      for (let i = 0; i < 20; i++) {
+        const inHit = await evalPage(() => window.__npr?.squad?.active?.anim?.action === "hit");
+        if (!inHit) break;
+        await page.waitForTimeout(250);
+      }
+      const SEED_X = 4.4; // 边界内（bounds.x = 4.5）
     await evalPage((sx) => {
       const mv = window.__npr?.squad?.active?.move;
       if (mv) { mv.pos.set(sx, 0, 0); mv.vel.set(0, 0, 0); }
@@ -583,7 +598,8 @@ export async function runAllTests(page) {
     await page.waitForTimeout(400);
   }, { shot: "12-mode-switch" });
 
-  await t.case("三连战回合推进", async () => {
+  await evalPage(() => { if (window.__npr) window.__npr.debugNoOpponentAI = false; });
+    await t.case("三连战回合推进", async () => {
     // 进战斗（当前可能已在战斗里；用 start/confirm 走一遍确保状态干净）
     await evalPage(() => document.querySelector('[data-action="start"]')?.click());
     await page.waitForTimeout(400);
@@ -963,7 +979,7 @@ export async function runAllTests(page) {
     await page.evaluate(() => {
       const n = window.__npr;
       n.battle.round = n.battle.totalRounds - 1;
-      n.opponent.hp = 90;   // < maxHp(200) × 50%
+      n.opponent.hp = Math.floor(n.opponent.maxHp * 0.4);   // 40% < 50%（相对值，不与血量常量耦合）
     });
     let enraged = false;
     for (let i = 0; i < 40; i++) {

@@ -205,13 +205,19 @@ function kickModelPrefetch() {
     // （合计 7.15 MB → 9.6 MB），若在首屏绘制前就开始下载+反序列化，
     // 会把 first-paint 从 636 ms 拖到 3 s。改为**首屏画完之后、浏览器空闲时**再预取，
     // 选人页本来也会触发 ensureSquadModels()（onShow('select')），不影响可用性。
-    setTimeout(() => {
-      if (typeof requestIdleCallback === "function") {
-        requestIdleCallback(() => ensureSquadModels(), { timeout: 5000 });
-      } else {
-        setTimeout(() => ensureSquadModels(), 1200);
-      }
-    }, 1500);
+    // 按**帧**门控而不是墙钟：先确认首屏已经画了 2 帧，再在浏览器空闲时预取。
+    // （原先用 setTimeout(1500) 会与首屏绘制竞速——机器慢时 first-paint 被推到 1500ms 之后，
+    //   预取抢在绘制前解 9.6MB 的 GLB，形成「绘制被推迟 → 预取更晚 → 绘制更晚」的反馈环，
+    //   实测 first-paint 在 1.0s~3.0s 之间乱跳。）
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (typeof requestIdleCallback === "function") {
+          requestIdleCallback(() => ensureSquadModels(), { timeout: 5000 });
+        } else {
+          setTimeout(() => ensureSquadModels(), 1200);
+        }
+      }, 800);
+    }));
   };
   if (v) {
     if (v.readyState >= 3) fire();
@@ -426,7 +432,8 @@ const coverSolids = props.coverSolids();
 for (const m of squad.members) m.move.solidBoxes = coverSolids;
 opponentMove.solidBoxes = coverSolids;
 
-let opponent = { hp: 200, maxHp: 200 };
+// 2026-11-13 战斗手感 v1：对手血量 200 → 160（配合伤害梯度 9/16/30 → 约 7 击解决）
+let opponent = { hp: TUNING.opponent.hp, maxHp: TUNING.opponent.hp };
 
 /** 当前对手对应的花名册条目（三连战里每回合换一只） */
 let opponentMember = SQUAD[3];   // 默认奶蛋
@@ -574,6 +581,15 @@ const battle = {
   oppTimer: 0,
   oppAttackWindup: 0,   // 对手攻击前摇（弹反窗口）
   oppAttackCd: 3.0,
+  // 2026-11-13 战斗手感 v1：对手 AI 状态机（approach→press→windup→strike→recover）
+  oppState: "approach",      // 当前状态
+  oppStateT: 0,              // 当前状态已持续时间（秒）
+  oppNextAt: 0.9,            // 下一次可起手的等待时间（秒，战斗开始时重置）
+  oppComboLeft: 0,           // 连招剩余段数
+  oppHitPending: false,      // 本次 strike 是否需要结算伤害
+  oppStrafeT: 0,             // 绕行计时
+  oppStrafeDir: 1,           // 绕行方向
+  oppSecondUnparryable: false, // 连招第 2 段（红闪不可弹反）
   hitCount: 0,          // GAME-6：连段命中数（段间递增、连段结束清零；与 comboCount 连携次数分立）
   finisherPending: null, // GAME-7：终结技定时命中 { t, dmg, range, width, member }
   chainCounts: 0,         // 阶段 C：本段失衡期剩余连携环数（回合1/2/3 → 1/2/3 环，精英/首领档）
@@ -649,6 +665,50 @@ function anomalyHud() {
   };
 }
 
+/**
+ * 对手攻击落地结算（2026-11-13 战斗手感 v1：抽成函数，由 AI 状态机在 strike 阶段显式调用）。
+ *
+ * 原实现把这段挂在「弹反窗口计时」上（`counter.isWarning && oppAttackWindup > 0`）：
+ * 弹反窗与前摇同为 0.25s、且都逐帧递减 → 谁先归零取决于帧序，玩家是否受击带运气成分。
+ * 现在由状态机决定命中时刻，判定不再依赖两个计时器的竞速。
+ */
+function resolveOppHit() {
+  const act = squad.active;
+  // 玩家已成功弹反 → 攻击落空
+  if (counter.state === "success") { counter.expire(); return; }
+  if (act.move.hasIframe) {
+    // 阶段 B：极限闪避（绝区零式）——攻击落地瞬间玩家闪避无敌帧仍生效
+    //   三重收益：慢镜 ×0.3 0.5s +「极限闪避！」弹出 + 闪避反击资格 1.5s
+    assist.dodgeCounterT = ASSIST_TUNING.dodgeCounterS;
+    cinematic.slowmoT = Math.max(cinematic.slowmoT, 0.5);
+    hitFeedback.trigger(
+      new THREE.Vector3(act.group.position.x, 1.2, act.group.position.z),
+      "heavy", camera, "极限闪避！"
+    );
+    gainDecibel(150);   // 阶段 D：极限闪避 +150 喧响
+    audio.playCounter();
+    counter.expire();   // 攻击已落空，结束弹反窗
+    return;
+  }
+  if (battle.invulnT > 0) {
+    // 阶段 D：喧响终结技无敌帧中——攻击直接落空
+    counter.expire();
+    return;
+  }
+  // 未弹反未闪避 → 受击。伤害随对手招式强度浮动，并受招式克制影响
+  //   （对手的风格克当前角色的风格 → 伤害更高；被克 → 更低）
+  const oppMv = getMove(opponentMember.id);
+  const rel = styleRelation(oppMv.style, getMove(act.id).style);
+  const dmgToPlayer = Math.round(TUNING.opponent.damageBase * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
+  squad.damageActive(dmgToPlayer);
+  battleStats.damageTaken += dmgToPlayer;   // 阶段 F：受击计入结算
+  act.anim.play(ACTION.HIT, 0.22);
+  cinematic.onHit("medium");
+  // 2026-11-13：玩家受击补 0.12s 顿帧（原来只有动画、没有顿挫感）
+  battle.freezeT = Math.max(battle.freezeT, TUNING.opponent.playerHitstopS);
+  counter.expire();   // 显式结束窗口
+}
+
 function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   opponent.hp = Math.max(0, opponent.hp - dmg);
   cinematic.onHit(tier);
@@ -663,6 +723,15 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
     : TUNING.hitstopF;
   battle.freezeT = Math.max(battle.freezeT, hitstopF / TUNING.logicFps);
   opponentAnim.play(ACTION.HIT, 0.22);
+  // 2026-11-13 战斗手感 v1：命中**击退**（轻/重分级）
+  // —— 原来对手被打时纹丝不动，只有血条在动，没有「打到了」的位移反馈。
+  const kb = tier === "light" ? TUNING.opponent.knockbackLight
+    : tier === "medium" ? TUNING.opponent.knockbackLight * 1.5
+    : TUNING.opponent.knockbackHeavy;
+  const kbDirX = Math.sign(squad.active.group.position.x - opponentGroup.position.x) || 1;
+  const kbDirZ = Math.sign(squad.active.group.position.z - opponentGroup.position.z) || 0;
+  opponentMove.pos.x = Math.max(TUNING.stageXMin, Math.min(TUNING.stageXMax, opponentMove.pos.x + kbDirX * kb));
+  opponentMove.pos.z += kbDirZ * kb * 0.4;
   spawnParticles(opponentGroup.position, tier);
   // 武器相撞：攻击方的武器打击端世界坐标（若无武器则回退到对手体干位置）
   // —— 有了手骨与武器，命中反馈才出现在「刀尖碰到东西」的位置，而不是脚边的地面。
@@ -1218,67 +1287,116 @@ function tick() {
     // 速度特性
     active.move.walkSpeed = TUNING.playerSpeed * active.speedMul;
 
-    // 对手 AI（阶段 A：失衡期间定身；阶段 E：冻结/硬直同样定身）
+    // ---------- 对手 AI（战斗手感 v1，2026-11-13） ----------
+    // 旧实现：进入 2.4m 后站桩不动、4~6 秒才打一次、没有连段 → 实测 8.8 秒战斗里对手
+    // 302/332 帧 idle，动作游戏感为零。现在改为显式状态机：
+    //   approach（逼近到压迫距离 + 绕行）→ windup（前摇·金光可弹反·前冲）
+    //   → strike（命中判定）→ [comboWait → windup2（红闪不可弹反）]
+    //   → recover（收招后撤 = 玩家的输出窗口）→ approach …
+    const OPP = TUNING.opponent;
     const toPlayer = new THREE.Vector3().subVectors(active.group.position, opponentGroup.position);
     const dist = toPlayer.length();
-    if (stagger.isStaggered || anomaly.isFrozen) {
+    // debugNoOpponentAI：测试用，冻结对手 AI（不影响其他战斗逻辑）
+    const oppFrozen = stagger.isStaggered || anomaly.isFrozen || window.__npr?.debugNoOpponentAI === true;
+
+    if (oppFrozen) {
+      // 阶段 A/E：失衡或冻结期间定身，状态机复位
       battle.oppAttackWindup = 0;
-    } else if (dist > 2.4) {
-      // 对手只沿 X 方向追击（保持街道轴线，不乱跑 Z）
-      const dirX = Math.sign(toPlayer.x) || 0;
-      opponentMove.step({ move: new THREE.Vector2(dirX, 0), jump: false, dodge: false }, dt);
-      // Z 位置缓慢归位到 0
-      opponentMove.pos.z += (0 - opponentMove.pos.z) * Math.min(1, dt * 2);
+      battle.oppState = "approach";
+      battle.oppStateT = 0;
+      battle.oppComboLeft = 0;
+      battle.oppHitPending = false;
+      opponentMove.step({ move: new THREE.Vector2(0, 0), jump: false, dodge: false }, dt);
+      opponentMove.pos.y = 0;
+    } else if (counter.isPunishing) {
+      // 被玩家弹反 → 对手大硬直（ punishing 由 counter 管理），不给输出
+      battle.oppAttackWindup = 0;
+      battle.oppState = "recover";
+      battle.oppStateT = 0;
+      battle.oppComboLeft = 0;
+      opponentMove.step({ move: new THREE.Vector2(0, 0), jump: false, dodge: false }, dt);
       opponentMove.pos.y = 0;
     } else {
-      opponentMove.step({ move: new THREE.Vector2(0, 0), jump: false, dodge: false }, dt);
-      // 对手攻击前摇 → 弹反窗口（阶段 F：首领狂暴期每 3 击一次红光不可弹反攻击）
-      battle.oppAttackCd -= dt;
-      if (battle.oppAttackCd <= 0 && !counter.isWarning && !counter.isPunishing) {
-        battle.attackCount = (battle.attackCount ?? 0) + 1;
-        const unparryable = battle.enraged && battle.attackCount % 3 === 0;
-        battle.oppAttackCd = battle.enraged ? (4.0 + Math.random() * 2) * 0.6 : 4.0 + Math.random() * 2;
-        counter.openWindow(!unparryable);
-        battle.oppAttackWindup = 0.25;
-        // 对手攻击预警：模型闪色（阶段 F：金光=可弹反 / 红光=不可弹反——ZZZ 分级预警）
-        _flashOpponent(unparryable ? 0xff3232 : 0xffc93d);
-        audio.playCounter?.();
-      }
-    }
+      battle.oppStateT += dt;
+      battle.oppStrafeT += dt;
+      if (battle.oppStrafeT >= OPP.strafePeriod) { battle.oppStrafeT = 0; battle.oppStrafeDir *= -1; }
+      const strafeZ = Math.sin((battle.oppStrafeT / OPP.strafePeriod) * Math.PI * 2) * OPP.strafeAmp * battle.oppStrafeDir;
+      const dirToPlayer = Math.sign(toPlayer.x) || 0;
+      const oppStep = (mx, mz) => {
+        opponentMove.step({ move: new THREE.Vector2(mx, mz), jump: false, dodge: false }, dt);
+        opponentMove.pos.y = 0;
+      };
 
-    // 弹反窗口：先判定受击，再推进 counter（修：原顺序会让 expire 吞掉攻击）
-    if (counter.isWarning && battle.oppAttackWindup > 0) {
-      battle.oppAttackWindup -= dt;
-      if (battle.oppAttackWindup <= 0) {
-        if (active.move.hasIframe) {
-          // 阶段 B：极限闪避（绝区零式）——攻击落地瞬间玩家闪避无敌帧仍生效
-          //   三重收益：慢镜 ×0.3 0.5s +「极限闪避！」弹出 + 闪避反击资格 1.5s
-          assist.dodgeCounterT = ASSIST_TUNING.dodgeCounterS;
-          cinematic.slowmoT = Math.max(cinematic.slowmoT, 0.5);
-          hitFeedback.trigger(
-            new THREE.Vector3(active.group.position.x, 1.2, active.group.position.z),
-            "heavy", camera, "极限闪避！"
-          );
-          gainDecibel(150);   // 阶段 D：极限闪避 +150 喧响
-          audio.playCounter();
-          counter.expire();   // 攻击已落空，结束弹反窗
-        } else if (battle.invulnT > 0) {
-          // 阶段 D：喧响终结技无敌帧中——攻击直接落空
-          counter.expire();
-        } else {
-          // 未弹反未闪避 → 受击。伤害随对手招式强度浮动，并受招式克制影响
-          //   （对手的风格克当前角色的风格 → 伤害更高；被克 → 更低）
-          const oppMv = getMove(opponentMember.id);
-          const rel = styleRelation(oppMv.style, getMove(active.id).style);
-          const dmgToPlayer = Math.round(10 * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
-          squad.damageActive(dmgToPlayer);
-          battleStats.damageTaken += dmgToPlayer;   // 阶段 F：受击计入结算
-          active.anim.play(ACTION.HIT, 0.22);
-          cinematic.onHit("medium");
-          counter.expire();   // 显式结束窗口
+      if (battle.oppState === "approach") {
+        // 逼近到压迫距离；到位后保持压迫并小幅绕行
+        const tooFar = dist > OPP.pressDist;
+        oppStep(tooFar ? dirToPlayer : 0, tooFar ? 0 : strafeZ * 0.4);
+        if (!tooFar) opponentMove.pos.z += (strafeZ - opponentMove.pos.z) * Math.min(1, dt * 1.8);
+        if (!tooFar && battle.oppStateT >= battle.oppNextAt && !counter.isWarning && !counter.isPunishing) {
+          // 起手：开弹反窗（金光可弹反 / 狂暴期每 3 击一次红闪）+ 前摇
+          battle.attackCount = (battle.attackCount ?? 0) + 1;
+          const unparryable = battle.enraged && battle.attackCount % 3 === 0;
+          battle.oppComboLeft = (!unparryable && Math.random() < OPP.comboChance) ? 1 : 0;
+          battle.oppHitPending = true;
+          battle.oppState = "windup";
+          battle.oppStateT = 0;
+          battle.oppAttackWindup = OPP.windupS;
+          counter.openWindow(!unparryable);
+          // 2026-11-13：对手**要真的挥拳**——旧实现只有一闪金光、没有任何攻击动作，
+          // 玩家看不到「对手在打」→ 读招与博弈无从谈起。
+          opponentAnim.play(ACTION.ATTACK_1, OPP.windupS + OPP.strikeS + OPP.recoverS, getMove(opponentMember.id));
+          // 对手攻击预警：模型闪色（阶段 F：金光=可弹反 / 红光=不可弹反——ZZZ 分级预警）
+          _flashOpponent(unparryable ? 0xff3232 : 0xffc93d);
+          audio.playCounter?.();
+        }
+      } else if (battle.oppState === "windup" || battle.oppState === "windup2") {
+        // 前摇：向前冲（可读招窗口）；windup2 = 连招第 2 段（红闪不可弹反）
+        oppStep(dirToPlayer * 0.95, 0);
+        battle.oppAttackWindup -= dt;
+        if (battle.oppAttackWindup <= 0) {
+          battle.oppState = "strike";
+          battle.oppStateT = 0;
+          if (battle.oppHitPending) { resolveOppHit(); battle.oppHitPending = false; }
+        }
+      } else if (battle.oppState === "strike") {
+        oppStep(0, 0);
+        if (battle.oppStateT >= OPP.strikeS) {
+          if (battle.oppComboLeft > 0) {
+            // 连招第 2 段：先隔一小段，再接一段更短的前摇
+            battle.oppComboLeft -= 1;
+            battle.oppState = "comboWait";
+            battle.oppStateT = 0;
+          } else {
+            battle.oppState = "recover";
+            battle.oppStateT = 0;
+          }
+        }
+      } else if (battle.oppState === "comboWait") {
+        // 连招两段之间的间隔（此时威胁已过，纯粹是节奏间隔）
+        oppStep(0, 0);
+        if (battle.oppStateT >= OPP.comboGap) {
+          battle.oppState = "windup2";
+          battle.oppStateT = 0;
+          battle.oppAttackWindup = OPP.comboSecondWindupS;
+          battle.oppHitPending = true;
+          // 第 2 段：**红闪不可弹反**，只能闪避
+          counter.openWindow(false);
+          opponentAnim.play(ACTION.ATTACK_1, OPP.comboSecondWindupS + OPP.strikeS + OPP.recoverS, getMove(opponentMember.id));
+          _flashOpponent(0xff3232);
+          audio.playCounter?.();
+        }
+      } else if (battle.oppState === "recover") {
+        // 收招：后撤拉开距离（此时无威胁，是玩家的输出窗口）
+        oppStep(-dirToPlayer * 0.85, 0);
+        if (battle.oppStateT >= OPP.recoverS) {
+          battle.oppState = "approach";
+          battle.oppStateT = 0;
+          battle.oppNextAt = (battle.enraged ? 0.9 : OPP.attackGapMin)
+            + Math.random() * (OPP.attackGapMax - OPP.attackGapMin);
         }
       }
     }
+
     counter.step(dt);
     // 阶段 A：失衡计时（与 counter 同一帧域：仅战斗运行、按 scaled dt 推进）
     stagger.step(dt);
@@ -1532,6 +1650,16 @@ function startBattle(memberIndex) {
   battle.comboCount = 0;
   battle.hitCount = 0;   // GAME-6：清连段命中数
   battle.finisherPending = null;   // GAME-7：清残留终结技定时命中
+  // 2026-11-13 战斗手感 v1：对手 AI 状态机复位（开局第一击延迟 firstAttackDelay）
+  battle.oppState = "approach";
+  battle.oppStateT = 0;
+  battle.oppNextAt = TUNING.opponent.firstAttackDelay;
+  battle.oppComboLeft = 0;
+  battle.oppHitPending = false;
+  battle.oppStrafeT = 0;
+  battle.oppStrafeDir = 1;
+  battle.oppAttackWindup = 0;
+  battle.oppAttackCd = TUNING.opponent.firstAttackDelay;
   battle.phase = "playing";
   battle.freezeT = 0;
   battle.oppTimer = 0;
@@ -1738,6 +1866,9 @@ window.__npr = {
   // 阶段 G 调试口：鸣徽状态读取与注入（E2E 用）
   womarkState: () => ({ open: battle.womarkOpen, buffs: { ...battle.buffs } }),
   debugOpenWomark: () => openWomark(),
+  // 2026-11-13 战斗手感 v1：测试用开关——冻结对手 AI（移动/闪避类断言时用，
+  // 避免主动逼近的新对手打断测量）。用法：window.__npr.debugNoOpponentAI = true
+  debugNoOpponentAI: false,
   startBattle, endBattle, audio,
   // 界面管理器异步装配：实例身份可变，读取时必须拿当前绑定（见上方惰性装配 IIFE）
   get screens() { return screens; },

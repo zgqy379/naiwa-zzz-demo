@@ -1,0 +1,30 @@
+[
+ {
+  "file": "film-00-recover-attack1.png",
+  "st": "recover",
+  "oa": "attack1",
+  "pw": -0.005100000023841821,
+  "pHp": 78
+ },
+ {
+  "file": "film-07-windup-attack1.png",
+  "st": "windup",
+  "oa": "attack1",
+  "pw": 0.25799999999999995,
+  "pHp": 78
+ },
+ {
+  "file": "film-08-comboWait-attack1.png",
+  "st": "comboWait",
+  "oa": "attack1",
+  "pw": -0.004699999988079139,
+  "pHp": 67
+ },
+ {
+  "file": "film-09-recover-attack1.png",
+  "st": "recover",
+  "oa": "attack1",
+  "pw": -0.012699999988079073,
+  "pHp": 56
+ }
+]

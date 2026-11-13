@@ -51,9 +51,9 @@ export class Cinematic {
   /** 攻击命中：拉近 + 抖动 */
   onHit(tier) {
     const strength = { light: 1, medium: 1.5, heavy: 2.2, ultimate: 3.5 }[tier] ?? 1;
-    this.zoomT = 0.16 * strength;
-    this.zoomDur = 0.16 * strength;
-    this.shakeT = 0.18 * strength;
+    this.zoomT = 0.2 * strength;
+    this.zoomDur = 0.24 * strength;
+    this.shakeT = 0.22 * strength;
   }
 
   /** 连携：慢镜 + 环绕 */

@@ -1,0 +1,95 @@
+{
+  "totalFrames": 395,
+  "durationMs": 8752,
+  "fps": 45,
+  "hits": 3,
+  "hitFrames": [
+    {
+      "t": 21270.2,
+      "hpBefore": 220,
+      "hpAfter": 209,
+      "dmg": 11
+    },
+    {
+      "t": 22035.3,
+      "hpBefore": 209,
+      "hpAfter": 198,
+      "dmg": 11
+    },
+    {
+      "t": 22498.8,
+      "hpBefore": 198,
+      "hpAfter": 179,
+      "dmg": 19
+    }
+  ],
+  "hitstopFrames": 36,
+  "maxFreeze": 0.167,
+  "camMoveMax": 7.748,
+  "oppActionCounts": {
+    "move": 241,
+    "attack1": 101,
+    "idle": 3,
+    "hit": 50
+  },
+  "oppActionSequence": [
+    {
+      "act": "move",
+      "at": 17869.9
+    },
+    {
+      "act": "attack1",
+      "at": 17978.6
+    },
+    {
+      "act": "move",
+      "at": 19766.6
+    },
+    {
+      "act": "idle",
+      "at": 19983
+    },
+    {
+      "act": "move",
+      "at": 20021.2
+    },
+    {
+      "act": "idle",
+      "at": 20642.7
+    },
+    {
+      "act": "move",
+      "at": 20668.9
+    },
+    {
+      "act": "hit",
+      "at": 21270.2
+    },
+    {
+      "act": "move",
+      "at": 21556.7
+    },
+    {
+      "act": "attack1",
+      "at": 21620.7
+    },
+    {
+      "act": "hit",
+      "at": 22035.3
+    },
+    {
+      "act": "move",
+      "at": 22837.1
+    }
+  ],
+  "playerActions": {
+    "idle": 319,
+    "hit": 53,
+    "attack1": 23
+  },
+  "counterStates": {
+    "idle": 354,
+    "warning": 39,
+    "fail": 2
+  }
+}

@@ -14,11 +14,13 @@ import { ACTION } from "./animation.mjs";
 
 /** 弹反参数 */
 export const COUNTER_TUNING = {
-  windowS: 0.25,        // 弹反窗口（秒）
+  // 2026-11-13 战斗手感 v1：弹反窗 0.25 → 0.30、完美窗 0.10 → 0.16、惩罚伤害 15 → 22
+  // —— 原值下弹反几乎「打不中」，博弈没有回报；现在读招→弹反是可练习的循环。
+  windowS: 0.3,         // 弹反窗口（秒）
   punishS: 1.2,         // 弹反成功后对手硬直
-  punishDamage: 15,     // 弹反惩罚伤害
+  punishDamage: 22,     // 弹反惩罚伤害
   gridGain: 2,          // 弹反失衡增益
-  perfectWindowS: 0.1,  // 完美弹反窗口（更早按）
+  perfectWindowS: 0.16, // 完美弹反窗口（更早按）
   perfectMul: 1.5,      // 完美弹反伤害倍率
   comboBonus: 0.3,      // 连续弹反加成（每次 +30%）
 };
