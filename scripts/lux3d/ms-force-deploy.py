@@ -12,7 +12,7 @@ import requests
 CRED = os.path.join(os.path.expanduser("~"), ".modelscope", "credentials", "cookies")
 API = "https://www.modelscope.cn/openapi/v1"
 OWNER, REPO = "zgqy379", "naiwa-zero-demo"
-ENTRY = "assets/index-CRaKQLgy.js"   # 本轮定版入口（改了要同步）
+ENTRY = "assets/index-CDoGGTde.js"   # 本轮定版入口（改了要同步）
 
 argv = sys.argv[1:]
 def arg(k, d):
