@@ -153,5 +153,12 @@
 | 打击音（轻 / 重） | `public/audio/hit_light.wav`、`hit_heavy.wav` | **自有原创**（本项目生成，非第三方录音） | `scripts/gen-audio-samples.py`，确定性种子 `20261112` | 44.1 kHz / 16 bit / mono；加法合成 + 多抽头反馈延迟混响 |
 | 金属相撞音 | `public/audio/clash_metal.wav` | 同上 | 同上 | 8 列非谐波泛音 + 刮擦瞬态 |
 | 挥击风声 | `public/audio/whoosh.wav` | 同上 | 同上 | 扫频带通噪声 |
+| 打击 / 挥击 / 金属相撞 防疲劳变体 ×8 | `public/audio/hit_light_v1.wav`、`hit_light_v2.wav`、`hit_heavy_v1.wav`、`hit_heavy_v2.wav`、`whoosh_v1.wav`、`whoosh_v2.wav`、`clash_metal_v1.wav`、`clash_metal_v2.wav` | **自有原创**（本项目生成，非第三方录音） | 同上脚本（2026-11-14 版），派生种子 `SEED+29/+31/+41/+43/+47/+53/+61/+67` | 22.05 kHz / 16 bit / mono；改种子 + 微调时长/基频，`AudioSystem._playSampleVariant` 播放时随机取一防听觉疲劳 |
+| clash 的 60-80Hz sub 垫底层 | `public/audio/clash_sub.wav` | 同上 | 同上脚本，纯确定性滑频正弦（80→62Hz，无随机成分） | 22.05 kHz / 16 bit / mono；playClash 采样路径下叠播 |
+| 刃口 / 钝器 clash 两族 | `public/audio/clash_blade.wav`（亮 clang）、`clash_blunt.wav`（低频 thud） | 同上 | 同上脚本，派生种子 `SEED+91/+113`（sub 已烘焙） | 22.05 kHz / 16 bit / mono；`playClash(tier, {family})` 选择接口，按武器/攻击风格接线归后续 |
+| 命中碎裂余音层 | `public/audio/hit_crumble.wav` | 同上 | 同上脚本，种子 `SEED+17`（高通碎屑噪声 + 颗粒调幅 + 指数淡出） | 22.05 kHz / 16 bit / mono；playHit 采样路径下叠播 |
+| 弹反专用金属音 | `public/audio/counter_clash.wav` | 同上 | 同上脚本，派生种子 `SEED+71`（clash 提 pitch ×1.3 + 低阶模态 ring 长尾） | 22.05 kHz / 16 bit / mono；playCounter 采样优先，缺文件回退合成 |
 
 > 本轮**未引入任何第三方音频文件**：网络未取得可核验的 CC0 直链，按本台账权威口径「不确定就换成自合成或 CC0」改用自有离线渲染采样。若后续取得明确 CC0 或自有录音，直接替换同名文件即可（`AudioSystem.loadSamples()` 已建好采样插槽，缺文件时自动回退实时合成）。
+>
+> **2026-11-14 音效 P0 扩充**：自有采样 4 段 → **15 段**（+13 段：防疲劳变体 ×8 / clash sub 垫底层 / 刃口·钝器两族 / 命中碎裂余音层 / 弹反专用 counter_clash，共 201.7 KB，全部由 `scripts/gen-audio-samples.py` 确定性种子离线渲染，仍零第三方）。**既有 4 段（hit_light / hit_heavy / clash_metal / whoosh）重跑脚本后 sha256 逐字节不变**（clash `6d605200…` / heavy `c0a42c50…` / light `adb535cc…` / whoosh `3f49bdab…`）；既有 4 段为 44.1 kHz，新增 13 段为 22.05 kHz（decodeAudioData 自动重采样，体积减半）。

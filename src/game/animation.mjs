@@ -85,8 +85,9 @@ export class ProceduralAnim {
    * @param {string} action 动作名
    * @param {number} dur 时长
    * @param {object} move 招式参数（可选，含 style/lean/squash）——「换壳即换招」
+   * @param {object} opts 片段驱动附加参数（可选）——如受击方向档 { variant: "left"|"right"|"front" }
    */
-  play(action, dur, move = null) {
+  play(action, dur, move = null, opts = {}) {
     this.action = action;
     this.actionT = 0;
     this.actionDur = dur ?? ACTION_DUR[action] ?? 0.3;
@@ -98,7 +99,7 @@ export class ProceduralAnim {
       this.moveSquash = move.anim?.squash ?? 0.8;
     }
     // 官方骨骼片段：优先用真实动作；无对应片段则回退程序化
-    if (this.clips && this.clips.play(action, this.actionDur)) return;
+    if (this.clips && this.clips.play(action, this.actionDur, opts)) return;
   }
 
   /** 每帧推进（渲染帧 dt） */
@@ -128,6 +129,13 @@ export class ProceduralAnim {
         }
       } else if (this.clips.currentAction !== this.action) {
         this.clips.play(this.action, null, { loop: true, fade: 0.12 });
+      }
+      // 移动混合树 lite（2026-11-14 路线图②）：按水平速度在 Walk/Jog 两档间连续插值
+      //   0=Walk（起步/减速/慢速绕行），1=Jog（全速移动）；归一化基准 walkSpeed
+      //   会被 main.mjs 按速度加成 buff 每帧改写，故此处直接读当前值，无需硬编码。
+      if (this.action === ACTION.MOVE) {
+        const spd = Math.hypot(this.movement.vel.x, this.movement.vel.z);
+        this.clips.setMoveBlend(Math.min(1, spd / Math.max(0.01, this.movement.walkSpeed || 5)));
       }
       return;
     }

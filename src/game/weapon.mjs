@@ -123,7 +123,16 @@ export function attachWeapon(sceneRoot, weaponGroup, spec) {
   const tip = new THREE.Object3D();
   tip.position.set(spec.tip[0] * maxDim, spec.tip[1] * maxDim, spec.tip[2] * maxDim);
   weaponGroup.add(tip);
-  return { hand, tip, scale: k, boneScale };
+  // 双锚点之 base（2026-11-14 演出项工作流·武器组·路线图⑥·03 §4.2/§4.3）：
+  // 握把端锚点，与 tip 同为 weaponGroup 子节点 → tip↔base 世界线段即武器本体朝向。
+  // 默认取 weaponGroup 原点（包围盒中心 = 掌心/grip 处），spec.base 可按武器覆盖
+  // （与 tip 同口径：归一化坐标 × maxDim 换算为缩放前局部单位）。
+  // 拖尾宽度方向（weapontrail.push(tip, base)）与相撞最近点检测（weaponSegmentWorld）都由它直接给出。
+  const base = new THREE.Object3D();
+  const baseSpec = spec.base ?? [0, 0, 0];
+  base.position.set(baseSpec[0] * maxDim, baseSpec[1] * maxDim, baseSpec[2] * maxDim);
+  weaponGroup.add(base);
+  return { hand, tip, base, scale: k, boneScale };
 }
 
 /** 取武器打击端的世界坐标（没有武器则返回 null） */
@@ -132,4 +141,71 @@ export function weaponTipWorld(rig) {
   const v = new THREE.Vector3();
   rig.tip.getWorldPosition(v);
   return v;
+}
+
+/** 取武器握把端（base 锚点）的世界坐标（没有武器或旧 rig 无 base 则返回 null） */
+export function weaponBaseWorld(rig) {
+  if (!rig?.base) return null;
+  const v = new THREE.Vector3();
+  rig.base.getWorldPosition(v);
+  return v;
+}
+
+/** 取武器 tip↔base 世界线段（outA=打击端 / outB=握把端，写入调用方传入的向量，零分配）。
+ *  任一锚点缺失返回 false —— 相撞检测与拖尾双锚点都据此安全跳过（异步加载是已知坑）。 */
+export function weaponSegmentWorld(rig, outA, outB) {
+  if (!rig?.tip || !rig?.base) return false;
+  rig.tip.getWorldPosition(outA);
+  rig.base.getWorldPosition(outB);
+  return true;
+}
+
+// 线段最近点求解用的模块级 scratch（每帧 O(1)，不产生对象分配）
+const _segD1 = new THREE.Vector3();
+const _segD2 = new THREE.Vector3();
+const _segR = new THREE.Vector3();
+
+/** 线段-线段最近点对（Ericson《Real-Time Collision Detection》§5.1.9 标准夹闭解）。
+ *  p1→q1 / p2→q2 为两条线段，最近点分别写入 outA / outB，返回两点间距（米）。
+ *  退化情形（端点重合 / 平行共线 / 零长线段）安全收敛到端点，不产生 NaN。 */
+export function closestPointsOnSegments(p1, q1, p2, q2, outA, outB) {
+  _segD1.subVectors(q1, p1);
+  _segD2.subVectors(q2, p2);
+  _segR.subVectors(p1, p2);
+  const a = _segD1.lengthSq();   // 线段 1 长度平方
+  const e = _segD2.lengthSq();   // 线段 2 长度平方
+  const f = _segD2.dot(_segR);
+  let s = 0;
+  let t = 0;
+  if (a <= 1e-12 && e <= 1e-12) {
+    // 两条线段都退化成点
+    outA.copy(p1);
+    outB.copy(p2);
+    return outA.distanceTo(outB);
+  }
+  if (a <= 1e-12) {
+    // 线段 1 退化为点：t = clamp(f/e, 0, 1)
+    t = Math.min(1, Math.max(0, f / e));
+  } else {
+    const c = _segD1.dot(_segR);
+    if (e <= 1e-12) {
+      // 线段 2 退化为点：s = clamp(-c/a, 0, 1)
+      s = Math.min(1, Math.max(0, -c / a));
+    } else {
+      const b = _segD1.dot(_segD2);
+      const denom = a * e - b * b;
+      s = denom > 1e-12 ? Math.min(1, Math.max(0, (b * f - c * e) / denom)) : 0;
+      t = (b * s + f) / e;
+      if (t < 0) {
+        t = 0;
+        s = Math.min(1, Math.max(0, -c / a));
+      } else if (t > 1) {
+        t = 1;
+        s = Math.min(1, Math.max(0, (b - c) / a));
+      }
+    }
+  }
+  outA.copy(p1).addScaledVector(_segD1, s);
+  outB.copy(p2).addScaledVector(_segD2, t);
+  return outA.distanceTo(outB);
 }

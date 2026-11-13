@@ -32,6 +32,20 @@ export class HitFeedback {
       heavy: ["轰！", "哐当！", "砰！！", "咚——"],
       ultimate: ["轰！！！", "绝杀！", "终结！", "碎！"],
     };
+
+    // 切镜黑场层（终结技拍2：命中前 1 帧黑场，仅喧响终结技用；内联样式，不依赖新 CSS）
+    // z-index 89：压在白闪(.hit-flash, 90) 与拟声词(.sfx-container, 91) 之下，
+    // 黑场先亮 → 命中白闪/招式名叠上，形成「切镜 → 本体」的顺序感
+    this.cutEl = document.createElement("div");
+    Object.assign(this.cutEl.style, {
+      position: "fixed",
+      inset: "0",
+      background: "#000",
+      opacity: "0",
+      pointerEvents: "none",
+      zIndex: "89",
+    });
+    document.body.appendChild(this.cutEl);
   }
 
   /**
@@ -61,6 +75,68 @@ export class HitFeedback {
     this.flashEl.style.opacity = String(strength);
     this.flashT = duration;
     this.flashDur = duration;
+  }
+
+  /**
+   * 白闪公开口（非命中路径复用白闪层）：
+   * 换人登场六步第 1 步「金/白闪 0.1s」（2026-11-14 路线图④）。
+   * @param {number} strength 0-1 初始不透明度
+   * @param {number} duration 秒
+   */
+  screenFlash(strength = 0.45, duration = 0.1) {
+    this._flash(strength, duration);
+  }
+
+  /**
+   * 终结技拍2 切镜：招式名大字（2026-11-14 路线图③）。
+   * 复用拟声词 DOM 层与 sfxPop 动画（研究档案 §4.8：拍 2 招式名大字复用同一 DOM 层），
+   * 内联覆盖为居中、字号 ≈2×ultimate、切入角 -10°、黑描边金字的招式名变体。
+   * @param {string} text 招式名（main.mjs 从 getMove(active.id).moveName 取）
+   */
+  showMoveName(text) {
+    if (!text) return;
+    const el = document.createElement("div");
+    el.className = "sfx-word ultimate";
+    el.textContent = text;
+    Object.assign(el.style, {
+      left: "50%",
+      top: "38%",
+      fontSize: "96px",
+      color: "#ffe9b0",
+      letterSpacing: "6px",
+      // sfxPop 默认 0.4s 就淡到 0（forwards），招式名需要更长可读停留 → 内联拉长到 0.9s
+      animationDuration: "0.9s",
+      transform: "translate(-50%, -50%) rotate(-10deg) scale(.5)",
+      textShadow:
+        "0 0 26px rgba(0,0,0,.95), 0 4px 0 rgba(0,0,0,.85), 0 0 14px rgba(255,233,176,.5)",
+    });
+    this.sfxContainer.appendChild(el);
+    this.sfxPool.push(el);
+    // 招式名大字停留略长于拟声词（切镜拍是全演出唯一的「字」焦点）
+    setTimeout(() => {
+      el.classList.add("sfx-out");
+      setTimeout(() => {
+        el.remove();
+        const i = this.sfxPool.indexOf(el);
+        if (i >= 0) this.sfxPool.splice(i, 1);
+      }, 300);
+    }, 900);
+  }
+
+  /**
+   * 终结技拍2 切镜：黑场 80ms（2026-11-14 路线图③；普通终结复用结构但**不加**黑场）。
+   * 每次终结至多 1 帧、单次 ≤80ms → 全屏闪频率 ≪ WCAG 2.3.1 上限（≤3 次/s）。
+   * @param {number} dur 黑场保持秒数（默认 0.08）
+   */
+  cutFlash(dur = 0.08) {
+    const el = this.cutEl;
+    el.style.transition = "none";
+    el.style.opacity = "1";
+    // 下一帧再开淡出过渡：保证黑场先全亮，保持 dur 后淡出
+    requestAnimationFrame(() => {
+      el.style.transition = "opacity .06s";
+      setTimeout(() => { el.style.opacity = "0"; }, dur * 1000);
+    });
   }
 
   /** 拟声词（label 非空时显示自定义词，如克制关系提示；gold=失衡期金色大字） */

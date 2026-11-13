@@ -72,6 +72,35 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-14 02:0x by 演出项工作流（**四组并行施工收尾**：终结五拍 / 登场六步 / 移动混合+受击方向化 / 音效分层 / 武器双锚点相撞定位 · v10 手感数值冻结零改动）
+
+- 已做（四组按 AGENTS §3 先登记后施工，登记行 `docs/改动记录-角色线.md` 2026-11-14 01:01 / 01:1x / 01:3x / 01:49 共四条；设计依据 `docs/演出研究-20261112/`）：
+  - **动画手感组**（`src/game/clips.mjs` +145 / `src/game/animation.mjs` +12 / `src/main.mjs`）：①移动混合——Walk_Loop+Jog_Fwd_Loop 双片段齐全即进混合模式，`setMoveBlend(0..1)` 按 `movement.vel` 水平速度连续插值（全速=Jog、起步/减速=Walk、AI 绕行小输入自然落 Walk 档），退出混合时双档随融合淡出停掉，任缺一片段保持旧单片段路径零行为差异；②受击方向化——`hitVariantForScreenX` 按攻击者→受击者向量在相机右向量的屏幕分量三分 left/right/front（阈值 0.66）+ `HIT_DIRECTION_CLIP` 方向候选表（数据驱动），侧向受击叠加反应偏航 ≈0.55rad、0.32s 保持后线性回正，接线玩家受击（resolveOppHit）与对手受击（applyDamage）两处；③**实测 16 只 runtime GLB + 共享库均无 Hit_Knockback（仅 Hit_Chest）**→ 三向片段级差异暂不可见、以偏航呈现，往库里补方向片段后片段级三选一零代码生效；加法受击层（makeClipAdditive）按降级路径未做（官方片段含 Hips position 轨道 + 各角色 rest 姿态经 11-13 校正后各异，盲上风险不可控，建议可实机验证窗口单独立项）。
+  - **音效组**（`scripts/gen-audio-samples.py` / `src/audio/audio.mjs` / `public/audio/` 新增 13 段）：①既有 4 段采样各加 2 个确定性 seed 变体（whoosh/hit_light/hit_heavy/clash_metal ×_v1/_v2，playWhoosh/playHit/playClash 变体随机防听觉疲劳，原 rate 抖动保留）；②clash 加 sub 垫底层 + 刃口/钝器两族（`playClash(tier, {family})` 留选择接口，按武器/攻击风格接线归后续，现调用向后兼容走默认 metal）；③hit 加碎裂余音层（`hit_crumble.wav`，body 后 200-400ms 高频碎屑尾巴，轻/重分档叠播）；④`counter_clash.wav` 弹反音拉层级（clash 提 pitch ×1.3 + ring 长尾，采样优先、原三方波合成保留为回退）；⑤`docs/ASSET-LICENSES.md` 同步自有采样 4→15 段。**既有 4 段 WAV 逐字节不变**（收尾复核 sha256 前缀 6d605200/c0a42c50/adb535cc/3f49bdab 与基线一致，git status 亦无修改记录）；public/audio 总计 351,342 B（343.1 KB，超 ~300KB 目标约 14%，如实记）。**实听/实机验证未做**（禁跑 build/E2E）。
+  - **演出组**（`src/vfx/cinematic.mjs` / `src/vfx/hitflash.mjs` / `src/main.mjs` / `src/ui/hud.mjs` +3 / `src/ui/style.css` +5，后两处为 ask 文件域外最小扩展已登记）：①终结技五拍——预期（isUlt 分支 duckBgm 加深 0.30×/1.2s + 喧响槽爆闪，视觉复用满极 .maxed 语言）→ 切镜（命中前 1 帧黑场 80ms 仅喧响终结 + 招式名大字复用 hitflash DOM 层，单次 ≤3 次/s WCAG 达标；普通终结只出字）→ 本体（既有 slowmo 0.3×/1.4s + orbit 108°/2.0s 保留未动）→ 定格（onFinisherHold：timeScale 0.05 hold 0.4s + 注视点抬升 +0.3 经 getOffset 由 camRig 消化，机位 height 不写 → 不触 E2E「相机 y>0.5」断言）→ 回场（0.3s 匀速 tween，新增真实时长 ≈0.7s ≤1.2s）；②换人登场六步（onSwapInput 路径：金/白闪 0.1s → 1.15× 滑入冲量 + 挥击首段 pose（crossFadeTo）→ emissive 0.6→0 由虚转实 0.2s → 0.3s 后接招后退冲量 → playConfirm 叮 → 回 normal；总 ≤0.8s、不锁输入）；③**接线时发现并修复存量缺陷**：19bd0f2 相机重构后 `Cinematic.step()` 成为无调用方死代码——slowmoT 只增不减（首次慢镜/弹反/连携后 timeScale 永久 0.3×）、orbit side 恒 0（环绕运镜自 19bd0f2 起失效），在 getOffset 恢复与 step() 完全相同的推进语义，**全部数值不动**。
+  - **武器组**（`src/game/weapon.mjs` / `src/vfx/weapontrail.mjs` / `src/main.mjs`）：①武器双锚点——tip 旁新增 **base 锚点**（握把端，默认包围盒中心=掌心，spec.base 可按武器覆盖），rig 返回扩容向后兼容；②拖尾双锚点化——push 改 (tip, base)，每帧记录 base→tip 单位向量作宽度方向（几何直接给出：俯视机位退化从根上消失、武器绕轴自旋能画出真实螺旋面），无 base 或线段退化时回退原「切线×视线」猜侧向量路径；③相撞几何定位——`closestPointsOnSegments`（Ericson RTCD §5.1.9 标准夹闭解，零分配）检测攻守双方武器 tip↔base 线段最近距 < 0.12m（CLASH_CONTACT_DIST）判视觉相交，clash 特效定位点升级为「几何接触点 ?? 攻方尖端 ?? 体干」三级链，弹反成功经同一 applyDamage 路径自动覆盖；**如实说明：对手当前无武器 → 检测恒安全跳过、暂走 v10 定位，opponentWeaponRig 钩子已留明接线注释，对手侧一旦挂武器零改动生效**；伤害判定与命中帧语义零改动。
+  - **收尾（本轮，收尾台账员）**：①**台账核对**——「演出项工作流」登记行**恰为四组四条**（01:01 音效 / 01:1x 动画手感 / 01:3x 演出 / 01:49 武器，当前 209–212 行）；全文完全重复行仅三个表格各自的表头/分隔线（结构行，非登记冗余）→ **无冗余副本可删，台账未做删改**；改动文件 mtime（01:05–01:51）全部落在四组登记窗口内、无未登记改动。②AGENTS §6 本条。③一笔提交（**不含** `scripts/lux3d/open-redeem.mjs`——另一线在制品），**不 push**。
+- 门禁（收尾复跑 + 门禁轮证据；E2E/构建按纪律不由收尾跑）：
+  - **node --check** 9 个改动 .mjs 全过；`python -I -m py_compile scripts/gen-audio-samples.py` 过（均为收尾复跑）。
+  - **npm run lint（eslint src tests）exit 0 零告警**（收尾复跑）。
+  - **npm run test:moves 14/14**（收尾复跑 exit 0；`docs/moves-test-report.json` 重写后与 HEAD 字节一致、工作区不脏）。
+  - **E2E 33/33**：门禁轮于 2026-11-13T17:56Z（本地 11-14 01:56）对四组合并态跑出（`docs/test-report.json`，随本轮入库；收尾自查仅读报告未跑）。
+- 未做 / 待办（归收口线统一收口）：
+  - **dist 未重建**：线上与 dist 仍为 `index-CDoGGTde.js`（第十版构建），**本轮提交后 src 领先于 dist 与线上**——收口线须走完整一轮：重建 → 重录/重拍 → 双通道重部署 → 官网补提交。
+  - **报告书 §3.6 补记「演出项工作流」单独立项**（四组改动未写入报告书）。
+  - **真机观感待制作人**：移动混合观感、侧向偏航 0.55rad 是否过猛、登场六步/终结五拍节奏、拖尾螺旋面、音效实听（22.05kHz 经 decodeAudioData 重采样）均未实机验证。
+  - 小红书发帖（制作人本人，沿第十版口径）。
+- 待验证：
+  - **slowmoT 生命周期修复**使「首次慢镜后全局永久 0.3×」回到设计行为（1.4s 后回 1.0×）——本轮 E2E 33/33 已过；若后续复跑慢镜时序敏感用例（连段/蓄力/首领狂暴类）红灯，先核 `src/vfx/cinematic.mjs` getOffset。
+  - clash 几何定位在对手挂武器后才实际生效；`playClash(tier, {family})` 按武器/攻击风格接线归后续。
+- 产物与证据路径：`docs/改动记录-角色线.md`（四组登记行）、`docs/test-report.json`（33/33 @ 01:56）、`docs/moves-test-report.json`（14/14 @ 01:55）、`docs/ASSET-LICENSES.md`（15 段）、`docs/演出研究-20261112/`（设计依据）、改动源码 11 文件（clips/animation/weapon/audio/hud/style/cinematic/hitflash/weapontrail/main/gen-audio-samples.py）+ `public/audio/` 13 段新采样 + `docs/test-shots/01-17`（门禁轮 E2E 实拍）。
+- 最近构建：**未重建**（构建归收口线）——线上/dist 仍为 `dist/assets/index-CDoGGTde.js` @ 2026-11-13 19:4x（1,027,589 B，sha256 前 16 位 `18d9bcabdb0ad822`）。
+- 已知冲突 / 风险：
+  1. **「修复轮补登记」缺失**：本轮 ask 预期台账含「四组 + 修复轮补登记」共五条，实测只有四条；四组改动 mtime 全部落在各组登记窗口内、无未登记代码改动，判为修复轮未发生或其结论已并入四组行，如实记录待主脚本确认。
+  2. 演出组如需严格收回 ask 文件域，删除 `src/ui/hud.mjs` +3 行与 `src/ui/style.css` +5 行即降级为「仅 duckBgm 加深」（喧响槽爆闪取消）；登场 pose 用「挥击首段 ATTACK_1」（专属登场片段在 clips.mjs 属动画组文件域未接）。
+  3. 音效体积 343.1 KB 超 ~300KB 目标约 14%（既有 4 段按逐字节不变处理不可压，再压伤余鸣与金属亮度）；clash 两族运行时接线未做。
+  4. 战斗结束瞬间若处于拍4 hold，0.4s 极慢余韵会带入结算屏（动画 0.05× 爬 0.4s 后恢复；纯表现层，按最小改动未在 endBattle 加清理）。
+
 ### 交接 2026-11-13 21:0x by 收口线（**统一收口第十版：战斗手感 v1** · 把「不像动作游戏」改掉）
 
 - 已做（制作人实机评分 **2/10**「压根不算是动作游戏」→ 本轮用测量驱动改造）：

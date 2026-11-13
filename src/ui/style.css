@@ -312,6 +312,11 @@ html, body {
 }
 .hud-decibel.maxed .db-fill { animation: dazeHue .6s linear infinite; }
 
+/* 终结技五拍·拍1 预期（演出项工作流·演出组 2026-11-14）：蓄力满喧响 / 喧响终结前摇期爆闪 */
+.hud-decibel.burst .db-fill { animation: dazeHue .45s linear infinite; }
+.hud-decibel.burst .db-track { border-color: rgba(255,217,61,.9); box-shadow: 0 0 12px rgba(255,217,61,.65); }
+.hud-decibel.burst .db-level { text-shadow: 0 0 10px rgba(255,217,61,.9); }
+
 /* 属性异常条（阶段 E：属性色积蓄 + 状态名 + 弱点标记） */
 .anomaly-wrap {
   display: flex; align-items: center; gap: 6px;

@@ -10,6 +10,10 @@
  */
 import * as THREE from "three";
 
+// 终结技五拍：拍4 定格的注视点抬升量（m）与拍5 回场 tween 时长（s）——演出参数，集中本文件
+const FINISHER_HOLD_LOOK = 0.3;
+const FINISHER_RETURN_S = 0.3;
+
 export class Cinematic {
   constructor(camera, tuning) {
     this.camera = camera;
@@ -46,6 +50,13 @@ export class Cinematic {
     // 抖动
     this.shakeOffset = new THREE.Vector3();
     this.shakeT = 0;
+
+    // ---- 终结技五拍（2026-11-14 路线图③④·仪式感，01-运镜与演出.md §3.5）----
+    // 拍4 定格：命中结算瞬间 timescale 0.05 hold ~0.4s；拍5 回场：0.3s 匀速 tween 回基线
+    this.holdT = 0;          // 定格剩余（真实秒；顿帧期间不衰减，见 frozenNow）
+    this.returnT = 0;        // 回场 tween 剩余（真实秒）
+    this.holdLookBoost = 0;  // 拍4 注视点抬升量（经 getOffset().look 交 camRig 消化，机位 y 不动）
+    this.frozenNow = false;  // main.mjs 每帧写：当前是否处于顿帧（hold 在顿帧期间暂停衰减）
   }
 
   /** 攻击命中：拉近 + 抖动 */
@@ -64,11 +75,25 @@ export class Cinematic {
     this.focusWeight = 1;
   }
 
-  /** 终结技：长慢镜 + 大环绕 + 大特写 */
+  /** 终结技：长慢镜 + 大环绕 + 大特写（拍3 本体） */
   onFinisher() {
     this.slowmoT = 1.4;
     this.orbitT = 2.0;
     this.orbitDur = 2.0;
+    this.focusWeight = 1;
+  }
+
+  /**
+   * 终结技拍4 定格：命中结算瞬间调用 —— timescale 压到 0.05 hold 约 0.4s，
+   * 注视点抬升 lookAtHeight +0.3（官方幕后「收招定格对称构图·拉高镜头」），
+   * hold 结束后由 getOffset 进入拍5 的 0.3s 匀速回落 tween。
+   * 注意：只抬「注视点」，机位高度（camera.position.y）不变——
+   * E2E 有「相机 y > 0.5」回归判据，本方法不写相机位置。
+   * @param {number} holdS 定格时长（真实秒）
+   */
+  onFinisherHold(holdS = 0.4) {
+    this.holdT = holdS;
+    this.returnT = 0;
     this.focusWeight = 1;
   }
 
@@ -193,14 +218,37 @@ export class Cinematic {
   }
 
   get timeScale() {
+    if (this.holdT > 0) return 0.05;   // 终结技拍4 定格（极慢余韵，顿帧结束后接管）
     return this.slowmoT > 0 ? 0.3 : 1.0;
   }
 
   /**
    * 修：只返回运镜偏移（不再直接控制相机，改由 CameraRig 控制）
-   * @returns {{ zoom: number, side: number }}
+   *
+   * 修 2（2026-11-14 五拍化接线时发现的存量缺陷）：19bd0f2 相机重构把 step() 从主循环
+   * 摘除后，slowmoT/orbitT 的衰减与 orbitAngle 的推进只存在于 step() 里，而 step()
+   * 已无调用方（死代码）——活路径上 slowmoT 只增不减（首次慢镜/弹反/连携后 timeScale
+   * 永久 0.3×）、orbitAngle 永不推进（getOffset().side 恒 0，环绕运镜失联）。
+   * 此处恢复与 step() **完全相同**的推进语义（数值一律不动），保持 getOffset
+   * 作为活路径唯一入口。
+   *
+   * @returns {{ zoom: number, side: number, look: number }} look = 拍4/拍5 注视点抬升
    */
   getOffset(dt) {
+    // ---- 慢镜衰减（自 step() 恢复：按真实秒）----
+    this.slowmoT = Math.max(0, this.slowmoT - dt);
+
+    // ---- 环绕推进（自 step() 恢复：easeInOutCubic，108° 语义不变）----
+    if (this.orbitT > 0) {
+      this.orbitT -= dt;
+      const raw = Math.max(0, 1 - this.orbitT / this.orbitDur);
+      const p = raw < 0.5 ? 4 * raw * raw * raw : 1 - Math.pow(-2 * raw + 2, 3) / 2;
+      this.orbitAngle = p * Math.PI * 0.6; // 环绕 108°
+    } else {
+      this.orbitAngle *= 0.9;
+      this.focusWeight = Math.max(0, this.focusWeight - dt * 0.5);
+    }
+
     // 拉近
     let zoomK = 0;
     if (this.zoomT > 0) {
@@ -208,12 +256,27 @@ export class Cinematic {
       const pz = 1 - this.zoomT / this.zoomDur;
       zoomK = pz < 0.18 ? pz / 0.18 : Math.pow(1 - (pz - 0.18) / 0.82, 1.6);
     }
+
+    // ---- 终结技拍4 定格 / 拍5 回场 ----
+    // hold 在顿帧（hitstop 完全停帧）期间暂停衰减：顿帧本身已是 0× 定格，
+    // 顿帧结束后剩余 hold 以 0.05× 继续放完，两段合成「定格 → 极慢余韵」
+    if (this.holdT > 0) {
+      if (!this.frozenNow) this.holdT -= dt;
+      this.holdLookBoost = FINISHER_HOLD_LOOK;
+      if (this.holdT <= 0) this.returnT = FINISHER_RETURN_S;   // 进入拍5
+    } else if (this.returnT > 0) {
+      this.returnT -= dt;
+      // 拍5 回场：0.3s 匀速（线性）tween 回基线偏移
+      this.holdLookBoost = FINISHER_HOLD_LOOK * Math.max(0, this.returnT / FINISHER_RETURN_S);
+      if (this.returnT <= 0) this.holdLookBoost = 0;
+    }
+
     // 环绕偏移（连携/终结）
     let side = 0;
     if (this.orbitT > 0) {
       side = Math.sin(this.orbitAngle) * 0.8;
     }
-    return { zoom: zoomK * 1.2, side };
+    return { zoom: zoomK * 1.2, side, look: this.holdLookBoost };
   }
 
   /**

@@ -270,6 +270,9 @@ export class Hud {
       // 满极态：喧响条变彩闪烁（与失衡满条同一语言）
       const wrap = this.el["db-level"].parentElement;
       if (wrap) this._put("db-maxed", v >= 3000, () => wrap.classList.toggle("maxed", v >= 3000));
+      // 终结技五拍·拍1 预期（2026-11-14 路线图③）：喧响槽爆闪——
+      // 蓄力满喧响 / 喧响终结前摇期由 main.mjs 传 dbBurst，点亮 .burst（视觉语言同满极 .maxed）
+      if (wrap) this._put("db-burst", !!s.dbBurst, () => wrap.classList.toggle("burst", !!s.dbBurst));
     }
 
     // 按键发光（绝区零式引导）

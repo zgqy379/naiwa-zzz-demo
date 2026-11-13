@@ -64,6 +64,22 @@ export class AudioSystem {
       hitHeavy: "./audio/hit_heavy.wav",
       clash: "./audio/clash_metal.wav",
       whoosh: "./audio/whoosh.wav",
+      // ① 防疲劳变体（确定性 seed 渲染，scripts/gen-audio-samples.py 2026-11-14 版）
+      hitLightV1: "./audio/hit_light_v1.wav",
+      hitLightV2: "./audio/hit_light_v2.wav",
+      hitHeavyV1: "./audio/hit_heavy_v1.wav",
+      hitHeavyV2: "./audio/hit_heavy_v2.wav",
+      clashV1: "./audio/clash_metal_v1.wav",
+      clashV2: "./audio/clash_metal_v2.wav",
+      whooshV1: "./audio/whoosh_v1.wav",
+      whooshV2: "./audio/whoosh_v2.wav",
+      // ② clash 的 60-80Hz sub 垫底层 + 刃口/钝器两族（两族 sub 已烘焙进采样）
+      clashSub: "./audio/clash_sub.wav",
+      clashBlade: "./audio/clash_blade.wav",
+      clashBlunt: "./audio/clash_blunt.wav",
+      // ③ 命中碎裂余音层 / ④ 弹反专用（clash ×1.3 + ring 尾）
+      hitCrumble: "./audio/hit_crumble.wav",
+      counterClash: "./audio/counter_clash.wav",
     };
     await Promise.all(Object.entries(files).map(async ([key, url]) => {
       try {
@@ -90,6 +106,19 @@ export class AudioSystem {
     return true;
   }
 
+  /**
+   * 防疲劳变体（音效 P0 ①）：在 key 及其 `V1`/`V2`… 变体里随机取一段播放
+   * （For Honor：每击微随机是防听觉疲劳的明确手段）。没有任何一段就返回 false，
+   * 调用方照旧回退实时合成。
+   */
+  _playSampleVariant(key, opts = {}) {
+    const variants = [key];
+    for (let i = 1; this.samples.has(`${key}V${i}`); i += 1) variants.push(`${key}V${i}`);
+    const avail = variants.filter((k) => this.samples.has(k));
+    if (!avail.length) return false;
+    return this._playSample(avail[Math.floor(Math.random() * avail.length)], opts);
+  }
+
   /** BGM 动态压混：命中瞬间压低，让打击 / 金属音透出来，随后回升 */
   duckBgm(amount = 0.6, dur = 0.22) {
     if (!this.ctx || !this.bgmGain) return;
@@ -101,11 +130,11 @@ export class AudioSystem {
     g.linearRampToValueAtTime(this._bgmBase, t + dur);
   }
 
-  /** 挥击风声（攻击起手；没有采样时静默） */
+  /** 挥击风声（攻击起手；没有采样时静默）—— 走防疲劳变体随机 */
   playWhoosh() {
     if (!this.ctx || !this.enabled) return;
     this.resume();
-    this._playSample("whoosh", { gain: 0.5, rate: 0.95 + Math.random() * 0.12 });
+    this._playSampleVariant("whoosh", { gain: 0.5, rate: 0.95 + Math.random() * 0.12 });
   }
 
   setVolume(v) {
@@ -285,10 +314,15 @@ export class AudioSystem {
     // 采样优先：离线渲染的打击音波形更厚；缺文件时下面照旧走实时三层合成
     this.duckBgm(tier === "ultimate" ? 0.42 : 0.62, 0.2);
     const heavy = tier === "heavy" || tier === "ultimate" || tier === "finisher";
-    if (this._playSample(heavy ? "hitHeavy" : "hitLight", {
+    if (this._playSampleVariant(heavy ? "hitHeavy" : "hitLight", {
       gain: 0.85,
       rate: tier === "ultimate" ? 0.82 : heavy ? 0.94 : 1,
-    })) return;
+    })) {
+      // ③ 碎裂余音层（音效 P0）：body 后 200-400ms 的高频碎屑尾巴，rate 抖动防重复
+      // （缺文件静默跳过，不影响主体）
+      this._playSample("hitCrumble", { gain: heavy ? 0.5 : 0.38, rate: 0.92 + Math.random() * 0.16 });
+      return;
+    }
     const t = this.ctx.currentTime;
     const cfg = {
       light:    { freq: 800,  dur: 0.08, vol: 0.3,  type: "square" },
@@ -345,16 +379,24 @@ export class AudioSystem {
    * 快速衰减。与通用打击音（低频冲击 + 中频方波）区分开：这里没有「肉感」，
    * 只有「金属」——这是武器相交该有的声音。
    * @param {string} tier light|medium|heavy|ultimate
+   * @param {{family?: "metal"|"blade"|"blunt"}} [opts] 刃口/钝器两族选择接口（音效 P0 ②）：
+   *        blade = 亮、短的金属 clang；blunt = 暗、长的低频 thud（两族 sub 已烘焙进采样）。
+   *        按武器或攻击风格接线归后续调用方；传了 family 但缺文件时静默回退默认金属族。
    */
-  playClash(tier = "medium") {
+  playClash(tier = "medium", { family = "metal" } = {}) {
     if (!this.ctx || !this.enabled) return;
     this.resume();
     // 采样优先：8 列非谐波泛音 + 混响尾巴，比实时 3~5 个正弦更接近金属相交
     this.duckBgm(0.65, 0.18);
-    if (this._playSample("clash", {
-      gain: 0.8,
-      rate: tier === "ultimate" ? 0.8 : tier === "heavy" ? 0.9 : 1,
-    })) return;
+    const rate = tier === "ultimate" ? 0.8 : tier === "heavy" ? 0.9 : 1;
+    // 刃口/钝器两族：sub 已烘焙在采样内，不再另叠 clashSub
+    if ((family === "blade" || family === "blunt")
+      && this._playSample(family === "blade" ? "clashBlade" : "clashBlunt", { gain: 0.8, rate })) return;
+    if (this._playSampleVariant("clash", { gain: 0.8, rate })) {
+      // ② sub 垫底层：60-80Hz 短正弦垫在金属高频之下撑重量（缺文件静默跳过）
+      this._playSample("clashSub", { gain: 0.55, rate: 1 });
+      return;
+    }
     const t = this.ctx.currentTime;
     const cfg = {
       light:    { base: 2600, dur: 0.22, vol: 0.26, ratios: [1, 1.51, 2.13] },
@@ -396,9 +438,15 @@ export class AudioSystem {
     ns.start(t);
   }
 
-  /** 弹反音 */
-  playCounter() {    if (!this.ctx || !this.enabled) return;
+  /**
+   * 弹反音 —— Sekiro 口径「更高更亮的 clang = 回合易主」（音效 P0 ④）：
+   * 优先播 counter_clash 采样（clash 提 pitch ×1.3 + 低阶模态 ring 长尾），
+   * 与普通碰撞（clash 基频 1750Hz）拉开音高层级；缺文件回退原三方波合成。
+   */
+  playCounter() {
+    if (!this.ctx || !this.enabled) return;
     this.resume();
+    if (this._playSample("counterClash", { gain: 0.85, rate: 1 })) return;
     const t = this.ctx.currentTime;
     for (let i = 0; i < 3; i++) {
       const osc = this.ctx.createOscillator();

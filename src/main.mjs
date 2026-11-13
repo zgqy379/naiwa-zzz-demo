@@ -21,8 +21,8 @@ import { initTitleFX } from "./ui/titlefx.mjs";
 import { AudioSystem } from "./audio/audio.mjs";
 import { Movement } from "./game/movement.mjs";
 import { ProceduralAnim, ACTION } from "./game/animation.mjs";
-import { ClipDriver } from "./game/clips.mjs";
-import { attachWeapon, weaponTipWorld, WEAPON_SPECS } from "./game/weapon.mjs";
+import { ClipDriver, hitVariantForScreenX } from "./game/clips.mjs";
+import { attachWeapon, weaponTipWorld, weaponBaseWorld, weaponSegmentWorld, closestPointsOnSegments, WEAPON_SPECS } from "./game/weapon.mjs";
 import { ComboSystem } from "./game/combo.mjs";
 import { CounterSystem } from "./game/counter.mjs";
 import { StaggerSystem, STAGGER_TUNING } from "./game/stagger.mjs";
@@ -294,6 +294,41 @@ function activeWeaponTip() {
   const rig = m ? memberWeapon.get(m.id) : null;
   if (!rig) return null;
   return weaponTipWorld(rig);
+}
+
+/** 当前攻击方（玩家）的武器握把端世界坐标；没有武器 / 锚点未就绪返回 null（路线图⑥ 双锚点） */
+function activeWeaponBase() {
+  const m = squad.active;
+  const rig = m ? memberWeapon.get(m.id) : null;
+  return rig ? weaponBaseWorld(rig) : null;
+}
+
+// ---------- 武器相撞几何定位（2026-11-14 演出项工作流·武器组·路线图⑥·03 §4.2 标准版） ----------
+// 攻守双方武器各取 tip↔base 世界线段做最近距检测，距离 < 0.12m 判「视觉相交」，
+// 火花定位点取最近点对中点。只升级 VFX 定位：伤害判定与命中帧语义不变（仍走 applyDamage 既有链路）。
+// 每帧 2 次线段最近点检测，O(1)；任一侧无武器 / 未加载（异步加载是已知坑）安全跳过返回 null。
+// ⚠ 对手当前无武器（attachWeaponFor 仅玩家队装配——00-总览 §三 / 05 §4.3 实测；给对手挂武器
+//   属世界线「敌人」域，本组不越界）→ 检测恒跳过、定位保持攻方尖端（v10 行为）；
+//   世界线后续在 loadOpponentModel 给对手 attachWeapon 后把 rig 赋给 opponentWeaponRig
+//   即零改动生效。
+const CLASH_CONTACT_DIST = 0.12;   // 武器线段最近距阈值（米）
+const _clashMid = new THREE.Vector3();
+const _clashAtkA = new THREE.Vector3();
+const _clashAtkB = new THREE.Vector3();
+const _clashDefA = new THREE.Vector3();
+const _clashDefB = new THREE.Vector3();
+const _clashPtA = new THREE.Vector3();
+const _clashPtB = new THREE.Vector3();
+let opponentWeaponRig = null;   // 守方（对手）武器 rig —— 见上注，暂无武器恒为 null
+function clashContactPoint(out = _clashMid) {
+  const m = squad.active;
+  const atkRig = m ? memberWeapon.get(m.id) : null;
+  if (!atkRig || !opponentWeaponRig) return null;
+  if (!weaponSegmentWorld(atkRig, _clashAtkA, _clashAtkB)) return null;
+  if (!weaponSegmentWorld(opponentWeaponRig, _clashDefA, _clashDefB)) return null;
+  const dist = closestPointsOnSegments(_clashAtkA, _clashAtkB, _clashDefA, _clashDefB, _clashPtA, _clashPtB);
+  if (!(dist < CLASH_CONTACT_DIST)) return null;   // NaN / 超阈值都安全跳过
+  return out.addVectors(_clashPtA, _clashPtB).multiplyScalar(0.5);
 }
 
 // ---------- 共享官方动画库（仅作兜底） ----------
@@ -665,6 +700,62 @@ function anomalyHud() {
   };
 }
 
+// ---------- 受击方向化（2026-11-14 演出项·路线图①） ----------
+// 打击方向 = 攻击者→受击者的水平向量在相机右向量上的屏幕分量，三分（左/右/正面）选受击片段方向档；
+// 侧向受击时给受击者叠加「反应偏航」（向屏幕推挤侧偏转，硬直窗口内保持并回正），
+// 让受击反应读得出「被横向打歪」。不改受击硬直时长 / 顿帧 / 伤害（v10 数值冻结）。
+const HIT_YAW_OFF = 0.55;     // 反应偏航幅度（rad ≈ 32°）
+const HIT_YAW_HOLD_S = 0.32;  // 偏航保持时长（≈受击硬直 0.22s + 融合余量），线性回正
+const _hitDirV = new THREE.Vector3();
+
+/** 攻击者→受击者水平推挤方向在相机右向量上的屏幕分量（-1..1；机位取上一帧矩阵即可） */
+function _hitScreenX(attackerPos, victimPos) {
+  const dx = victimPos.x - attackerPos.x;
+  const dz = victimPos.z - attackerPos.z;
+  const len = Math.hypot(dx, dz);
+  if (len < 1e-4) return 0;
+  _hitDirV.setFromMatrixColumn(camera.matrixWorld, 0);   // 相机右向量（世界空间）
+  const rl = Math.hypot(_hitDirV.x, _hitDirV.z) || 1;
+  return ((dx * _hitDirV.x + dz * _hitDirV.z) / len) / rl;
+}
+
+/**
+ * 受击反应接线：按打击方向档播受击片段（仍走 ClipDriver crossFadeTo，时长缩放对齐既有窗口）
+ * 并在侧向受击时设置反应偏航。两处命中路径共用（玩家受击 / 对手受击）。
+ */
+function _applyHitReaction(victimAnim, victimMove, victimPos, attackerPos, dur = 0.22) {
+  const variant = hitVariantForScreenX(_hitScreenX(attackerPos, victimPos));
+  victimAnim.play(ACTION.HIT, dur, null, { variant });
+  if (variant === "front") {
+    victimMove.hitYawOff = 0;
+    victimMove.hitYawT = 0;
+    return;
+  }
+  // 侧向：把反应偏航转向屏幕推挤侧——受击者面向攻击者时后仰即被推方向，
+  // 叠加偏航放大横向读感；偏航符号取「后仰分量更偏向推挤侧」的一支（不依赖手推符号约定）。
+  _hitDirV.setFromMatrixColumn(camera.matrixWorld, 0);
+  const rl = Math.hypot(_hitDirV.x, _hitDirV.z) || 1;
+  const rx = _hitDirV.x / rl, rz = _hitDirV.z / rl;
+  const f = victimMove.facing;
+  const side = variant === "left" ? -1 : 1;   // 屏幕左 = 右向量反方向
+  const score = (d) => side * (-Math.sin(f + d) * rx - Math.cos(f + d) * rz);   // 后仰在推挤侧的分量
+  const yaw = score(HIT_YAW_OFF) >= score(-HIT_YAW_OFF) ? HIT_YAW_OFF : -HIT_YAW_OFF;
+  if (victimMove.hitYawT > 0 && Math.sign(victimMove.hitYawOff) === Math.sign(yaw)) {
+    // 连续同向受击：保持既有偏航不重置斜坡，避免快速连击时偏航跳变
+    victimMove.hitYawT = Math.max(victimMove.hitYawT, HIT_YAW_HOLD_S);
+  } else {
+    victimMove.hitYawOff = yaw;
+    victimMove.hitYawT = HIT_YAW_HOLD_S;
+  }
+}
+
+/** 每帧：侧向受击偏航在保持期内线性回正（叠加在 faceToward 结果之上，两者不打架） */
+function _hitYawStep(move, dt) {
+  if (!move.hitYawT) return;
+  move.hitYawT = Math.max(0, move.hitYawT - dt);
+  move.facing += move.hitYawOff * (move.hitYawT / HIT_YAW_HOLD_S);
+}
+
 /**
  * 对手攻击落地结算（2026-11-13 战斗手感 v1：抽成函数，由 AI 状态机在 strike 阶段显式调用）。
  *
@@ -702,7 +793,8 @@ function resolveOppHit() {
   const dmgToPlayer = Math.round(TUNING.opponent.damageBase * (0.7 + 0.3 * oppMv.impact.strength) * STYLE_MULTIPLIER[rel]);
   squad.damageActive(dmgToPlayer);
   battleStats.damageTaken += dmgToPlayer;   // 阶段 F：受击计入结算
-  act.anim.play(ACTION.HIT, 0.22);
+  // 受击方向化（2026-11-14）：按攻击者→受击者方向三分选片段 + 侧向反应偏航
+  _applyHitReaction(act.anim, act.move, act.group.position, opponentGroup.position, 0.22);
   cinematic.onHit("medium");
   // 2026-11-13：玩家受击补 0.12s 顿帧（原来只有动画、没有顿挫感）
   battle.freezeT = Math.max(battle.freezeT, TUNING.opponent.playerHitstopS);
@@ -722,7 +814,8 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
     : tier === "medium" ? TUNING.hitstopFMedium
     : TUNING.hitstopF;
   battle.freezeT = Math.max(battle.freezeT, hitstopF / TUNING.logicFps);
-  opponentAnim.play(ACTION.HIT, 0.22);
+  // 受击方向化（2026-11-14）：按攻击者→受击者方向三分选片段 + 侧向反应偏航
+  _applyHitReaction(opponentAnim, opponentMove, opponentGroup.position, squad.active.group.position, 0.22);
   // 2026-11-13 战斗手感 v1：命中**击退**（轻/重分级）
   // —— 原来对手被打时纹丝不动，只有血条在动，没有「打到了」的位移反馈。
   const kb = tier === "light" ? TUNING.opponent.knockbackLight
@@ -735,11 +828,14 @@ function applyDamage(dmg, tier, dazeGain = 0, relationLabel = null) {
   spawnParticles(opponentGroup.position, tier);
   // 武器相撞：攻击方的武器打击端世界坐标（若无武器则回退到对手体干位置）
   // —— 有了手骨与武器，命中反馈才出现在「刀尖碰到东西」的位置，而不是脚边的地面。
+  // 2026-11-14 路线图⑥（03 §4.2 标准版）：双武器线段最近距 <0.12m → 定位点取最近点对中点；
+  //   弹反成功（onDodgeInput 的 counter 分支）与普通命中共用 applyDamage 本路径，同点生效；
+  //   任一侧无武器 / 未加载 → 安全跳过，保持攻方尖端定位（对手当前无武器，05 §4.3 实测）。
+  //   只升级 VFX 定位：伤害判定与命中帧语义不变；色散脉冲与音效本无空间定位参数（全屏 / 非空间）。
   const attackerTip = activeWeaponTip();
-  const clashPos = attackerTip
-    ? attackerTip
-    : new THREE.Vector3(opponentGroup.position.x, 1.0, opponentGroup.position.z);
-  if (attackerTip) {
+  const clashPos = clashContactPoint() ?? attackerTip
+    ?? new THREE.Vector3(opponentGroup.position.x, 1.0, opponentGroup.position.z);
+  if (clashPos) {
     impactFx.clash(clashPos, tier === "ultimate" || tier === "finisher" ? "ultimate" : tier);
   }
   // 白闪 + 拟声词（绝区零式打击反馈）；有克制关系时用自定义词顶替拟声词
@@ -919,6 +1015,9 @@ function ultimateAttack() {
     assist.full();           // 回满 3 支援点（ZZZ：终结技 +3 支援点）
     battle.invulnT = 2.2;    // 释放期间无敌（realDt 计时，覆盖慢镜下的前摇+演出）
     cinematic.slowmoT = Math.max(cinematic.slowmoT, 1.4);
+    // 终结技五拍·拍1 预期（2026-11-14 路线图③）：前摇期 BGM 加深压混——
+    // 幅度 0.42/0.22s（命中档）→ 0.30/1.2s（盖过前摇+本体起手）；喧响槽爆闪见 tick 的 dbBurst
+    audio.duckBgm(0.3, 1.2);
   }
   battle.finisherPending = {
     t: mv.anim.windup * (isUlt ? 2.0 : 1.6),
@@ -1130,6 +1229,43 @@ function onDodgeInput() {
   squad.active.anim.play(ACTION.DODGE, 0.28);
 }
 
+// ---------- ② 换人登场六步演出（2026-11-14 路线图④·仪式感；总时长 ≤0.8s，战斗不暂停） ----------
+// 六步：金/白闪 0.1s → 1.15× 速度滑入 + 登场 pose（crossFadeTo 播挥击首段）
+//   → 材质 emissive 0.6→0「由虚转实」0.2s（_flashOpponent 手法反向衰减）
+//   → 接招后退 0.4m（move.vel 冲量，摩擦自然刹停）→ 「叮」playConfirm → 回 normal
+// 不锁输入：滑入/后退均为 vel 冲量，玩家移动输入可直接叠加（登场期间可继续操作）。
+const SWAP_ENTRANCE_EMISSIVE = 0.6;
+const SWAP_ENTRANCE_FADE_S = 0.2;
+const SWAP_ENTRANCE_SPEED = 1.15;   // 滑入速度 = TUNING.playerSpeed × 1.15
+const SWAP_BACKOFF_VEL = 5.0;       // 接招后退冲量（摩擦 12/s 下滑行 ≈0.4m）
+const entranceFades = [];           // { mats, t, dur } —— tick 内按真实时间衰减
+
+function _swapEntranceFX(member) {
+  // 1) 金/白闪 0.1s（复用命中白闪层公开口）
+  hitFeedback.screenFlash(0.4, 0.1);
+  // 3) 由虚转实：材质收集同 _flashOpponent 手法，emissive 暖金 0.6 起步（衰减见 tick）
+  const mats = [];
+  member.group.traverse((c) => {
+    if (c.isMesh && !c.userData.__isOutline && c.material?.emissive) mats.push(c.material);
+  });
+  for (const m of mats) {
+    m.emissive.setHex(0xfff2cc);
+    m.emissiveIntensity = SWAP_ENTRANCE_EMISSIVE;
+  }
+  entranceFades.push({ mats, t: SWAP_ENTRANCE_FADE_S, dur: SWAP_ENTRANCE_FADE_S });
+  // 4) 接招后退 0.4m：滑入/登场 pose 读完后（0.3s）给「背离对手」的 vel 冲量
+  const toMember = new THREE.Vector3().subVectors(member.group.position, opponentGroup.position);
+  toMember.y = 0;
+  if (toMember.lengthSq() > 1e-6) toMember.normalize();
+  else toMember.set(1, 0, 0);
+  setTimeout(() => {
+    member.move.vel.x = toMember.x * SWAP_BACKOFF_VEL;
+    member.move.vel.z = toMember.z * SWAP_BACKOFF_VEL;
+  }, 300);
+  // 5) 「叮」+ 材质音：落在登场站稳的时刻（ZZZ 登场音画分层：闪→入场→音）
+  setTimeout(() => audio.playConfirm(), 450);
+}
+
 function onSwapInput(index) {
   if (battle.phase !== "playing") return;
   // 阶段 G：鸣徽选择期间普通换人吸收
@@ -1140,10 +1276,15 @@ function onSwapInput(index) {
   const res = squad.swapTo(index, viaChain);
   if (!res) return;
   syncActiveVisibility();
-  // 换人攻击
-  res.to.anim.play(ACTION.ATTACK_1, 0.26);
+  // ② 换人登场六步（2026-11-14 路线图④）：闪→滑入+pose→由虚转实→后退→叮→回 normal
+  //    （第 2 步「回 normal」由 ProceduralAnim 动作窗结束后自动回 idle/move 承担）
+  _swapEntranceFX(res.to);
+  // 换人攻击（pose 即登场 pose：挥击首段，登场窗口 0.26→0.42s ×1.15 速度更「快」；
+  // 原 lunge 前冲改为 1.15× 速度 vel 冲量滑入——摩擦自然刹停，玩家输入可叠加）
+  res.to.anim.play(ACTION.ATTACK_1, 0.42, null, { speed: 1.15 });
   const dir = new THREE.Vector3().subVectors(opponentGroup.position, res.to.group.position).normalize();
-  res.to.move.lunge(dir, 0.2);
+  res.to.move.vel.x = dir.x * TUNING.playerSpeed * SWAP_ENTRANCE_SPEED;
+  res.to.move.vel.z = dir.z * TUNING.playerSpeed * SWAP_ENTRANCE_SPEED;
   if (viaChain) {
     cinematic.onChain();
     cinematic.setFocus(opponentGroup.position);
@@ -1446,6 +1587,14 @@ function tick() {
     // GAME-7：终结技定时命中结算（顿帧期间不推进；慢镜按 scaled dt，与终结技动画同步）
     if (battle.finisherPending) {
       const fp = battle.finisherPending;
+      // 终结技五拍·拍2 切镜（2026-11-14 路线图③）：命中前 1 帧（fp.t ≤ dt = 下一帧即结算）——
+      // 黑场 80ms（仅喧响终结 isUlt；普通终结复用结构但不加黑场）+ 招式名大字（hitflash DOM 层）。
+      // 单次 80ms、每次终结至多 1 帧 → 满足 WCAG 2.3.1 全屏闪 ≤3 次/s
+      if (!fp.cutFired && fp.t <= dt) {
+        fp.cutFired = true;
+        hitFeedback.showMoveName(getMove(fp.member.id).moveName);
+        if (fp.isUlt) hitFeedback.cutFlash();
+      }
       fp.t -= dt;
       if (fp.t <= 0) {
         battle.finisherPending = null;
@@ -1454,6 +1603,10 @@ function tick() {
         if (fInRange && fInWidth) {
           // 阶段 A：蓄力终结/三段终结分档积累失衡（charged 标记见 onAttackInput/ultimateAttack）
           applyDamage(fp.dmg, "ultimate", fp.charged ? STAGGER_TUNING.gains.charged : STAGGER_TUNING.gains.heavy, fp.relation ? (STYLE_LABEL[fp.relation] || null) : null);
+          // 终结技五拍·拍4 定格（2026-11-14 路线图③）：命中结算瞬间 timescale 0.05 hold 0.4s
+          // + 注视点抬升（onFinisherHold；机位 y 不动，不触「相机 y>0.5」E2E 判据）；
+          // 拍5 回场（0.3s 匀速 tween）由 cinematic.getOffset 在 hold 结束后自动接管
+          cinematic.onFinisherHold(0.4);
           // 阶段 C：失衡中重击命中 → 连携 QTE（ZZZ：眩晕期重击触发连携）
           tryOpenChainQte();
         }
@@ -1464,6 +1617,9 @@ function tick() {
     // 3/4 侧身朝向（面向对手但偏向相机，避免背对）
     active.move.faceToward(opponentGroup.position, camera.position);
     opponentMove.faceToward(active.group.position, camera.position);
+    // 受击方向化（2026-11-14）：侧向受击的反应偏航在硬直窗口内保持并平滑回正
+    _hitYawStep(active.move, dt);
+    _hitYawStep(opponentMove, dt);
   }
 
   // 阶段 C：连携 QTE 倒计时（实时推进——不受慢镜/顿帧影响，ZZZ ~3s 真实窗口）
@@ -1513,7 +1669,8 @@ function tick() {
 
   // 相机：camRig 管位置+碰撞（行业标准），cinematic 管运镜偏移
   cinematic.userAngle = camAngle;
-  // 先算运镜偏移（连携/终结的推近/环绕）
+  cinematic.frozenNow = frozen;   // 终结技拍4：hold 在顿帧期间暂停衰减（getOffset 内消费）
+  // 先算运镜偏移（连携/终结的推近/环绕 + 五拍拍4/拍5 的注视点抬升）
   const camOffset = cinematic.getOffset(rawDt);
   // camRig 跟随玩家（带偏移）
   camRig.setTarget(active.group.position, {
@@ -1521,7 +1678,9 @@ function tick() {
     height: TUNING.camera.height,
     // 修：sideOffset 应叠加「基础侧偏」+「运镜环绕偏移」
     sideOffset: (TUNING.camera.sideOffset ?? 0) + camOffset.side,
-    lookAtHeight: TUNING.camera.lookAtHeight,
+    // 终结技拍4 定格：注视点抬升 +0.3（官方幕后「收招定格·拉高镜头」）；机位 height 不变，
+    // camera.position.y 恒为 TUNING.camera.height → 不触 E2E「相机 y>0.5」判据
+    lookAtHeight: TUNING.camera.lookAtHeight + (camOffset.look ?? 0),
   });
   camRig.update(rawDt);
   // 震屏/抖动（叠加在 camRig 之上）
@@ -1531,6 +1690,18 @@ function tick() {
   impactFx.update(rawDt);
   // 命中反馈（白闪衰减）
   hitFeedback.update(rawDt);
+  // 换人登场六步·第 3 步「由虚转实」（2026-11-14 路线图④）：
+  // emissive 0.6→0 按真实时间线性衰减（_flashOpponent 的 emissive 手法反向）；0.2s 后归零清理
+  for (let i = entranceFades.length - 1; i >= 0; i--) {
+    const f = entranceFades[i];
+    f.t -= rawDt;
+    const k = Math.max(0, f.t / f.dur);
+    for (const m of f.mats) {
+      m.emissiveIntensity = SWAP_ENTRANCE_EMISSIVE * k;
+      if (k <= 0) m.emissive.setHex(0x000000);
+    }
+    if (f.t <= 0) entranceFades.splice(i, 1);
+  }
 
   // 蓄力（长按空格）：蓄满后松手发射「蓄力终结」
   //   蓄力时长用**墙钟时间**（performance.now）而非逐帧累加的 rawDt——
@@ -1564,6 +1735,10 @@ function tick() {
       staggered: stagger.isStaggered, // 满条闪烁态
       assist: assist.points,          // 阶段 B：支援点 3 格
       decibel: battle.decibel,        // 阶段 D：喧响值
+      // 终结技五拍·拍1 预期（2026-11-14 路线图③）：喧响槽爆闪——
+      // 蓄力且喧响已满（释放前）或喧响终结前摇期（finisherPending.isUlt）时点亮
+      dbBurst: !!(battle.finisherPending && battle.finisherPending.isUlt)
+        || (charging && battle.decibel >= 3000),
       anomalyPct: ah.pct,             // 阶段 E：异常积蓄条（最高属性）
       anomalyCss: ah.css,
       anomalyStatus: ah.status,
@@ -1603,7 +1778,7 @@ function tick() {
   renderPhase++;
   // 武器挥动拖尾：连段 / 终结演出期间才记录武器尖端轨迹，收招即清空
   weaponTrail.setActive(inBattle && (combo.isInCombo || cinematic.slowmoT > 0));
-  weaponTrail.push(activeWeaponTip());
+  weaponTrail.push(activeWeaponTip(), activeWeaponBase());   // 路线图⑥：双锚点定宽度方向；无 base 时 trail 内部回退旧行为
   weaponTrail.update(rawDt);
   if (renderPhase % renderEvery === 0) postfx.render(rawDt);
 }

@@ -3,11 +3,16 @@
  *
  * 为什么需要：既有 SlashArc 是「命中瞬间」在体干位置生成的一道静态弧光，
  * 挥动过程本身没有留下任何痕迹，角色看起来像瞬移而不是把武器甩出去。
- * 这里记录武器尖端最近 14 帧的世界坐标，生成一条始终面向相机的渐变 ribbon：
+ * 这里记录武器尖端最近 14 帧的世界坐标，生成一条渐变 ribbon：
  * 越靠近当前帧越宽越亮，旧点按年龄淡出。
  *
+ * 双锚点（2026-11-14 演出项工作流·武器组·路线图⑥·03 §4.3）：
+ *  - push(tip, base) 双参数：每帧采样同时记录 base→tip 方向，宽度方向由几何直接给出——
+ *    俯视机位不再退化，武器绕轴自旋（如锅铲旋转挥击）能画出真实的螺旋面；
+ *  - 无 base（旧调用方 / 锚点未就绪）→ 回退原「切线×视线」逐点猜侧向量行为。
+ *
  * 实现约束：
- *  - 不依赖角色蒙皮 / 骨骼，只吃一个 Vector3，接入成本 3 行；
+ *  - 不依赖角色蒙皮 / 骨骼，只吃 1~2 个 Vector3（tip 必填 / base 可选），接入成本 3 行；
  *  - 固定 14 段 × 2 顶点，每帧只更新两个 BufferAttribute，无对象分配；
  *  - 只在连段 / 终结演出期间激活，收招立即清空，不留残影；
  *  - AdditiveBlending + 顶点色亮度表达 alpha（不用 vertexAlphas，兼容性更好）。
@@ -22,7 +27,7 @@ export class WeaponTrail {
   constructor(scene, camera) {
     this.scene = scene;
     this.camera = camera;
-    this.points = [];        // { p: Vector3, age: number }
+    this.points = [];        // { p: Vector3, age: number, dir: Vector3|null }——dir=该帧 base→tip 单位向量（无 base 为 null）
     this.active = false;
 
     const verts = new Float32Array(SEGMENTS * 2 * 3);
@@ -56,6 +61,7 @@ export class WeaponTrail {
     this._side = new THREE.Vector3();
     this._fwd = new THREE.Vector3();
     this._up = new THREE.Vector3(0, 1, 0);
+    this._dir = new THREE.Vector3();   // push 时算 base→tip 方向用
   }
 
   /** 只在挥击期间开启；关闭时立即清空历史点 */
@@ -68,13 +74,20 @@ export class WeaponTrail {
     }
   }
 
-  /** 每帧喂武器尖端世界坐标 */
-  push(pos) {
+  /** 每帧喂武器锚点世界坐标：pos=尖端（必填），basePos=握把端（可选，路线图⑥ 双锚点）。
+   *  有 base → 宽度方向 = base→tip 单位向量（几何直接给出，随采样时刻记录）；
+   *  无 base / 线段退化（base 与 tip 重合）→ dir 记 null，update 回退旧行为。 */
+  push(pos, basePos) {
     if (!this.active || !pos) return;
     const last = this.points[this.points.length - 1];
     // 阈值放宽到约 4.5mm：慢速挥动也会留下轨迹，完全静止才不增点
     if (last && last.p.distanceToSquared(pos) < 0.00002) return;
-    this.points.push({ p: pos.clone(), age: 0 });
+    let dir = null;
+    if (basePos) {
+      this._dir.subVectors(pos, basePos);
+      if (this._dir.lengthSq() > 1e-8) dir = this._dir.normalize().clone();
+    }
+    this.points.push({ p: pos.clone(), age: 0, dir });
     if (this.points.length > SEGMENTS) this.points.shift();
   }
 
@@ -88,9 +101,12 @@ export class WeaponTrail {
     }
     this.mesh.visible = true;
 
-    // ribbon 宽度方向必须「垂直于挥动轨迹且面向相机」。
-    // 早期实现直接用相机右向量：俯视机位下轨迹也在水平面，两者平行 → 带子退化成一条线，
-    // 实机截图几乎看不见。改为逐点用局部切线与视线叉乘求侧向量。
+    // ribbon 宽度方向：
+    //  - 双锚点采样（q.dir 存在）→ 直接用该帧 base→tip 向量（路线图⑥）：
+    //    几何确定、俯视机位不退化，武器绕轴自旋能画出真实螺旋面；
+    //  - 无 base 回退（旧调用方）：逐点用局部切线与视线叉乘求侧向量。
+    //    早期实现直接用相机右向量：俯视机位下轨迹也在水平面，两者平行 → 带子退化成一条线，
+    //    实机截图几乎看不见。
     this.camera.getWorldDirection(this._fwd);
     this._right.crossVectors(this._fwd, this._up).normalize();
 
@@ -99,14 +115,18 @@ export class WeaponTrail {
     for (let i = 0; i < SEGMENTS; i++) {
       const idx = Math.min(i, n - 1);
       const q = this.points[idx];
-      const pPrev = this.points[Math.max(0, idx - 1)].p;
-      const pNext = this.points[Math.min(n - 1, idx + 1)].p;
-      this._tan.subVectors(pNext, pPrev);
-      if (this._tan.lengthSq() > 1e-8) {
-        this._side.crossVectors(this._tan.normalize(), this._fwd).normalize();
-        if (this._side.lengthSq() < 1e-6) this._side.copy(this._right);
+      if (q.dir) {
+        this._side.copy(q.dir);
       } else {
-        this._side.copy(this._right);
+        const pPrev = this.points[Math.max(0, idx - 1)].p;
+        const pNext = this.points[Math.min(n - 1, idx + 1)].p;
+        this._tan.subVectors(pNext, pPrev);
+        if (this._tan.lengthSq() > 1e-8) {
+          this._side.crossVectors(this._tan.normalize(), this._fwd).normalize();
+          if (this._side.lengthSq() < 1e-6) this._side.copy(this._right);
+        } else {
+          this._side.copy(this._right);
+        }
       }
       const t = i / (SEGMENTS - 1);                 // 0 = 最旧，1 = 当前帧
       const life = Math.max(0, 1 - q.age / LIFE);
