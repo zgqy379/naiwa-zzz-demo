@@ -72,6 +72,26 @@ AIGC:
 - 已知冲突 / 风险：
 ```
 
+### 交接 2026-11-16 19:3x by 收口线（**第十一版收口进行中**：Demo 止血 + 重录 / 重拍 / 重出 PDF · 部署与官网补提交待续）
+
+- 已做：
+  - **止血**：魔搭创空间实测 `status=Sleeping`、静态地址 404（官网 `demo_url` 正是它）。`POST /openapi/v1/studios/.../deploy` 唤醒，`Sleeping → Building → Deploying → Running`；静态页 200（6,496 B）、`index-CDoGGTde.js` / `bg/title.mp4` / 角色 GLB 全 200。**唤醒后展示的仍是第十版**，不是最新代码。
+  - **构建前提**：近 30 分钟零写入、无并行线施工，`npm run build` exit 0 → `dist/assets/index-ZN7AN6R4.js`（1,034,782 B，sha256 前16位 `20141f64453e3d57`）+ `index-BwfacBz4.css`（53,360 B）；`dist` 60 文件 / 14.43 MB，最大单文件 1.17 MB（不触魔搭 10 MiB 限制）。`public/asset` 26 只 GLB ↔ `dist/asset` 26 只，逐文件 sha256 **零差异**。
+  - **取证重做**：`scripts/capture-demo-video.mjs` 重录（2366 帧 / 0 错误 / 7 张 §十插图重拍）；合成 `docs/demo-video-20261111.mp4` **102.2 s / 3066 帧 / 27,988,138 B**，sha256 `c4c745d8…`，录制取证 `docs/evidence/v3-demo-rec-20261111.json` 的构建指纹与本轮入口一致。报告书 §3.7 补记十一/十四演出四组（`b7ed793` 单独立项），`scripts/build-report-pdf.mjs` 重出 `docs/report.pdf` **42 页 / 21,999,480 B**，sha256 前16位 `956cc970a1e4d23b`。
+  - 台账已回填 `rec_duration / rec_bytes / rec_sha256 / rec_source_webm / rec_note` 与 `demo_url_note` 构建口径；**完成式字段仍留空**（`source_zip_url` / `rednote_url` 等），`submit_at` 保留 11-13 第 9 版的真实回执，不预填第 10 版。
+- 未做 / 待办（按顺序）：
+  1. **dist 子仓提交并推送**：本地已重建但尚未 commit；推 GitHub Pages `gh-pages`，再同步魔搭 `master`（保留 `README.md` 平台元数据与 `.gitattributes`）并 `POST deploy`。
+  2. **官网第 10 版提交**：需制作人在场确认后由 ego 驱动表单（Demo / 视频 / 报告书 PDF / 源码 `/tree/main`；小红书链接若仍无则清空）；提交后回填 `submit_at` / `receipt` / `frozen_commit` 并重指冻结 tag。
+  3. 小红书发帖（加分项，本机未登录，制作人本人）。
+- 待验证：双通道部署后入口 `index-ZN7AN6R4.js` 与全部资源 GET/Range 200、真实浏览器首屏；新视频与新 PDF 的公开直链可下载。
+- 产物与证据路径：`dist/assets/index-ZN7AN6R4.js`、`docs/demo-video-20261111.mp4`、`docs/report.pdf`、`docs/evidence/v3-demo-rec-20261111.json`、`docs/evidence/v3-show4-*`、`docs/submission.json`。
+- 最近构建：`dist/assets/index-ZN7AN6R4.js` @ 2026-11-16 19:10。
+- 已知冲突 / 风险：
+  1. E2E **33/33** 证据取自 11-14 01:56 的四组合并态；此后 `src/` 未变（工作区仅 2 个 11-15 探针脚本未提交），证据仍有效，但**本轮未重跑**（避免 ego 常驻宿主抖动覆盖证据）。
+  2. 冻结 tag 仍指 `599c1e3`（11-13 第 9 版回执），落后于 HEAD；第 10 版提交后需重指。
+  3. 11-15 留下 `scripts/lux3d/open-redeem.mjs` 与 `probe-grants.mjs` 两个未提交探针（查官方工具积分/兑换码），本轮提交**不包含**它们。
+  4. 录像脚本清理旧帧目录时触发安全删除阈值（1839 文件），改用「改名让路」绕过；旧帧在 `.tmp-demo-frames-old-20261116`，可清理。
+
 ### 交接 2026-11-14 02:0x by 演出项工作流（**四组并行施工收尾**：终结五拍 / 登场六步 / 移动混合+受击方向化 / 音效分层 / 武器双锚点相撞定位 · v10 手感数值冻结零改动）
 
 - 已做（四组按 AGENTS §3 先登记后施工，登记行 `docs/改动记录-角色线.md` 2026-11-14 01:01 / 01:1x / 01:3x / 01:49 共四条；设计依据 `docs/演出研究-20261112/`）：
