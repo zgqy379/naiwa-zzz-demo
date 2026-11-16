@@ -95,7 +95,7 @@ AIGC:
 ### 部署实测补记（2026-11-16 19:3x）
 
 - **魔搭 v11 已上线**：master `69c321a..8d5a75e`（钩子 ACCEPTED），`POST deploy` 后 `Building → Deploying → Running`；静态页 200 / 6,496 B，入口 `index-ZN7AN6R4.js`，7 项关键资源（JS / CSS / 视频 / 采样音 / 动画库 / 角色 GLB / 许可证）全 200，平台 `README.md` 与 `.gitattributes` 保留。
-- **GitHub 通道阻塞**：dist 子仓 SSH deploy key 无写权限，Pages 仍第十版 `index-CDoGGTde.js`；主仓 `1e86836` 领先 `origin/main`（`b4d9319`）4 个提交，代理 61677 / 7897 均失效、直连 443 超时 → raw 视频直链仍是旧版（线上 26,730,907 B vs 本地 27,988,138 B），源码链接 `/tree/main` 也落后。
+- **GitHub 通道已打通**（19:4x 补记）：根因不是网络全断，而是 git 只尝试 DNS 的第一个 IP（`57.155.223.240`）就超时；浏览器 / curl 会自动换到可达 IP。用本地 CONNECT 代理做多 IP fallback 后，主仓 `b4d9319..5038ef3`、dist `c1ac55f..5042ad6 → gh-pages` 均推送成功，raw 视频直链 Content-Length 实测 27,988,138 B 与本地一致；Pages 入口刷新中。
 - **因此官网第 10 版提交暂缓**：需制作人决定「照常提交（Demo / PDF 新，视频旧）」还是「等 GitHub 通了一致后再提交」。第 9 版回执仍有效，平台以 11-19 19:00 前最后一次成功提交为准。
 - 明细：`docs/evidence/deploy-acceptance-20261116.json`。
 
