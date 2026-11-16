@@ -1,0 +1,54 @@
+{
+  "at": "2026-11-16T19:35:00+08:00",
+  "round": "第十一版收口",
+  "build": {
+    "entry": "assets/index-ZN7AN6R4.js",
+    "bytes": 1034782,
+    "sha256_prefix": "20141f64453e3d57",
+    "css": "assets/index-BwfacBz4.css",
+    "dist_files": 60,
+    "dist_total_mb": 14.43,
+    "largest_single_file": "asset/naiwa_anim_lib.glb 1,173,048 B（未触魔搭 10 MiB 限制）",
+    "asset_parity": "public/asset 26 只 GLB ↔ dist/asset 26 只，逐文件 sha256 零差异"
+  },
+  "evidence": {
+    "demo_video": "docs/demo-video-20261111.mp4，102.2 s / 3066 帧 / 1920×1080 / 27,988,138 B，sha256 c4c745d8f2737fbdf09ec73aa3a4fd2a05a3cf883498689cb322ca729dd5d25f",
+    "capture": "docs/evidence/v3-demo-rec-20261111.json：2366 帧抓取、0 console 错误、7 张 §十插图重拍，构建指纹与入口一致",
+    "report_pdf": "docs/report.pdf，42 页 / 21,999,480 B，sha256 前缀 956cc970a1e4d23b（含 §3.7 演出项工作流）",
+    "e2e": "33/33 @ 2026-11-14T01:56Z（四组合并态）；此后 src/ 未变，本轮未重跑以避免 ego 宿主抖动覆盖证据"
+  },
+  "modelscope": {
+    "before": "status=Sleeping，静态地址 404（官网 demo_url 指向它）",
+    "revive": "POST /openapi/v1/studios/zgqy379/naiwa-zero-demo/deploy → Building → Deploying → Running",
+    "push": "master 69c321a..8d5a75e，pre-receive hook result=ACCEPTED",
+    "deploy": "POST deploy → Building → Deploying → Running",
+    "live": "https://zgqy379-naiwa-zero-demo.ms.show/index.html 200 / 6,496 B，入口 index-ZN7AN6R4.js",
+    "resources_200": [
+      "assets/index-ZN7AN6R4.js",
+      "assets/index-BwfacBz4.css",
+      "bg/title.mp4",
+      "audio/clash_metal.wav",
+      "asset/naiwa_anim_lib.glb",
+      "asset/naiwa_xiaonaiwa_runtime.glb",
+      "fonts/LICENSES.txt"
+    ],
+    "metadata_preserved": ["README.md（sdk: static / app_file: index.html）", ".gitattributes"]
+  },
+  "github_pages": {
+    "status": "仍为第十版 index-CDoGGTde.js，HTTP 200",
+    "blocker": "dist 子仓 SSH remote 的 deploy key 无写权限：Permission denied to deploy key"
+  },
+  "main_repo": {
+    "local_head": "1e86836",
+    "origin_main": "b4d9319",
+    "ahead": 4,
+    "blocker": "GitHub 网络不通：本机代理 127.0.0.1:61677 与 7897 均失效，直连 github.com:443 超时/SSL eof",
+    "consequence": "视频直链 raw.githubusercontent.com/.../demo-video-20261111.mp4 仍是旧版：线上 Content-Length 26,730,907 B ≠ 本地 27,988,138 B；源码链接 /tree/main 也落后 4 个提交"
+  },
+  "pending": [
+    "制作人确认后执行官网第 10 版提交（Demo / 报告书 PDF / 源码 / 视频链接）",
+    "GitHub 网络恢复后 git push origin main，并推 dist 子仓 gh-pages",
+    "第 10 版提交后回填 submit_at / receipt / frozen_commit 并重指冻结 tag",
+    "小红书发帖（本机未登录，制作人本人）"
+  ]
+}
