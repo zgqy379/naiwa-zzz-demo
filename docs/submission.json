@@ -14,9 +14,9 @@
   "report_pdf_note": "2026-11-13 第十版报告书 PDF（已上传为第 9 版附件）：docs/report.pdf，42 页 / 18,978,184 B，sha256 5b4681fcc963d7ed366d8a4f09381b80043c92f993f6d1bc782d8a03a7ee21c2（中文可检索，内嵌图 14–17 骨骼与武器证据；新增 §3.6「战斗手感 v1」）。平台第 9 版卡片显示「report.pdf · 18.1 MB」。注意 Chrome --print-to-pdf 会写入生成时间戳 → 同一份 markdown 每次生成字节不同，**本条登记的哈希对应上传到官网的那一份**，仓库内文件已与之逐字节一致。",
   "demo_url_note": "提交填魔搭 Static 创空间 https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo （2026-11-12 部署第七版定版构建 index-CLZViSiW.js，魔搭 master b160f78，dist 47 个交付文件 / 14.22 MB，首页背景为自制实拍，角色为奶蛙 IP 形体）：**47/47 文件 GET 全部 200**（魔搭 master `69c321a` / gh-pages `c1ac55f`，入口 `index-CDoGGTde.js`），五项关键文件与本仓 dist/ **逐字节一致**（入口 index.html 3D99A4609B90D030、主 JS assets/index-CDoGGTde.js 18D9BCABDB0AD822、CSS assets/index-BnIDec0l.css E9056643B6D1168B、bg/title.mp4 DA18AB01B02C594A、fonts/LICENSES.txt 18A6B716E5A31801），旧构建 assets/index-C6e6LaWv.js / index-CP5WV8oE.js / index-CLZViSiW.js 均已 404 下线；含 bg/title.mp4 8.33 MiB 与 fonts/LICENSES.txt（OFL 1.1 字体许可全文，随包分发）。备用直连（gh-pages，commit 2e11511）：https://zgqy379.github.io/naiwa-zzz-demo/ （五项关键文件 200，旧构建同样 404）。原 workbuddy 地址已失效（只返回引用旧构建 index-iKSx0O26.js 的壳页、静态资源全部 403），不再使用。本构建已并入「绝区零对标深度改造」阶段 A-G 八个系统（失衡 / 极限闪避+支援点 / 连携技 QTE / 喧响值终结技 / 属性异常+紊乱+弱点 / 结算首领狂暴 / 鸣徽三选一）与「骨骼与动作重做」（16 只角色官方 Lux3D 自动绑骨 52 关节 Mixamo 骨架 + 官方动作库 20 段经两个共享动画库驱动 + 8 件官方武器挂右手骨骼 + 命中帧金属相撞特效与金属撞击音）。Demo 视频已于 2026-11-13 第九次重录：docs/demo-video-20261111.mp4（87.8 秒 / 2633 帧，全页含 DOM HUD / 液态玻璃 / 实时 3D 选人 / 3D 光标 / 视频背景，片中角色为官方骨骼动作驱动、武器相撞可见）；报告书 §十图 3-图 5 重拍（v3-show4）、图 6 为 NPR-PBR 同机位对照（像素差分 2.35%）、图 13 为 Aholo 视差层开/关 A/B 对照（像素差分 2.94%），图 7-图 11 随 E2E 33/33 复跑刷新（docs/test-shots），新增图 14-17（16 只花名册 / 旧新资产对比 / 官方武器道具）。 版本口径（2026-11-16）：index-ZN7AN6R4.js。 2026-11-16 部署实测：魔搭 master 69c321a→8d5a75e（hook ACCEPTED），POST deploy 后 Building→Deploying→Running，静态页 200 且入口为 index-ZN7AN6R4.js，7 项关键资源全 200（明细 docs/evidence/deploy-acceptance-20261116.json）。补记（2026-11-16 19:4x）：已用本地 CONNECT 代理（git 只试第一个 DNS 结果，浏览器/curl 会换 IP）完成推送——主仓 b4d9319→5038ef3、gh-pages c1ac55f→5042ad6；raw 视频直链 Content-Length 实测 27,988,138 B，与本地逐字节一致，源码链接 /tree/main 已指向最新提交。 第 10 版已提交（11-16 20:06），四项链接在提交瞬间实测有效。",
   "rec_video_path": "docs/demo-video-20261111.mp4",
-  "rec_duration": "102.200 s（102.2 秒，r_frame_rate=30/1，nb_frames=3066，1920×1080，ffprobe 实测 2026-11-16 第十一次重录）",
-  "rec_bytes": 27988138,
-  "rec_sha256": "c4c745d8f2737fbdf09ec73aa3a4fd2a05a3cf883498689cb322ca729dd5d25f",
+  "rec_duration": "98.967 s（98.97 秒，30fps / 2969 帧 / 1920×1080，ffprobe 实测 2026-11-16 第十二次重录）",
+  "rec_bytes": 26567903,
+  "rec_sha256": "b5f6a6ca86887ef854c4ca6f53621657c77b62ebe2ac6040a35de9b0706f5c15",
   "rec_source_webm": {
     "path": "",
     "bytes": 0,
@@ -24,10 +24,11 @@
     "note": "第十一次重录未生成 webm 中间源（CDP 抓帧 → ffmpeg concat 直出 mp4）"
   },
   "rec_source_webm_note": "旧 52.4s 版本的 webm 源不再适用；现行版源为逐帧 JPEG 序列（录制脚本 scripts/capture-demo-video.mjs 可复现），编码参数见 rec_method。",
-  "rec_note": "第十一次重录（2026-11-16，取自登记构建 index-ZN7AN6R4.js，sha256 前16位 20141f64453e3d57）：2366 帧抓取、零 console 错误、黑帧 0 段；片中完整呈现三段连段 / 接力换人 / 弹反 / 蓄力终结 / 三连战 / 鸣徽三选一 / 首领狂暴 / 属性异常与紊乱 / 失衡 / 连携 QTE / 喧响满极终结 / A 级结算。rec_method / rec_driver 待制作人确认录制会话详情后补充，不代填。",
+  "rec_note": "第十二次重录（2026-11-16，取自构建 index-DAd_NelE.js / sha 前16位 e5196683a08d9677）：2674 帧抓取、零 console 错误、黑帧 0 段；含响应式补强（横屏设置面板不裁切、平板出战按钮不溢出）与缩小后的 3D 光标。因 screencast 抓帧帧率波动，ffconcat 采用固定帧间隔 0.037s 合成，保证时长可控。",
   "rec_method": "CDP Page.startScreencast 全页合成录制（jpeg q85，1920×1080@1x）→ ffmpeg concat 30fps H.264（libx264 CRF20 / yuv420p / +faststart）；页面由本地静态服务读取 dist/ 定版构建",
   "rec_driver": "scripts/capture-demo-video.mjs（headless Chrome + CDP over WebSocket；场景经 window.__npr 公开 API、页面 KeyboardEvent 与 DOM click 驱动，非真人手操）；录制取证 docs/evidence/v3-demo-rec-20261111.json",
   "frozen_commit": "e771e20206aec1edeac46b6ce7421c39de81e91e",
   "team_id_verified": "2026-11-07 官网「我的参赛→我的团队」复核：团队编号 3FO4K4VY3D07（必胜客的汉堡最好吃，队长诸葛青云），证据 docs/evidence/hackathon_team_verify_2026-11-07.png；2026-11-09 报告书抬头同口径。",
-  "frozen_commit_note": "冻结 tag `freeze-2026-11-11-final` → 61da946（= 含本次官网提交回执的文档提交；其 src/ 与构建提交 2642487 完全一致，dist 与线上魔搭 master 0835058 / gh-pages b17d2f9 逐字节一致，docs/report.pdf 与官网落盘那份逐字节一致）。"
+  "frozen_commit_note": "冻结 tag `freeze-2026-11-11-final` → 61da946（= 含本次官网提交回执的文档提交；其 src/ 与构建提交 2642487 完全一致，dist 与线上魔搭 master 0835058 / gh-pages b17d2f9 逐字节一致，docs/report.pdf 与官网落盘那份逐字节一致）。",
+  "xhs_post_note": "小红书笔记已于 2026-11-16 21:18 发布，标题「AI做的3D动作游戏：16只奶蛙抄锅铲打架」，note_id=6afb028b000000002903dc10，带 #Aholo黑客松，状态审核中；公开链接 https://www.xiaohongshu.com/explore/6afb028b000000002903dc10 在审核通过后生效，届时回填 rednote_url 并补一次赛事站提交。明细 docs/evidence/xhs-post-20261116.json"
 }

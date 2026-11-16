@@ -77,7 +77,9 @@ export async function initCursor3D() {
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     model.position.sub(center);
-    baseScale = 3.1 / Math.max(size.x, size.y, size.z, 0.001);
+    // 2.2 单位（原 3.1）：抽帧实测原尺寸的手掌会盖住整张角色卡，
+    // 缩小后仍是清晰的 3D 手，但停在卡片上不再挡住角色本体。
+    baseScale = 2.2 / Math.max(size.x, size.y, size.z, 0.001);
     model.scale.setScalar(baseScale);
     scene.add(model);
   } catch (e) {

@@ -1676,3 +1676,44 @@ body[data-cursor3d="on"], body[data-cursor3d="on"] * {
   border-radius: 3px; overflow: hidden;
 }
 .rd-fill { height: 100%; background: linear-gradient(90deg, #f5d98a, #ffd93d); }
+
+/* ============================================================
+ * 2026-11-16 响应式补强：矮视口 / 横屏 / 中等宽度
+ * 依据 4 视口 × 4 界面实机几何审查（无横向溢出）：
+ *  ① 横屏 844×390：.settings-inner 高 420px > 视口，顶部裁 15px / 底部溢出 15px；
+ *  ② 平板 820×1180：.select-actions bottom 溢出 29px；
+ *  ③ 矮视口战斗键位换行堆积。
+ * 全部只加媒体查询覆盖，不动基础规则、不动玩法与 main.mjs。
+ * ============================================================ */
+/* 矮视口（横屏手机 / 小窗口）：面板限高 + 内部滚动，绝不裁内容 */
+@media (max-height: 620px) {
+  #screen-settings, #screen-result, #screen-select {
+    align-items: flex-start !important;
+    padding-top: 8px;
+  }
+  .settings-inner, .result-inner {
+    max-height: calc(100vh - 16px);
+    overflow-y: auto;
+    padding-top: 14px; padding-bottom: 14px;
+    gap: 12px;
+    scrollbar-width: thin;
+  }
+  .result-grade { font-size: clamp(48px, 12vh, 80px); }
+  .result-title  { font-size: 20px; }
+  .select-inner { max-height: calc(100vh - 16px); }
+  #screen-title .title-menu { margin-bottom: 8px; }
+  /* 战斗：次要 HUD 让位，键位缩紧只留一排 */
+  .hud-mode, .hud-help { display: none; }
+  .hud-keys { gap: 6px; bottom: 8px; flex-wrap: nowrap; }
+  .hud-keys .key { padding: 5px 10px; font-size: 11px; }
+}
+/* 中等宽度（600–899px）：出战按钮不再溢出视口底部 */
+@media (min-width: 520px) and (max-width: 899px) {
+  .select-actions { margin-bottom: 8px; }
+  .select-inner { max-height: calc(100vh - 72px); }
+}
+/* 手机竖屏战斗：键位由三排压到两排，不遮战场中线 */
+@media (max-width: 519px) and (orientation: portrait) {
+  .hud-keys { gap: 5px; }
+  .hud-keys .key { padding: 5px 9px; font-size: 10px; }
+}
