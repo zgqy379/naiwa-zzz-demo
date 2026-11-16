@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-16T12:06:51.944Z",
+  "before": {
+    "version": "",
+    "pdf": "report.pdf",
+    "pdfReady": true,
+    "link": "https://www.modelscope.cn/studios/zgqy379/naiwa-zero-demo",
+    "repo": "https://github.com/zgqy379/naiwa-zzz-demo/tree/main",
+    "social": null,
+    "hasSubmit": true
+  },
+  "ck": {
+    "lux": true,
+    "notice": true
+  },
+  "clicked": "clicked",
+  "after": {
+    "version": "第 10 版 · 提交于 11 月 16 日 20:06",
+    "pdf": "report.pdf · 21.0 MB",
+    "pdfReady": true,
+    "link": null,
+    "repo": null,
+    "social": null,
+    "hasSubmit": false
+  }
+}
