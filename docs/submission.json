@@ -27,7 +27,7 @@
   "rec_note": "第十一次重录（2026-11-16，取自登记构建 index-ZN7AN6R4.js，sha256 前16位 20141f64453e3d57）：2366 帧抓取、零 console 错误、黑帧 0 段；片中完整呈现三段连段 / 接力换人 / 弹反 / 蓄力终结 / 三连战 / 鸣徽三选一 / 首领狂暴 / 属性异常与紊乱 / 失衡 / 连携 QTE / 喧响满极终结 / A 级结算。rec_method / rec_driver 待制作人确认录制会话详情后补充，不代填。",
   "rec_method": "CDP Page.startScreencast 全页合成录制（jpeg q85，1920×1080@1x）→ ffmpeg concat 30fps H.264（libx264 CRF20 / yuv420p / +faststart）；页面由本地静态服务读取 dist/ 定版构建",
   "rec_driver": "scripts/capture-demo-video.mjs（headless Chrome + CDP over WebSocket；场景经 window.__npr 公开 API、页面 KeyboardEvent 与 DOM click 驱动，非真人手操）；录制取证 docs/evidence/v3-demo-rec-20261111.json",
-  "frozen_commit": "077c774c35f065410ddb272de084fb2cac6b45d7",
+  "frozen_commit": "e771e20206aec1edeac46b6ce7421c39de81e91e",
   "team_id_verified": "2026-11-07 官网「我的参赛→我的团队」复核：团队编号 3FO4K4VY3D07（必胜客的汉堡最好吃，队长诸葛青云），证据 docs/evidence/hackathon_team_verify_2026-11-07.png；2026-11-09 报告书抬头同口径。",
   "frozen_commit_note": "冻结 tag `freeze-2026-11-11-final` → 61da946（= 含本次官网提交回执的文档提交；其 src/ 与构建提交 2642487 完全一致，dist 与线上魔搭 master 0835058 / gh-pages b17d2f9 逐字节一致，docs/report.pdf 与官网落盘那份逐字节一致）。"
 }
