@@ -19,11 +19,22 @@
   },
   "body_chars": 564,
   "required_tag": "#Aholo黑客松",
-  "tags": ["#Aholo黑客松", "#3D游戏", "#独立游戏", "#AI建模", "#动作游戏", "#游戏开发", "#Lux3D", "#程序员日常"],
+  "tags": [
+    "#Aholo黑客松",
+    "#3D游戏",
+    "#独立游戏",
+    "#AI建模",
+    "#动作游戏",
+    "#游戏开发",
+    "#Lux3D",
+    "#程序员日常"
+  ],
   "note_manager_evidence": "docs/evidence/v3-xhs-pub3-20261116.png",
   "manager_state": "全部 56→57；笔记卡片显示「审核中 / 01:38 / AI做的3D动作游戏：16只奶蛙抄锅铲打架 / 2026-11-16 21:18」",
-  "public_url": "https://www.xiaohongshu.com/explore/6afb028b000000002903dc10",
-  "public_url_status": "审核中尚未生效：2026-11-16 21:19 实测 GET 200 但页面为「你访问的页面不见了」；审核通过后该 URL 生效",
+  "public_url": "https://www.xiaohongshu.com/explore/6afb028b000000002903dc10?xsec_token=ABonTYHw8qjHG7TR1oNwwymy669Oaj9fxguQOtoWCK89E=&xsec_source=pc_feed",
+  "public_url_status": "实测正常：带 xsec_token 的链接打开为笔记页（标题/视频/正文齐全，点赞 1.3 万），截图 v3-xhs-note-public-20261117.png",
   "verification_note": "点发布前草稿箱 9→10 两次（误点侧边栏 div.publish-video），真实按钮为自定义元素 xhs-publish-btn（截图底部红「发布」）；点击后 URL 带 published=true、草稿箱 10→9、笔记总数 56→57，确认发布成功。",
-  "next_action": "审核通过后用 public_url 回填 submission.json 的 rednote_url，并在赛事站补一次提交（平台允许截止前多次提交，以最后一次为准）；人气奖按 11-30 17:00 前公开点赞数统计"
+  "next_action": "审核通过后用 public_url 回填 submission.json 的 rednote_url，并在赛事站补一次提交（平台允许截止前多次提交，以最后一次为准）；人气奖按 11-30 17:00 前公开点赞数统计",
+  "correction_20261117": "此前记为「审核中未生效 / 300031 无法浏览」系误判：根因是当时用了裸链接 explore/<id> 缺 xsec_token 参数。从搜索结果取到带 token 的完整链接后实测可正常访问，笔记早已公开。",
+  "likes_observed": "1.3 万（2026-11-17 公开页显示）"
 }
