@@ -786,3 +786,23 @@ AIGC:
 - 不得手改 `dist/` 内文件。
 - 不得在报告书中写入未经代码验证的「未实现 / 已实现」结论；报告书修订须单独立项，不与其他改动混做。
 *（内容由AI生成，仅供参考）*
+
+### 交接 2026-11-19 02:2x by 展示线+收口线（**视觉硬伤修复轮 v13 上线** · GitHub Pages 已逐字节核验 · 魔搭备用通道被平台镜像错误阻塞）
+
+- 已做（制作人指令「改src」，纯表现层、玩法数值零改动，登记见 `docs/改动记录-角色线.md` 2026-11-18 23:0x～2026-11-19 01:4x）：
+  - **7 项混进交付物的视觉硬伤全部修复**：①移除右下 `.hud-help` 调参调试条；②`attachThemeBand` 腰部粗圆环→贴地半透明细环；③假阴影硬边黑盘→径向渐变软阴影；④贩卖机展示窗/灯箱招牌/灯笼 emissive 与白 albedo 下调 + 主光 1.5→1.3 + 曝光 0.85→0.8 修过曝；⑤3D 光标写实人手→不透明哑光橄榄褐卡通材质+NPR 细描边（去 baked 背景残块）；⑥对手受击/预警白闪 0.9→0.5；⑦报告插图重拍走干净 headless（`--disable-extensions`）去翻译球。
+  - **门禁**：lint 0 / `test:moves` 14/14 / E2E **33/33**（ego 通道被会话清理保护阻塞，改用干净 headless Chrome + CDP 桥接等价跑原 harness，报告与 17 张实拍仍由原 harness 落盘）。
+  - **取证**：定版构建 `index-Cw185vip.js`（1,035,453 B，sha256 前16位 `521cdf58e1c7f9c5`）+ CSS `index-B4EwxuGs.css`（54,146 B，`af0896bb4cddc5cf`），dist 60 文件 / 14.43 MB；Demo 重录 **81.57s / 2447 帧 / 28,294,296 B**（sha256 `00bcb5d5…`，弹反 ×1、鸣徽三选一 ×2 完整入画、首领狂暴/灼烧/紊乱/失衡/连携 QTE 3 环/喧响满极终结、S 级结算、零 console 错误）；§十插图 7 张 + 17 张界面实拍重拍；性能复测 战斗屏 **346 draw call / 178,562 三角面**、Aholo 层 A/B +1 call / +29,152 三角面、first-paint 1,532 ms、3 分钟轮转 contextLost 0 / heap 66→78 MB。
+  - **报告书**：§8 新增「视觉硬伤修复轮」单独立项（如实区分「已修硬伤」与「保留的美术上限」），§4.2/§10.5/§13/§六时间线口径同步；PDF 重出 **43 页 / 19,710,442 B**（sha256 `1699f9b5…`，中文可检索）。
+  - **部署**：主仓 `ea6c06b` 推 origin/main（经本地多 IP CONNECT 代理）；dist `36d9eda` 推 gh-pages；**GitHub Pages 实测入口 `index-Cw185vip.js`、线上 JS 下载 sha256 与本地 dist 逐字节一致、视频直链 28,294,296 B 一致**。
+- 未做 / 待办：
+  1. **魔搭备用通道 v13 同步被平台阻塞**：`www.modelscope.cn/.../info/refs` 返回 **421「Mirror forwarding loop detected」**（平台侧镜像路由错误，非凭据/本机网络问题），git push 挂起。本地已备好 v13 master 提交 `e4c58c1`（git plumbing 构建：gh-pages 树 + 平台 README/.gitattributes，入口 blob 与 gh-pages 一致，未动工作区），待平台恢复后 `git push modelscope ms-v13:master` + `POST deploy` 即可。**魔搭远端 master 仍 v12 `b456127`**。魔搭本就是备用（休眠特性），提交用 Demo 是 Pages，已 v13 上线，不影响提交。
+  2. **官网第 12 版补提交**（制作人确认后执行）：Demo=Pages v13 / 视频=新 81.57s 直链 / 报告书=新 43 页 PDF / 源码=/tree/main / 小红书=带 token 完整链接。提交后回填 `submit_at`/`receipt`/`frozen_commit` 并重指冻结 tag。
+- 待验证：魔搭镜像恢复后 v13 同步 + 8/8 资源 200；官网补提交后五项链接复核。
+- 产物与证据路径：`dist/assets/index-Cw185vip.js`、`docs/demo-video-20261111.mp4`、`docs/report.pdf`、`docs/evidence/v3-{demo-rec,runtime-metrics,stability}-20261111.json`、`docs/test-shots/01-17`、`docs/test-report.json`（33/33）、`docs/submission.json`。
+- 最近构建：`dist/assets/index-Cw185vip.js` @ 2026-11-19 01:3x（1,035,453 B，sha256 前16位 `521cdf58e1c7f9c5`）。构建人：展示线+收口线。
+- 已知冲突 / 风险：
+  1. **E2E 通道替代**：ego 宿主通道被会话文件保留保护阻塞（run-e2e 需清 `.tmp-dist-e2e`），本轮用干净 headless Chrome + CDP 桥接等价跑原 harness（33/33），非 ego 实机；真机观感仍待制作人。
+  2. **魔搭平台镜像 421**：备用通道暂不同步，已如实记录，不冒充已部署。
+  3. 冻结 tag 仍指 `19ff987`（第 11 版回执），第 12 版补提交后需重指。
+  4. 白色系角色（奶兔等）身体仍偏亮白，但五官/描边/耳影可读（IP 白色配色，非过曝 clip）；场景程序化几何/官方通用人形动作等美术上限按 §九 如实保留。
