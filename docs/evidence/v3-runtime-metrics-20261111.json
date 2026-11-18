@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "measuredAt": "2026-11-13T11:35:32.915Z",
+  "measuredAt": "2026-11-18T17:45:23.923Z",
   "build": {
-    "entry": "assets/index-CZdmFQfY.js",
-    "entryBytes": 1027534,
+    "entry": "assets/index-Cw185vip.js",
+    "entryBytes": 1035453,
     "indexBytes": 6496
   },
   "caveat": "draw call / 三角面为场景图谱事实；headless 为 SwiftShader 软件光栅，帧率不代表真机，真机帧率另走 ego 实机通道取证",
@@ -15,20 +15,20 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 268,
-        "textures": 49,
-        "programs": 23,
-        "frame": 17
+        "geometries": 307,
+        "textures": 55,
+        "programs": 24,
+        "frame": 850
       },
       "scene": {
         "sceneChildren": 33,
-        "meshes": 754,
+        "meshes": 818,
         "instanced": 123,
         "points": 0,
         "lines": 0,
         "sprites": 28,
-        "visibleMeshes": 753,
-        "uniqueGeometries": 753,
+        "visibleMeshes": 817,
+        "uniqueGeometries": 785,
         "aholo": {
           "loaded": true,
           "triangles": 29152,
@@ -61,7 +61,7 @@
         "totalGetContextCalls": 4,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 28275200,
+        "heapUsed": 62784870,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -72,10 +72,10 @@
         "triangles": 0,
         "points": 0,
         "lines": 0,
-        "geometries": 301,
-        "textures": 53,
-        "programs": 23,
-        "frame": 102
+        "geometries": 307,
+        "textures": 55,
+        "programs": 24,
+        "frame": 1887
       },
       "scene": {
         "sceneChildren": 33,
@@ -124,7 +124,7 @@
         "totalGetContextCalls": 6,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 82343665,
+        "heapUsed": 95146363,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -132,13 +132,13 @@
     "battle": {
       "frame": {
         "calls": 346,
-        "triangles": 181382,
+        "triangles": 178562,
         "points": 0,
         "lines": 0,
         "geometries": 742,
-        "textures": 126,
-        "programs": 28,
-        "frame": 1870
+        "textures": 127,
+        "programs": 29,
+        "frame": 6222
       },
       "scene": {
         "sceneChildren": 33,
@@ -187,21 +187,21 @@
         "totalGetContextCalls": 7,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 92749846,
+        "heapUsed": 112915126,
         "heapLimit": 4395630592,
         "dpr": 1
       }
     },
     "result": {
       "frame": {
-        "calls": 338,
-        "triangles": 49022,
+        "calls": 336,
+        "triangles": 48998,
         "points": 0,
         "lines": 0,
         "geometries": 742,
-        "textures": 126,
-        "programs": 28,
-        "frame": 3111
+        "textures": 127,
+        "programs": 29,
+        "frame": 8517
       },
       "scene": {
         "sceneChildren": 33,
@@ -250,7 +250,7 @@
         "totalGetContextCalls": 8,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 104066591,
+        "heapUsed": 92314081,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -262,9 +262,9 @@
         "points": 0,
         "lines": 0,
         "geometries": 742,
-        "textures": 126,
-        "programs": 28,
-        "frame": 3604
+        "textures": 127,
+        "programs": 29,
+        "frame": 9231
       },
       "scene": {
         "sceneChildren": 33,
@@ -313,7 +313,7 @@
         "totalGetContextCalls": 9,
         "canvasElements": 4,
         "glRenderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001681) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-        "heapUsed": 109492035,
+        "heapUsed": 99221333,
         "heapLimit": 4395630592,
         "dpr": 1
       }
@@ -322,17 +322,17 @@
   "aholoLayerAB": {
     "on": {
       "calls": 346,
-      "triangles": 181382,
+      "triangles": 178562,
       "points": 0,
       "lines": 0,
       "geometries": 742,
-      "textures": 126,
-      "programs": 28,
-      "frame": 1870
+      "textures": 127,
+      "programs": 29,
+      "frame": 6222
     },
     "off": {
       "calls": 345,
-      "triangles": 152230
+      "triangles": 149410
     }
   }
 }

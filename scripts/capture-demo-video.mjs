@@ -295,12 +295,13 @@ async function waitExpr(expr, timeoutMs, label, everyMs = 150) {
  * 走真实交互路径：数字键 1 选卡（与玩家操作一致）；键盘没生效时兜底点第一张卡。
  * @returns {boolean} 本次是否处理了一个鸣徽覆盖层
  */
-async function handleWomark(cdp) {
+async function handleWomark(cdp, mark = null) {
   const open = await evalJSON(cdp, `!!document.querySelector('#womark-overlay.show')`);
-  if (!open) return false;
+  if (!open) { if (mark) mark("鸣徽检查：覆盖层未开启"); return false; }
   const cards = await evalJSON(cdp, `[...document.querySelectorAll('#womark-overlay .womark-card')].map(c => c.dataset.id)`);
   log("[womark] 覆盖层开启 候选=" + JSON.stringify(cards));
-  await sleep(900);                       // 让覆盖层完整入画再选卡
+  if (mark) mark("鸣徽三选一开启 候选=" + JSON.stringify(cards));
+  await sleep(1600);                      // 让覆盖层完整入画再选卡（900→1600：保证视频里可辨识）
   await pressKey("1", "Digit1", 90);
   await sleep(500);
   const still = await evalJSON(cdp, `!!document.querySelector('#womark-overlay.show')`);
@@ -311,6 +312,7 @@ async function handleWomark(cdp) {
   }
   const closed = await evalJSON(cdp, `!document.querySelector('#womark-overlay.show')`);
   log("[womark] 选卡完成 已关闭=" + closed);
+  if (mark) mark("鸣徽选卡完成 已关闭=" + closed);
   return true;
 }
 
@@ -413,6 +415,11 @@ async function main() {
     mark("战斗开始 active=" + (await evalJSON(cdp, `window.__npr.squad.active.name`)));
 
     // ---- 场景 3：战斗（~28s）----
+    // 2026-11-19 录像加固：本段连段+蓄力终结合计伤害足以把第 1 回合对手（220 血）
+    // 自然打死 → advanceRound 推回合+开鸣徽 → 下方三连战循环假设错位、第 3 回合
+    // 新系统演示段被跳过（三遍重录实测 63s 缺段）。演示前抬高血量上限并补满，
+    // 杜绝自然死亡（录像专用注入，与第 3 回合首领 600 血注入同性质，报告书 §10.5 登记）。
+    await evalJSON(cdp, `(() => { const o = window.__npr.opponent; o.maxHp = Math.max(o.maxHp, 600); o.hp = o.maxHp; return o.hp; })()`);
     await pressKey("w", "KeyW", 750);            // 前压
     await sleep(250);
     await pressKey(" ", "Space", 80); await sleep(380);
@@ -436,10 +443,14 @@ async function main() {
     await sleep(400);
     mark("相机环绕");
     // 弹反窗口：轮询预警，命中即 Shift
+    // 2026-11-19 弹反演示修复：前面连段可能已把失衡条打满（对手失衡 6s AI 冻结，
+    // 恢复后还要等 1.3~2.1s 起手）→ 轮询窗漏预警。演示前清失衡+贴身+缩短起手等待
+    // （录像专用注入，与 resetStagger 调试口同性质，报告书 §10.5 登记）。
+    await evalJSON(cdp, `(() => { const n = window.__npr; n.resetStagger(); n.teleportPlayer(-1.2, 0); n.battle.oppNextAt = 0.3; n.battle.oppStateT = 99; return true; })()`);
     let countered = false;
     {
       const t0 = Date.now();
-      while (Date.now() - t0 < 9000) {
+      while (Date.now() - t0 < 16000) {   // 9s→16s（2026-11-19：抬血后对手攻击节奏变化，9s 窗漏预警致弹反失败）
         const w = await evalJSON(cdp, `window.__npr.counter.isWarning`);
         if (w) {
           await pressKey("Shift", "ShiftLeft", 60);
@@ -475,7 +486,20 @@ async function main() {
     mark("蓄力终结释放");
 
     // ---- 三连战（2026-11-11 新增机制）：连续击败 3 个不同招式族的对手 ----
+    // 2026-11-19 录像加固·回合对齐诊断：主修复（战斗段演示前抬血上限）已保证前半段
+    // 不会自然打死对手；此处仅核对回合假设，若仍错位则如实记录（不做半截重置——
+    // 只改 battle.round 不换对手模型会造成模型/回合记录不一致）。
+    {
+      const r0 = await evalJSON(cdp, `window.__npr.battle.round`);
+      if (r0 !== 0) mark("⚠ 回合对齐异常：进入三连战循环时 round=" + r0 + "（预期 0），第 3 回合演示段可能错位");
+    }
     for (let round = 1; round <= 3; round++) {
+      // 2026-11-19 录像加固：前半段连段/蓄力伤害可能已把第 1 回合对手自然打死 →
+      // 回合假设错位、第 3 回合新系统演示段被跳过（三遍重录实测 63s 缺段）。
+      // 每回合演示前补满血并抬高血量上限，杜绝演示期间自然死亡（录像专用注入，
+      // 与第 3 回合首领 600 血注入同性质，报告书 §10.5 如实登记）。
+      await evalJSON(cdp, `(() => { const o = window.__npr.opponent; o.maxHp = Math.max(o.maxHp, 600); o.hp = o.maxHp; return o.hp; })()`);
+      await sleep(300);
       const before = await evalJSON(cdp, `({ round: window.__npr.battle.round, opp: window.__npr.opponent.hp })`);
       // 第 3 回合（首领）集中展示深度改造线的新系统：阶段 F 首领狂暴 + 阶段 A 失衡 +
       // 阶段 C 连携 QTE + 阶段 E 属性异常/紊乱 + 阶段 D 喧响值满极终结。
@@ -571,7 +595,7 @@ async function main() {
       mark(`第 ${round} 个对手被击败 round ${before.round}->${after.round} phase=${after.phase}`);
       if (after.phase === "settle") break;
       // 阶段 G：回合间开启鸣徽三选一（会暂停战斗）→ 必须选卡才能继续
-      await handleWomark(cdp);
+      await handleWomark(cdp, mark);
       // 下一回合：展示一下新对手（走近 + 出一段连段）
       await evalJSON(cdp, `window.__npr.teleportPlayer(2.4, 0)`);
       await sleep(200);

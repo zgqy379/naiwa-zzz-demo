@@ -178,7 +178,7 @@ export function makeStorefront(opts = {}) {
     map: signTex,
     emissive: 0xffffff,
     emissiveMap: signTex,
-    emissiveIntensity: 0.85 * emissiveScale,
+    emissiveIntensity: 0.45 * emissiveScale,   // 0.85→0.45（2026-11-18 修过曝：灯箱文字不再烧成纯白块）
     roughness: 0.5,
     metalness: 0.4,
   });
@@ -203,7 +203,7 @@ export function makeStorefront(opts = {}) {
       map: vTex,
       emissive: 0xffffff,
       emissiveMap: vTex,
-      emissiveIntensity: 0.8 * emissiveScale,
+      emissiveIntensity: 0.42 * emissiveScale,   // 0.8→0.42（2026-11-18 修过曝，同横招）
       roughness: 0.5,
       metalness: 0.4,
     });

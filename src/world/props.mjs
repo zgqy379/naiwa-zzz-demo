@@ -12,7 +12,9 @@ import { mulberry32, pickTubeColor } from "./storefront.mjs";
 export function makeVendingMachine(seed = 1) {
   const rng = mulberry32(seed);
   const g = new THREE.Group();
-  const color = rng() < 0.78 ? 0xdfe4ec : 0xe8863a;
+  // 2026-11-19 四遍：冷白机身 0xdfe4ec 在近机位仍 clip 纯白 → 降一档到 0xb9c3cf
+  // （仍读作冷白机，但保体积/边缘；橙点缀机不变）。
+  const color = rng() < 0.78 ? 0xb9c3cf : 0xe8863a;
 
   // 主体
   const body = new THREE.Mesh(
@@ -23,11 +25,13 @@ export function makeVendingMachine(seed = 1) {
   body.castShadow = true;
   g.add(body);
 
-  // 展示窗（发光）
-  const winColor = 0xffffff;
+  // 展示窗（发光）——2026-11-18 视觉硬伤修复轮：原纯白 albedo+纯白 emissive 在
+  // key 1.5 下整窗 clip 成无细节纯白块；改暖白 + 降 emissive，保住体积与饮料彩排可读性。
+  // 四遍（11-19）：0xf2ead8 在近机位仍 clip → 再降一档 0xd9cfb8 / emissive 0.05。
+  const winColor = 0xd9cfb8;
   const win = new THREE.Mesh(
     new THREE.BoxGeometry(0.7, 1.0, 0.06),
-    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.15, roughness: 0.3 })
+    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.05, roughness: 0.3 })
   );
   win.position.set(0, 1.2, 0.36);
   g.add(win);
@@ -40,7 +44,7 @@ export function makeVendingMachine(seed = 1) {
       const can = new THREE.Mesh(
         new THREE.BoxGeometry(0.12, 0.22, 0.05),
         new THREE.MeshStandardMaterial({
-          color: cc, emissive: cc, emissiveIntensity: 0.3, roughness: 0.6,
+          color: cc, emissive: cc, emissiveIntensity: 0.18, roughness: 0.6,
         })
       );
       can.position.set(-0.2 + col * 0.2, 0.92 + row * 0.3, 0.37);
@@ -59,7 +63,7 @@ export function makeVendingMachine(seed = 1) {
   // 侧面灯条
   const sideGlow = new THREE.Mesh(
     new THREE.BoxGeometry(0.05, 1.6, 0.05),
-    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.18 })
+    new THREE.MeshStandardMaterial({ color: winColor, emissive: winColor, emissiveIntensity: 0.1 })
   );
   sideGlow.position.set(0.42, 1.0, 0.3);
   g.add(sideGlow);

@@ -50,7 +50,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.85;   // 1.0→0.85：压曝光，避免高光糊掉剪影
+renderer.toneMappingExposure = 0.8;   // 1.0→0.85→0.8（2026-11-19 二遍：白色系角色身体仍 clip 纯白，全局再压一档保五官/体积）
 // 性能优化：关阴影（NPR 风格化用假阴影代替）
 renderer.shadowMap.enabled = false;
 
@@ -62,7 +62,7 @@ scene.background = new THREE.Color(0x9ab0cc);
 // 2026-11-11 定版前收口：原三点光（key 2.0 / rim 0.7 / ambient 1.1）叠加 NPR shader 的
 // 额外补光后，奶油黄贴图高光溢出、五官被烧平。这里只降强度、不动方向与色相，
 // 让角色回到「亮但看得见细节」，街道/背景亮度不受 toneMappingExposure 全局压暗影响。
-const key = new THREE.DirectionalLight(0xffe8c8, 1.5);   // 2.0→1.5（方向 4,8,6 不动）
+const key = new THREE.DirectionalLight(0xffe8c8, 1.3);   // 2.0→1.5→1.3（2026-11-19 二遍：白角色/白机身过曝，方向 4,8,6 不动）
 key.position.set(4, 8, 6);
 key.castShadow = true;
 key.shadow.mapSize.set(1024, 1024);
@@ -1989,7 +1989,7 @@ function _flashOpponent(color) {
   });
   for (const m of mats) {
     m.emissive.setHex(color);
-    m.emissiveIntensity = 0.9;
+    m.emissiveIntensity = 0.5;   // 0.9→0.5（2026-11-19 四遍：0.9 把对手全身烧成纯白块，预警读作色闪而非白块）
   }
   setTimeout(() => {
     for (const m of mats) {
@@ -2018,6 +2018,9 @@ window.__npr = {
     state: stagger.state, timer: +stagger.timer.toFixed(2), staggered: stagger.isStaggered,
   }),
   addDaze: (n) => { stagger.gain(n); },
+  // 2026-11-19 测试/录像专用调试口：清失衡（与 addDaze 同性质，玩法路径零调用）。
+  // 录像弹反段前用：玩家连段会把失衡条打满→对手失衡 6s AI 冻结→轮询窗漏预警。
+  resetStagger: () => { stagger.reset(); },
   // 阶段 B 调试口：支援点读取/注入（E2E 用）
   assistState: () => ({ points: assist.points, dodgeCounterT: +assist.dodgeCounterT.toFixed(2) }),
   setAssist: (n) => { assist.points = Math.max(0, Math.min(3, n | 0)); },

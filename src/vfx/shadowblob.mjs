@@ -8,15 +8,34 @@ import * as THREE from "three";
 
 let _geo = null;
 let _mat = null;
+let _tex = null;
 
 function getGeo() {
   if (!_geo) _geo = new THREE.CircleGeometry(0.5, 24);
   return _geo;
 }
+/** 2026-11-18 视觉硬伤修复轮：硬边纯黑圆片改径向渐变软阴影（程序化 CanvasTexture，零外部资产）。
+ *  中心浓、边缘透明衰减，读作接触阴影而非「贴在地上的黑盘子」。 */
+function getShadowTex() {
+  if (!_tex) {
+    const c = document.createElement("canvas");
+    c.width = c.height = 128;
+    const ctx = c.getContext("2d");
+    const g = ctx.createRadialGradient(64, 64, 4, 64, 64, 64);
+    g.addColorStop(0, "rgba(0,0,0,0.85)");
+    g.addColorStop(0.55, "rgba(0,0,0,0.38)");
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 128, 128);
+    _tex = new THREE.CanvasTexture(c);
+  }
+  return _tex;
+}
 function getMat() {
   if (!_mat) {
     _mat = new THREE.MeshBasicMaterial({
       color: 0x000000,
+      map: getShadowTex(),
       transparent: true,
       opacity: 0.35,
       depthWrite: false,

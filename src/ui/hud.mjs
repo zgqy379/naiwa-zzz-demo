@@ -118,11 +118,10 @@ export class Hud {
       </div>
 
       <!-- 美术圣经重做线：调参信息（模式/色调分离档数）移出玩家视野；
-           [ ] 档数键功能保留，数值可经 window.__npr.getMode()/getSteps() 读取 -->
-
-      <div class="hud-help">
-        N 切换 PBR/NPR · [ ] 档数 · Tab/Q/E 或 1–9/0 换壳 · 拖动旋转
-      </div>
+           [ ] 档数键功能保留，数值可经 window.__npr.getMode()/getSteps() 读取。
+           2026-11-18 视觉硬伤修复轮：原 .hud-help 调试条（N 切换 PBR/NPR · [ ] 档数 ·
+           拖动旋转）整块移除——调参键不该出现在玩家 HUD 与提交取证画面里；
+           键位引导由上方 .hud-keys 承担，快捷键功能本身不变。 -->
     `;
 
     // 缓存元素引用

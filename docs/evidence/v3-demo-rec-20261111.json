@@ -3,144 +3,224 @@
   "errors": [],
   "timeline": [
     {
-      "t": 4.734,
+      "t": 5.337,
       "ev": "首页就绪 video={\"ready\":4,\"paused\":false,\"w\":1456,\"h\":720}"
     },
     {
-      "t": 4.83,
+      "t": 5.339,
       "ev": "screencast 开始"
     },
     {
-      "t": 16.171,
+      "t": 17.387,
       "ev": "首页演示完成，点击开始作战"
     },
     {
-      "t": 18.738,
+      "t": 19.485,
       "ev": "选人界面就绪"
     },
     {
-      "t": 29.267,
+      "t": 32.406,
       "ev": "选人演示完成，点击出战（西格玛）"
     },
     {
-      "t": 31.538,
+      "t": 34.178,
       "ev": "战斗开始 active=西格玛奶蛙"
     },
     {
-      "t": 34.996,
+      "t": 37.494,
       "ev": "连段完成"
     },
     {
-      "t": 38.43,
+      "t": 40.75,
       "ev": "侧移 + 二轮攻击"
     },
     {
-      "t": 41.298,
+      "t": 43.471,
       "ev": "接力换人 active=奶蛙"
     },
     {
-      "t": 43.771,
+      "t": 45.806,
       "ev": "移动 + 攻击 + 闪避"
     },
     {
-      "t": 47.054,
+      "t": 48.461,
       "ev": "相机环绕"
     },
     {
-      "t": 59.356,
-      "ev": "战斗收尾 countered=false"
+      "t": 49.024,
+      "ev": "弹反尝试 {\"state\":\"success\",\"total\":1}"
     },
     {
-      "t": 62.255,
+      "t": 52.09,
+      "ev": "战斗收尾 countered=true"
+    },
+    {
+      "t": 53.233,
       "ev": "蓄力条 {\"show\":true,\"full\":true,\"pct\":\"100%\"}"
     },
     {
-      "t": 63.715,
+      "t": 54.641,
       "ev": "蓄力终结释放"
     },
     {
-      "t": 64.718,
-      "ev": "第 1 个对手被击败 round 1->2 phase=playing"
+      "t": 55.869,
+      "ev": "第 1 个对手被击败 round 0->1 phase=playing"
     },
     {
-      "t": 69.661,
+      "t": 55.876,
+      "ev": "鸣徽三选一开启 候选=[\"anomaly\",\"dodge\",\"decibel\"]"
+    },
+    {
+      "t": 58.093,
+      "ev": "鸣徽选卡完成 已关闭=true"
+    },
+    {
+      "t": 61.086,
       "ev": "第 2 回合连段"
     },
     {
-      "t": 70.791,
-      "ev": "第 2 个对手被击败 round 2->2 phase=settle"
+      "t": 62.411,
+      "ev": "第 2 个对手被击败 round 1->2 phase=playing"
     },
     {
-      "t": 70.911,
-      "ev": "结算 grade=B"
+      "t": 62.415,
+      "ev": "鸣徽三选一开启 候选=[\"heal\",\"dodge\",\"assist\"]"
     },
     {
-      "t": 78.291,
+      "t": 64.666,
+      "ev": "鸣徽选卡完成 已关闭=true"
+    },
+    {
+      "t": 67.553,
+      "ev": "第 3 回合连段"
+    },
+    {
+      "t": 69.636,
+      "ev": "首领狂暴 enraged=true"
+    },
+    {
+      "t": 71.578,
+      "ev": "属性异常·灼烧 {\"attr\":\"fire\",\"t\":8.5}"
+    },
+    {
+      "t": 73.008,
+      "ev": "紊乱引爆 {\"buildup\":{\"physical\":0,\"fire\":0,\"ice\":0,\"electric\":0,\"ether\":0},\"thresholds\":{\"physical\":100,\"fire\":125,\"ice\":125,\"electric\":100,\"ether\":100},\"status\":{\"attr\":\"ice\",\"t\":9.1},\"frozenT\":0.58,\"weakness\":\"fire\"}"
+    },
+    {
+      "t": 73.915,
+      "ev": "失衡 {\"value\":100,\"threshold\":100,\"state\":\"staggered\",\"timer\":5.13,\"staggered\":true}"
+    },
+    {
+      "t": 74.667,
+      "ev": "连携 QTE 开启=true"
+    },
+    {
+      "t": 75.811,
+      "ev": "连携选1 前={\"active\":true,\"counts\":3,\"t\":2.33,\"options\":[1,2,3],\"used\":[],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":0} 后={\"active\":true,\"counts\":2,\"t\":1.45,\"options\":[1,2,3],\"used\":[1],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":1}"
+    },
+    {
+      "t": 76.847,
+      "ev": "连携选2 前={\"active\":true,\"counts\":2,\"t\":1.45,\"options\":[1,2,3],\"used\":[1],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":1} 后={\"active\":true,\"counts\":1,\"t\":0.6,\"options\":[1,2,3],\"used\":[1,2],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":2}"
+    },
+    {
+      "t": 77.929,
+      "ev": "连携选3 前={\"active\":true,\"counts\":1,\"t\":0.6,\"options\":[1,2,3],\"used\":[1,2],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":2} 后={\"active\":false,\"counts\":0,\"t\":0.6,\"options\":[],\"used\":[1,2,3],\"inBattle\":true,\"phase\":\"playing\",\"womark\":false,\"activeIdx\":3}"
+    },
+    {
+      "t": 77.931,
+      "ev": "连携结束 {\"active\":false,\"counts\":0,\"t\":0.6,\"options\":[],\"used\":[1,2,3],\"chainCounts\":3}"
+    },
+    {
+      "t": 78.344,
+      "ev": "喧响值拉满 {\"decibel\":3000,\"invulnT\":0}"
+    },
+    {
+      "t": 79.453,
+      "ev": "喧响满极蓄力条 {\"show\":true,\"full\":true,\"pct\":\"100%\",\"keys\":[\" \"],\"decibel\":3000,\"inBattle\":true,\"phase\":\"playing\"}"
+    },
+    {
+      "t": 80.998,
+      "ev": "喧响满极终结释放 decibel={\"decibel\":0,\"invulnT\":0.78}"
+    },
+    {
+      "t": 82.547,
+      "ev": "第 3 个对手被击败 round 2->2 phase=settle"
+    },
+    {
+      "t": 82.55,
+      "ev": "结算 grade=S"
+    },
+    {
+      "t": 89.749,
       "ev": "返回首页，停止录制"
     }
   ],
-  "frames": 2674,
-  "cdpPort": 9897,
+  "frames": 2182,
+  "cdpPort": 9828,
   "titleVideo": {
     "ready": 4,
     "paused": false,
     "w": 1456,
     "h": 720
   },
-  "grade": "B",
+  "counter": {
+    "state": "success",
+    "total": 1
+  },
+  "grade": "S",
   "counterAttempted": true,
-  "spanSeconds": 73.46,
-  "avgFps": 36.4,
+  "spanSeconds": 84.17,
+  "avgFps": 25.9,
   "stills": [
     {
       "file": "v3-show4-01-naifen-20261111.png",
       "expect": "奶粉",
       "hud": "奶粉",
-      "bytes": 1057049,
+      "bytes": 1023779,
       "hudMatch": true
     },
     {
       "file": "v3-show4-05-xigema-20261111.png",
       "expect": "西格玛奶蛙",
       "hud": "西格玛奶蛙",
-      "bytes": 1009321,
+      "bytes": 982846,
       "hudMatch": true
     },
     {
       "file": "v3-show4-00-naiwa-20261111.png",
       "expect": "奶蛙（开局默认机位）",
       "hud": "奶蛙",
-      "bytes": 969188,
+      "bytes": 979838,
       "hudMatch": false
     },
     {
       "file": "v3-npr-on-20261111.png",
       "expect": "NPR/PBR 对照 NPR",
-      "bytes": 969250
+      "bytes": 967622
     },
     {
       "file": "v3-npr-off-20261111.png",
       "expect": "NPR/PBR 对照 PBR",
-      "bytes": 942262
+      "bytes": 933107
     },
     {
       "file": "v3-aholo-street-on-20261111.png",
       "expect": "Aholo 街区层 开",
-      "bytes": 1018751
+      "bytes": 961812
     },
     {
       "file": "v3-aholo-street-off-20261111.png",
       "expect": "Aholo 街区层 关",
-      "bytes": 982728
+      "bytes": 921100
     }
   ],
   "build": {
-    "entry": "assets/index-DAd_NelE.js",
-    "bytes": 1034782,
-    "sha256_16": "e5196683a08d9677",
+    "entry": "assets/index-Cw185vip.js",
+    "bytes": 1035453,
+    "sha256_16": "521cdf58e1c7f9c5",
     "servedIndexBytes": 6496,
     "bgVideoBytes": 196297,
-    "mtime": "2026-11-16T13:06:25.298Z"
+    "mtime": "2026-11-18T17:31:31.286Z"
   },
   "viewport": {
     "width": 1920,
@@ -148,5 +228,5 @@
     "dpr": 1
   },
   "method": "CDP Page.startScreencast(jpeg q85) 全页合成 → ffmpeg concat 30fps H.264（DOM HUD / glass-layer / live3d-layer / cursor3d-layer / 视频背景全部入画）",
-  "finishedAt": "2026-11-16T13:08:08.437Z"
+  "finishedAt": "2026-11-18T17:51:51.831Z"
 }

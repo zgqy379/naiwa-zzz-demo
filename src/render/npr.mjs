@@ -136,6 +136,9 @@ export function makeNprMaterial(base, preset = {}) {
       const s = mx > 1e-6 ? d / mx : 0;
       shader.uniforms.uTintHS = { value: new THREE.Vector2(h / 360, s) };
       shader.uniforms.uTintMix = { value: tintMix };
+      // 第三遍（2026-11-19）：opt-in 明度锚定增益。缺省 1 = 完全保留原 albedo 明度（现状）；
+      // <1 把 V 通道压向 tint 族中明度（光标手肤色→手套褐需要同时改明度，仅换色相不够）。
+      shader.uniforms.uTintGain = { value: p.tintGain ?? 1 };
     }
 
     // 顶点着色器：传世界法线 + 世界位置 + 视角方向
@@ -168,7 +171,7 @@ export function makeNprMaterial(base, preset = {}) {
         `#include <map_fragment>
         #ifdef USE_TINT_NPR
           vec3 hsvNpr = rgb2hsvNpr(diffuseColor.rgb);
-          diffuseColor.rgb = mix(diffuseColor.rgb, hsv2rgbNpr(vec3(uTintHS.x, uTintHS.y, hsvNpr.z)), uTintMix);
+          diffuseColor.rgb = mix(diffuseColor.rgb, hsv2rgbNpr(vec3(uTintHS.x, uTintHS.y, hsvNpr.z * uTintGain)), uTintMix);
         #endif`
       )
       .replace(
@@ -193,6 +196,7 @@ export function makeNprMaterial(base, preset = {}) {
          #ifdef USE_TINT_NPR
          uniform vec2 uTintHS;
          uniform float uTintMix;
+         uniform float uTintGain;
          // HSV 互转（数学公共域算法，仅 tint 材质编译进 program；无 tint 材质被
          // 预处理器移除，编译产物与未加 tint 前一致）
          vec3 rgb2hsvNpr(vec3 c) {
@@ -421,13 +425,16 @@ export function applyNpr(root, preset = {}, outlineOpts = {}) {
 /**
  * 程序化主题色饰带（美术圣经重做线 A1/A2 角色可读性；不改 GLB 文件本身）。
  *
- * 在角色容器（g / opponentGroup：无旋转缩放、局部 y=0 即地面）内加一圈平色布带：
- *  - MeshBasicMaterial 纯色不受光 = 任意灯光/量化下主题色恒定可辨；
+ * 2026-11-18 视觉硬伤修复轮：原实现是腰部一圈水平粗圆环（TorusGeometry，
+ * 半径比身体还大），实机观感像「呼啦圈/土星环」，廉价且不像角色设计的一部分。
+ * 现改为**贴地细环**（RingGeometry  annulus，半透明、不写深度）：
+ *  - 仍用 MeshBasicMaterial 纯色不受光 = 任意灯光/量化下阵营色恒定可辨；
+ *  - 环贴在脚边地面（y≈0.035，略高于假阴影 0.02），读作「站位圈」而非腰饰；
  *  - __skipNpr：不进 NPR 量化与描边壳，restyleAll 反复 applyNpr 也不会处理它；
- *  - 随容器整体移动，零贴图成本。
+ *  - 随容器整体移动，零贴图成本。函数签名与返回语义不变（调用方零改动）。
  *
  * @param {THREE.Object3D} container 角色容器（模型底部对齐其局部 y=0）
- * @param {object} opts { color, heightRatio, margin }
+ * @param {object} opts { color, heightRatio（保留兼容，不再使用）, margin }
  * @returns {THREE.Mesh|null} 饰带 mesh（容器缺失/重复添加时返回 null）
  */
 export function attachThemeBand(container, { color = 0xf5c542, heightRatio = 0.52, margin = 1.1 } = {}) {
@@ -435,16 +442,17 @@ export function attachThemeBand(container, { color = 0xf5c542, heightRatio = 0.5
   const box = new THREE.Box3().setFromObject(container);
   const size = box.getSize(new THREE.Vector3());
   if (!(size.y > 0)) return null;
-  const radius = (Math.max(size.x, size.z) / 2) * margin;
-  const tube = Math.max(0.02, Math.min(0.05, size.y * 0.035));
+  const outer = (Math.max(size.x, size.z) / 2) * margin;
+  const inner = outer * 0.86;   // 环宽 ≈ 半径 14%，细而不糊
   const band = new THREE.Mesh(
-    new THREE.TorusGeometry(radius, tube, 10, 40),
-    new THREE.MeshBasicMaterial({ color })
+    new THREE.RingGeometry(inner, outer, 40),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide })
   );
   band.name = "theme-band";
   band.userData.__skipNpr = true;
-  band.rotation.x = Math.PI / 2;
-  band.position.y = size.y * heightRatio;
+  band.rotation.x = -Math.PI / 2;
+  band.position.y = 0.035;
+  band.renderOrder = 2;   // 假阴影 renderOrder=1 之上
   band.raycast = () => {};
   container.add(band);
   return band;

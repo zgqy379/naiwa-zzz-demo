@@ -9,6 +9,7 @@
  */
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { applyNpr, NPR_PRESET } from "../render/npr.mjs";
 
 const SIZE = 160;
 // 模型指尖在 canvas 内的位置，指针热点对齐到这里
@@ -81,6 +82,18 @@ export async function initCursor3D() {
     // 缩小后仍是清晰的 3D 手，但停在卡片上不再挡住角色本体。
     baseScale = 2.2 / Math.max(size.x, size.y, size.z, 0.001);
     model.scale.setScalar(baseScale);
+    // 2026-11-19 视觉硬伤修复轮·三遍：官方图生 3D 的手是单 mesh 写实 PBR（皮肤贴图与
+    //   背景残片 bake 在同一网格里，视频抽帧可见手后方矩形亮块）。NPR+tint 只改色相/明度、
+    //   仍保留皮肤纹理与残片 → 直接换不透明卡通材质：丢皮肤贴图、用 IP 手套族橄榄褐，
+    //   走与角色同源的 NPR 量化+细描边；残片与手同色融为一体，不再读作「人手+背景块」。
+    //   不改 GLB、不改跟随/压按逻辑。
+    model.traverse((c) => {
+      if (c.isMesh) {
+        c.material = new THREE.MeshStandardMaterial({ color: 0x6f5b3e, roughness: 0.9, metalness: 0 });
+        c.userData.__npr = false;
+      }
+    });
+    applyNpr(model, { ...NPR_PRESET, steps: 2, specularStrength: 0, rimStrength: 0.1 }, { width: 0.006 });
     scene.add(model);
   } catch (e) {
     console.warn("[cursor3d] GLB 加载失败，保留 PNG 光标", e?.message);

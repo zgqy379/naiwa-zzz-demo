@@ -205,7 +205,7 @@ export function makeNeonSigns(opts = {}) {
       map: tex,
       emissive: 0xffffff,
       emissiveMap: tex,
-      emissiveIntensity: 0.75,
+      emissiveIntensity: 0.45,   // 0.75→0.45（2026-11-18 修过曝）
       roughness: 0.5,
       metalness: 0.4,
     });
@@ -246,7 +246,7 @@ export function makeLanternChain(opts = {}) {
 
   const metalMat = new THREE.MeshStandardMaterial({ color: 0x3a4250, roughness: 0.5, metalness: 0.4 });
   const bodyMat = new THREE.MeshStandardMaterial({
-    color: 0xd8452e, emissive: 0xff7a3d, emissiveIntensity: 0.5, roughness: 0.85,
+    color: 0xd8452e, emissive: 0xff7a3d, emissiveIntensity: 0.3, roughness: 0.85,   // 0.5→0.3（2026-11-18 修过曝）
   });
   const ribMat = new THREE.MeshStandardMaterial({ color: 0xb83a26, roughness: 0.85 });
   const tasselMat = new THREE.MeshStandardMaterial({
