@@ -27,9 +27,9 @@
   "rec_note": "视觉硬伤修复轮重录（2026-11-19，取自构建 index-Cw185vip.js / sha 前16位 521cdf58e1c7f9c5）：2182 帧抓取、零 console 错误、黑帧 0 段；含移除调试条/腰环改贴地细环/软阴影/收敛过曝/哑光手套光标/受击白闪降档。弹反 ×1 成功、鸣徽三选一 ×2 完整入画、首领狂暴/灼烧/紊乱/失衡/连携 QTE 3 环/喧响满极终结、S 级结算。录像加固：每回合演示前抬对手血量上限到 600 并补满（防自然死亡错位）、弹反段前 resetStagger 清失衡（防轮询窗漏预警）、鸣徽覆盖层入画停留 1.6s。因 screencast 抓帧帧率波动，ffconcat 采用固定帧间隔合成，保证时长可控。",
   "rec_method": "CDP Page.startScreencast 全页合成录制（jpeg q85，1920×1080@1x）→ ffmpeg concat 30fps H.264（libx264 CRF20 / yuv420p / +faststart）；页面由本地静态服务读取 dist/ 定版构建",
   "rec_driver": "scripts/capture-demo-video.mjs（headless Chrome + CDP over WebSocket；场景经 window.__npr 公开 API、页面 KeyboardEvent 与 DOM click 驱动，非真人手操）；录制取证 docs/evidence/v3-demo-rec-20261111.json",
-  "frozen_commit": "19ff987f3c5f69acbee6ff06d4bfaad760884191",
+  "frozen_commit": "e6f010cee2359faf8cbe8fcb19c5e0aec9c9fcba",
   "team_id_verified": "2026-11-07 官网「我的参赛→我的团队」复核：团队编号 3FO4K4VY3D07（必胜客的汉堡最好吃，队长诸葛青云），证据 docs/evidence/hackathon_team_verify_2026-11-07.png；2026-11-09 报告书抬头同口径。",
-  "frozen_commit_note": "冻结 tag `freeze-2026-11-11-final` → 61da946（= 含本次官网提交回执的文档提交；其 src/ 与构建提交 2642487 完全一致，dist 与线上魔搭 master 0835058 / gh-pages b17d2f9 逐字节一致，docs/report.pdf 与官网落盘那份逐字节一致）。",
+  "frozen_commit_note": "冻结 tag freeze-2026-11-11-final → e6f010c（= 官网第 12 版回执提交；其 src/ 与构建提交 ea6c06b 一致，dist 与 GitHub Pages gh-pages 36d9eda 逐字节一致，docs/report.pdf 与官网第 12 版上传件逐字节一致）。",
   "xhs_post_note": "小红书笔记 2026-11-16 21:18 发布成功，标题「AI做的3D动作游戏：16只奶蛙抄锅铲打架」，note_id=6afb028b000000002903dc10，带 #Aholo黑客松，公开页实测正常（标题/视频/正文齐全、点赞 1.3 万），截图 docs/evidence/v3-xhs-note-public-20261117.png。**重要**：小红书公开链接必须带 xsec_token 参数；裸 explore/<id> 会返回 300031「当前笔记暂时无法浏览」，并非限流或审核未通过。本字段为从搜索结果取到的完整可访问链接。",
   "report_pdf_bytes": 19714295,
   "report_pdf_sha256": "4886ea06de3da0115e3278750b367763c6404ef2364905d467faf9f852dfb629"
